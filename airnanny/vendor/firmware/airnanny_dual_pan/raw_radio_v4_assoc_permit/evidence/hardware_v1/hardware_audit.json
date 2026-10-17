@@ -1,0 +1,160 @@
+{
+  "permit_MIC_reverified": true,
+  "permit_raw": "4188929bfaffff00000802fcff00003ce428ba151f00e548a136004b120000f030ce040f0e60db206c2e694d20ef",
+  "permit_utc": "2026-10-06T21:17:32.043543+00:00",
+  "permit_sha256": "2eb4748f77bb3adec1dd00705793faa5805bf32c472d4a9afca80f5fc5b5e76c",
+  "permit_to_request_s": 0.043573,
+  "request_to_poll_s": 0.504741,
+  "permit_to_response_s": 0.555211,
+  "user_reply_marker": {
+    "utc": "2026-10-06T21:17:46.801278+00:00",
+    "kind": "USER_PAIRING_ACTION_CONFIRMED",
+    "user_reply": "\u0420\u0406\u0420\u0454\u0420\u00bb\u0421\u040b\u0421\u2021\u0420\u0451\u0420\u00bb",
+    "timestamp_meaning": "host recording of reply, not physical button time",
+    "target": "second bedroom FA9B"
+  },
+  "marker_to_permit_s": -14.757735,
+  "RX_saved_count": 263,
+  "RX_json_timed_count": 254,
+  "first_revision": 39,
+  "last_revision": 301,
+  "revision_gaps": [],
+  "tail_RX_timestamp_precision": "Terminal draining RX raw is complete; per-frame host UTC unavailable for terminal tail; radio time_us retained.",
+  "raw_beacons": [],
+  "association_request": {
+    "kind": "TXACCEPT",
+    "fields": {
+      "boot": "555f7ed9b006972a17224039100a9364",
+      "id": "3",
+      "session": "1",
+      "class": "association_request",
+      "mac": "23c81e9bfa0000ffff6920584d5f27b0e20180",
+      "ar": "1",
+      "retry": "0"
+    },
+    "raw": "RADIOV3 TXACCEPT boot=555f7ed9b006972a17224039100a9364 id=3 session=1 class=association_request mac=23c81e9bfa0000ffff6920584d5f27b0e20180 ar=1 retry=0"
+  },
+  "polls": [
+    {
+      "kind": "TXACCEPT",
+      "fields": {
+        "boot": "555f7ed9b006972a17224039100a9364",
+        "id": "4",
+        "session": "1",
+        "class": "extended_data_request",
+        "mac": "63c81f9bfa00006920584d5f27b0e204",
+        "ar": "1",
+        "retry": "0"
+      },
+      "raw": "RADIOV3 TXACCEPT boot=555f7ed9b006972a17224039100a9364 id=4 session=1 class=extended_data_request mac=63c81f9bfa00006920584d5f27b0e204 ar=1 retry=0"
+    }
+  ],
+  "local_completions": [
+    {
+      "kind": "TXDONE",
+      "fields": {
+        "boot": "555f7ed9b006972a17224039100a9364",
+        "id": "3",
+        "session": "1",
+        "result": "local_tx_ok",
+        "ar": "1",
+        "retry": "0"
+      },
+      "raw": "RADIOV3 TXDONE boot=555f7ed9b006972a17224039100a9364 id=3 session=1 result=local_tx_ok ar=1 retry=0"
+    },
+    {
+      "kind": "TXDONE",
+      "fields": {
+        "boot": "555f7ed9b006972a17224039100a9364",
+        "id": "4",
+        "session": "1",
+        "result": "local_tx_ok",
+        "ar": "1",
+        "retry": "0"
+      },
+      "raw": "RADIOV3 TXDONE boot=555f7ed9b006972a17224039100a9364 id=4 session=1 result=local_tx_ok ar=1 retry=0"
+    }
+  ],
+  "response": {
+    "kind": "RX",
+    "fields": {
+      "boot": "555f7ed9b006972a17224039100a9364",
+      "session": "1",
+      "revision": "292",
+      "channel": "21",
+      "time_us": "123319969",
+      "rssi": "-65",
+      "lqi": "112",
+      "fcs_ok": "1",
+      "ack_started": "1",
+      "ack_completed": "1",
+      "deadline_miss": "0",
+      "mac": "63cc939bfa6920584d5f27b0e2e548a136004b1200020b8b00"
+    },
+    "raw": "RADIOV3 RX boot=555f7ed9b006972a17224039100a9364 session=1 revision=292 channel=21 time_us=123319969 rssi=-65 lqi=112 fcs_ok=1 ack_started=1 ack_completed=1 deadline_miss=0 mac=63cc939bfa6920584d5f27b0e2e548a136004b1200020b8b00"
+  },
+  "terminal_STATUS": {
+    "kind": "STATUS",
+    "fields": {
+      "boot": "555f7ed9b006972a17224039100a9364",
+      "id": "5",
+      "session": "1",
+      "ctx": "0",
+      "raw_ieee": "e2b0275f4d582069",
+      "target_pan": "fa9b",
+      "extpan": "00124b0036a148e5",
+      "coordinator_ieee": "00124b0036a148e5",
+      "state": "ASSOCIATED_UNKEYED",
+      "request_once": "1",
+      "local_tx_ok": "1",
+      "polls": "1",
+      "max_polls": "2",
+      "pending": "0",
+      "response_seen": "1",
+      "association_status": "0",
+      "assigned_short": "8b0b",
+      "response_revision": "292",
+      "rx_revision": "292",
+      "rx_drop": "0",
+      "out_drop": "0",
+      "crc_error": "7",
+      "commissioning": "unkeyed",
+      "application_tx": "locked"
+    },
+    "raw": "RADIOV3 STATUS boot=555f7ed9b006972a17224039100a9364 id=5 session=1 ctx=0 raw_ieee=e2b0275f4d582069 target_pan=fa9b extpan=00124b0036a148e5 coordinator_ieee=00124b0036a148e5 state=ASSOCIATED_UNKEYED request_once=1 local_tx_ok=1 polls=1 max_polls=2 pending=0 response_seen=1 association_status=0 assigned_short=8b0b response_revision=292 rx_revision=292 rx_drop=0 out_drop=0 crc_error=7 commissioning=unkeyed application_tx=locked"
+  },
+  "terminal_INFO": {
+    "boot": "555f7ed9b006972a17224039100a9364",
+    "id": "6",
+    "identity": "airnanny_raw_assoc_permit_v4",
+    "version": "4",
+    "capability": "association_only",
+    "commissioning": "unkeyed",
+    "application_tx": "locked",
+    "channel": "21",
+    "role_capability": "80",
+    "permit_gate": "beacon_or_authenticated_zdo",
+    "transport_key": "unsupported",
+    "device_announce": "unsupported",
+    "immediate_ack": "0",
+    "pending_tx": "0",
+    "session": "1",
+    "rx_revision": "292",
+    "rx_drop": "0",
+    "out_drop": "0",
+    "timing": "unvalidated"
+  },
+  "rx_drop": 0,
+  "out_drop": 0,
+  "crc_error_terminal": 7,
+  "crc_error_initial": "unavailable; no delta claim",
+  "RX_ACK_started_sum": 1,
+  "RX_ACK_completed_sum": 1,
+  "unauthorized_TX_count": 0,
+  "RF_TX_count": 2,
+  "response_ACK_count": 1,
+  "commissioning_decrypted_or_installed": false,
+  "keys_exported": false,
+  "admission_candidate": true,
+  "immutable_capture_sha256": "778593FC02F8E8022BD51F540DDA78C0D8E4BB50D72BF890D4F75A83BAF9EFB5"
+}

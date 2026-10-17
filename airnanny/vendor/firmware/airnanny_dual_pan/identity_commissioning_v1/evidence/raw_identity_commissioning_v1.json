@@ -1,0 +1,236 @@
+{
+  "milestone": "DEDICATED RAW IDENTITY COMMISSIONING V1",
+  "date": "2026-10-06",
+  "verdict": "B DEDICATED IDENTITY VALID, COMMISSIONING PARTIAL",
+  "identity_handoff_verdict": "A Separate RAW identities remove V17 counter-handoff requirement",
+  "hardware": {
+    "serial_opens": 0,
+    "usb_operations": 0,
+    "flashes": 0,
+    "rf_tx": 0,
+    "join": 0
+  },
+  "firmware_preparation": {
+    "created": false,
+    "hex": null,
+    "firmware_tests": 0,
+    "reason": "minimal fresh-identity commissioning subset and phase enforcement not established"
+  },
+  "capture_frames": 79,
+  "capture_files": 17,
+  "association_pairs": 1,
+  "first_observed_post_association_fc": 419511,
+  "first_ever_identity_fc_proven": false,
+  "transport_key_mic_verified": true,
+  "secured_layers_exact_reencrypt": 12,
+  "offline_tests": {
+    "mac_roundtrip": 79,
+    "association_tests": 2,
+    "crypto": {
+      "154": {
+        "wire_control": 48,
+        "effective_control": 53,
+        "counter": 0,
+        "source_ieee": "00124b0036a148e5",
+        "keyseq": null,
+        "nonce": "e548a136004b12000000000035",
+        "aad": "21683500000000e548a136004b1200",
+        "reencrypt_exact": true,
+        "command": 5,
+        "delivered_key_type": 1,
+        "delivered_key_sequence": 0,
+        "destination_ieee": "00124b00369c711f",
+        "trust_center_ieee": "00124b0036a148e5",
+        "derivation_selector": 0,
+        "plaintext_length": 35,
+        "verified": true
+      },
+      "156": {
+        "wire_control": 40,
+        "effective_control": 45,
+        "counter": 419511,
+        "source_ieee": "00124b00369c711f",
+        "keyseq": 0,
+        "nonce": "1f719c36004b1200b76606002d",
+        "aad": "0802fdffb7c93cf62db76606001f719c36004b120000",
+        "reencrypt_exact": true,
+        "verified": true,
+        "device_announce_plaintext": "080013000000000100b7c91f719c36004b120080"
+      },
+      "158": {
+        "wire_control": 40,
+        "effective_control": 45,
+        "counter": 419512,
+        "source_ieee": "00124b00369c711f",
+        "keyseq": 0,
+        "nonce": "1f719c36004b1200b86606002d",
+        "aad": "091a0000b7c901f7e548a136004b12001f719c36004b12002db86606001f719c36004b120000",
+        "reencrypt_exact": true,
+        "verified": true,
+        "nonsecret_plaintext": "0b0800"
+      },
+      "161": {
+        "wire_control": 40,
+        "effective_control": 45,
+        "counter": 419513,
+        "source_ieee": "00124b00369c711f",
+        "keyseq": 0,
+        "nonce": "1f719c36004b1200b96606002d",
+        "aad": "48020000b7c93cf82db96606001f719c36004b120000",
+        "reencrypt_exact": true,
+        "verified": true,
+        "nonsecret_plaintext": "0000020000000002010000"
+      },
+      "174": {
+        "wire_control": 40,
+        "effective_control": 45,
+        "counter": 419515,
+        "source_ieee": "00124b00369c711f",
+        "keyseq": 0,
+        "nonce": "1f719c36004b1200bb6606002d",
+        "aad": "48220000b7c93cfa2dbb6606001f719c36004b120000",
+        "reencrypt_exact": true,
+        "verified": true,
+        "aps_request": {
+          "wire_control": 32,
+          "effective_control": 37,
+          "counter": 0,
+          "source_ieee": "00124b00369c711f",
+          "keyseq": null,
+          "nonce": "1f719c36004b12000000000025",
+          "aad": "210525000000001f719c36004b1200",
+          "reencrypt_exact": true,
+          "command": 8,
+          "requested_key_type": 4,
+          "plaintext": "0804"
+        }
+      },
+      "179": {
+        "wire_control": 40,
+        "effective_control": 45,
+        "counter": 1930297,
+        "source_ieee": "00124b0036a148e5",
+        "keyseq": 0,
+        "nonce": "e548a136004b120039741d002d",
+        "aad": "4802b7c900003cb42d39741d00e548a136004b120000",
+        "reencrypt_exact": true,
+        "verified": true,
+        "aps_transport": {
+          "wire_control": 56,
+          "effective_control": 61,
+          "counter": 1,
+          "source_ieee": "00124b0036a148e5",
+          "keyseq": null,
+          "nonce": "e548a136004b1200010000003d",
+          "aad": "216a3d01000000e548a136004b1200",
+          "reencrypt_exact": true,
+          "command": 5,
+          "delivered_key_type": 4,
+          "delivered_key_sequence": null,
+          "destination_ieee": "00124b00369c711f",
+          "trust_center_ieee": "00124b0036a148e5",
+          "derivation_selector": 2,
+          "plaintext_length": 34
+        }
+      },
+      "181": {
+        "wire_control": 40,
+        "effective_control": 45,
+        "counter": 419516,
+        "source_ieee": "00124b00369c711f",
+        "keyseq": 0,
+        "nonce": "1f719c36004b1200bc6606002d",
+        "aad": "48220000b7c93cfb2dbc6606001f719c36004b120000",
+        "reencrypt_exact": true,
+        "verified": true,
+        "verify_key": {
+          "command": 15,
+          "key_type": 4,
+          "source_ieee": "00124b00369c711f",
+          "hash_selector": 3,
+          "hash_matches": true
+        }
+      },
+      "204": {
+        "wire_control": 40,
+        "effective_control": 45,
+        "counter": 1930300,
+        "source_ieee": "00124b0036a148e5",
+        "keyseq": 0,
+        "nonce": "e548a136004b12003c741d002d",
+        "aad": "4802b7c900003cb62d3c741d00e548a136004b120000",
+        "reencrypt_exact": true,
+        "verified": true,
+        "aps_confirm": {
+          "wire_control": 32,
+          "effective_control": 37,
+          "counter": 2,
+          "source_ieee": "00124b0036a148e5",
+          "keyseq": null,
+          "nonce": "e548a136004b12000200000025",
+          "aad": "216d2502000000e548a136004b1200",
+          "reencrypt_exact": true,
+          "command": 16,
+          "status": 0,
+          "plaintext_length": 11
+        }
+      },
+      "206": {
+        "wire_control": 40,
+        "effective_control": 45,
+        "counter": 419517,
+        "source_ieee": "00124b00369c711f",
+        "keyseq": 0,
+        "nonce": "1f719c36004b1200bd6606002d",
+        "aad": "0822fcffb7c93cfc2dbd6606001f719c36004b120000",
+        "reencrypt_exact": true,
+        "verified": true,
+        "nonsecret_plaintext": "080036000000000803b401"
+      }
+    },
+    "negative_mic_checks": 2,
+    "hardware_access": false,
+    "association_builder_exact": 2,
+    "invalid_inputs_rejected": 8,
+    "nonce_domain_checks": 2,
+    "readonly_host_codec_oracle_match": true,
+    "secret_scan_files": 18
+  },
+  "protected": {
+    "sdk": {
+      "files": 13531,
+      "unchanged": true,
+      "changed": []
+    },
+    "v17": {
+      "files": 49,
+      "unchanged": true,
+      "changed": []
+    },
+    "python": {
+      "files": 4524,
+      "unchanged": true,
+      "changed": []
+    },
+    "gate_v1": {
+      "files": 2108,
+      "unchanged": true,
+      "changed": []
+    },
+    "raw_v2": {
+      "files": 2151,
+      "unchanged": true,
+      "changed": []
+    }
+  },
+  "unsupported": [
+    "fresh identity A7 admission",
+    "local address admission/conformance",
+    "minimal mandatory post-announce exchange",
+    "discovery beacon request TX fixture",
+    "polling and timeout policy validation",
+    "complete state machine and firmware phase allowlist"
+  ],
+  "next_gate": "offline resolution first; no hardware authorized; after A separately authorize SINGLE-PAN FRESH RAW IDENTITY PROVISIONING",
+  "stop": true
+}

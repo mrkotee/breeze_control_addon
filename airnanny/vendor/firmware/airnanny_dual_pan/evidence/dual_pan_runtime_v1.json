@@ -1,0 +1,442 @@
+{
+  "record": "dual_pan_runtime",
+  "version": 1,
+  "issue": 5,
+  "state": "DUAL_PAN_RADIO_RUNTIME_PROVEN",
+  "generated_utc": "2026-10-14T09:14:54.252741+00:00",
+  "contexts": {
+    "ctx0": {
+      "pan": "0xFA9B",
+      "room": "second bedroom"
+    },
+    "ctx1": {
+      "pan": "0x0B7A",
+      "room": "bedroom"
+    }
+  },
+  "channel": 21,
+  "crypto": "host_only",
+  "runtimes": {
+    "V26": {
+      "change": "dual-PAN RAW runtime",
+      "image": "dual_pan_runtime_v26/releases/airnanny_dual_pan_runtime_v26.hex",
+      "image_sha256": "32395A9F6B9C1FD3093F1E84E6235EBF76B7B462C3C1C3DB80B73D3C73F1B4DB"
+    },
+    "V27": {
+      "change": "a clean MAC-poll miss no longer ends the context; 3 consecutive misses do",
+      "image": "dual_pan_runtime_v27/releases/airnanny_dual_pan_runtime_v27.hex",
+      "image_sha256": "EAC8057AD9FA1041D7C64F1E21260971ADA26F7550FAF91B3A8D3246203B3BDB"
+    },
+    "V28": {
+      "change": "a REJOIN/ANNOUNCE/TIMEOUT frame whose ACK is lost is resent byte-identical up to 3 times (macMaxFrameRetries)",
+      "image": "dual_pan_runtime_v28/releases/airnanny_dual_pan_runtime_v28.hex",
+      "image_sha256": "A8BCF8D3AA1B628AD6F54C063321175D1FF02BD1606FAD25DBCF6A2F12DEDB37",
+      "current": true
+    }
+  },
+  "reviews": {
+    "V26": {
+      "path": "dual_pan_runtime_v26/evidence/review.json",
+      "sha256": "40556702F01198192687BB1A07ED1FDD14854B0EC2C5505C0C6DD2042E98CCEE",
+      "passed": true
+    },
+    "V27": {
+      "path": "dual_pan_runtime_v27/evidence/review.json",
+      "sha256": "06A5200FA6F43F699B365F2D1E917B77EFE2625A05AD2CE02EC202FD7C8C3147",
+      "passed": true
+    },
+    "V28": {
+      "path": "dual_pan_runtime_v28/evidence/review.json",
+      "sha256": "25D57E34FD24D76C9BF6364C6AC2E2A1A00753CFCE884BA9C9E547CFF7B9C710",
+      "passed": true
+    }
+  },
+  "gates": {
+    "A": {
+      "runtime": "V26",
+      "run": "c7a640fe59204c61a3d82dee3f74949e",
+      "utc": "2026-10-12T12:51:11.799872+00:00",
+      "attempt": null,
+      "hardware_pass": true,
+      "evidence": "dual_pan_runtime_v26/evidence/gate_a_v1.json",
+      "evidence_sha256": "200DA3BCB89CED931C3B073F84874DD26C9924BB4D36CC77A3559D8D53D90F5E",
+      "headline": null,
+      "operator_health_after": null
+    },
+    "B": {
+      "runtime": "V26",
+      "run": "f57a95304ba94ed0a08c5a07703c39e0",
+      "utc": "2026-10-12T19:27:57.006533+00:00",
+      "attempt": 11,
+      "hardware_pass": true,
+      "evidence": "dual_pan_runtime_v26/evidence/gate_b_v1.json",
+      "evidence_sha256": "040F1A8C1E09E28F3D2CA235CB2D60CE8DFA9DEFBFE4F9A3B452EF2824D124E5",
+      "headline": "Gate B PASSED under B4 as revised. ctx0 and ctx1 each completed a secured rejoin in one session (parent answers authenticated on the host: 0 REJOINED, 0 PARENT_LINK_ACTIVE, 1 REJOINED, 1 PARENT_LINK_ACTIVE); both parent links ACKed keepalives together for the readiness window ({'ctx0': 48, 'ctx1': 48}); attribution clean; every addressed frame ACKed ({'ctx0': '2/2', 'ctx1': '2/2'}).",
+      "operator_health_after": null
+    },
+    "C_v26": {
+      "runtime": "V26",
+      "run": "9643a4eede7f42559512239369b336ca",
+      "utc": "2026-10-13T12:01:52.089805+00:00",
+      "attempt": 4,
+      "hardware_pass": true,
+      "evidence": "dual_pan_runtime_v26/evidence/gate_c_v1.json",
+      "evidence_sha256": "14E3AAC781B50CC4EAD48EF78C748035E49C11B9AB3E16572C1B3F49D40985F1",
+      "headline": "Gate C PASSED. One FAN command per context, each confirmed by a fresh matching TYPE06 while the other context kept ACKing keepalives: ctx0 CONFIRMED FAN 2->3, ctx1 CONFIRMED FAN 1->2.",
+      "operator_health_after": "оба пульта работают, ступени те же (вторая спальня 3, спальня 2), оператор, 2026-10-13, после гейта C"
+    },
+    "C_v27": {
+      "runtime": "V27",
+      "run": "cc010ba12f664c588429b3e365a1ec82",
+      "utc": "2026-10-13T17:24:15.464389+00:00",
+      "attempt": null,
+      "hardware_pass": true,
+      "evidence": "dual_pan_runtime_v27/evidence/gate_c_v1.json",
+      "evidence_sha256": "60964419B0C3310EAFAC2649D7DCFCF362EFFE6E61BC020E14048F4B2BF8814F",
+      "headline": "Gate C PASSED. One FAN command per context, each confirmed by a fresh matching TYPE06 while the other context kept ACKing keepalives: ctx0 CONFIRMED FAN 3->4, ctx1 CONFIRMED FAN 2->3.",
+      "operator_health_after": "оба пульта работают, ступени 4 и 3 (вторая спальня 4, спальня 3), оператор, 2026-10-13, после гейта C v27"
+    },
+    "D": {
+      "runtime": "V27",
+      "run": "7ff4895d8f23471c914731663f569c4f",
+      "utc": "2026-10-13T19:53:37.605630+00:00",
+      "attempt": 2,
+      "hardware_pass": true,
+      "evidence": "dual_pan_runtime_v27/evidence/gate_d_v1.json",
+      "evidence_sha256": "08F75FC7FE226A9DE6EDC7C6D7D7424E902249FFFA718C9FED625C077AD57EA8",
+      "headline": "Gate D PASSED on V27. 3600 s soak, poll every 60 s; both contexts PARENT_LINK_ACTIVE in all 13 snapshots; ACKed polls ctx0 59/60, ctx1 51/60 (misses {'0': 0, '1': 8}, longest gap ctx0 60 s, ctx1 180 s); zero context crossing; no Leave.",
+      "operator_health_after": "оба пульта работают, оператор, 2026-10-13, после гейта D v27 (попытка 2)"
+    },
+    "E": {
+      "runtime": "V28",
+      "run": "00002c56a7944196891b884678cc022e",
+      "utc": "2026-10-14T08:05:39.769343+00:00",
+      "attempt": 7,
+      "hardware_pass": true,
+      "evidence": "dual_pan_runtime_v28/evidence/gate_e_v1.json",
+      "evidence_sha256": "E3E7D2C536C6C02B773F888744CA3788F88EA6A5FB7ACB6E6D17927F9CDDEAA8",
+      "headline": "Gate E PASSED on V28. Phase A brought both contexts to PARENT_LINK_ACTIVE and died without END; phase B, on a new boot, found the stores exactly as A left them and brought both back: first FC ctx0 2880 / ctx1 2208 against A's high-water 2880 / 2208, identity and epoch unchanged, no replay floor fell, ACKed polls after the restart ctx0 4, ctx1 7. Chain frames that needed a MAC retry: 1. Attempt 7 overall (6 before it: 5 on V27, 1 on V28).",
+      "operator_health_after": "оба пульта работают, продолжай"
+    }
+  },
+  "not_repeated_on_v28": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ],
+  "measurements": {
+    "rf_margin_gate_a": {
+      "ctx0": {
+        "pan": "fa9b",
+        "frames": 30,
+        "rssi_dbm": [
+          -72,
+          -66.7,
+          -63
+        ],
+        "lqi": [
+          84,
+          104.7,
+          120
+        ]
+      },
+      "ctx1": {
+        "pan": "0b7a",
+        "frames": 41,
+        "rssi_dbm": [
+          -87,
+          -81.9,
+          -79
+        ],
+        "lqi": [
+          24,
+          43.7,
+          56
+        ]
+      }
+    },
+    "rf_asymmetry_db": 15.2,
+    "immediate_ack_gate_b": {
+      "ctx0": {
+        "samples": 2,
+        "acked": 2,
+        "turnaround_us": [
+          169,
+          169
+        ],
+        "to_address_us": [
+          309,
+          309
+        ],
+        "ack_duration_us": [
+          355,
+          355
+        ]
+      },
+      "ctx1": {
+        "samples": 2,
+        "acked": 2,
+        "turnaround_us": [
+          170,
+          169
+        ],
+        "to_address_us": [
+          310,
+          309
+        ],
+        "ack_duration_us": [
+          355,
+          355
+        ]
+      }
+    },
+    "immediate_ack_envelope_us": [
+      32,
+      352
+    ],
+    "deadline_misses": [],
+    "unintended_acks": [],
+    "readiness_gate_b": {
+      "ctx0": 48,
+      "ctx1": 48
+    },
+    "fan_commands": {
+      "V26": {
+        "0": {
+          "application_result": "CONFIRMED",
+          "match_revision": 623,
+          "match_radio_us": 260060145,
+          "from_fan": 2,
+          "requested": 3,
+          "remote_short": 51639
+        },
+        "1": {
+          "application_result": "CONFIRMED",
+          "match_revision": 668,
+          "match_radio_us": 272958477,
+          "from_fan": 1,
+          "requested": 2,
+          "remote_short": 5778
+        }
+      },
+      "V27": {
+        "0": {
+          "application_result": "CONFIRMED",
+          "match_revision": 210,
+          "match_radio_us": 74485341,
+          "from_fan": 3,
+          "requested": 4,
+          "remote_short": 51639
+        },
+        "1": {
+          "application_result": "CONFIRMED",
+          "match_revision": 306,
+          "match_radio_us": 84717365,
+          "from_fan": 2,
+          "requested": 3,
+          "remote_short": 5778
+        }
+      }
+    },
+    "soak_gate_d": {
+      "seconds": 3600.0620000000345,
+      "period_s": 60.0,
+      "links": {
+        "ctx0": {
+          "acked_polls": 59,
+          "nominal_polls": 60,
+          "acked_ratio": 0.983,
+          "max_gap_s": 60.065703,
+          "gap_limit_s": 185.0
+        },
+        "ctx1": {
+          "acked_polls": 51,
+          "nominal_polls": 60,
+          "acked_ratio": 0.85,
+          "max_gap_s": 180.123383,
+          "gap_limit_s": 185.0
+        }
+      },
+      "poll_misses": {
+        "0": 0,
+        "1": 8
+      },
+      "signal": {
+        "ctx0": {
+          "frames": 2844,
+          "rssi_min": -85,
+          "rssi_max": -59,
+          "lqi_min": 28,
+          "lqi_max": 132
+        },
+        "ctx1": {
+          "frames": 1733,
+          "rssi_min": -95,
+          "rssi_max": -56,
+          "lqi_min": 0,
+          "lqi_max": 128
+        }
+      },
+      "final_stats": {
+        "rx_total": "3475",
+        "ctx0_rx": "4",
+        "ctx1_rx": "5",
+        "cross_pair_reject": "0",
+        "foreign_reject": "2188",
+        "ctx0_tx_queue": "0",
+        "ctx1_tx_queue": "0",
+        "ctx0_tx_accepted": "65",
+        "ctx1_tx_accepted": "65",
+        "ctx0_tx_terminal": "65",
+        "ctx1_tx_terminal": "65",
+        "ctx0_tx_failed": "0",
+        "ctx1_tx_failed": "8",
+        "routing_error": "0",
+        "routing_faults": "0",
+        "scheduler_starvation": "0",
+        "starved_polls": "0"
+      }
+    },
+    "restart_gate_e": {
+      "phase_a_high_water": {
+        "0": 2880,
+        "1": 2208
+      },
+      "phase_b_first_fc": {
+        "0": 2880,
+        "1": 2208
+      },
+      "acked_polls_after_restart": {
+        "ctx0": 4,
+        "ctx1": 7
+      },
+      "chain_mac_retries": {
+        "phase_a": [],
+        "phase_b": [
+          {
+            "ctx": 0,
+            "id": 9,
+            "mac_retries": 1,
+            "result": "local_tx_ok"
+          }
+        ]
+      },
+      "earlier_attempts": [
+        {
+          "runtime": "V27",
+          "attempt": 1,
+          "run": "49517044e98447928700dfda7bb3d67b",
+          "superseded_because": "attempt 1 phase A: ctx1 END_DEVICE_TIMEOUT no_ack (RF margin), v27 stopped ctx1 by design; no store violations"
+        },
+        {
+          "runtime": "V27",
+          "attempt": 2,
+          "run": "9ebc9b0c3b4b4f6295c764dd69feb391",
+          "superseded_because": "attempt 2: phase A passed both contexts; phase B ctx0 TIMEOUT wait ended on REPLAY_REJECTED of a MAC retransmission (neighbour router 711f, 3 byte-identical copies in 8 ms); host fixed in 82a1a33"
+        },
+        {
+          "runtime": "V27",
+          "attempt": 3,
+          "run": "3516c511368545aaa3e865f75cd78ac7",
+          "superseded_because": "attempt 3: phase A ctx0 REJOIN_REQUEST no_ack (single-shot chain TX), v27 stopped ctx0 by design; no store violations"
+        },
+        {
+          "runtime": "V27",
+          "attempt": 4,
+          "run": "88fd0f1d9ce84516a9b0ae0f1063b4cc",
+          "superseded_because": "attempt 4: phase A ctx0 REJOIN_REQUEST no_ack again (coordinator beacons heard at -78), v27 stopped ctx0 by design; no store violations"
+        },
+        {
+          "runtime": "V27",
+          "attempt": 5,
+          "run": "e7d5914b3eed40bf96f9d5cbffbb83cc",
+          "superseded_because": "phase A: Fault:unknown_or_failed_TX_burned:invalid_ack; the gate moved to V28 (MAC retries for the rejoin chain)"
+        },
+        {
+          "runtime": "V28",
+          "attempt": 1,
+          "run": "d4913879dfe643b4b3f6a4ca572b4271",
+          "superseded_because": "V28 attempt 1: phase A ctx1 no 0B7A beacon in 3 scans (ctx0 chain passed); no store violations"
+        }
+      ]
+    }
+  },
+  "isolation": {
+    "A": {
+      "cross_pair_reject": "0",
+      "routing_faults": "0",
+      "routing_error": "0"
+    },
+    "B": {
+      "cross_pair_reject": "0",
+      "routing_faults": "0",
+      "routing_error": "0"
+    },
+    "C_v26": {
+      "cross_pair_reject": "0",
+      "routing_faults": "0",
+      "routing_error": "0"
+    },
+    "C_v27": {
+      "cross_pair_reject": "0",
+      "routing_faults": "0",
+      "routing_error": "0"
+    },
+    "D": {
+      "cross_pair_reject": "0",
+      "routing_faults": "0",
+      "routing_error": "0"
+    },
+    "E": {
+      "cross_pair_reject": "0",
+      "routing_faults": "0",
+      "routing_error": "0"
+    }
+  },
+  "stores_final": {
+    "0": {
+      "epoch_sha256": "2edde109f78492e8ddf79896344585f9615b1e9f5ba38c64b844b2b954cbb089",
+      "generation": 35,
+      "next_fc": 2976,
+      "pan": 64155,
+      "short": 41766,
+      "recovery_state": "PARENT_LINK_ACTIVE",
+      "context_generation": 33,
+      "nwk_source_floors": {
+        "00124b0036a148e5": 2215404,
+        "00124b00369c711f": 521447
+      }
+    },
+    "1": {
+      "epoch_sha256": "7b1866a4fad76d7960c2380e0787f4d79fa60e06778f7caa8bc50980566f5302",
+      "generation": 28,
+      "next_fc": 2304,
+      "pan": 2938,
+      "short": 27733,
+      "recovery_state": "PARENT_LINK_ACTIVE",
+      "context_generation": 26,
+      "nwk_source_floors": {
+        "00124b0036a18944": 888648,
+        "00124b0036a1875f": 2598408
+      }
+    }
+  },
+  "store_violations": {
+    "A": [],
+    "B": [],
+    "C_v26": [],
+    "C_v27": [],
+    "D": [],
+    "E": []
+  },
+  "limitations": [
+    "ctx1 RF margin: ~15 dB weaker than ctx0; 13-15 % keepalive misses in the soak; 0B7A beacon not heard on every scan (one Gate E attempt saw none in 3 scans)",
+    "a context binds once per dongle boot, so a failed bind costs a replug",
+    "TYPE07 is single-shot by design",
+    "deep scheduler queue unproven: the protocol holds one frame per context",
+    "Gates A-D were not repeated on V28",
+    "out of scope: MQTT/HA integration, UI, generic TX (issue #6)"
+  ],
+  "result_document": "DUAL_PAN_RUNTIME_RESULT.md"
+}

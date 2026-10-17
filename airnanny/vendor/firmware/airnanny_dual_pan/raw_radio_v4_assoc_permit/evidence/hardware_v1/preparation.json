@@ -1,0 +1,23 @@
+{
+  "utc": "2026-10-06T21:12:02.980286+00:00",
+  "user_reply": "да, всё работает",
+  "both_pairs_normal": true,
+  "settings_unchanged": {
+    "power": 1,
+    "fan": 3,
+    "mode": "intake",
+    "heating": "off",
+    "humidifier": 0,
+    "night": 0
+  },
+  "V17_reference_evidence": "raw_radio_v3_assoc/evidence/hardware_v1/preflight_v17.json: read-only zdo eui64 getter, same physical dongle",
+  "prior_real_RAW_allocations": 0,
+  "forbidden_inventory_complete": true,
+  "new_RAW_allocations": 0,
+  "association_attempts": 0,
+  "text_encoding_note": {
+    "original": "Windows cp1251 from default writer",
+    "original_sha256": "3F6864AEBC957F58B740C592A1B93BA73E7855E44A35EF771DD25C9D6007DDC5",
+    "normalized_to": "UTF-8; original JSON values preserved"
+  }
+}

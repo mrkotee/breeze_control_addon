@@ -1,0 +1,48 @@
+name: AirNanny Dual-PAN Bridge
+version: "0.1.0"
+slug: airnanny
+description: Two AirNanny A7 units on separate Zigbee PANs, bridged to Home Assistant over MQTT
+url: https://github.com/mrkotee/breeze_control_addon
+arch:
+  - aarch64
+
+# The Home Assistant base images bring their own init.
+init: false
+startup: services
+boot: auto
+
+# The nRF52840 dongle is identified by its pinned USB vid/pid/serial, not by a
+# device path, so the whole serial class is mapped and udev is needed to read
+# those attributes back.
+uart: true
+udev: true
+
+# Supervisor injects host, port, username and password of the installed
+# Mosquitto broker. No broker credentials are ever stored in this repository.
+services:
+  - mqtt:need
+
+# Durable security stores are deliberately excluded from Home Assistant
+# backups: restoring an older backup would roll back next_fc and generation,
+# which the protocol forbids. The service also fails closed if it detects a
+# rollback, so this exclusion is the first of two barriers, not the only one.
+backup: hot
+backup_exclude:
+  - "stores/**"
+  - "state/**/*.private.json"
+
+options:
+  firmware_version: 33
+  ctx0_network_key: ""
+  ctx1_network_key: ""
+  ctx0_key_sha256: ""
+  ctx1_key_sha256: ""
+  log_level: info
+
+schema:
+  firmware_version: "int(33,33)"
+  ctx0_network_key: password
+  ctx1_network_key: password
+  ctx0_key_sha256: "match(^[0-9a-f]{64}$)"
+  ctx1_key_sha256: "match(^[0-9a-f]{64}$)"
+  log_level: "list(debug|info|warning|error)"

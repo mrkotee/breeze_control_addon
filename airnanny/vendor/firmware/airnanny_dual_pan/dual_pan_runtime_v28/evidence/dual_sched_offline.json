@@ -1,0 +1,64 @@
+{
+  "record": "dual_sched_offline",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.3 one-radio TX scheduler",
+  "date": "2026-10-10",
+  "scope": "offline only; no COM, no RF, no flash, no HEX, no cryptography, no keys",
+  "status": "OFFLINE_PASS_SOFTWARE_ONLY",
+  "hardware_pass": false,
+  "arm_build": false,
+  "sources": {
+    "include/dual_sched.h": "9362b4cd740e5a9388f924461069a09bfff0da4a75b58b01c37f26e91848a610",
+    "src/dual_sched.c": "2f899df902f929be6d27c92f445011ac5fcc6b92e708dcaeaa7643e70e7858c5",
+    "tests/test_dual_sched.c": "26530ee22b1ab0ef8f4132b6305abba286ecafba6158949d9005ceaee2f9c05d"
+  },
+  "design": {
+    "radio_calls": "none; the module is pure scheduling logic and the caller supplies time, RX busy and ACK busy",
+    "ownership": "exactly one in-flight frame with a named owning context",
+    "priority": "immediate ACK first, then RX, then any queued transmission; application traffic never preempts either",
+    "ordering": "round robin across contexts that have work, FIFO within a context",
+    "fifo_rationale": "a later poll must not overtake an already submitted application frame; application frames are one shot and are never retried",
+    "queues": "bounded per context at depth 4; overflow is an explicit refusal with a per-context counter",
+    "tuple_ownership": "submission refuses a frame whose MAC PAN is not the context's PAN or whose MAC source short is not the context's assigned short",
+    "duplicate_ids": "a host id already queued or in flight is refused rather than silently retransmitted",
+    "completion_routing": "a completion must name the in-flight host id; anything else is a routing error that credits no context",
+    "timeout": "the in-flight frame fails at its deadline, frees the radio and is never retried",
+    "isolation": "a failure or timeout in one context leaves the other context's queue and counters untouched",
+    "starvation_counter": "diagnostic only; it never reorders work"
+  },
+  "offline_tests": {
+    "test_dual_sched": {
+      "compiler": "gcc 13.3.0",
+      "flags": ["-std=c11", "-Wall", "-Wextra", "-Werror", "-Wconversion", "-O1"],
+      "checks": 137,
+      "failures": 0,
+      "sanitizers": { "address": "pass", "undefined": "pass", "checks": 137, "failures": 0 },
+      "groups": [
+        "submission validation including four cross-context tuple refusals",
+        "disabled and unbound context refusal",
+        "ACK and RX priority with separate deferral counters",
+        "serialisation: no second frame while one is in flight",
+        "round robin fairness: both contexts served equally over sustained load",
+        "FIFO within a context so a poll cannot overtake an application frame",
+        "bounded queues, explicit overflow, other context unaffected, high water recorded",
+        "completion routing, unknown host id is a routing error crediting no context",
+        "failure isolation: the healthy context keeps transmitting",
+        "deadline timeout: terminal, counted once, never retried",
+        "starvation counter is diagnostic and does not reorder"
+      ]
+    }
+  },
+  "not_proven": [
+    "any real radio behaviour",
+    "ACK timing under dual traffic",
+    "that the scheduler's bounds suit a 60 minute soak; the session budgets in main.c are still the V25 values"
+  ],
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0
+  }
+}

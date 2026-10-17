@@ -1,0 +1,642 @@
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver/nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver/nrf_802154.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\src\main.c:8:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver/nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\src\assoc_filter.c:2:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver/nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver/nrf_802154.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\src\gate_events.c:2:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154.c:37:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_notification.h:37,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_core.h:43,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_core.c:37:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_core_hooks.h:38,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_core_hooks.c:40:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_critical_section.c:44:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_gpio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_debug.c:42:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_pib.h:42,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_pib.c:37:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_notification.h:37,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_notification_direct.c:37:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_notification.h:37,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_request.h:38,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_request_direct.c:37:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_peripherals.h:40,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\nrf_802154_timer_coord.c:45:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver/nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\nrf_802154_ack_timeout.h:38,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\nrf_802154_ack_timeout.c:37:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver/nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\nrf_802154_filter.h:42,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\nrf_802154_filter.c:41:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver/nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_ack_data.h:43,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_imm_ack_generator.c:42:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver/nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_ack_data.h:43,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_enh_ack_generator.c:43:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_enh_ack_generator.c: In function 'fcf_ie_present_set':
+C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_enh_ack_generator.c:103:48: warning: unused parameter 'p_frame' [-Wunused-parameter]
+ static void fcf_ie_present_set(const uint8_t * p_frame, const uint8_t * p_ie_data)
+                                                ^~~~~~~
+C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_enh_ack_generator.c: In function 'fcf_src_addressing_mode_set':
+C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_enh_ack_generator.c:127:57: warning: unused parameter 'p_frame' [-Wunused-parameter]
+ static void fcf_src_addressing_mode_set(const uint8_t * p_frame)
+                                                         ^~~~~~~
+C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_enh_ack_generator.c: In function 'source_set':
+C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_enh_ack_generator.c:198:40: warning: unused parameter 'p_frame' [-Wunused-parameter]
+ static void source_set(const uint8_t * p_frame)
+                                        ^~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_radio.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver/nrf_802154_types.h:36,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_ack_data.h:43,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\mac_features\ack_generator\nrf_802154_ack_data.c:38:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\include/nrfx_clock.h:44,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx\legacy/nrf_drv_clock.h:43,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\platform\clock\nrf_802154_clock_sdk.c:43:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_timer.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\platform\hp_timer\nrf_802154_hp_timer.c:47:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\hal/nrf_rtc.h:44,
+                 from C:\Users\User\Desktop\airnanny\breeze_control\firmware\airnanny_dual_pan\raw_radio_v4_assoc_permit\radio_driver\platform\lp_timer\nrf_802154_lp_timer_nodrv.c:44:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/sdk_common.h:61,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd.c:40:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd.c: At top level:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd.c:41:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(APP_USBD)
+ ^~~~~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd.c:63:0:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h:54:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_LOG)
+ ^~~~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/sdk_common.h:61,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\class\cdc\acm\app_usbd_cdc_acm.c:40:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\class\cdc\acm\app_usbd_cdc_acm.c: At top level:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\class\cdc\acm\app_usbd_cdc_acm.c:41:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(APP_USBD_CDC_ACM)
+ ^~~~~~~~~~~~~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\class\cdc\acm\app_usbd_cdc_acm.c:63:0:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h:54:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_LOG)
+ ^~~~~~~~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\class\cdc\acm\app_usbd_cdc_acm.c: In function 'setup_req_std_out':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\class\cdc\acm\app_usbd_cdc_acm.c:217:67: warning: unused parameter 'p_inst' [-Wunused-parameter]
+ static ret_code_t setup_req_std_out(app_usbd_class_inst_t const * p_inst,
+                                                                   ^~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\class\cdc\acm\app_usbd_cdc_acm.c: In function 'cdc_acm_consumer':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\class\cdc\acm\app_usbd_cdc_acm.c:495:59: warning: unused parameter 'ep_size' [-Wunused-parameter]
+                              size_t                       ep_size,
+                                                           ^~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\class\cdc\acm\app_usbd_cdc_acm.c: In function 'cdc_acm_single_shoot_consumer':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\class\cdc\acm\app_usbd_cdc_acm.c:532:72: warning: unused parameter 'ep_size' [-Wunused-parameter]
+                                           size_t                       ep_size,
+                                                                        ^~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/sdk_common.h:61,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c:40:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c: At top level:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c:41:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(APP_USBD)
+ ^~~~~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c:62:0:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h:54:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_LOG)
+ ^~~~~~~~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c: In function 'setup_device_req_get_status':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c:656:41: warning: unused parameter 'p_inst' [-Wunused-parameter]
+     app_usbd_class_inst_t const * const p_inst,
+                                         ^~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c: In function 'setup_device_req_get_descriptor':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c:676:87: warning: unused parameter 'p_inst' [-Wunused-parameter]
+ static ret_code_t setup_device_req_get_descriptor(app_usbd_class_inst_t const * const p_inst,
+                                                                                       ^~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c: In function 'setup_device_req_get_configuration':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c:798:41: warning: unused parameter 'p_inst' [-Wunused-parameter]
+     app_usbd_class_inst_t const * const p_inst,
+                                         ^~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c: In function 'setup_device_req_set_configuration':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_core.c:821:41: warning: unused parameter 'p_inst' [-Wunused-parameter]
+     app_usbd_class_inst_t const * const p_inst,
+                                         ^~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx\legacy/nrf_drv_usbd.h:44,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd.h:44,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_serial_num.c:46:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/sdk_common.h:61,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_string_desc.h:44,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\usbd\app_usbd_string_desc.c:42:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_util_platform.c: In function 'app_util_critical_region_enter':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_util_platform.c:64:46: warning: unused parameter 'p_nested' [-Wunused-parameter]
+ void app_util_critical_region_enter(uint8_t *p_nested)
+                                              ^~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_util_platform.c: In function 'app_util_critical_region_exit':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_util_platform.c:78:44: warning: unused parameter 'nested' [-Wunused-parameter]
+ void app_util_critical_region_exit(uint8_t nested)
+                                            ^~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\sdk_common.h:61,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_handler_gcc.c:40:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_handler_gcc.c: In function 'app_error_handler':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_handler_gcc.c:47:35: warning: unused parameter 'error_code' [-Wunused-parameter]
+ void app_error_handler(ret_code_t error_code, uint32_t line_num, const uint8_t * p_file_name)
+                                   ^~~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_handler_gcc.c:47:56: warning: unused parameter 'line_num' [-Wunused-parameter]
+ void app_error_handler(ret_code_t error_code, uint32_t line_num, const uint8_t * p_file_name)
+                                                        ^~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_handler_gcc.c:47:82: warning: unused parameter 'p_file_name' [-Wunused-parameter]
+ void app_error_handler(ret_code_t error_code, uint32_t line_num, const uint8_t * p_file_name)
+                                                                                  ^~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/sdk_common.h:61,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h:52,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_weak.c:42:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_weak.c:42:0:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h: At top level:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h:54:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_LOG)
+ ^~~~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log_ctrl.h:58:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_weak.c:43:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log\src/nrf_log_ctrl_internal.h:50:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_LOG)
+ ^~~~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log_ctrl.h:59:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_weak.c:43:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log_backend_interface.h:53:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_LOG)
+ ^~~~~~~~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_weak.c: In function 'app_error_fault_handler':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_weak.c:56:46: warning: unused parameter 'id' [-Wunused-parameter]
+ __WEAK void app_error_fault_handler(uint32_t id, uint32_t pc, uint32_t info)
+                                              ^~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_weak.c:56:59: warning: unused parameter 'pc' [-Wunused-parameter]
+ __WEAK void app_error_fault_handler(uint32_t id, uint32_t pc, uint32_t info)
+                                                           ^~
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util\app_error_weak.c:56:72: warning: unused parameter 'info' [-Wunused-parameter]
+ __WEAK void app_error_fault_handler(uint32_t id, uint32_t pc, uint32_t info)
+                                                                        ^~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/sdk_common.h:61,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\atomic\nrf_atomic.h:54,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\atomic\nrf_atomic.c:40:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\atomic_fifo\nrf_atfifo.c:44:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\atomic_fifo\nrf_atfifo.c:56:0:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h: At top level:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h:54:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_LOG)
+ ^~~~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\include/nrfx_clock.h:44,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx\legacy\nrf_drv_clock.h:43,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx\legacy\nrf_drv_clock.c:42:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx\legacy\nrf_drv_clock.c: At top level:
+C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx\legacy\nrf_drv_clock.c:44:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_CLOCK)
+ ^~~~~~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx\legacy\nrf_drv_clock.c:59:0:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h:54:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_LOG)
+ ^~~~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/sdk_common.h:61,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx\legacy\nrf_drv_power.c:41:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx\legacy\nrf_drv_power.c: At top level:
+C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx\legacy\nrf_drv_power.c:42:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(POWER)
+ ^~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\src\nrfx_clock.c:41:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_log.h:62:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\src\nrfx_clock.c:48:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h: At top level:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h:54:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_LOG)
+ ^~~~~~~~~~~~~~~
+C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\src\nrfx_clock.c: In function 'nrfx_clock_calibration_timer_start':
+C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\src\nrfx_clock.c:320:49: warning: unused parameter 'interval' [-Wunused-parameter]
+ void nrfx_clock_calibration_timer_start(uint8_t interval)
+                                                 ^~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\src\nrfx_power.c:41:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\src\nrfx_usbd.c:41:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_log.h:62:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\src\nrfx_usbd.c:51:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h: At top level:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h:54:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_LOG)
+ ^~~~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\src\nrfx_systick.c:40:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\src\prs\nrfx_prs.c:41:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_log.h:62:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\drivers\src\prs\nrfx_prs.c:47:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h: At top level:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\log/nrf_log.h:54:1: warning: this use of "defined" may not be portable [-Wexpansion-to-defined]
+ #if NRF_MODULE_ENABLED(NRF_LOG)
+ ^~~~~~~~~~~~~~~
+In file included from C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:50:0,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\components\libraries\util/app_util.h:133,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\integration\nrfx/nrfx_glue.h:71,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx/nrfx.h:46,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\soc\nrfx_atomic.h:44,
+                 from C:\Users\User\Desktop\airnanny\nrf sdk\modules\nrfx\soc\nrfx_atomic.c:40:
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h: In function 'sd_mbr_command':
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_mbr.h:257:67: warning: unused parameter 'param' [-Wunused-parameter]
+ SVCALL(SD_MBR_COMMAND, uint32_t, sd_mbr_command(sd_mbr_command_t* param));
+                                                                   ^
+C:\Users\User\Desktop\airnanny\nrf sdk\components\softdevice\mbr\headers/nrf_svc.h:76:22: note: in definition of macro 'SVCALL'
+   static return_type signature                          \
+                      ^~~~~~~~~

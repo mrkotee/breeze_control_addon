@@ -1,0 +1,27 @@
+{
+  "status": "OFFLINE_NATIVE_PASS",
+  "hardware_performed": false,
+  "tests": [
+    {
+      "name": "test_application_repeat",
+      "summary": "application_repeat: 50 checks, 0 failures",
+      "binary_sha256": "a83b424ce16070a5e9efec68d7d6799f879fc9cc3e7ceac10ef6b2b84a8c7dd5"
+    },
+    {
+      "name": "test_mac_retry",
+      "summary": "20 checks, 0 failures",
+      "binary_sha256": "77344cf2fb40bc6e643af3691ee50e622077c45b7e1236275952dd7266fd96e0"
+    },
+    {
+      "name": "test_id_handoff",
+      "summary": "id_handoff: 6 checks, 0 failures",
+      "binary_sha256": "4610b09dd0f400ddaecedb282463b64eb20da271423a614c6be05edf8d5ad697"
+    }
+  ],
+  "firmware_delta": [
+    "src/main.c",
+    "src/rejoin_transport.c",
+    "src/tx_lifecycle.inc"
+  ],
+  "unchanged_driver_and_ack_paths": true
+}

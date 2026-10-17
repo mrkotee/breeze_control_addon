@@ -1,0 +1,159 @@
+{
+  "record": "dual_radiov10_offline",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.6 RADIOV10 envelope and the ctx-mandatory command set",
+  "date": "2026-10-11",
+  "scope": "offline only; no flash, no COM, no RF, no probe, no cryptography, no keys, no network",
+  "status": "OFFLINE_PASS_SOFTWARE_ONLY",
+  "hardware_pass": false,
+  "flashed": false,
+  "design_decision_taken_here": {
+    "question": "the first draft of the protocol contract described one generic TX and assumed the nine typed commissioning verbs would become its special cases",
+    "finding": "they cannot, without losing checks. The generic TX validates PAN, source short, length, FCF and host-id uniqueness. The typed path additionally validates frame counter monotonicity (fc >= last_fc + 32, refusing UINT32_MAX), aux[0] == 0x28, u32(aux+1) == fc, memcmp(aux+5, raw_ieee, 8), aux[13] == keyseq, the inner tc_ieee and raw_ieee for the h==24 verbs, the exact expected length per class (53/54/55/68), the one-shot phase gates, and a permit_hash match against the host's hash of the frame",
+    "why_it_matters": "that set is exactly the separation issue #5 asks to be proven: frame ctx == key ctx == RAW IEEE ctx == FC allocator ctx. Collapsing the typed verbs into a generic TX would move those checks off the firmware and leave them only on the host, weakening the runtime at the point the issue calls critical, in exchange for a shorter contract",
+    "decision": "the typed verbs carry into RADIOV10 with their predicates intact and gain a mandatory ctx; the generic TX stays in the contract for issue #6 and application traffic and must check frame-to-context ownership; it is not the path for network-entry management frames",
+    "cost_stated": "the contract stays wider than one TX and the host must know frame classes. Recorded in DUAL_PAN_RADIO_PROTOCOL.md as an explicit amendment rather than left implicit"
+  },
+  "second_correction": {
+    "what": "the draft wrote version=10 in the INFO record",
+    "why_wrong": "that collapsed two different numbers into one field. version is the firmware revision (26, continuing V17..V25) and is what the host identity guard pins; the wire version is a separate thing",
+    "fix": "INFO now emits version=26 and wire=10. The wire version exists in exactly one place in the firmware, include/radio_wire.h, and the host carries one copy of its own and verifies it against the wire= field rather than trusting it"
+  },
+  "ctx_scope_rule": {
+    "mandatory": [
+      "BIND",
+      "ACTIVE_DISCOVERY_BEACON_REQUEST",
+      "DISCOVERY_COMMIT",
+      "REJOIN_REQUEST",
+      "CURRENT_SHORT_COMMIT",
+      "DEVICE_ANNOUNCE",
+      "END_DEVICE_TIMEOUT",
+      "PARENT_LINK_ACTIVE",
+      "MANAGEMENT_POLL",
+      "TYPE07_FAN"
+    ],
+    "optional": [
+      "STATUS"
+    ],
+    "refused": [
+      "INFO",
+      "END"
+    ],
+    "reasoning": "an action may never default to a context: with two networks a guessed ctx is a frame sent into the wrong one with the wrong key. A report may default, so STATUS can describe the single bound context and always names which one it described. INFO and END are global, and a ctx accepted there would imply a scope they do not have -- refusing it is honest where ignoring it reads to the host as acceptance",
+    "refusal_tokens": [
+      "ctx_required",
+      "ctx_not_scoped",
+      "ctx"
+    ],
+    "host_side": "ctx is appended in one place in host/probe.py rather than at each call site, and is None until the ledger names the context, so a per-context verb issued before the context is known fails loudly instead of being sent unscoped. A probe that could forget ctx on one of ten verbs would fail only in the run that happened to reach that verb"
+  },
+  "reproducibility_gap_closed": {
+    "what": "the native corpus existed only as commands typed by hand across phases 1.1 to 1.5, and the one detail that mattered most -- how the frozen V25 transport is linked beside the new one -- lived in a sentence in the README instead of in a build line",
+    "fix": "tests/run_native.sh builds and runs every native suite, with and without sanitizers, and both host fixtures. A corpus nobody else can rebuild is not evidence",
+    "defects_in_my_own_build_line_found_by_writing_it_down": [
+      "the first version reached into the SDK's nrfx headers for the driver types, which drags in Cortex-M register definitions and IRQn_Type. tests/ already holds the host type shims; an SDK-based host build is either broken or quietly wrong about word size",
+      "the frozen V25 object was being compiled with V26's include path as well as its own, so the rename macros rewrote V26's declarations too and the prefixed name was declared with V26's signature and defined with V25's. The compiler reported it as a conflict in the frozen code; it was a defect in the build line",
+      "-Werror was being applied to the frozen V25 source, whose dense style trips -Wmisleading-indentation. The right response to a warning in frozen evidence is to not edit it"
+    ]
+  },
+  "validation": {
+    "native": {
+      "test_dual_admit": {
+        "checks": 120,
+        "failures": 0,
+        "sanitizers": "address and undefined pass"
+      },
+      "test_dual_sched": {
+        "checks": 137,
+        "failures": 0,
+        "sanitizers": "address and undefined pass"
+      },
+      "test_dual_records": {
+        "checks": 98,
+        "failures": 0,
+        "sanitizers": "address and undefined pass"
+      },
+      "test_transport_equivalence": {
+        "checks": 127,
+        "failures": 0,
+        "note": "117 before this phase; the 10 new checks are the ctx scope rules, eight refusals and the two accepted STATUS spellings"
+      },
+      "test_v25_equivalence": {
+        "corpus": 40960,
+        "divergence": 0
+      },
+      "fuzz_dual_records": {
+        "iterations": 300000,
+        "accepted": 2950,
+        "refused": 297050,
+        "invariant_violations": 0
+      },
+      "total_offline_checks": 482,
+      "two_hosts": "identical results in the cloud container and in the device VM"
+    },
+    "equivalence_under_a_changed_envelope": "the transport equivalence proof now hands each parser the line its own contract defines -- V26 with RADIOV10 and ctx, V25 with RADIOV9 and no ctx -- and keeps everything else in the line identical, so what is compared is the frame built and the state reached rather than the spelling of the envelope",
+    "python_regression": {
+      "green": [
+        "test_mac_backoff",
+        "test_peer_scope",
+        "test_completion",
+        "test_clock_dispatch",
+        "test_permit_observation",
+        "test_foreign_status_scope",
+        "test_first_control"
+      ],
+      "inherited_failures_identical_in_v25": {
+        "test_recovery": "failures=1",
+        "test_rx_deadline": "failures=6",
+        "test_ctx1_admission": "errors=1",
+        "test_discovery_cca": "errors=1",
+        "test_power": "failures=2, errors=1"
+      },
+      "new_failures": 0,
+      "baseline_gap_closed": "phases 1.1 to 1.5 measured eight of the twelve Python suites. The other four were never measured against V25, so a failure in them could not have been attributed. All four were measured in both trees in this phase: test_first_control passes in both (59 tests), and the other three fail identically in V25, which makes them inheritance rather than regression",
+      "note": "these suites compile the real src/main.c through tests/firmware_cli.c, so they exercise the dispatcher rather than a model of it"
+    },
+    "smoke": {
+      "wire_field": "INFO emits version=26 wire=10",
+      "lineage_prefix": "a RADIOV9 line is refused with reason=prefix",
+      "global_scope": "INFO with ctx=0 is refused with reason=ctx_not_scoped",
+      "per_context_scope": "MANAGEMENT_POLL without ctx is refused with reason=ctx_required",
+      "report_scope": "STATUS without ctx is accepted and names the context it described"
+    }
+  },
+  "still_not_done": [
+    "dual_sched is compiled in and tested but still not on the host-command TX path; host commands keep the one-in-flight tx_busy contract",
+    "the STATS record is not emitted",
+    "the generic TX verb of the contract is not implemented; nothing needs it until issue #6",
+    "no hardware gate has been prepared or reviewed, and no guard exists"
+  ],
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0,
+    "frozen_v25_sources_edited": 0
+  },
+  "arm_image": {
+    "status": "IMAGE_LINKS_NOT_A_RELEASE_CANDIDATE",
+    "flashed": false,
+    "hex_sha256": "6BBE87DEF2E6952348726228165A45C4C2D36C2992ED6A037BB45A455061B72B",
+    "text": 59564,
+    "data": 176,
+    "bss": 51696,
+    "total": 111436,
+    "reproducible": "two consecutive runs produced the same HEX hash",
+    "toolchain": "xPack arm-none-eabi-gcc 7.3.1 20180622 (release) [ARM/embedded-7-branch revision 261907], Linux host",
+    "bit_comparable_with_lineage": false,
+    "delta_versus_1_5e": {
+      "text": 64,
+      "data": 0,
+      "bss": 0,
+      "reading": "text grows by 64 bytes for the wire= field and the two new refusal tokens; data and bss are unchanged, which is what a parse-logic change with no new state should look like. A bss change here would have meant the envelope work had quietly added runtime state"
+    },
+    "supersedes": "the HEX hash in arm_image_offline.json, which measured the 1.5e tree",
+    "note": "the header change invalidates every object, and a full rebuild of this tree over the mounted filesystem does not fit one bounded invocation; build.py's per-object caching makes continuing safe because each compile is idempotent"
+  }
+}

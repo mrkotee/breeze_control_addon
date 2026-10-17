@@ -1,0 +1,8 @@
+# The vendored tree carries evidence and build manifests that bind exact
+# bytes, including existing line endings. Its SHA-256 records are re-checked
+# on the target machine, so git must not convert anything inside it.
+airnanny/vendor/** -text -whitespace
+
+# The container executes this directly; it has to arrive with LF endings
+# whatever platform the release was assembled on.
+airnanny/run.sh text eol=lf

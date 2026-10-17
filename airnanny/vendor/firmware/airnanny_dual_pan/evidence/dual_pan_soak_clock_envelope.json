@@ -1,0 +1,34 @@
+{
+  "record": "dual_pan_soak_clock_envelope",
+  "issue": 5,
+  "date": "2026-10-11",
+  "scope": "arithmetic and design conclusion only; no flash, no COM, no RF, no firmware change",
+  "status": "SOAK_FITS_WITHOUT_A_FIRMWARE_CHANGE_ENVELOPE_DECLARED",
+  "problem": "the gate hardware microsecond clock is 32 bits and wraps at 4294967295 us, which is 71.583 minutes. main.c stops the whole runtime on a backwards clock. Gate D requires a 60 minute soak with both contexts live, so a session that crossed the wrap would stop in the middle of the measurement with no fault of its own",
+  "numbers": {
+    "uint32_us_minutes": 71.583,
+    "session_limit_us": 3900000000,
+    "session_limit_minutes": 65.0,
+    "gate_d_soak_minutes": 60,
+    "boot_to_bind_budget_minutes": 11.58,
+    "session_limit_fits_under_wrap": true
+  },
+  "conclusion": "the soak fits. The clock counts from boot, so a 60 minute soak started from a fresh boot ends at 60 minutes with 11.58 minutes of margin before the wrap, and SESSION_LIMIT_US at 65 minutes is itself below the wrap. No firmware change is required and none is made",
+  "what_was_deliberately_not_done": {
+    "widening_or_wrapping_the_clock": "rejected. The backwards-clock stop is a deliberate safety property of the V17..V25 lineage: a clock that went backwards means no timestamp in the evidence can be trusted, and every ACK deadline measurement rests on those timestamps. Teaching the runtime to continue across a wrap would trade a real safety stop for the convenience of a longer soak, and it would have to be proven on hardware to be worth anything",
+    "reasoning": "the constraint is not a defect to be engineered away here. It is an operating envelope, and the honest response is to declare it and enforce it where the soak is planned"
+  },
+  "enforcement_belongs_to_the_host": {
+    "where": "the Gate D guard, not the firmware",
+    "check": "read time_us from STATUS before starting the soak and refuse to start if time_us plus the soak duration plus a margin would exceed the wrap. The host owns the soak plan and is the only party that knows how long the soak is going to be",
+    "effect": "a soak is either started from a fresh boot with provable room, or it is not started at all. It is never started into a wrap and then stopped halfway"
+  },
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0,
+    "firmware_sources_edited": 0
+  }
+}

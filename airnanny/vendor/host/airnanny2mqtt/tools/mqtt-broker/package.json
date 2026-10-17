@@ -1,0 +1,6 @@
+{
+  "name": "airnanny-local-mqtt-test-broker",
+  "private": true,
+  "version": "1.0.0",
+  "dependencies": { "aedes": "0.51.3" }
+}

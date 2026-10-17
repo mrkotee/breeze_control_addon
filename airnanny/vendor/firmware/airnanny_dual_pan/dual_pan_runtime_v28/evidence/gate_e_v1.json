@@ -1,0 +1,252 @@
+{
+  "record": "gate_e",
+  "identity": "airnanny_dual_pan_runtime_v28",
+  "issue": 5,
+  "gate": "E",
+  "run": "00002c56a7944196891b884678cc022e",
+  "utc_phase_a": "2026-10-14T08:01:10.189182+00:00",
+  "utc_phase_b": "2026-10-14T08:05:39.769343+00:00",
+  "evaluated_utc": "2026-10-14T09:14:54.140076+00:00",
+  "image_sha256": "A8BCF8D3AA1B628AD6F54C063321175D1FF02BD1606FAD25DBCF6A2F12DEDB37",
+  "device": {
+    "port": "COM7",
+    "vid": 6421,
+    "pid": 4919,
+    "serial": "C625E0B966C1"
+  },
+  "boots": {
+    "phase_a": "97154b065ba7f7e8c9e959a3711ae2b5",
+    "phase_b": "8fcd67080d8a88fa4eff6d275500629e"
+  },
+  "passed": true,
+  "hardware_pass": true,
+  "phase_a_sha256": "C69B3C3108623599DAB2BD836E70A42D5D86A9BF44ADECBB8BED80AB2374DAD4",
+  "operator_outcome_sha256": "2BC915C7B69DE6827E83B9AE562C2AD216F870CD292E9D40029829409A7DB237",
+  "operator_outcome_path": ".local/gate_e_v1/runs/00002c56a7944196891b884678cc022e/outcome.json",
+  "review_sha256": "25D57E34FD24D76C9BF6364C6AC2E2A1A00753CFCE884BA9C9E547CFF7B9C710",
+  "operator_health_before": {
+    "statement": "оба пульта работают, донгл перевставлен",
+    "recorded_utc": "2026-10-14T08:00:00.757067+00:00"
+  },
+  "operator_health_after": {
+    "statement": "оба пульта работают, продолжай",
+    "recorded_utc": "2026-10-14T09:14:54.142065+00:00"
+  },
+  "how_a_restart_is_tested": "Closing the port stops both contexts (main.c PORT_CLOSE) and a context binds once per dongle boot, so a restarted host cannot resume a radio session. Phase A ends with os._exit and no END -- a crash -- and phase B is a new process on a new boot that must continue from exactly what A left.",
+  "verdict_at_run_time": {
+    "passed": true,
+    "reasons": []
+  },
+  "verdict": {
+    "gate": "E",
+    "phase_a_high_water": {
+      "0": 2880,
+      "1": 2208
+    },
+    "phase_b_first_fc": {
+      "0": 2880,
+      "1": 2208
+    },
+    "reasons": [],
+    "passed": true
+  },
+  "acked_polls_after_restart": {
+    "ctx0": 4,
+    "ctx1": 7
+  },
+  "poll_misses": {
+    "phase_a": {
+      "0": 0,
+      "1": 1
+    },
+    "phase_b": {
+      "0": 3,
+      "1": 0
+    }
+  },
+  "chain_mac_retries": {
+    "phase_a": [],
+    "phase_b": [
+      {
+        "ctx": 0,
+        "id": 9,
+        "mac_retries": 1,
+        "result": "local_tx_ok"
+      }
+    ]
+  },
+  "phase_a": {
+    "reached_active": {
+      "0": true,
+      "1": true
+    },
+    "ended_cleanly": false,
+    "polls_sent": {
+      "0": 5,
+      "1": 5
+    },
+    "store_violations": []
+  },
+  "identity_after": {
+    "0": {
+      "raw_ieee": "e2b0275f4d582069",
+      "tc_ieee": "00124b0036a148e5",
+      "pan": 64155,
+      "short": 41766,
+      "attempt": "5b09cb6bc02746298fbffcfb780844a5",
+      "ctx": 0,
+      "key_epoch_id": "1ea30211ee014345a8288337a173a833",
+      "keyseq": 0,
+      "secret_ref_sha256": "371EB08A3BD1BEBA283DF3261EAC21CE2E12C2CE1E649D36767C264577060483"
+    },
+    "1": {
+      "raw_ieee": "027a56bb75a41437",
+      "tc_ieee": "00124b0036a1875f",
+      "pan": 2938,
+      "short": 27733,
+      "attempt": "cbef428849da4e87b48867ac616247d1",
+      "ctx": 1,
+      "key_epoch_id": "9985b15dcb574c59b87dc2fb379f317f",
+      "keyseq": 0,
+      "secret_ref_sha256": "2B02ABF70233E9FF5321D4676823FD6AAEBBEBEB3E1843F4612BCEC747F7B5F4"
+    }
+  },
+  "stores_after_phase_a": {
+    "0": {
+      "epoch_sha256": "f25582be449e65ad71a6c33223677290d56ccff5165ff3fc7d5fe4e7f9288fd8",
+      "generation": 34,
+      "next_fc": 2880,
+      "pan": 64155,
+      "short": 41766,
+      "recovery_state": "PARENT_LINK_ACTIVE",
+      "context_generation": 32,
+      "nwk_source_floors": {
+        "00124b0036a148e5": 2215319,
+        "00124b00369c711f": 521447
+      }
+    },
+    "1": {
+      "epoch_sha256": "896c3bbf36fc253c7823c936300955f4a43f941c9f9d57e86bcde88ac4fd07a4",
+      "generation": 27,
+      "next_fc": 2208,
+      "pan": 2938,
+      "short": 27733,
+      "recovery_state": "PARENT_LINK_ACTIVE",
+      "context_generation": 25,
+      "nwk_source_floors": {
+        "00124b0036a18944": 888648,
+        "00124b0036a1875f": 2598332
+      }
+    }
+  },
+  "stores_after": {
+    "0": {
+      "epoch_sha256": "2edde109f78492e8ddf79896344585f9615b1e9f5ba38c64b844b2b954cbb089",
+      "generation": 35,
+      "next_fc": 2976,
+      "pan": 64155,
+      "short": 41766,
+      "recovery_state": "PARENT_LINK_ACTIVE",
+      "context_generation": 33,
+      "nwk_source_floors": {
+        "00124b0036a148e5": 2215404,
+        "00124b00369c711f": 521447
+      }
+    },
+    "1": {
+      "epoch_sha256": "7b1866a4fad76d7960c2380e0787f4d79fa60e06778f7caa8bc50980566f5302",
+      "generation": 28,
+      "next_fc": 2304,
+      "pan": 2938,
+      "short": 27733,
+      "recovery_state": "PARENT_LINK_ACTIVE",
+      "context_generation": 26,
+      "nwk_source_floors": {
+        "00124b0036a18944": 888648,
+        "00124b0036a1875f": 2598408
+      }
+    }
+  },
+  "final_status": {
+    "0": "PARENT_LINK_ACTIVE",
+    "1": "PARENT_LINK_ACTIVE"
+  },
+  "stats": {
+    "boot": "8fcd67080d8a88fa4eff6d275500629e",
+    "id": "40",
+    "config_generation": "4",
+    "rx_total": "59",
+    "ctx0_rx": "9",
+    "ctx1_rx": "4",
+    "foreign_reject": "26",
+    "cross_pair_reject": "0",
+    "malformed_reject": "1",
+    "unsupported": "74",
+    "broadcast": "20",
+    "ambiguous": "0",
+    "ack_suppressed_scanning": "0",
+    "ack_suppressed_disabled": "0",
+    "deep_reject": "1",
+    "ctx0_tx_queue": "0",
+    "ctx1_tx_queue": "0",
+    "ctx0_tx_accepted": "12",
+    "ctx1_tx_accepted": "11",
+    "ctx0_tx_terminal": "12",
+    "ctx1_tx_terminal": "11",
+    "ctx0_tx_failed": "3",
+    "ctx1_tx_failed": "0",
+    "ctx0_timed_out": "0",
+    "ctx1_timed_out": "0",
+    "ctx0_queue_full": "0",
+    "ctx1_queue_full": "0",
+    "ctx0_tuple_reject": "0",
+    "ctx1_tuple_reject": "0",
+    "rx_priority_deferrals": "0",
+    "ack_priority_deferrals": "0",
+    "routing_error": "0",
+    "scheduler_starvation": "0",
+    "starved_polls": "0",
+    "routing_faults": "0"
+  },
+  "store_violations": [],
+  "protected_files_changed_after": [],
+  "earlier_attempts": [
+    {
+      "runtime": "V27",
+      "attempt": 1,
+      "run": "49517044e98447928700dfda7bb3d67b",
+      "superseded_because": "attempt 1 phase A: ctx1 END_DEVICE_TIMEOUT no_ack (RF margin), v27 stopped ctx1 by design; no store violations"
+    },
+    {
+      "runtime": "V27",
+      "attempt": 2,
+      "run": "9ebc9b0c3b4b4f6295c764dd69feb391",
+      "superseded_because": "attempt 2: phase A passed both contexts; phase B ctx0 TIMEOUT wait ended on REPLAY_REJECTED of a MAC retransmission (neighbour router 711f, 3 byte-identical copies in 8 ms); host fixed in 82a1a33"
+    },
+    {
+      "runtime": "V27",
+      "attempt": 3,
+      "run": "3516c511368545aaa3e865f75cd78ac7",
+      "superseded_because": "attempt 3: phase A ctx0 REJOIN_REQUEST no_ack (single-shot chain TX), v27 stopped ctx0 by design; no store violations"
+    },
+    {
+      "runtime": "V27",
+      "attempt": 4,
+      "run": "88fd0f1d9ce84516a9b0ae0f1063b4cc",
+      "superseded_because": "attempt 4: phase A ctx0 REJOIN_REQUEST no_ack again (coordinator beacons heard at -78), v27 stopped ctx0 by design; no store violations"
+    },
+    {
+      "runtime": "V27",
+      "attempt": 5,
+      "run": "e7d5914b3eed40bf96f9d5cbffbb83cc",
+      "superseded_because": "phase A: Fault:unknown_or_failed_TX_burned:invalid_ack; the gate moved to V28 (MAC retries for the rejoin chain)"
+    },
+    {
+      "runtime": "V28",
+      "attempt": 1,
+      "run": "d4913879dfe643b4b3f6a4ca572b4271",
+      "superseded_because": "V28 attempt 1: phase A ctx1 no 0B7A beacon in 3 scans (ctx0 chain passed); no store violations"
+    }
+  ],
+  "headline": "Gate E PASSED on V28. Phase A brought both contexts to PARENT_LINK_ACTIVE and died without END; phase B, on a new boot, found the stores exactly as A left them and brought both back: first FC ctx0 2880 / ctx1 2208 against A's high-water 2880 / 2208, identity and epoch unchanged, no replay floor fell, ACKed polls after the restart ctx0 4, ctx1 7. Chain frames that needed a MAC retry: 1. Attempt 7 overall (6 before it: 5 on V27, 1 on V28)."
+}

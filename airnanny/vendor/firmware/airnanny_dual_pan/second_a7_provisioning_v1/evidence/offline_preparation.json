@@ -1,0 +1,588 @@
+{
+  "issue": 4,
+  "state": "OFFLINE_PREPARED_AWAITING_OPERATOR_HARDWARE",
+  "hardware_performed": false,
+  "COM_opened": 0,
+  "USB_enumerated": false,
+  "RF_TX": 0,
+  "flashed": false,
+  "allocated_RAW_identity": "027a56bb75a41437",
+  "ctx": 1,
+  "pan": "0B7A",
+  "channel": 21,
+  "coordinator_security_source": "00124b0036a1875f",
+  "assigned_short": null,
+  "key_epoch_metadata": null,
+  "counter_high_water": null,
+  "commissioning_result": "NOT_RUN",
+  "management_result": "NOT_RUN_PENDING_REAL_CTX1_EPOCH_AND_RX",
+  "first_application_confirmation": "NOT_RUN",
+  "physical_controller_recovery_confirmation": "NOT_RUN_NO_HARDWARE_TOUCHED",
+  "target_result": "BOTH_SINGLE_PAN_CONTEXTS_PROVEN_INDEPENDENTLY",
+  "acceptance_PASS": false,
+  "offline_validation": {
+    "passed": true,
+    "unittest_cases": 87,
+    "skipped": 0,
+    "actual_C_dispatcher_FakeRadio": true,
+    "synthetic_FAN_adapter": true,
+    "log": "offline_tests.txt"
+  },
+  "cross_context_isolation_tests": {
+    "ctx0_key": "PASS_OFFLINE",
+    "ctx0_replay_watermark": "PASS_OFFLINE",
+    "ctx0_RAW_IEEE": "PASS_OFFLINE",
+    "ctx0_short": "PASS_OFFLINE",
+    "ctx0_epoch_generation": "PASS_OFFLINE",
+    "cross_PAN_wrong_route": "PASS_OFFLINE"
+  },
+  "ctx0_unchanged": {
+    "passed": true,
+    "protected_files_compared": 354,
+    "no_exclusions_for_current_epoch": true
+  },
+  "candidate_provenance": {
+    "hardware_performed": false,
+    "ctx": 1,
+    "pan": "0B7A",
+    "independent_DPAPI_storage": true,
+    "historical_ctx1_NWK_MIC_proofs": [
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 18,
+        "ciphertext_sha256": "d583c0dece78196add61ae884d9294e41fd92bda3fb6ef78aa46767524d7fc3c",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 50,
+        "ciphertext_sha256": "3848a9d8db25359de2e129e7b07ecfc507094902c25276309a5376ca65c184da",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 63,
+        "ciphertext_sha256": "d95b00702e869c2b2aa6e33e00aec1994597f3a8183f63a975dfa0ca32dabf17",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 82,
+        "ciphertext_sha256": "484a7f29311e58b2fd42e8628a8390df640a62e97fa49bb3f1410b225293e914",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 95,
+        "ciphertext_sha256": "e4033e996aa7b23ea8b34ef3904deb77d24a7ec2759fa7b85c6bc6f2f566df20",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 104,
+        "ciphertext_sha256": "5bf1be5d404ef6c4dcad3667f7880338e0eb30f9bc16794e0ea4564eb3cc17ba",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 114,
+        "ciphertext_sha256": "a7ce9545e429bd195c34575bf901baed2d2249900e3ed6286df595e3ca75482b",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 125,
+        "ciphertext_sha256": "51260fea5d86cafc6becf6f88a6c561abf62efc573cb6e47bd6a152e157f189a",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 194,
+        "ciphertext_sha256": "5495fc5569b814cbd005ef65c3007b0c4c96a7335972dcdcc7981f0568565b9e",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 224,
+        "ciphertext_sha256": "b4c478fead164a1f7431aa11c23ad2a23c1ed00481326d021fc570d8f1f925b5",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 254,
+        "ciphertext_sha256": "86cbfb0d7db886bc7e01f8534667f592e419582b9afd4227898007277dcd7803",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 272,
+        "ciphertext_sha256": "5b98c545a80fdb13a34dff47b05da92a488404a6bf2cf9a12505b4d8c62dda53",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "airnanny_pairing.pcapng",
+        "frame": 378,
+        "ciphertext_sha256": "e3195cbf43f871beb707060e1f1bbda239fd2f05d391862b56a004206872966a",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "app_speed_3_to_4.pcapng",
+        "frame": 18,
+        "ciphertext_sha256": "e3e75bd3225e8641ac09713f5756dbe9d2b2a2bc02017227d7715fcd67211dd6",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "app_speed_3_to_4.pcapng",
+        "frame": 41,
+        "ciphertext_sha256": "321357d45f663e551668a6e93f79c5f124aac8e92522d3f007d798a6b3cbb0e9",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "autonanny_button.pcapng",
+        "frame": 30,
+        "ciphertext_sha256": "ae8c8e34cb227dc84b374b3cdb1dadd5dede13e6ff6d2717cb2faab323f0f8b6",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "humidity_plus_plus_minus.pcapng",
+        "frame": 21,
+        "ciphertext_sha256": "d3064f9c1998d8f8ae9d8a737b56e4fce9a5bdc69a51f8fba77402fbb6b700f9",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "idle.pcapng",
+        "frame": 13,
+        "ciphertext_sha256": "aac87672021d9cdc5304790075e36f444c288d5b2b770a0530fd5570e4997c95",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "idle.pcapng",
+        "frame": 30,
+        "ciphertext_sha256": "daef97639642235b72af7ee8be5d12686dc77f4b5d0551b8447f91b5ca69532a",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "idle.pcapng",
+        "frame": 45,
+        "ciphertext_sha256": "deb12aaf8f2f89395c662f13bc4d5c117b24c67b9af9334678115ea3d3f86dc0",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "night_mode_on_off.pcapng",
+        "frame": 16,
+        "ciphertext_sha256": "a9768dfc7ed33600a0c3a507bd93b377a433aabc84c2269daa89a404a2e6454c",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 14,
+        "ciphertext_sha256": "1facbb44af30db305036a6f33ecdfe8e2658e69e8e2ad007e5cec204994cf12d",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 22,
+        "ciphertext_sha256": "9e44177a059fda56feee9198a112d2c97fa92878abe1e88f9cc4689630f5a7e1",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 28,
+        "ciphertext_sha256": "850365fa9e087eaf301426524e2b26af1750aa25725b6e26e627ce426723ee6f",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 32,
+        "ciphertext_sha256": "b9a44afe4ac5894d53ff7e18f71ec40479b28584fec937c386d38a0d58b1a950",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 51,
+        "ciphertext_sha256": "ebed8c9474c88f65269d501084084f917a109eb1a16601261e8281cf295d7d2b",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 53,
+        "ciphertext_sha256": "537004464205810d60c87de6879306890afa12ebf6fe2e8a6f99a3ac0b4628a6",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 57,
+        "ciphertext_sha256": "ab569d1963e5f3fb65eda46b19eaf1c06dec378ee7e3a323cd2daf2edf323922",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 59,
+        "ciphertext_sha256": "4bbdd26980723255e36af21149412dda8840fcc9809051d0698708a94787b5dc",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 63,
+        "ciphertext_sha256": "4d5fb75f7180373060058cbaa0a1edacdf1c164f7440f164bcd86b71a95cf4b5",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 82,
+        "ciphertext_sha256": "722cfd602a87aa57cec633fb258ee0900f588ecabe00b28d54388a14d7a1f9c5",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 92,
+        "ciphertext_sha256": "eb1009b1a4a0c31c94e72c6f389ffd04c5fe56f5a82f52123cc84e0badfb8d75",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "permit_listen.pcapng",
+        "frame": 116,
+        "ciphertext_sha256": "75454e8b65ede5a3c88492257989cc2c62fe6b50b168229c2cd4140b074fbc1a",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "power_off_on.pcapng",
+        "frame": 15,
+        "ciphertext_sha256": "491e99afcb6a0300db317066dd5fd1e9df3d780d205efdd8f997678542920dc8",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "power_off_on.pcapng",
+        "frame": 19,
+        "ciphertext_sha256": "b84385c9e7e7a6c825884a6c3785e0ce2a0fbb560b128c52cbee4238c0f92a14",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "power_off_on.pcapng",
+        "frame": 50,
+        "ciphertext_sha256": "c50128d4f8ea4b054ae650a00fb27a55d78ea5937f7f11bdd849817ece29cf83",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "remote_speed_3_to_4.pcapng",
+        "frame": 18,
+        "ciphertext_sha256": "4ed317635aa02f7b20733e600ebefbfaf16c6b7d8c8b4ab89a5779166e840bcd",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "remote_speed_4_to_3.pcapng",
+        "frame": 13,
+        "ciphertext_sha256": "c5cca066902e7028ace93636fc6cc158b796207371231654b91af8e4eda83ec3",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "switch_mode.pcapng",
+        "frame": 21,
+        "ciphertext_sha256": "2512f7d5e7813bea3295045800acc06884296e820b033ade4836bc4a0726ad45",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "switch_mode.pcapng",
+        "frame": 74,
+        "ciphertext_sha256": "3a1b59186a6ff505e2b5866f60b542f11707e7802246c6369fee42fd48a21cb8",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "temperature_up_down.pcapng",
+        "frame": 6,
+        "ciphertext_sha256": "b182a87e69c9639a56a2d01839e2bd1105b302dc955a859ea23cc22fb36def89",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "temperature_up_down.pcapng",
+        "frame": 49,
+        "ciphertext_sha256": "ac59b1e8208f4d04bf4418eb2bd737b4a31dc569c0c99743fa6140efb7f6e020",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "timer_btn1.pcapng",
+        "frame": 4,
+        "ciphertext_sha256": "4e61daa005185d46869f3886fb6de2853cde79dc555955a54bc25fb23a16162d",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "timer_btn1.pcapng",
+        "frame": 19,
+        "ciphertext_sha256": "3f447a55852cb87f9610e9734d9f5c347b264ab4d57b6e409e6a3d23cb18789e",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "timer_btn1.pcapng",
+        "frame": 59,
+        "ciphertext_sha256": "b04306c9cacdadfa5425a6f7f3965858b94d92664118541dfa6ba7b713bc33c2",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "timer_btn1.pcapng",
+        "frame": 77,
+        "ciphertext_sha256": "422562e6598b596de5bf0b4e8a5490f98d5bb72a296bc95531dc780def9d4510",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "timer_btn2.pcapng",
+        "frame": 50,
+        "ciphertext_sha256": "6de2bb6f0268690cd1bf3eb5cb79bec636682577ce4da095be97eaf2e755d17e",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "timer_btn2.pcapng",
+        "frame": 66,
+        "ciphertext_sha256": "64674b5d1a644877e3b79d02a0770885ba1d3ea46cc7baed218539027e86a5b5",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "\u043f\u0440\u0438\u0442\u043e\u043a.pcapng",
+        "frame": 11,
+        "ciphertext_sha256": "a340a9a3f9c52ad3f8598fd6398e2ba795d63e3fa61245d36195ee367d010b7f",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "\u043f\u0440\u0438\u0442\u043e\u043a.pcapng",
+        "frame": 50,
+        "ciphertext_sha256": "2b1d14a420eaf1eea850accee502b12300ae46ba0f0b24550436bf158199300d",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "\u0440\u0435\u0446\u0438\u0440\u043a\u0443\u043b\u044f\u0446\u0438\u044f.pcapng",
+        "frame": 6,
+        "ciphertext_sha256": "a998dc3ce4e202206cdcc16fc1c52ada298946d4a6d29d46b7aac2a2fdbb839b",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "\u0440\u0435\u0446\u0438\u0440\u043a\u0443\u043b\u044f\u0446\u0438\u044f.pcapng",
+        "frame": 37,
+        "ciphertext_sha256": "c7d1cc54c523fc756e2a6f4dae9e4e1fd30e35882adc4d9a3921ea90650cffaf",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      },
+      {
+        "file": "\u0441\u043c\u0435\u0448\u0430\u043d\u043d\u044b\u0439.pcapng",
+        "frame": 53,
+        "ciphertext_sha256": "05f32140ef321f042680fb28b712d152202cf7a4ed2274f0a8399d97aff16da2",
+        "MIC_valid": true,
+        "security_source": "00124b0036a1875f",
+        "keyseq": 0
+      }
+    ],
+    "TC_bootstrap": "HISTORICAL_CANDIDATE_UNVERIFIED_ON_CTX1",
+    "live_authority": false,
+    "incoming_floor_imported": false,
+    "installed_Network_Key": false,
+    "NWK_FC_domain_created": false,
+    "no_ctx0_security_loaded": true
+  },
+  "secret_scan": {
+    "passed": true,
+    "public_files_scanned": 62,
+    "actual_local_oracle_material_checked": true
+  },
+  "firmware": {
+    "path": "releases/airnanny_ctx1_commission_v7.hex",
+    "sha256": "5A9E612F9BC88E446A691911574169CBE347DA90A2E3A77C24DDD5040E50ADB6",
+    "scope": "V7 proven commissioning target adaptation, application TX locked; not V22 readiness firmware",
+    "app_address": "0x1000",
+    "unflashed": true
+  },
+  "reviewed_source_sha256": {
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/candidates.py": "f4f94910ae46fc6cc5813050b4103c077ab176351661352b0889bb3abccffe61",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/launcher.py": "dee60314cc7208ade07c6f89fa8360326f59b3e34135e6d37b82b3e19eafc678",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/prepare.py": "2b42d50551bb1a21671fbda0a0daca97a47e75660538410a7d65ea5259e4629b",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/profile.json": "2ce46d7aadbe34dc52cef649ca9b74b045112c405686a6d4bbc945b8ca16c6b0",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/recovery.py": "72b6adc05f02625c326a6c62e66a7dfcd3451501d6729092ce7c3fd488fe7a14",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/runner.py": "5e076be07a595b4d4858cb7f3e85afcd6e208288ef767a17a1d70809cc4e43f9",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/verify.py": "03810e45a6d978bba1107141ee35e3dd307282c9a807f15d210d69058254ecb9",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/host/application_adapter.py": "5612f70985e411513ec9ae477ec9bef1180a5b02591f58b24bf410cb87d8a3ca",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/host/bindings.py": "d5c28c63dc968b95ffde1baa8a48fadda8d3f3c5725685bd8920513a6af0b2ff",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/host/core.py": "92d999c4971c128c7c9028bf7ed06d543dfc923c1fe6395d5bcf152c7905e033",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/host/current_a7_baseline.py": "22b9ec33a68efd308ab5aff7065a1774b7c4523626531c4d02187bdc9a6f4215",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/host/single_boot.py": "d79a01ac0b633842c5c9ba75707719c0a17aebfb7f987a207f830bdc92f20127",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/include/assoc.h": "23a59651be5184bb70ef81a6cf8d2875bb879d60720173a2405c9c989ba2927e",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/include/commission.h": "04729abc9af698592ceecc9338a75545e73438b130d1d457ef1aa90aeac67af9",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/include/gate.ld": "b722682f4d2450b7e837171081d119261b0896b0b25db6a297e1a2167e507363",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/include/gate_events.h": "eb8d0a56f26ddc8e060d9daa61ad1b9401f965fc65394e91be132a0d75fae5f4",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/include/gate_radio_config.h": "aa6adff8f3f767500274e22611244c739d85b948ea310b49c2b39f4e67143c48",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/include/key_gate.h": "4c8462c018c2156e88f666bfd60e5f2b32cdbbdbd7ca2e9ce0cfeaecda5e5cc7",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/include/permit_binding.h": "e7ea736ee6d7231828632be0ee806d6e2627a55735409f866317cdf7b8b2604f",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/include/sdk_config.h": "c7e289f2efa7a54865e7bbcf12a4b77f307d1d2394b7ad6a1173d16fcf71892e",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/src/assoc.c": "06bba57e203adf7b91d8fc4963c8b7a3f6733d829ece4bb9c8993d3fc73c4fc4",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/src/assoc_filter.c": "d15cd6c92d97b7144797d57bdd4387eb791e387118e70b9702e6fa6e84aee43c",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/src/assoc_protocol.c": "d20763283e589667be83a24dc40aeeb0c91736f261e6a28fde6d8c21ebe6e75b",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/src/commission.c": "ef4724bfc0f456399ca4e71a997c845143309dddae70856b6f53a26027021b6e",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/src/commission_protocol.c": "2cc78267a78622c779aac26f8cbcfac762297198216d54781f3fd64a87994e86",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/src/gate_events.c": "d83a2f0ff08bdeb6f1c14b1ad0915f90487957b5c2ca367acdfe2ef84031135f",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/src/key_gate.c": "3a4627e356d0ba866a45688d7d3f81fa7f6356eef4888066713efaa125a626e5",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/src/main.c": "6440a3224cd1e6d089952b5ec2138b6ce4b28fde74cf63bc9a4136a89b2d8f92",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/src/permit_binding.c": "e8d8ff4c8545b968d1c7c05eb919251deb9a1640e87e6c06ae9419d7d5e0deaa",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/assoc_main_mock.h": "93bff2fcf500d1fcafbec649f8f9a52d88bef464e9413c7cf9014b1fd6b52f88",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/firmware_cli.c": "3ce5bd97ff175e7f3719978c743d38a08396f06565a93801c9ff48097f5d43e9",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/nrf_radio.h": "8d84d302aa526fd3296c40b40c0d00e897f6a045ce003949858c45f502dabbc8",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/synthetic_dispatch.h": "d9087d367e9db85706326fe1f8e2e99121214bbacb572eefaa29ded3d73d8f97",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/test_application.py": "d56a304ec2ee3a13c3ff1331339be7de24cb3a499e8dc512a3d998ee11f29585",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/test_cca.c": "68e5bfb365a6ac1541c1d3ec7bbebf526d29df94ebd62a5398d1b42de117ccd3",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/test_dispatcher.c": "d7fef73d4fc65d5d45d9d23ca18d7850c562c2afc672dacdd820df4692f5721a",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/test_isolation.py": "ce6d4d3e8ec422cb71b5dbd2d7440802d53fb1e6a2f1cb03c61d263b0e2a0635",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/test_launcher.py": "c2e7723c1596bc214df378e28dbc3edb9ae18d0d04e0f69ecc8f0944770e8218",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/test_ring.c": "076b9e0a1374313504eeab9b004e25e6877048d07b51e709cfeba8594d637d12",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/test_runner.py": "c277b0573d24b1230a397d520d655da4bd1bd482781d53dcacaaf77a9c276d1a",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/test_single_boot.py": "d7639b45c776a31c161072f4255822a9c2838dbfca1bdb4d6b9675f7709a49a6",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tools/attempt_plan.py": "9bb2f3968c1f8378544ea34fb64bb5592700e2e00ae5345fd924b8110c507dc5",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tools/build.py": "d339779f7f4049112f09b2905157d0ddebf76ea7281fb0d479ae2aad3d5a66ee",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tools/key_announce.py": "20cdecec5ffd3d3f153fb2f6a2da7088a8bdcbf3fd5c054b5c96dd0afdf8ef7f",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tools/native_build.py": "9ced2986d796f27a27f57c7e4414aa688b218ba246ab0fe40650b17f8094ae7e",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tools/permit_validator.py": "a28b17dc65eb084f9f4bf68b84ea5fc1aac6edd972d1eb4c58388248df6bdbd8",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/ring_mocks/nrf.h": "4f3a8cae2064d86f65549471944b4db11768fd4071d75aa1d7856d71389150b0",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/ring_mocks/nrf_802154.h": "3051869b0c38d6e1221eac7637a269a4aca8776c180b0df429dbce5bf089b1c9",
+    "firmware/airnanny_dual_pan/second_a7_provisioning_v1/tests/ring_mocks/nrf_802154_peripherals.h": "3632c0f5d20b94f9b3e66f9818566a17322da77d6b36b1a3490720e38de3d17b",
+    "firmware/airnanny_dual_pan/raw_radio_v22_clock_dispatch/host/application_control.py": "6d1f70e7588c57a1a5530e995ec50010bbd29fb0efb789a9891ad33c98ff4f11",
+    "firmware/airnanny_dual_pan/raw_radio_v8_post_announce_management/host/management.py": "f4de69b0aeae5a522dbc02586f96cd04913672031735df68511ace45a205bd2a",
+    "firmware/airnanny_dual_pan/identity_commissioning_v1/offline_codec.py": "1a3e7e81eaa961d05d5c8f01c9aeacd7459f285e505f45666eac82a0e215050f",
+    "firmware/airnanny_dual_pan/raw_radio_v4_assoc_permit/tools/identity_store.py": "7269e37c7f2ea272b0b6d3601ef4f762567f13b2b928ef258ce341b6c4a9fcaf",
+    "host/airnanny2mqtt/src/airnanny/application.py": "c7a3c134b1ed82e2f32a42dd0a582337736908761a6e7a3bf409150d190e05a9",
+    "host/airnanny2mqtt/src/airnanny/aps.py": "2aa671efb37502205d1fdc5ceead425ff8a9dfba253a2598087ce47b554f704f",
+    "host/airnanny2mqtt/src/airnanny/availability.py": "dbd1a920872e97bce0debc48dc4599b7a3a05f7f5c3889fc70eae1d23a305f21",
+    "host/airnanny2mqtt/src/airnanny/baseline.py": "e9828b28b61068f8a3fa6cce1c9ad35f2814c4cf3025c4c011f6f1acd3ff7c9e",
+    "host/airnanny2mqtt/src/airnanny/binary.py": "fce456eae9f6cc485248d909af9144dc2f39da935513e10a72947e740bf5a9a5",
+    "host/airnanny2mqtt/src/airnanny/commands.py": "f2971dee138a76ffd4f53cbcb5fcc61098ee8a1e5acd552b29de1b13bf8b9d26",
+    "host/airnanny2mqtt/src/airnanny/config.py": "742ebdfd0c0f60bb2eb9b41832bbb15d51ae29d6739fd51319f7a20569db28db",
+    "host/airnanny2mqtt/src/airnanny/config_loader.py": "703d94cefd6d07ade9439dde8029e6ac1cbdc12f7d59ffc08b5983168226b3b4",
+    "host/airnanny2mqtt/src/airnanny/confirmation.py": "1796b605b5ae97e39c33383ea219ff76529976b70f9f8979d9535815849bae38",
+    "host/airnanny2mqtt/src/airnanny/context.py": "ec7b2013b997e6a4e952ab09a2951ced4226083492a07f9b704a90dc85954e95",
+    "host/airnanny2mqtt/src/airnanny/counters.py": "1ad7bc7c31b574aef75275b5e2a91e9283e0bf536ab32c336ef73676ff798865",
+    "host/airnanny2mqtt/src/airnanny/daemon.py": "475c0f699ee6021bd687d659532546da70a7b2526b36527f9400811f50e4f532",
+    "host/airnanny2mqtt/src/airnanny/device.py": "83a1782ff6b6211251ccffddd2d09d135266d659b5d27fc30347b6de3f23336d",
+    "host/airnanny2mqtt/src/airnanny/events.py": "01c9115668c585095e76e86ae214d9f49019907f14ab2e0ba432fa5eb2ba6762",
+    "host/airnanny2mqtt/src/airnanny/frames.py": "ebf495f2020a950088788de143e76295f51a23ac826acb881e169352c3521bb4",
+    "host/airnanny2mqtt/src/airnanny/ha_discovery.py": "3b3554a8cba5c96e54406a04b624e2b166c23f988eb6600c1032524a593074ff",
+    "host/airnanny2mqtt/src/airnanny/lifecycle.py": "a92bcd7ff3c9566e0e754d62dd8503e4be2180689652564c603376ecd2743f85",
+    "host/airnanny2mqtt/src/airnanny/mac.py": "43490aeed327d1735dc6daf771e842a85a5a225a76e6defa8ef3aad687305ec5",
+    "host/airnanny2mqtt/src/airnanny/mqtt.py": "37856c2ce9b4f1d435a87c2ebd7bf5905a4204dfa5e39fdc6da0b63a223e8291",
+    "host/airnanny2mqtt/src/airnanny/mqtt_runtime.py": "e0dddbf832a6c8c2ba57a3c31f0a7c661dd97522c84ba990d35e71a514bb03f9",
+    "host/airnanny2mqtt/src/airnanny/mqtt_schema.py": "c82e32a6e3c26066580b165bc7e7780ded569c1a23864cce8dabdba39f14881c",
+    "host/airnanny2mqtt/src/airnanny/nwk.py": "9af2e17572b171ee978ce31a4bfb21d0cf74442c9e7e50e78a708ac06e8175de",
+    "host/airnanny2mqtt/src/airnanny/outgoing.py": "df6423f1925fc5e1e951cd540b620db430fc6adea8f5636701e64b53359da6c5",
+    "host/airnanny2mqtt/src/airnanny/paho_mqtt.py": "3fe7e7ab9285d3187e045d69b8d7126063e2cf112797bd276ed0a877dcafdb73",
+    "host/airnanny2mqtt/src/airnanny/pipeline.py": "7eb1124e4488258c8fea16ee1ec49af524185492b7019999992af51e1d05af3e",
+    "host/airnanny2mqtt/src/airnanny/security.py": "7d70bc7b968d75b7c5c276062c00b869e87834d4af5f05f9c96b20fbce86fff2",
+    "host/airnanny2mqtt/src/airnanny/state.py": "1ada38f673285c815e917fca391417d6751093e1a0ca073f7cd79fd2583522a0",
+    "host/airnanny2mqtt/src/airnanny/transport.py": "149f1ddff676dec75e5ada99cd4aafdce0b64723448743c1817cf10b862fdb28",
+    "host/airnanny2mqtt/src/airnanny/zcl.py": "bbe6951a00b10b80f7831dcd6b699dcb6c08e5ba0bce6295d3117ed211a696e9",
+    "host/airnanny2mqtt/src/airnanny/__init__.py": "5a60145150b93af8ddbd6f5b42e10bf3daa1a59b479e479fb4753c23eb2e9222"
+  },
+  "remaining_hardware": [
+    "operator physical health precheck and manual application-only flash",
+    "fresh ctx1 A7 baseline, ARM, authenticated permit, status0 association and current short",
+    "no-gap key polling; ctx1 Transport Key authentication and durable independent epoch install",
+    "first durable FC lease and one Device Announce; inspect authenticated post-announce RX",
+    "bind required management/readiness path to REAL ctx1 short/epoch/attempt, never ctx0 values",
+    "fresh readiness and one no-retry adjacent FAN TYPE07 confirmed by fresh authenticated TYPE06",
+    "manual V17 restoration, both rooms and original controllers verification; recheck ctx0 unchanged"
+  ]
+}

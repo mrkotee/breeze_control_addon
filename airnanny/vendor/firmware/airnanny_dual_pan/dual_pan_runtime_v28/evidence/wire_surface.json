@@ -1,0 +1,610 @@
+{
+  "record": "wire_surface",
+  "identity": "airnanny_dual_pan_runtime_v28",
+  "wire": "10",
+  "firmware_version": "28",
+  "field_names_in_order": [
+    "id",
+    "boot",
+    "session",
+    "generation",
+    "epoch",
+    "attempt",
+    "guard",
+    "dsn",
+    "fc",
+    "hash",
+    "mac",
+    "revision",
+    "short",
+    "ctx"
+  ],
+  "commands": {
+    "INFO": {
+      "kind": "M_INFO",
+      "fields": [
+        "id"
+      ],
+      "ctx": "refused"
+    },
+    "BIND": {
+      "kind": "M_BIND",
+      "fields": [
+        "attempt",
+        "boot",
+        "epoch",
+        "generation",
+        "guard",
+        "id",
+        "session",
+        "short"
+      ],
+      "ctx": "required"
+    },
+    "ACTIVE_DISCOVERY_BEACON_REQUEST": {
+      "kind": "M_BEACON",
+      "fields": [
+        "boot",
+        "dsn",
+        "generation",
+        "id",
+        "session"
+      ],
+      "ctx": "required"
+    },
+    "DISCOVERY_COMMIT": {
+      "kind": "M_DISCOVERY_COMMIT",
+      "fields": [
+        "boot",
+        "generation",
+        "hash",
+        "id",
+        "revision",
+        "session"
+      ],
+      "ctx": "required"
+    },
+    "REJOIN_REQUEST": {
+      "kind": "M_REJOIN",
+      "fields": [
+        "attempt",
+        "boot",
+        "epoch",
+        "fc",
+        "generation",
+        "guard",
+        "hash",
+        "id",
+        "mac",
+        "session"
+      ],
+      "ctx": "required"
+    },
+    "CURRENT_SHORT_COMMIT": {
+      "kind": "M_SHORT_COMMIT",
+      "fields": [
+        "boot",
+        "generation",
+        "id",
+        "revision",
+        "session",
+        "short"
+      ],
+      "ctx": "required"
+    },
+    "DEVICE_ANNOUNCE": {
+      "kind": "M_ANNOUNCE",
+      "fields": [
+        "attempt",
+        "boot",
+        "epoch",
+        "fc",
+        "generation",
+        "guard",
+        "hash",
+        "id",
+        "mac",
+        "session"
+      ],
+      "ctx": "required"
+    },
+    "END_DEVICE_TIMEOUT": {
+      "kind": "M_TIMEOUT",
+      "fields": [
+        "attempt",
+        "boot",
+        "epoch",
+        "fc",
+        "generation",
+        "guard",
+        "hash",
+        "id",
+        "mac",
+        "session"
+      ],
+      "ctx": "required"
+    },
+    "PARENT_LINK_ACTIVE": {
+      "kind": "M_ACTIVE",
+      "fields": [
+        "boot",
+        "generation",
+        "id",
+        "revision",
+        "session"
+      ],
+      "ctx": "required"
+    },
+    "MANAGEMENT_POLL": {
+      "kind": "M_POLL",
+      "fields": [
+        "boot",
+        "dsn",
+        "generation",
+        "id",
+        "session"
+      ],
+      "ctx": "required"
+    },
+    "STATUS": {
+      "kind": "M_STATUS",
+      "fields": [
+        "boot",
+        "id",
+        "session"
+      ],
+      "ctx": "optional"
+    },
+    "END": {
+      "kind": "M_END",
+      "fields": [
+        "boot",
+        "id",
+        "session"
+      ],
+      "ctx": "refused"
+    },
+    "TYPE07_FAN": {
+      "kind": "M_APP",
+      "fields": [
+        "attempt",
+        "boot",
+        "epoch",
+        "fc",
+        "generation",
+        "guard",
+        "hash",
+        "id",
+        "mac",
+        "session"
+      ],
+      "ctx": "required"
+    },
+    "STATS": {
+      "kind": "M_STATS",
+      "fields": [
+        "boot",
+        "id"
+      ],
+      "ctx": "refused"
+    }
+  },
+  "verified_against_dispatcher": {
+    "INFO": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": null,
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "with_ctx": "ctx_not_scoped"
+    },
+    "BIND": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": "current_context_only",
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "without_ctx": "ctx_required"
+    },
+    "ACTIVE_DISCOVERY_BEACON_REQUEST": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": "state_or_deadline",
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "without_ctx": "ctx_required"
+    },
+    "DISCOVERY_COMMIT": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": "control_state",
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "without_ctx": "ctx_required"
+    },
+    "REJOIN_REQUEST": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": "state_or_deadline",
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "without_ctx": "ctx_required"
+    },
+    "CURRENT_SHORT_COMMIT": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": "control_state",
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "without_ctx": "ctx_required"
+    },
+    "DEVICE_ANNOUNCE": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": "state_or_deadline",
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "without_ctx": "ctx_required"
+    },
+    "END_DEVICE_TIMEOUT": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": "state_or_deadline",
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "without_ctx": "ctx_required"
+    },
+    "PARENT_LINK_ACTIVE": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": "control_state",
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "without_ctx": "ctx_required"
+    },
+    "MANAGEMENT_POLL": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": "state_or_deadline",
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "without_ctx": "ctx_required"
+    },
+    "STATUS": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": null,
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "without_ctx": null,
+      "with_ctx": null
+    },
+    "END": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": "session_mismatch",
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "with_ctx": "ctx_not_scoped"
+    },
+    "TYPE07_FAN": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": "state_or_deadline",
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "without_ctx": "ctx_required"
+    },
+    "STATS": {
+      "exact_set_refused_for_its_fields": false,
+      "exact_set_reply": null,
+      "variations_not_refused_as_field_set": {},
+      "agrees_with_binary": true,
+      "with_ctx": "ctx_not_scoped"
+    }
+  },
+  "commands_agree_with_binary": true,
+  "records": {
+    "STATUS": [
+      {
+        "kind": "STATUS",
+        "emitter": "src/main.c",
+        "fields": [
+          "boot",
+          "id",
+          "ctx",
+          "session",
+          "state",
+          "association_state",
+          "key_state",
+          "generation",
+          "assigned_short",
+          "polls",
+          "pending",
+          "used",
+          "immediate_ack",
+          "application_tx",
+          "rx_revision",
+          "rx_drop",
+          "out_drop",
+          "crc_error",
+          "recovery",
+          "time_us",
+          "tx_end_us",
+          "deadline_us",
+          "beacon_revision",
+          "response_revision",
+          "tx_owner",
+          "rf_started",
+          "callback_seen",
+          "completion_output_queued",
+          "watchdog_fired",
+          "cleanup",
+          "quarantine",
+          "reboot_required",
+          "accepted_count",
+          "terminal_count",
+          "late_callbacks",
+          "abort_calls",
+          "driver_phase",
+          "tx_id",
+          "queued_us",
+          "rf_start_us",
+          "callback_us",
+          "abort_start_us",
+          "tx_result",
+          "cca_preair",
+          "cca_attempts",
+          "cca_busy",
+          "cca_be",
+          "cca_due_us",
+          "cca_acquisition_limit_us",
+          "crc_first_us",
+          "crc_last_us",
+          "rx_cutoff_grace_us",
+          "rx_cutoff_stalled"
+        ],
+        "format": "STATUS boot=%s id=%lu ctx=%u session=%lu state=%s association_state=%s key_state=%s generation=%lu assigned_short=%04x polls=%lu pending=%u used=%u immediate_ack=%u application_tx=typed_fan_once rx_revision=%lu rx_drop=%lu out_drop=%lu crc_error=%lu recovery=%s time_us=%lu tx_end_us=%lu deadline_us=%lu beacon_revision=%lu response_revision=%lu tx_owner=%s rf_started=%u callback_seen=%u completion_output_queued=%u watchdog_fired=%u cleanup=%u quarantine=%u reboot_required=%u accepted_count=%lu terminal_count=%lu late_callbacks=%lu abort_calls=%lu driver_phase=%s tx_id=%lu queued_us=%lu rf_start_us=%lu callback_us=%lu abort_start_us=%lu tx_result=%s cca_preair=%u cca_attempts=%u cca_busy=%u cca_be=%u cca_due_us=%lu cca_acquisition_limit_us=40000 crc_first_us=%lu crc_last_us=%lu rx_cutoff_grace_us=2000 rx_cutoff_stalled=%u",
+        "live": true
+      }
+    ],
+    "ERROR": [
+      {
+        "kind": "ERROR",
+        "emitter": "src/main.c",
+        "fields": [
+          "boot",
+          "reason"
+        ],
+        "format": "ERROR boot=%s reason=%s",
+        "live": true
+      },
+      {
+        "kind": "ERROR",
+        "emitter": "src/main.c",
+        "fields": [
+          "boot",
+          "id",
+          "reason"
+        ],
+        "format": "ERROR boot=%s id=%lu reason=%s",
+        "live": true
+      },
+      {
+        "kind": "ERROR",
+        "emitter": "src/main.c",
+        "fields": [
+          "boot",
+          "reason"
+        ],
+        "format": "ERROR boot=%s reason=input_overflow_or_nonascii",
+        "live": true
+      },
+      {
+        "kind": "ERROR",
+        "emitter": "src/dual_records.c",
+        "fields": [
+          "boot",
+          "reason"
+        ],
+        "format": "ERROR boot=%s%s%s reason=%s",
+        "live": false,
+        "formatter": "dual_format_error"
+      }
+    ],
+    "INFO": [
+      {
+        "kind": "INFO",
+        "emitter": "src/main.c",
+        "fields": [
+          "boot",
+          "id",
+          "identity",
+          "version",
+          "wire",
+          "contexts",
+          "config_generation",
+          "max_run_seconds",
+          "max_total_polls_per_context",
+          "max_discovery_scans",
+          "tx_power_dbm",
+          "channel",
+          "application_tx",
+          "crypto",
+          "immediate_ack",
+          "pending_tx",
+          "session",
+          "rx_revision",
+          "rx_drop",
+          "out_drop"
+        ],
+        "format": "INFO boot=%s id=%lu identity=airnanny_dual_pan_runtime_v28 version=28 wire=%u contexts=2 config_generation=%lu max_run_seconds=3900 max_total_polls_per_context=3600 max_discovery_scans=3 tx_power_dbm=%d channel=21 application_tx=typed_fan_once crypto=host_only immediate_ack=%u pending_tx=%u session=%lu rx_revision=%lu rx_drop=%lu out_drop=%lu",
+        "live": true
+      }
+    ],
+    "TXACCEPT": [
+      {
+        "kind": "TXACCEPT",
+        "emitter": "src/main.c",
+        "fields": [
+          "boot",
+          "id",
+          "ctx",
+          "session",
+          "class",
+          "mac",
+          "retry"
+        ],
+        "format": "TXACCEPT boot=%s id=%lu ctx=%u session=1 class=%s mac=%s retry=0",
+        "live": true
+      },
+      {
+        "kind": "TXACCEPT",
+        "emitter": "src/dual_records.c",
+        "fields": [
+          "boot",
+          "id",
+          "ctx",
+          "class",
+          "queue_depth",
+          "mac",
+          "retry"
+        ],
+        "format": "TXACCEPT boot=%s id=%lu ctx=%u class=%s queue_depth=%lu mac=%s retry=0",
+        "live": false,
+        "formatter": "dual_format_txaccept"
+      }
+    ],
+    "AUTO_ACCEPT": [
+      {
+        "kind": "AUTO_ACCEPT",
+        "emitter": "src/main.c",
+        "fields": [
+          "boot",
+          "id",
+          "ctx",
+          "session",
+          "class",
+          "mac",
+          "retry",
+          "time_us",
+          "poll"
+        ],
+        "format": "AUTO_ACCEPT boot=%s id=%lu ctx=%u session=1 class=MANAGEMENT_POLL mac=%s retry=0 time_us=%lu poll=%lu",
+        "live": true
+      }
+    ],
+    "RX": [
+      {
+        "kind": "RX",
+        "emitter": "src/main.c",
+        "fields": [
+          "boot",
+          "ctx",
+          "match",
+          "reason",
+          "config_generation",
+          "session",
+          "revision",
+          "channel",
+          "time_us",
+          "ack_address_us",
+          "ack_start_us",
+          "ack_end_us",
+          "rssi",
+          "lqi",
+          "fcs_ok",
+          "ack_started",
+          "ack_completed",
+          "deadline_miss",
+          "mac"
+        ],
+        "format": "RX boot=%s ctx=%s match=%s reason=%s config_generation=%lu session=%lu revision=%lu channel=21 time_us=%lu ack_address_us=%lu ack_start_us=%lu ack_end_us=%lu rssi=%d lqi=%u fcs_ok=1 ack_started=%u ack_completed=%u deadline_miss=%u mac=%s",
+        "live": true
+      },
+      {
+        "kind": "RX",
+        "emitter": "src/dual_records.c",
+        "fields": [
+          "boot",
+          "rx_id",
+          "ctx",
+          "config_generation",
+          "match",
+          "reason"
+        ],
+        "format": "RX boot=%s rx_id=%lu ctx=%s config_generation=%lu match=%s reason=%s",
+        "live": false,
+        "formatter": "dual_format_rx"
+      }
+    ],
+    "TXDONE|AUTO_DONE": [
+      {
+        "kind": "TXDONE|AUTO_DONE",
+        "emitter": "src/tx_lifecycle.inc",
+        "fields": [
+          "boot",
+          "id",
+          "ctx",
+          "session",
+          "result",
+          "time_us",
+          "rf_start_us",
+          "ack_present",
+          "ack_fcf",
+          "ack_dsn",
+          "poll",
+          "application_tx",
+          "cleanup",
+          "reboot_required",
+          "terminal_seq",
+          "cca_attempts",
+          "cca_busy",
+          "cca_preair",
+          "diag_dsn",
+          "diag_wait",
+          "diag_address",
+          "diag_end",
+          "diag_match",
+          "diag_crc",
+          "diag_ack_fcf",
+          "diag_ack_dsn",
+          "diag_timeouts",
+          "submit_reason",
+          "submit_state",
+          "rx_admission_deferrals",
+          "mac_retries"
+        ],
+        "format": "%s boot=%s id=%lu ctx=%u session=%lu result=%s time_us=%lu rf_start_us=%lu ack_present=%u ack_fcf=%u ack_dsn=%u poll=%lu application_tx=typed_fan_once cleanup=%s reboot_required=%u terminal_seq=%lu cca_attempts=%u cca_busy=%u cca_preair=%u diag_dsn=%lu diag_wait=%lu diag_address=%lu diag_end=%lu diag_match=%lu diag_crc=%lu diag_ack_fcf=%lu diag_ack_dsn=%lu diag_timeouts=%lu submit_reason=%lu submit_state=%lu rx_admission_deferrals=%lu mac_retries=%u",
+        "live": true
+      }
+    ],
+    "TXDONE": [
+      {
+        "kind": "TXDONE",
+        "emitter": "src/dual_records.c",
+        "fields": [
+          "boot",
+          "id",
+          "ctx",
+          "result",
+          "ack_requested"
+        ],
+        "format": "TXDONE boot=%s id=%lu ctx=%u result=%s ack_requested=%u",
+        "live": false,
+        "formatter": "dual_format_txdone"
+      }
+    ],
+    "STATS": [
+      {
+        "kind": "STATS",
+        "emitter": "src/dual_records.c",
+        "fields": [
+          "boot",
+          "id",
+          "config_generation",
+          "rx_total",
+          "ctx0_rx",
+          "ctx1_rx"
+        ],
+        "format": "STATS boot=%s id=%lu config_generation=%lu rx_total=%lu ctx0_rx=%lu ctx1_rx=%lu",
+        "live": true,
+        "formatter": "dual_format_stats"
+      }
+    ]
+  },
+  "dead_formatters_not_on_the_wire": [
+    "dual_format_error",
+    "dual_format_rx",
+    "dual_format_txaccept",
+    "dual_format_txdone"
+  ],
+  "note": "commands are parsed from rejoin_transport.c and then proven against build/firmware_cli.exe; records are read from the sources that emit them, with dead formatters marked rather than hidden."
+}

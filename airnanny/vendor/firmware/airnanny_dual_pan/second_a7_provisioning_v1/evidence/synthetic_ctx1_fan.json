@@ -1,0 +1,16 @@
+{
+  "synthetic_only": true,
+  "hardware_performed": false,
+  "RF_TX": 0,
+  "pan": "0B7A",
+  "raw_ieee": "027a56bb75a41437",
+  "short": "1234",
+  "counter": 32,
+  "next_fc": 64,
+  "mutated_offsets": [
+    6,
+    11,
+    20
+  ],
+  "confirmation": "CONFIRMED"
+}

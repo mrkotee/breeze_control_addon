@@ -1,0 +1,73 @@
+{
+  "record": "gate_events_union_offline",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.5c merged gate instrumentation",
+  "date": "2026-10-11",
+  "scope": "offline only; no COM, no RF, no flash, no HEX, no cryptography, no keys",
+  "status": "OFFLINE_PASS_SOFTWARE_ONLY",
+  "hardware_pass": false,
+  "arm_image_built": false,
+  "union": {
+    "kept_from_v25": [
+      "the RX revision with its UINT32_MAX saturation and drop accounting, which host freshness logic and the durable replay floors depend on",
+      "gate_crc_t and the CRC snapshot taken under a masked interrupt",
+      "gate_hw_cutoff_drained",
+      "the 32 slot ring, because dual traffic roughly doubles the RX rate and mac_gate's ring held 8"
+    ],
+    "taken_from_mac_gate": [
+      "the context classification and header carried on each record",
+      "the configuration generation stamped onto each record",
+      "hardware captures of the ACK sequence via PPI",
+      "per-context statistics"
+    ],
+    "field_names_preserved": "revision, session, time_us, length, mac, rssi, lqi, ack_started, ack_completed, deadline_miss are unchanged in name and meaning, so tests/firmware_cli.c and tests/scan_replay.c compile unchanged and leave the new fields zero. Verified by compiling both harnesses without editing either.",
+    "two_statistics_structs_are_deliberate": "gate_stats_t counts classification of complete frames as recorded; dual_stats_t in dual_context.c counts admission decisions taken during BCC on a partial header and the reasons an ACK was suppressed. One says what arrived, the other says what was answered."
+  },
+  "hardware_timing": {
+    "method": "PPI captures into TIMER3, not software clock reads",
+    "ppi": {
+      "CH0": "RADIO EVENTS_CRCOK  -> TIMER3 CAPTURE[0], the RX instant",
+      "CH1": "RADIO EVENTS_TXREADY -> TIMER3 CAPTURE[1], ACK start",
+      "CH2": "RADIO EVENTS_PHYEND -> TIMER3 CAPTURE[2], ACK end",
+      "CH3": "RADIO EVENTS_ADDRESS -> TIMER3 CAPTURE[3], ACK address"
+    },
+    "why_it_matters": "gate A has to measure the RX to ACK turnaround, and USB arrival time or a software read after interrupt latency cannot do it",
+    "time_us_change": "time_us is now the CRCOK capture rather than a software read taken afterwards. The same instant, measured more precisely; in host-test builds it remains whatever the mock sets."
+  },
+  "integration_bug_found_and_prevented": {
+    "what": "V25's gate_hw_now_us() performed a software TASKS_CAPTURE[0] and read CC[0]; mac_gate's PPI captures the CRCOK instant into that same CC[0]",
+    "consequence_if_merged_naively": "any foreground clock read would silently overwrite the hardware RX timestamp, corrupting exactly the measurement the first hardware gate depends on",
+    "fix": "software clock reads moved to TASKS_CAPTURE[4] and CC[4]; CC[0..3] belong to the PPI captures. TIMER3 on this part has six capture registers.",
+    "guard_added": "_Static_assert on NRF_802154_PPI_CHANNELS_USED_MASK so a driver that starts using PPI 0..3 fails the build rather than the measurement"
+  },
+  "validation": {
+    "arm_compile": {
+      "toolchain": "xPack arm-none-eabi-gcc 7.3.1 20180622 revision 261907, Linux host",
+      "flags": "the exact flag list, include derivation and defines of tools/build.py",
+      "result": "compiles clean, warnings only from the inherited dense style in rejoin_transport.c",
+      "files": ["src/gate_events.c", "src/dual_context.c", "src/dual_admit.c", "src/dual_identity.c", "src/dual_sched.c", "src/dual_records.c", "src/rejoin_transport.c"],
+      "static_asserts_passing": ["TIMER3 not used by the driver", "PPI 0..3 not used by the driver"],
+      "note": "compilation only; no link and no image"
+    },
+    "harnesses_compile_unedited": ["tests/firmware_cli.c", "tests/scan_replay.c"],
+    "python_regression": {
+      "green": ["test_mac_backoff", "test_peer_scope", "test_completion", "test_clock_dispatch", "test_permit_observation", "test_foreign_status_scope"],
+      "inherited_failures_unchanged": { "test_recovery": 1, "test_rx_deadline": 6 },
+      "new_failures": 0
+    },
+    "native_c_suites_unchanged": { "total_checks": 472, "failures": 0 }
+  },
+  "not_done_yet": [
+    "main.c: still one commission_t session, still RADIOV9, RX record carries no ctx, and neither the scheduler nor gate_hw_config_generation is called from it",
+    "the ARM image has never been linked",
+    "tools/ remains unported"
+  ],
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "src/assoc.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/src/assoc.c",
+    "source_sha256": "cabe548b2e2a7679e0d7b2acf9490b08df8a779c8506ff262b1295ec86a0f255",
+    "generated_sha256": "06bba57e203adf7b91d8fc4963c8b7a3f6733d829ece4bb9c8993d3fc73c4fc4"
+  },
+  "src/assoc_filter.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/src/assoc_filter.c",
+    "source_sha256": "915050b157a5b9935230161cb4180575c7e9d84e2d384906b2b0c72f02049d72",
+    "generated_sha256": "d15cd6c92d97b7144797d57bdd4387eb791e387118e70b9702e6fa6e84aee43c"
+  },
+  "src/assoc_protocol.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/src/assoc_protocol.c",
+    "source_sha256": "05891034ceae83addc1ee9b540412c1703ee3a6e21ed22a2d8052c93277cb1fe",
+    "generated_sha256": "d20763283e589667be83a24dc40aeeb0c91736f261e6a28fde6d8c21ebe6e75b"
+  },
+  "src/commission.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/src/commission.c",
+    "source_sha256": "e2632446781c6e1b8bf717ca32d4546a15117e9a1853e81fa14f2963b1b22718",
+    "generated_sha256": "ef4724bfc0f456399ca4e71a997c845143309dddae70856b6f53a26027021b6e"
+  },
+  "src/commission_protocol.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/src/commission_protocol.c",
+    "source_sha256": "2cc78267a78622c779aac26f8cbcfac762297198216d54781f3fd64a87994e86",
+    "generated_sha256": "2cc78267a78622c779aac26f8cbcfac762297198216d54781f3fd64a87994e86"
+  },
+  "src/gate_events.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/src/gate_events.c",
+    "source_sha256": "99fbc4c9c0eec6af90172728f25dc260c53d5e05a19f4d01a037047a0222bc1e",
+    "generated_sha256": "d83a2f0ff08bdeb6f1c14b1ad0915f90487957b5c2ca367acdfe2ef84031135f"
+  },
+  "src/key_gate.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/src/key_gate.c",
+    "source_sha256": "97bb7daf5baf82c29b26f6fd16019efa292043a3a7ab2bac3fb6e4c419fcd7ac",
+    "generated_sha256": "3a4627e356d0ba866a45688d7d3f81fa7f6356eef4888066713efaa125a626e5"
+  },
+  "src/main.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/src/main.c",
+    "source_sha256": "ce53033b5534c384a137be5e2ac3825d051df2db7479319923f7f82ee9ac1104",
+    "generated_sha256": "6440a3224cd1e6d089952b5ec2138b6ce4b28fde74cf63bc9a4136a89b2d8f92"
+  },
+  "src/permit_binding.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/src/permit_binding.c",
+    "source_sha256": "c0728c21ec5bdbd0ebeab969c9d8c8214962718c7d930460c2ccd6fc34a2d21f",
+    "generated_sha256": "e8d8ff4c8545b968d1c7c05eb919251deb9a1640e87e6c06ae9419d7d5e0deaa"
+  },
+  "include/assoc.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/include/assoc.h",
+    "source_sha256": "6fa14eec221e440ff0fb2b0ab725b39339c4222e2c068552beddd0b832db9444",
+    "generated_sha256": "23a59651be5184bb70ef81a6cf8d2875bb879d60720173a2405c9c989ba2927e"
+  },
+  "include/commission.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/include/commission.h",
+    "source_sha256": "04729abc9af698592ceecc9338a75545e73438b130d1d457ef1aa90aeac67af9",
+    "generated_sha256": "04729abc9af698592ceecc9338a75545e73438b130d1d457ef1aa90aeac67af9"
+  },
+  "include/gate.ld": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/include/gate.ld",
+    "source_sha256": "8dfec82ce6090310d0e38acdb2562a302e01c38ad15d437c48baded46a3f845a",
+    "generated_sha256": "b722682f4d2450b7e837171081d119261b0896b0b25db6a297e1a2167e507363"
+  },
+  "include/gate_events.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/include/gate_events.h",
+    "source_sha256": "b27444ae5d1e68d1c6c2e0ed5caceab18d1855b9a87780fbdecd634765f404e1",
+    "generated_sha256": "eb8d0a56f26ddc8e060d9daa61ad1b9401f965fc65394e91be132a0d75fae5f4"
+  },
+  "include/gate_radio_config.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/include/gate_radio_config.h",
+    "source_sha256": "9b18450b9ed135bcc953b139216b8bf9003e74a23c90f0d5376530d53bbb608a",
+    "generated_sha256": "aa6adff8f3f767500274e22611244c739d85b948ea310b49c2b39f4e67143c48"
+  },
+  "include/key_gate.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/include/key_gate.h",
+    "source_sha256": "ba3c5d4c23a2384e0fbee65ba9db33b44ee150ed43c3d1c28e756e7e3eab5510",
+    "generated_sha256": "4c8462c018c2156e88f666bfd60e5f2b32cdbbdbd7ca2e9ce0cfeaecda5e5cc7"
+  },
+  "include/permit_binding.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/include/permit_binding.h",
+    "source_sha256": "e7ea736ee6d7231828632be0ee806d6e2627a55735409f866317cdf7b8b2604f",
+    "generated_sha256": "e7ea736ee6d7231828632be0ee806d6e2627a55735409f866317cdf7b8b2604f"
+  },
+  "include/sdk_config.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/include/sdk_config.h",
+    "source_sha256": "cf9d9e6da9656469a84f6af176eec0b8ae704b65ab296624f845c46f98f2be48",
+    "generated_sha256": "c7e289f2efa7a54865e7bbcf12a4b77f307d1d2394b7ad6a1173d16fcf71892e"
+  },
+  "host/core.py": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/host/core.py",
+    "source_sha256": "e94a29c8be507c3fe0bf2c04cf214de720b64b29414ec22cbe31105e4a3362d5",
+    "generated_sha256": "92d999c4971c128c7c9028bf7ed06d543dfc923c1fe6395d5bcf152c7905e033"
+  },
+  "host/single_boot.py": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/host/single_boot.py",
+    "source_sha256": "d1743fdf197f0d58671d469545ace57ecad9291f7d03a97b1bd04a2ad0b76aca",
+    "generated_sha256": "d79a01ac0b633842c5c9ba75707719c0a17aebfb7f987a207f830bdc92f20127"
+  },
+  "host/current_a7_baseline.py": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/host/current_a7_baseline.py",
+    "source_sha256": "fe1282048b797998093a8428461ff0cad6daeba7548b73b8104a8690aacdc572",
+    "generated_sha256": "22b9ec33a68efd308ab5aff7065a1774b7c4523626531c4d02187bdc9a6f4215"
+  },
+  "tools/key_announce.py": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tools/key_announce.py",
+    "source_sha256": "0ac9a56a467c860e0afe88cab1ef6257f3649f6f1433180be858f255106cd8db",
+    "generated_sha256": "20cdecec5ffd3d3f153fb2f6a2da7088a8bdcbf3fd5c054b5c96dd0afdf8ef7f"
+  },
+  "tools/build.py": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tools/build.py",
+    "source_sha256": "147369d51b5cf6e65bc0059cb091e0dee942ea64c85d560637f45149bbdd6b28",
+    "generated_sha256": "d339779f7f4049112f09b2905157d0ddebf76ea7281fb0d479ae2aad3d5a66ee"
+  },
+  "tools/native_build.py": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tools/native_build.py",
+    "source_sha256": "89a1844179ab48892724edcb05f954a53765fcffef78bfe8f8d4b566cdebeae6",
+    "generated_sha256": "9ced2986d796f27a27f57c7e4414aa688b218ba246ab0fe40650b17f8094ae7e"
+  },
+  "tests/assoc_main_mock.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tests/assoc_main_mock.h",
+    "source_sha256": "93bff2fcf500d1fcafbec649f8f9a52d88bef464e9413c7cf9014b1fd6b52f88",
+    "generated_sha256": "93bff2fcf500d1fcafbec649f8f9a52d88bef464e9413c7cf9014b1fd6b52f88"
+  },
+  "tests/firmware_cli.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tests/firmware_cli.c",
+    "source_sha256": "ec2659565fea01509cfee7e0225a91ab9534bf784844fb72cc8f2d8f31c4b4e2",
+    "generated_sha256": "3ce5bd97ff175e7f3719978c743d38a08396f06565a93801c9ff48097f5d43e9"
+  },
+  "tests/nrf_radio.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tests/nrf_radio.h",
+    "source_sha256": "8d84d302aa526fd3296c40b40c0d00e897f6a045ce003949858c45f502dabbc8",
+    "generated_sha256": "8d84d302aa526fd3296c40b40c0d00e897f6a045ce003949858c45f502dabbc8"
+  },
+  "tests/synthetic_dispatch.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tests/synthetic_dispatch.h",
+    "source_sha256": "d65600fb3958a0e0aa0d8d9a9232316177be9fd0abc0d9d195191d8ab76aebcd",
+    "generated_sha256": "d9087d367e9db85706326fe1f8e2e99121214bbacb572eefaa29ded3d73d8f97"
+  },
+  "tests/test_cca.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tests/test_cca.c",
+    "source_sha256": "0a4aeec2b7bd7c49a87fd2f1d92083c70139f31814a139c7285556bef3f96b1e",
+    "generated_sha256": "68e5bfb365a6ac1541c1d3ec7bbebf526d29df94ebd62a5398d1b42de117ccd3"
+  },
+  "tests/test_dispatcher.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tests/test_dispatcher.c",
+    "source_sha256": "73af5d3f091fd25b104f7e4d8bd46a86b893f86af2a01d8a5fcbd4c4f37d42e3",
+    "generated_sha256": "d7fef73d4fc65d5d45d9d23ca18d7850c562c2afc672dacdd820df4692f5721a"
+  },
+  "tests/test_ring.c": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tests/test_ring.c",
+    "source_sha256": "076b9e0a1374313504eeab9b004e25e6877048d07b51e709cfeba8594d637d12",
+    "generated_sha256": "076b9e0a1374313504eeab9b004e25e6877048d07b51e709cfeba8594d637d12"
+  },
+  "tests/test_single_boot.py": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tests/test_single_boot.py",
+    "source_sha256": "cab2276045f9a75b35ec56fecc1d9e98e6bcd3eb31f6876c98bff23f028d3ea1",
+    "generated_sha256": "d7639b45c776a31c161072f4255822a9c2838dbfca1bdb4d6b9675f7709a49a6"
+  },
+  "tests/ring_mocks/nrf.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tests/ring_mocks/nrf.h",
+    "source_sha256": "4f3a8cae2064d86f65549471944b4db11768fd4071d75aa1d7856d71389150b0",
+    "generated_sha256": "4f3a8cae2064d86f65549471944b4db11768fd4071d75aa1d7856d71389150b0"
+  },
+  "tests/ring_mocks/nrf_802154.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tests/ring_mocks/nrf_802154.h",
+    "source_sha256": "3051869b0c38d6e1221eac7637a269a4aca8776c180b0df429dbce5bf089b1c9",
+    "generated_sha256": "3051869b0c38d6e1221eac7637a269a4aca8776c180b0df429dbce5bf089b1c9"
+  },
+  "tests/ring_mocks/nrf_802154_peripherals.h": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v7_assoc_poll_cca/tests/ring_mocks/nrf_802154_peripherals.h",
+    "source_sha256": "3632c0f5d20b94f9b3e66f9818566a17322da77d6b36b1a3490720e38de3d17b",
+    "generated_sha256": "3632c0f5d20b94f9b3e66f9818566a17322da77d6b36b1a3490720e38de3d17b"
+  },
+  "tools/permit_validator.py": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v4_assoc_permit/tools/permit_validator.py",
+    "source_sha256": "ebc74adb7d83d633291d2f985ab624000f4a3a9135b8e84aaaef3bd28192a532",
+    "generated_sha256": "a28b17dc65eb084f9f4bf68b84ea5fc1aac6edd972d1eb4c58388248df6bdbd8"
+  },
+  "tools/attempt_plan.py": {
+    "source": "firmware/airnanny_dual_pan/raw_radio_v4_assoc_permit/tools/attempt_plan.py",
+    "source_sha256": "7d0ab746a1e6d3a84eba5921e1219a13e90dd53d39cc6ef5f2c402d27918807d",
+    "generated_sha256": "9bb2f3968c1f8378544ea34fb64bb5592700e2e00ae5345fd924b8110c507dc5"
+  },
+  "runner.py": {
+    "source": "firmware/airnanny_dual_pan/hardware_commissioning_v7/runner.py",
+    "source_sha256": "c37c242574286654565fa399e4173d73230fa3c313edc431dab84a41490f741a",
+    "generated_sha256": "5e076be07a595b4d4858cb7f3e85afcd6e208288ef767a17a1d70809cc4e43f9"
+  },
+  "tests/test_runner.py": {
+    "source": "firmware/airnanny_dual_pan/hardware_commissioning_v7/tests/test_runner.py",
+    "source_sha256": "a0dab6a5d5972fbc8a5772d29128a46468f43e6cccb0aa9ab5f14f2044998d24",
+    "generated_sha256": "c277b0573d24b1230a397d520d655da4bd1bd482781d53dcacaaf77a9c276d1a"
+  },
+  "recovery.py": {
+    "source": "firmware/airnanny_dual_pan/hardware_commissioning_v7/recovery.py",
+    "source_sha256": "72b6adc05f02625c326a6c62e66a7dfcd3451501d6729092ce7c3fd488fe7a14",
+    "generated_sha256": "72b6adc05f02625c326a6c62e66a7dfcd3451501d6729092ce7c3fd488fe7a14"
+  }
+}

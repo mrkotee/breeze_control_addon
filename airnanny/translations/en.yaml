@@ -1,0 +1,31 @@
+configuration:
+  firmware_version:
+    name: Firmware version
+    description: >-
+      Dual-PAN runtime version on the dongle. Only 33 is accepted; the add-on
+      verifies the image hash before it opens the radio.
+  ctx0_network_key:
+    name: Network key — second bedroom (PAN FA9B)
+    description: >-
+      32 hex characters, exported once from the commissioning machine. Stored
+      as plain text by the Supervisor; never written to the add-on's own data.
+  ctx1_network_key:
+    name: Network key — bedroom (PAN 0B7A)
+    description: >-
+      32 hex characters, exported once from the commissioning machine. Stored
+      as plain text by the Supervisor; never written to the add-on's own data.
+  ctx0_key_sha256:
+    name: Key digest — second bedroom
+    description: >-
+      Verification digest printed beside the key by the export tool. Startup
+      stops if the key does not match it.
+  ctx1_key_sha256:
+    name: Key digest — bedroom
+    description: >-
+      Verification digest printed beside the key by the export tool. Startup
+      stops if the key does not match it.
+  log_level:
+    name: Log level
+    description: >-
+      How much the add-on logs. Keys and other secret material are excluded at
+      every level.

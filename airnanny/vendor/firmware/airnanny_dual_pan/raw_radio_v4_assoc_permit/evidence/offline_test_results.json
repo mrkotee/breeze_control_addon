@@ -1,0 +1,32 @@
+{
+  "test_assoc": "ASSOC checks=503968 fuzz=100000 PASS",
+  "test_assoc_source_hashes": {
+    "src/assoc.c": "6a55c47308608e1f19e2d72dccce063dbcee557f3cc6d2ecef4ff7e3d8c37b08",
+    "src/assoc_protocol.c": "05891034ceae83addc1ee9b540412c1703ee3a6e21ed22a2d8052c93277cb1fe",
+    "src/assoc_filter.c": "8932bc1535063673fcbdfa0000950bc64d12d30f2b2842ea08d080722f1f8594",
+    "src/permit_binding.c": "c0728c21ec5bdbd0ebeab969c9d8c8214962718c7d930460c2ccd6fc34a2d21f",
+    "tests/test_assoc.c": "fdfafcaec70a0bc07f9e55329e72ed447626b4cfedcab61630bfb43326030e5e"
+  },
+  "test_main": "MAIN checks=75 PASS",
+  "test_main_source_hashes": {
+    "src/assoc.c": "6a55c47308608e1f19e2d72dccce063dbcee557f3cc6d2ecef4ff7e3d8c37b08",
+    "src/assoc_protocol.c": "05891034ceae83addc1ee9b540412c1703ee3a6e21ed22a2d8052c93277cb1fe",
+    "src/assoc_filter.c": "8932bc1535063673fcbdfa0000950bc64d12d30f2b2842ea08d080722f1f8594",
+    "src/permit_binding.c": "c0728c21ec5bdbd0ebeab969c9d8c8214962718c7d930460c2ccd6fc34a2d21f",
+    "tests/test_main.c": "65bb6ff0e76ffbec2a9c9bb48ba949a8756e3e5332cb47923afdbc8f17fc0add"
+  },
+  "test_ack_timeout": "PASS actual copied ACK-timeout assertions=23 hardware_events=0",
+  "test_ack_timeout_source_hashes": {
+    "tests/test_ack_timeout.c": "a7070b5fd45cc6e6fdcb6e52e652bff5a596f7b10fc9de432741bdd569ff6e65"
+  },
+  "test_permit_binding": "PERMIT binding PASS\nPERMIT checks=20 PASS",
+  "test_permit_binding_source_hashes": {
+    "src/assoc.c": "6a55c47308608e1f19e2d72dccce063dbcee557f3cc6d2ecef4ff7e3d8c37b08",
+    "src/assoc_protocol.c": "05891034ceae83addc1ee9b540412c1703ee3a6e21ed22a2d8052c93277cb1fe",
+    "src/assoc_filter.c": "8932bc1535063673fcbdfa0000950bc64d12d30f2b2842ea08d080722f1f8594",
+    "src/permit_binding.c": "c0728c21ec5bdbd0ebeab969c9d8c8214962718c7d930460c2ccd6fc34a2d21f",
+    "tests/test_permit_binding.c": "a37774474add8928f0c95cb38748c22c616fa1f8613a518d909f90a97dfe005b"
+  },
+  "identity_unittest": "..........\n----------------------------------------------------------------------\nRan 10 tests in 0.117s\n\nOK\n",
+  "hardware": false
+}

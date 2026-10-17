@@ -1,0 +1,492 @@
+=== native C suites ===
+test_dual_admit              120 checks, 0 failures
+test_dual_admit (ASan+UBSan) 120 checks, 0 failures
+test_dual_sched              137 checks, 0 failures
+test_dual_sched (ASan+UBSan) 137 checks, 0 failures
+test_dual_records            98 checks, 0 failures
+test_dual_records (ASan+UBSan) 98 checks, 0 failures
+test_v25_equivalence         equivalence holds
+test_transport_equivalence   117 checks, 0 failures
+fuzz_dual_records            mutation fuzz iterations=300000 accepted=2950 refused=297050 invariant_violations=0
+
+=== ARM compilation, xPack GCC 7.3.1 revision 261907, build.py flags ===
+OK   src/main.c
+OK   src/gate_events.c
+OK   src/dual_context.c
+OK   src/dual_admit.c
+OK   src/dual_identity.c
+OK   src/dual_sched.c
+OK   src/dual_records.c
+OK   src/rejoin_transport.c
+OK   src/assoc.c
+OK   src/key_gate.c
+OK   src/permit_binding.c
+OK   src/assoc_filter.c
+static asserts pass: TIMER3 unused by driver, PPI0..3 unused by driver
+compilation only; no link, no image
+
+=== inherited python suites, device VM against the real private stores ===
+test_mac_backoff           OK
+test_peer_scope            OK
+test_completion            OK
+test_clock_dispatch        OK
+test_permit_observation    OK
+test_foreign_status_scope  OK
+test_recovery              FAILED (failures=1)   inherited, identical in ctx1_rx_admission_v25
+test_rx_deadline           FAILED (failures=6)   inherited, identical in ctx1_rx_admission_v25
+
+=== ARM link, xPack GCC 7.3.1 revision 261907, Linux host ===
+text 59500  data 176  bss 51696  total 111372
+HEX SHA256 C204CEFFC88B2A9A85749C0CAA2B556DA9270BEBE869DFE78C8FBCBFF74A09EA
+bit-comparable with V17..V25 lineage: False
+reproducible across two consecutive runs
+NOT FLASHED; not a release candidate
+
+=== phase 1.6 RADIOV10 envelope and ctx-mandatory command set ===
+reproducible via tests/run_native.sh (identical output in container and device VM)
+test_dual_admit              120 checks, 0 failures
+test_dual_admit (ASan+UBSan) 120 checks, 0 failures
+test_dual_sched              137 checks, 0 failures
+test_dual_sched (ASan+UBSan) 137 checks, 0 failures
+test_dual_records            98 checks, 0 failures
+test_dual_records (ASan+UBSan) 98 checks, 0 failures
+test_v25_equivalence         equivalence holds
+test_transport_equivalence   127 checks, 0 failures   (117 before; +10 ctx scope rules)
+fuzz_dual_records            iterations=300000 accepted=2950 refused=297050 violations=0
+total offline checks         482
+
+=== full python baseline, device VM against the real private stores ===
+all twelve suites measured in BOTH trees; four of them for the first time
+test_mac_backoff           OK   (24 tests)
+test_peer_scope            OK   (10 tests)
+test_completion            OK   (17 tests)
+test_clock_dispatch        OK   (8 tests)
+test_permit_observation    OK   (11 tests)
+test_foreign_status_scope  OK   (8 tests)
+test_first_control         OK   (59 tests)      first measured in this phase; V25 also OK
+test_recovery              FAILED (failures=1)            inherited, identical in V25
+test_rx_deadline           FAILED (failures=6)            inherited, identical in V25
+test_ctx1_admission        FAILED (errors=1)              inherited, identical in V25
+test_discovery_cca         FAILED (errors=1)              inherited, identical in V25
+test_power                 FAILED (failures=2, errors=1)  inherited, identical in V25
+new failures               0
+
+=== ARM link after phase 1.6, xPack GCC 7.3.1 revision 261907, Linux host ===
+text 59564  data 176  bss 51696  total 111436
+HEX SHA256 6BBE87DEF2E6952348726228165A45C4C2D36C2992ED6A037BB45A455061B72B
+delta vs 1.5e: text +64 (wire= field and two refusal tokens), data +0, bss +0
+reproducible across two consecutive runs
+bit-comparable with V17..V25 lineage: False
+NOT FLASHED; not a release candidate
+
+=== phase 1.7 the TX scheduler on the real transmit path ===
+reproducible via tests/run_native.sh (identical output in container and device VM)
+test_dual_admit              120 checks, 0 failures
+test_dual_sched              155 checks, 0 failures   (137 before; +18 beacon request)
+test_dual_records            98 checks, 0 failures
+test_v25_equivalence         equivalence holds
+test_transport_equivalence   127 checks, 0 failures
+fuzz_dual_records            iterations=300000 invariant_violations=0
+total offline checks         500
+all sanitizer variants       0 failures
+
+python baseline re-measured, all twelve suites:
+  7 green (test_mac_backoff test_peer_scope test_completion test_clock_dispatch
+           test_permit_observation test_foreign_status_scope test_first_control)
+  5 inherited failures, counts identical to V25
+  new failures 0
+test_mac_backoff went OK -> 4 failures when the scheduler first reached the real
+path, and back to OK after the beacon request defect was fixed. That is what the
+baseline is for.
+
+=== ARM link after phase 1.7 ===
+text 61048  data 176  bss 53216  total 114440
+HEX SHA256 E8D27FDF68415DB9A41BDF45F91EDCCCCD4DD459FADC10CCD94E95259F4528C0
+delta vs 1.6: text +1484, data +0, bss +1520
+bss attributed with nm --size-sort -S: queues 1136, in_flight 136,
+  dual_sched stats 100, build 125, scalars 21 = 1518 of 1520, rest alignment
+  (the scheduler's state was compiled in before but unreferenced, so
+   --gc-sections dropped it; it is in the image now because it is on the path)
+reproducible across two consecutive runs
+NOT FLASHED; not a release candidate
+
+=== phase 1.8 the STATS record ===
+test_dual_records            101 checks, 0 failures   (98 before; +3 id/starved/routing)
+test_dual_admit              120 checks, 0 failures
+test_dual_sched              155 checks, 0 failures
+test_v25_equivalence         equivalence holds
+test_transport_equivalence   127 checks, 0 failures
+fuzz_dual_records            iterations=300000 invariant_violations=0
+total offline checks         503
+all sanitizer variants       0 failures
+
+live record through the real dispatcher (firmware_cli, actual src/main.c):
+  INFO, BIND ctx=1, one MANAGEMENT_POLL on ctx1, STATS
+  ctx1_tx_accepted=1 ctx1_tx_terminal=1 ctx0_tx_accepted=0 ctx0_tx_terminal=0
+  ctx0_tx_queue=0 ctx1_tx_queue=0 starved_polls=0 routing_faults=0
+  routing_error=0 scheduler_starvation=0
+  STATS ctx=1       -> refused, ctx_not_scoped
+  STATS without boot -> refused, field_set
+
+python baseline, all twelve suites: 7 green, 5 inherited (counts identical to
+V25), new failures 0
+
+=== ARM link after phase 1.8 ===
+text 62140  data 176  bss 53216  total 115532
+HEX SHA256 BD1039EF6CD0E3643FB51B916829617099CBB79620291FDD2418576D052A5F00
+delta vs 1.7: text +1092, data +0, bss +0
+  bss unchanged is the expected shape: this phase adds the formatter (previously
+  unreferenced and gc-sectioned away) and one parser verb, and writes through a
+  stack buffer. A bss increase would have meant new runtime state.
+reproducible across two consecutive runs
+NOT FLASHED; not a release candidate
+
+=== phase 1.9 release image, OPERATOR'S LINEAGE TOOLCHAIN (Windows) ===
+compiler arm-none-eabi-gcc.exe (GNU Tools for Arm Embedded Processors
+         7-2018-q2-update) 7.3.1 20180622 revision 261907, build host Windows
+text 61568  data 176  bss 53204  total 114948
+HEX SHA256 1E2A2CB5DF3CA792C4FBA18EC5D3DFC026F87D4A9CBD776F92833A863ED727FE
+bit-comparable with V17..V25 lineage: TRUE
+exit code 0, 24 seconds
+releases/airnanny_dual_pan_runtime_v28.hex hashes to the same value
+NOT FLASHED; no COM port, no erase, no security reset, no RF
+
+verification after the build:
+  all 83 repository-relative manifest input hashes re-checked against the
+  container's own sources: 0 mismatches (the image was built from exactly the
+  reviewed code, not a stale tree)
+  manifest: flashed=false, lineage=true, 0 absolute paths
+  V17 reference still 2FFFE202FC0B8766113CADF92156B76A98942B64A0E4F3D3692513F210575193
+
+toolchain delta reproduced independently:
+  V26 linux minus lineage: text +572  data +0  bss +12
+  V25 same delta measured: text +568            bss +12
+  so the delta is a stable toolchain property, not noise, and the scheduler's
+  bss cost under the lineage toolchain is 1508 rather than 1520
+
+=== phase 1.10 Gate A evaluator (offline; no COM, no RF, no hardware) ===
+test_gate_a                  21 tests, OK
+  11 of the 21 drive a FAILURE mode: a context never heard, an ACK before the
+  allowlist, too few samples, a context never acked, a missed deadline, an
+  unintended ACK, turnaround outside the 192+/-64 us envelope, sequential
+  blocks, a token late sample, a reconfigured radio mid-measurement, and a
+  malformed field. An evaluator that cannot fail is not a gate.
+  2 of the 21 pin the evaluator against a record the REAL firmware emitted,
+  through firmware_cli.exe which compiles src/main.c: every field the evaluator
+  reads must be present in the live record, and the evaluator must consume it
+  without faulting. That check found the firmware gap below.
+
+firmware gap found by writing those two tests:
+  main.c's RX record emitted no reason=, while dual_records.c's formatter does.
+  Two RX formatters disagreed and main.c's is the live one, so Gate A could not
+  have said WHY an unintended ACK should have been refused -- foreign (another
+  network) or cross_pair (our own PAN with the wrong short, the more alarming
+  of the two). main.c now emits reason=.
+
+a convention error in my own first draft of these tests:
+  they used match='foreign' and match='cross_pair'. Those are REASONS, not
+  matches: such a frame classifies as match=none with reason=<that>. The tests
+  passed against records the firmware cannot emit. Same class of mistake as the
+  hex-string-vs-wire-order test vectors in 1.3, caught this time by checking
+  against the live record instead of my own assumption.
+
+offline limit, stated rather than hidden:
+  the fixture leaves ack_start_us, rssi and lqi at zero, so the ACK turnaround
+  envelope and the RF margin numbers can only be VALIDATED on hardware. What is
+  validated offline is that the criteria compute correctly and fail correctly
+  when given those values.
+
+full corpus after the change: 503 offline C checks + 21 gate-A tests, 0 failures
+
+=== phase 1.11 dual-store host accessor (read-only; no writes, no RF) ===
+test_dual_store              22 tests, OK   (15 of them drive a refusal)
+  refuses: wrong ctx for the slot, the other network's PAN or short, a
+  transplanted RAW identity / trust centre / key epoch / attempt, a changed
+  keyseq, a generation below DUAL_GENERATION_FLOOR, a non-integer generation,
+  an implausible next_fc, a missing or malformed guard, a missing store, and
+  both stores claiming the same tuple or PAN (the cross-store check)
+  verified it never writes: both files hashed before and after a full read
+
+test_pinned_constants_match_the_c_source parses include/dual_identity.h and
+src/dual_identity.c so the C stays the single source of truth. Proven able to
+fail: mutating ctx0's PAN, short, key epoch, RAW IEEE and the generation floor
+was caught in every case. IEEE wire order is compared by reversing, because
+that convention was already got wrong once here in 1.3.
+
+against the real stores, on the operator's machine, read-only:
+  ctx0 gen=19 next_fc=1280 short=0xa326 pan=0xfa9b FIRST_TYPE07_CONFIRMED
+       epoch_sha 017af4be2e55  (matches the plan's recorded 017af4be...)
+  ctx1 gen=16 next_fc=1088 short=0x6c55 pan=0x0b7a FIRST_TYPE07_CONFIRMED
+  both accepted, every pinned field matched, both BIND field sets generated
+
+fell out of it: ctx0's store carries tc_ieee 00124b0036a148e5, key epoch
+1ea30211... and attempt 5b09cb6b... -- exactly the constants compiled into
+src/dual_identity.c, which until now had only been derived from documents. The
+image's pinned ctx0 identity is confirmed against the real store.
+
+=== phase 1.12 does the real firmware answer BOTH tuples? (offline) ===
+test_dual_pan_ack_flow       15 tests, OK
+  Both contexts bound through real BIND commands against the actual src/main.c
+  (via tests/firmware_cli.c), then real frames delivered. The dispatcher, the
+  per-context ACK gate and the classifier are exercised in one piece rather
+  than in isolation or against a model.
+  established:  both tuples answered, 6 of 6 each, interleaved
+                every frame attributed to its own context (no misattribution)
+                ACK completed, zero deadline misses
+                config_generation stable at 2 across the exchange
+                STATS: ctx0_rx=4 ctx1_rx=4 cross_pair_reject=1 routing_faults=0
+  refused (the half that matters more):
+                a cross-pair tuple        -> match=none reason=cross_pair, no ACK
+                a foreign PAN             -> match=none reason=foreign,    no ACK
+                the OTHER context's trust centre under our own tuple
+                                          -> match=ctx0 but NO ACK, refused by
+                                             the deep predicate rather than the
+                                             classifier: frame ctx == key ctx,
+                                             not merely frame ctx == tuple
+                a wrong key sequence      -> match=ctx1, no ACK
+                an unbound context        -> frame arrives, is not answered
+                a refusal costs the other context nothing (ctx1,none,ctx1,ctx0
+                                             -> 1,0,1,1)
+  NOT established here: no timing, no RF margin. The fixture leaves
+  ack_start_us, rssi and lqi at zero; those are Gate A on hardware.
+
+fixture gap found by writing this suite:
+  @RX memset the event and never stamped config_generation, which
+  gate_events.c does on the real capture path. Every fixture RX record read 0,
+  so Gate A's "the radio was not reconfigured mid-measurement" criterion could
+  not be exercised offline at all. The fixture now stamps it.
+
+=== phase 1.13 the Gate A driver, flow tested offline ===
+test_gate_a_runner           14 tests, OK   (identical in container and VM)
+  The whole Gate A sequence driven against the actual src/main.c through a
+  two-context fake port: INFO identity pin, clock-room check, phase 1 ACK OFF,
+  BIND ctx0 then ctx1, phase 2 collection to the sample floor, STATS, END,
+  verdict from the same evaluator that will run on hardware.
+  established: both binds open the ACK gate (immediate_ack 0 -> 1) and each
+               STATUS names its own context and its own assigned_short
+               collection reaches >=30 on BOTH contexts and stops near the
+               floor rather than running on (the window is a bound, not a
+               target: staying on air longer buys nothing)
+               routing_faults=0, config_generation=2, both ctx counters > 0
+  the guards bite, verified by mutation:
+               a wrong identity      -> stops BEFORE any bind (port.bound empty)
+               a wrong wire version  -> same
+               insufficient clock room -> stops before configuring the radio
+               END is attempted even when the gate fails, so the runtime is
+               never left bound with an open ACK gate
+  real failures caught: a silent ctx1, and sequential blocks (interleaving)
+  deliberately expected to FAIL offline on the turnaround criterion: the
+  fixture cannot time an ACK, and a test asserting a pass here would assert a
+  lie.
+
+two defects of my own found by running it:
+  INFO carries boot. INFO's field set is `id` alone -- it is the handshake that
+  reveals boot, so requiring it would be circular -- and the firmware correctly
+  refused the second INFO with field_set. The firmware and the contract were
+  right; the host was wrong. Fixed host-side, and the host now checks the boot
+  in the RESPONSE against what it knows, which is the stronger direction.
+  rx_counts() scanned all records while the phase-2 evidence was a later
+  slice, so frames arriving during the post-bind INFO exchange counted toward
+  the stop condition without being in the evidence. Collection stopped at 29
+  of 30 while believing it had reached the floor. Now counted over the same
+  slice that becomes the evidence.
+
+=== phase 1.14 the Gate A authority, and a correction to my own design ===
+test_gate_a_authority        40 tests, OK (1 skipped where the sealed
+                             inventory is absent)
+  prior gate: each of the five closure flags required, a prior error refused,
+              and the LINEAGE LINK -- ctx1's store today must still be the one
+              V25 left. Verified against the committed hardware_result.json:
+              final_CURRENT_sha256 9eef08a7722e... is exactly the hash
+              dual_store read from the live ctx1 store.
+  software:   a failed review, a review that already touched hardware, an
+              image the manifest does not describe, an image the review did
+              not review, a manifest claiming it was flashed, an image not
+              bit-comparable with the lineage, a source that moved since
+              review, a firmware input that moved since the build (the check
+              that already refused a stale image once here), and one that
+              vanished.
+  device:     exactly one positively identified dongle or a refusal; two
+              matches is a refusal rather than a choice; the right serial on
+              the wrong VID is not a match.
+
+the correction, which is the important part:
+  My first draft had BOTH stores leave the protected inventory, reasoning that
+  ctx0 becomes a live participant in Gate A so its store legitimately moves.
+  That is wrong for Gate A. Gate A sends no secured frame: it binds, listens,
+  reads counters and ends. No frame counter is spent, no generation advances,
+  and nothing on the host writes a store -- dual_store is read-only by
+  construction. So the correct expectation is that BOTH stores come out
+  byte-unchanged and ctx0 stays sealed exactly as since issue #4.
+  I would have shipped a guard permitting a store to move during a gate with
+  no business moving it, and the permission would have been invisible because
+  nothing would ever have exercised it.
+  The relaxation belongs to Gate B, where secured rejoin genuinely advances
+  ctx0. transitions() is kept for that gate; Gate A uses a separate, strict
+  gate_a_store_expectation(). The two are deliberately apart so loosening the
+  general rule cannot silently loosen Gate A -- there is a test asserting that
+  a generation rise passes transitions() and fails Gate A.
+  GATE_A_PROCEDURE.md section 2 is rewritten to say this, with the first
+  version's claim named as wrong rather than quietly replaced.
+
+inventory asymmetry, handled rather than assumed:
+  protected_before.json holds only ctx0's store (13 entries), because ctx1's
+  belongs to the milestone that owns the inventory and prepare.py skips its own
+  directory. There is a test for both halves of that.
+
+operational note: protected_unchanged() over the mounted filesystem from the
+Linux VM did not finish inside a 150 s bounded call -- re-hashing 353 files
+across the mount. The sealed side is instant, so it is filesystem cost and not
+a bug. The guard runs natively on Windows, where this is not a factor.
+
+=== phase 1.15 the Gate A launcher (one-shot; runs on the operator's machine) ===
+launch_gate_a.py is deliberately thin: the authority, the sequence and the
+evaluation are all tested offline elsewhere, so what is left here is only what
+cannot be tested without the real machine -- opening the port, the one-shot
+bookkeeping, and writing the outcome.
+  --prepare  checks everything checkable without the radio, then mints a run id
+             into an immutable milestone.json
+  --run ID   re-runs the preflight (the operator flashed in between, and a
+             check made before the thing it guards is not a guard), refuses if
+             a store moved between prepare and run, selects the one dongle,
+             drives the gate, then snapshots both stores and the protected
+             inventory AGAIN and records any violation
+hardware_pass requires all three: the verdict passed, zero store violations,
+zero protected-file changes.
+verified offline: a missing artifact is a named refusal with exit code 2, not a
+traceback -- the operator reads this on their own machine and needs to know
+which artifact is absent; a refused --prepare leaves nothing behind at all; and
+.local/ is gitignored, so run artifacts never enter the repository.
+
+=== phase 1.16 review.py — the offline review the Gate A guard pins ===
+Runs every offline suite, hashes every reviewed host/test source, pins the
+image and its manifest, and REFUSES to write evidence/review.json if anything
+failed. The guard refuses to run without a passing review, so the sequence is
+review first, hardware second, and hardware_performed=false is recorded and
+checked.
+
+first run (--dry-run), in the container:
+  native corpus                                    passed
+  test_gate_a                                      passed
+  test_gate_a_runner                               passed
+  test_gate_a_authority                            passed
+  test_dual_store                                  passed
+  test_dual_pan_ack_flow                           passed
+  test_completion test_clock_dispatch
+  test_permit_observation test_mac_backoff
+  test_peer_scope test_foreign_status_scope
+  test_first_control                               all passed
+  review NOT written, one failure:
+      "firmware sources moved after the build: ['src/main.c']"
+
+That is the correct and only blocker, and review.py found it independently of
+my having noted it by hand in 1.10: main.c gained reason= on the RX record
+after the lineage image was built, so the image no longer describes the tree.
+The release image must be rebuilt with the operator's lineage toolchain before
+Gate A, and the review will then seal.
+
+=== phase 1.17 the ACK timing criterion, corrected against the real capture path ===
+test_gate_a                  28 tests, OK  (21 before; +7)
+
+provenance checked rather than assumed. The four RX timestamps are hardware
+captures from TIMER3, and each was traced to its source:
+  time_us        CC[0]  CRCOK    gate_events.c, "not a software read"
+  ack_start_us   CC[1]  TXREADY  gate_hw_ack_started
+  ack_address_us CC[3]  ADDRESS  gate_hw_ack_started
+  ack_end_us     CC[2]  PHYEND   gate_hw_ack_completed
+  rssi / lqi              from nrf_802154_received_timestamp_raw, the driver's
+                          own RX callback, so the RF margin really is measured
+  ack_completed           from irq_phyend_state_tx_ack in the driver -- the
+                          PHYEND of the ACK itself, NOT the AR bit. The
+                          protocol contract requires exactly that
+                          ("ack_sent только по факту завершения ACK, не по
+                          AR=1") and the firmware satisfies it.
+  deadline_miss           from the driver's else-branch where the ACK could
+                          not be started in time.
+
+a weakness in my own evaluator, found by that check:
+  it asserted turnaround = CC[1]-CC[0] against 192 +/- 64 us. But TXREADY
+  precedes the ACK's air time and ADDRESS follows its preamble, so NEITHER
+  capture is exactly "ACK start on air". A tight assertion risked failing the
+  gate on a definitional mismatch -- the worst false negative, because it
+  sends someone hunting a radio fault that does not exist.
+  Replaced by two checks:
+    1. ORDERING: CRCOK < TXREADY <= ADDRESS < PHYEND. True whatever the
+       reference points mean, and no correct capture path can violate it. A
+       mis-wired PPI channel or a CC clash surfaces here instead of silently
+       corrupting every number -- which is the exact failure a CC[0] clash
+       nearly caused earlier in this project.
+    2. A GENEROUS envelope, 32..352 us, plus an ACK-duration plausibility
+       bound, with all three distributions reported so the hardware defines
+       the tight numbers rather than this file guessing them in advance.
+  new tests: TXREADY before CRCOK caught, PHYEND before ADDRESS caught, the
+  violation recorded with all four captures, an implausible ACK duration
+  caught, and all three timing figures reported.
+
+=== phase 1.18 the review runs where the host toolchain is ===
+The first version of review.py ran `sh tests/run_native.sh` and died on
+Windows with a traceback, because Windows has neither a POSIX shell nor a host
+C compiler. My design error, not the operator's: the ARM build belongs on
+Windows because only Windows has the LINEAGE toolchain, but the review needs a
+HOST toolchain, and those are two different things that I had conflated into
+one script.
+  review.py now refuses by name -- "this review needs sh and gcc, which this
+  host does not have" -- with exit code 2 and the division of labour stated,
+  rather than a traceback. Verified by running it with an empty PATH.
+  The Windows build script no longer runs it, and records why in the script
+  itself so the omission does not read as forgetfulness.
+  Both hosts see the same files through the same folder, so the review seals
+  the same image either way.
+
+=== phase 1.19 the protected-inventory check, measured instead of assumed ===
+test_gate_a_authority        50 tests, OK (1 skipped)
+
+Two separate problems, both found by running the preflight on a host that was
+not the build host rather than by reading the code.
+
+1. sdk_root was not portable. The manifest records it as the build host's
+   absolute Windows path. I had made the input hash KEYS repository-relative so
+   the evidence travels between hosts, and left sdk_root absolute -- so the
+   firmware-input check, roughly 50 SDK files, failed everywhere but Windows.
+   Now located the way tools/build.py locates it, three levels above the repo
+   root, with the recorded path only a fallback, and a refusal naming both
+   paths tried if neither resolves. Silently skipping the SDK inputs would drop
+   them out of the very check that refuses an image built before the sources
+   moved. 4 new tests.
+
+2. The walk could not finish. prepare.py uses rglob('*') and filters after, so
+   it enumerates every file under zig-global before discarding it: two
+   milestones hold 1799 such files each. Measured ~330 s over the mount against
+   1.8 s to stat the 354 files that matter. A pruning walk in this module does
+   the same job in 16 s -- 20x -- and prepare.py, another milestone's frozen
+   file, is not edited. The two are proved identical on a synthetic tree built
+   for the purpose, including the edge case that a FILE named zig-local is
+   excluded too, because prepare.py tests every path component and pruning
+   directories alone would miss it. 4 new tests.
+
+Then the real finding, which changed the semantics:
+   live inventory 628 files, sealed inventory 354, so a whole-set comparison
+   reports 274 differences and the guard refuses. Measured: all 354 sealed
+   files present and byte-identical, 0 missing and 0 modified; the 274 are run
+   artifacts added by the ctx1_* gates of the V22..V25 lineage AFTER issue #4
+   took its snapshot.
+   The tempting cure -- excluding milestone prefixes until the comparison
+   passes -- weakens the check until it is green, which is the anti-pattern
+   this guard exists to prevent. The question is split instead:
+     sealed_integrity()      a sealed file missing or modified is a REFUSAL
+     additions_since_seal()  reported and accounted for, but every one must
+                             sit under some milestone's .local; one anywhere
+                             else is STRAY and a refusal
+   The strong half stays strict and the benign half stops failing. 8 new tests.
+
+FULL PREFLIGHT ON THE OPERATOR'S MACHINE, no radio: PASSED in 21 s
+   image     32395A9F6B9C1FD3093F1E84E6235EBF76B7B462C3C1C3DB80B73D3C73F1B4DB
+   protected 628 walked, 354 sealed intact, 274 additions, 0 stray
+   ctx0      gen=19 next_fc=1280 epoch=017af4be2e55
+   ctx1      gen=16 next_fc=1088 epoch=9eef08a7722e
+   prior gate closed; ctx1 store still the one V25 left
+
+Also confirmed twice over: the guard refused with
+reviewed_source_changed:gate_a_authority.py each time I edited a reviewed
+source after sealing the review. The review-then-hardware order is enforced by
+the machinery, not by my memory.

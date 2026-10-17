@@ -1,0 +1,22 @@
+{
+  "137": {
+    "file": "airnanny_pairing.pcapng",
+    "frame": 137,
+    "mac_no_fcs": "0080199bfa0000ffcf0000002284e548a136004b1200ffffff00"
+  },
+  "138": {
+    "file": "airnanny_pairing.pcapng",
+    "frame": 138,
+    "mac_no_fcs": "23c81e9bfa0000ffff1f719c36004b12000180"
+  },
+  "140": {
+    "file": "airnanny_pairing.pcapng",
+    "frame": 140,
+    "mac_no_fcs": "63c81f9bfa00001f719c36004b120004"
+  },
+  "142": {
+    "file": "airnanny_pairing.pcapng",
+    "frame": 142,
+    "mac_no_fcs": "63ccd49bfa1f719c36004b1200e548a136004b120002b7c900"
+  }
+}

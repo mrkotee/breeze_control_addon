@@ -1,0 +1,15 @@
+test_any_TX_prevents_continuation (test_wrong_pan_retry.RetryTests.test_any_TX_prevents_continuation) ... ok
+test_any_association_or_key_epoch_prevents_continuation (test_wrong_pan_retry.RetryTests.test_any_association_or_key_epoch_prevents_continuation) ... ok
+test_clean_zero_TX_closure_accepted (test_wrong_pan_retry.RetryTests.test_clean_zero_TX_closure_accepted) ... ok
+test_extra_command_prevents_continuation (test_wrong_pan_retry.RetryTests.test_extra_command_prevents_continuation) ... ok
+test_failed_physical_recovery_prevents_continuation (test_wrong_pan_retry.RetryTests.test_failed_physical_recovery_prevents_continuation) ... ok
+test_missing_or_unclean_END_prevents_continuation (test_wrong_pan_retry.RetryTests.test_missing_or_unclean_END_prevents_continuation) ... ok
+test_unsealed_predecessor_prevents_continuation (test_wrong_pan_retry.RetryTests.test_unsealed_predecessor_prevents_continuation) ... ok
+test_unverified_V17_prevents_continuation (test_wrong_pan_retry.RetryTests.test_unverified_V17_prevents_continuation) ... ok
+test_wrapper_separates_guard_without_opening_serial (test_wrong_pan_retry.RetryTests.test_wrapper_separates_guard_without_opening_serial) ... ok
+test_wrong_predecessor_guard_prevents_continuation (test_wrong_pan_retry.RetryTests.test_wrong_predecessor_guard_prevents_continuation) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.325s
+
+OK

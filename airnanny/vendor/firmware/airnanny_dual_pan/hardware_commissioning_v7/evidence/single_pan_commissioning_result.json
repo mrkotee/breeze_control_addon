@@ -1,0 +1,3505 @@
+{
+  "Part_A": {
+    "verdict": "A LIVE SINGLE-BOOT RUNNER READY",
+    "issue": 1,
+    "dependency_verdict": "A ASSOCIATION POLL CCA RECOVERY READY",
+    "tests": {
+      "count": 32,
+      "output": "................................\n----------------------------------------------------------------------\nRan 32 tests in 5.609s\n\nOK\n",
+      "actual_V7_dispatcher": true,
+      "USB_phase_subcases": 14
+    },
+    "runner_source_sha256": {
+      "recovery.py": "72b6adc05f02625c326a6c62e66a7dfcd3451501d6729092ce7c3fd488fe7a14",
+      "runner.py": "c37c242574286654565fa399e4173d73230fa3c313edc431dab84a41490f741a",
+      "verify.py": "c61d59715e64f16025fbaefe7006470e516cb1cc22c8d99f82fb4e3780dcd213",
+      "tests/test_cca_runner.py": "c6ac773b13fb7ba25fd912f485e011e908b03abf0cc25f3b006379f86dd8156b",
+      "tests/test_runner.py": "a0dab6a5d5972fbc8a5772d29128a46468f43e6cccb0aa9ab5f14f2044998d24"
+    },
+    "v7_source_sha256": {
+      "src/assoc.c": "cabe548b2e2a7679e0d7b2acf9490b08df8a779c8506ff262b1295ec86a0f255",
+      "src/assoc_filter.c": "915050b157a5b9935230161cb4180575c7e9d84e2d384906b2b0c72f02049d72",
+      "src/assoc_protocol.c": "05891034ceae83addc1ee9b540412c1703ee3a6e21ed22a2d8052c93277cb1fe",
+      "src/commission.c": "e2632446781c6e1b8bf717ca32d4546a15117e9a1853e81fa14f2963b1b22718",
+      "src/commission_protocol.c": "2cc78267a78622c779aac26f8cbcfac762297198216d54781f3fd64a87994e86",
+      "src/gate_events.c": "99fbc4c9c0eec6af90172728f25dc260c53d5e05a19f4d01a037047a0222bc1e",
+      "src/key_gate.c": "97bb7daf5baf82c29b26f6fd16019efa292043a3a7ab2bac3fb6e4c419fcd7ac",
+      "src/main.c": "ce53033b5534c384a137be5e2ac3825d051df2db7479319923f7f82ee9ac1104",
+      "src/permit_binding.c": "c0728c21ec5bdbd0ebeab969c9d8c8214962718c7d930460c2ccd6fc34a2d21f",
+      "include/assoc.h": "6fa14eec221e440ff0fb2b0ab725b39339c4222e2c068552beddd0b832db9444",
+      "include/commission.h": "04729abc9af698592ceecc9338a75545e73438b130d1d457ef1aa90aeac67af9",
+      "include/gate.ld": "8dfec82ce6090310d0e38acdb2562a302e01c38ad15d437c48baded46a3f845a",
+      "include/gate_events.h": "b27444ae5d1e68d1c6c2e0ed5caceab18d1855b9a87780fbdecd634765f404e1",
+      "include/gate_radio_config.h": "9b18450b9ed135bcc953b139216b8bf9003e74a23c90f0d5376530d53bbb608a",
+      "include/key_gate.h": "ba3c5d4c23a2384e0fbee65ba9db33b44ee150ed43c3d1c28e756e7e3eab5510",
+      "include/permit_binding.h": "e7ea736ee6d7231828632be0ee806d6e2627a55735409f866317cdf7b8b2604f",
+      "include/sdk_config.h": "cf9d9e6da9656469a84f6af176eec0b8ae704b65ab296624f845c46f98f2be48",
+      "radio_driver/nrf_802154.c": "81d5137c81f5d497fefa72b01a4f963bb939dc294fcd6c8c5e526a3ff97475ad",
+      "radio_driver/nrf_802154.h": "35d2adda7f948daa60666bdefd42d6ea69915da84f0af11bf266b6c778658b4b",
+      "radio_driver/nrf_802154_config.h": "2943dc954efef30d309e00356ecced272df5bd12856326ba862a9d951944a575",
+      "radio_driver/nrf_802154_const.h": "9e676f78cfc0c9347af35aff42ed4a16103206dcf94bfc5598fd032098575b44",
+      "radio_driver/nrf_802154_core.c": "dfc2d65bc0e9e72977a67ffc333a3ee6f63607e446b5ad2fcd1168640bd91ec6",
+      "radio_driver/nrf_802154_core.h": "0905420fde9fc54aa888eaff7461ae3935e324d46aa7b8b69ed11354a6113fac",
+      "radio_driver/nrf_802154_core_hooks.c": "693edfc645ec9a18d22828cd8129154530f788e08cfad321c67e856ad6c51db3",
+      "radio_driver/nrf_802154_core_hooks.h": "ef57a198aed08bdda13d77912975f7378d60f595c7d10085b1a1909cfb64cad2",
+      "radio_driver/nrf_802154_critical_section.c": "300fd346170dc8a33560953579dce5629f736a85470b21076c6a76d7b1ff1cc9",
+      "radio_driver/nrf_802154_critical_section.h": "5bbf3089df4b39c75bb96e4ab16708eb32c8ef6e5815b5674b8328fda4eca4a7",
+      "radio_driver/nrf_802154_debug.c": "a342d07c5ce0aea3b8f4f27546925cab02e3eef966e6b8adda5d4aae5677c34a",
+      "radio_driver/nrf_802154_debug.h": "ea6b7dbfaf2415d7d874d76ec899c001bb3aee1e16992310a5777a8a0118a97b",
+      "radio_driver/nrf_802154_debug_core.h": "1400a67affa9466665fb259b9072c84f03887d0ac99ed0717bf3cf4e17f24b30",
+      "radio_driver/nrf_802154_notification.h": "0f1b0dbc49c7c164a4f9c58cde79b4acc783816284a1c6860b6541e6e5d3beb0",
+      "radio_driver/nrf_802154_notification_direct.c": "88507dcd942e674fc7feeb1dc853af9a7450424d898543305892a861f5d17173",
+      "radio_driver/nrf_802154_notification_swi.c": "9dd024f18e3c7181657838e1e37aaba88bd5c1aa326324cc9387e9eb7671bc3b",
+      "radio_driver/nrf_802154_peripherals.h": "d3b06fb4f4f0d0e32f555b4860f32fcabc092a0383d2377a1916020bfddbd840",
+      "radio_driver/nrf_802154_pib.c": "b49910b4714d2e5592778a5c4079280fdf43c45d0fe9fb41a9031d17f9971e1d",
+      "radio_driver/nrf_802154_pib.h": "e4273d91552b2a4be1bcd1a334a88f3cd8872d10c37118666dd407c148925476",
+      "radio_driver/nrf_802154_priority_drop.h": "6478332c7b6b21b31b89cb3332657e271cdd02cb88b8ce7632374bf56a2f3912",
+      "radio_driver/nrf_802154_priority_drop_direct.c": "d5b3425d69f7a2a4bbef9c227d2249cbb73b89811230d16eeafa6a85c354017e",
+      "radio_driver/nrf_802154_priority_drop_swi.c": "a5da7ce6b562c070ca73aaad2a1928f86ea0d0faef8cb107b9711f6b45576d86",
+      "radio_driver/nrf_802154_procedures_duration.h": "9f1e0924e560a36e4283b1c4cc1b4d8264a3e5c8c2891bbd974497d9f8c707ef",
+      "radio_driver/nrf_802154_request.h": "acb616f3aa6e95a98889d6c1954c43a2a652e71c29f0017abec7c9e835f33230",
+      "radio_driver/nrf_802154_request_direct.c": "731478b02195acf376ab03e8875a44b10120cf3ac79f6a1c02b7ecb02a055bbb",
+      "radio_driver/nrf_802154_request_swi.c": "3071224f0f05ac90c8d9153bb1d57470367a643ff1cde0a9fd5bece52371909e",
+      "radio_driver/nrf_802154_rssi.c": "e373954f0d9334d6acd94d9bd3aa4b26ba83c3999b381a2b7498c9cf46095825",
+      "radio_driver/nrf_802154_rssi.h": "ad21427b4491594b07848c57f5878f99a06ddb5a93dfa62a729ffa31ed61053d",
+      "radio_driver/nrf_802154_rx_buffer.c": "b924a1eb8f4df6e004825cb16d1dc480daf1f85fbf9a10b8a597b7c72498a798",
+      "radio_driver/nrf_802154_rx_buffer.h": "1906a15e4a196e50d77f9f9b8aaf447cd16696fb9e43f5efecd23f874d0b5397",
+      "radio_driver/nrf_802154_swi.c": "e7919a9017a97c72dcdde1273126951a63ddeb7f3578de427e6785d36b00a8ff",
+      "radio_driver/nrf_802154_swi.h": "207052f40d56963ff76afed60333c7fe001e47d6ee82954700c6f9de97073b75",
+      "radio_driver/nrf_802154_timer_coord.c": "56ded176554d18cb8b5115f54f621360ee2be997a4d235497837c0f60e22df65",
+      "radio_driver/nrf_802154_timer_coord.h": "6148e7df89d48866835eb0a5ab83f6ba4e821628654d517b833cc43e6c69b304",
+      "radio_driver/nrf_802154_types.h": "e7f01ed91354efdfd9766b3c85cf57afb1aad434414dc0364d1deb03a0d119bf",
+      "radio_driver/nrf_802154_utils.h": "6c4b1d47845669e93dccc0d94fe8041d4699a390d8a289cf6f6e5e8df5305a78",
+      "radio_driver/fal/nrf_802154_fal.c": "6eae4f1352744747c2d45876e4a9dee08d9f7106afc1660e6bac8217c5da6d33",
+      "radio_driver/fal/nrf_802154_fal.h": "65934c712c6aa2221b64da5f04085cadee467213f1cd1a6a08ffba72bff048a5",
+      "radio_driver/fem/nrf_fem_control_config.h": "78d4aefadf3063f2557ed6a6fb35d908a66edb6f5e72d1739a8c6cd7de4b734c",
+      "radio_driver/fem/nrf_fem_protocol_api.h": "4017c08c9c0b8e877013370f91c253749d23fea85c288f1c6c76b85d5fc4cf29",
+      "radio_driver/fem/nrf_fem_protocol_legacy_api.h": "c99244d3a14dacc2eb03f26849b7110a89b1be91f23b46a882433de34de4952e",
+      "radio_driver/mac_features/nrf_802154_ack_timeout.c": "0b7a4a519bb8037e3f8f9b73566578cbf0818ffe4ea91c3a1478b526e601b09a",
+      "radio_driver/mac_features/nrf_802154_ack_timeout.h": "aab784384374d4fbac01219878a26ce0344f1ef3268c881161b99c266d8115d9",
+      "radio_driver/mac_features/nrf_802154_csma_ca.c": "adea5651b44c96de1e0e507f08b3db4f3a1a64a5ea7cab271fc82c4b5b23e4a3",
+      "radio_driver/mac_features/nrf_802154_csma_ca.h": "2c94886be618bac52ef65600915614876c09e13777dc368500575b188ea6b262",
+      "radio_driver/mac_features/nrf_802154_delayed_trx.c": "70d7fd0580fd8e5fb3697d72f10d1dd3451921e42bbba90dd6a9c243cec94b56",
+      "radio_driver/mac_features/nrf_802154_delayed_trx.h": "ac55352da9ee220a131cbfa87b899b306c1fff6338200bac76ec95fd12b8802b",
+      "radio_driver/mac_features/nrf_802154_filter.c": "9333327c2a8b7c936f8384689dff86ef50fdcd95436792bdddc67843cf5bbe90",
+      "radio_driver/mac_features/nrf_802154_filter.h": "77e27a990c4e73f7bb13c971b712591c2f1c2bda47575f9b9141e3acffaf25c0",
+      "radio_driver/mac_features/nrf_802154_frame_parser.c": "9b3e4a529e504372d2f6641fa3dfad08faf3dd7047815ccf89a66d7341bc7ece",
+      "radio_driver/mac_features/nrf_802154_frame_parser.h": "d79b24b801d686d9dab5756922f0a826391a0ec16b3509b08de18835f2044dd9",
+      "radio_driver/mac_features/nrf_802154_precise_ack_timeout.c": "e3af84dbc462801e21b01784f8bf3efdfeb7e557cb0e591f7122e801dcf2b07b",
+      "radio_driver/rsch/nrf_802154_rsch.c": "4d5f448764769c476607fc7efc4fdc57a00af997051bcec4d1502a4202450823",
+      "radio_driver/rsch/nrf_802154_rsch.h": "ed5f634cfc95d10b2bb68902e3d5a05ff717b3551bd2eea89c3fd27df11f95f6",
+      "radio_driver/rsch/nrf_802154_rsch_crit_sect.c": "9401cf6bd1819d2439e75cf7ad77091f2a61e46be772c62357fca3d218fa9f27",
+      "radio_driver/rsch/nrf_802154_rsch_crit_sect.h": "38be24934a20e80ceb4d6fc16467503c2aed3acc7f0b8c54555c3d65a3e31903",
+      "radio_driver/timer_scheduler/nrf_802154_timer_sched.c": "a125bad420d2b117d59b2d6a2cc629a8a5bacf7949b8118a3a341d8930c353be",
+      "radio_driver/timer_scheduler/nrf_802154_timer_sched.h": "32c43f777538c2c51415a1e205e58d3ad937567d834a909633506923207e3219",
+      "radio_driver/fem/none/nrf_fem_config.h": "5eae58b856375257e80a6a1991c1be7e0902973c835601cbc7dc53ab65716025",
+      "radio_driver/fem/simple_gpio/nrf_fem_config.h": "698a879d630af34d9066c9750f40a4aef7e43b9e8b3ccf5475caa2de25744f39",
+      "radio_driver/fem/simple_gpio/nrf_fem_simple_gpio.c": "6e852d54f32abd5942da84aeb9025020323da499f7c275889f426b6a3e73d0eb",
+      "radio_driver/fem/three_pin_gpio/nrf_fem_config.h": "212a6b99621ad5b1bc259010673d8e45082a1d27124c27dd977bc62b20dcfea7",
+      "radio_driver/fem/three_pin_gpio/nrf_fem_three_pin_gpio.c": "844ac3a652ff801bffa4a5c7607124544fa9080f69bc4de9e16ae3c8fb7b2da2",
+      "radio_driver/mac_features/ack_generator/nrf_802154_ack_data.c": "b06a5a80ea5af9468cc2599bc26e43c0a5dbb1fcfaa8a335a62b35f29a8c9658",
+      "radio_driver/mac_features/ack_generator/nrf_802154_ack_data.h": "c0394d9e180e0d4b68a55b85edbd566abd74132dbe3e5ec3ed171ca99c5c3f01",
+      "radio_driver/mac_features/ack_generator/nrf_802154_ack_generator.c": "0aeaed7f266f43a440c17f4ee9a6a9d42b080a91e75844f9adb6f531bd468fe6",
+      "radio_driver/mac_features/ack_generator/nrf_802154_ack_generator.h": "240c30ac6d6b9b270719be7cc9d801c1a6c8ad6b95d330763bc283b976168f5f",
+      "radio_driver/mac_features/ack_generator/nrf_802154_enh_ack_generator.c": "ef0a0e6d426df24b775fc3dcc2154d9c73b7bef18b60ffe9f59d4499299ce268",
+      "radio_driver/mac_features/ack_generator/nrf_802154_enh_ack_generator.h": "ffbc3dd22541de2a6fae266efb6bd426c5c2d43774041c31d85b1a1836f3a05b",
+      "radio_driver/mac_features/ack_generator/nrf_802154_imm_ack_generator.c": "7cf13ddf7845b8ee1583dc5c080844d45334c5432925cb78ad0576259da85764",
+      "radio_driver/mac_features/ack_generator/nrf_802154_imm_ack_generator.h": "504cfba22b8ff77c3a90fde3c39ec0289eead5bb3305ce874862d4b54426d92d",
+      "radio_driver/platform/clock/nrf_802154_clock.h": "29f5ca66d41f7075841749d69af2579e2909885f2239dd6057851054e713563b",
+      "radio_driver/platform/clock/nrf_802154_clock_nodrv.c": "dd60e94c1542243372887a66c4b8164a29d393adf295b30a5718c91dfe7c9680",
+      "radio_driver/platform/clock/nrf_802154_clock_sdk.c": "6ced3257c49e4de6a57638c8093ab43dfe74fd1bbd0dd57b03c8e41e625d507f",
+      "radio_driver/platform/coex/nrf_802154_wifi_coex.h": "c6052abe57927519b0f5cda5c75cdc15a651c6e88d17eee6b51307de332e2ccb",
+      "radio_driver/platform/coex/nrf_802154_wifi_coex_none.c": "b3e4dbe8ad24e250cf243f4dfd49b39bc185e1a507543245c402613cf6f41cb3",
+      "radio_driver/platform/hp_timer/nrf_802154_hp_timer.c": "94b53a8de40992652facb6c34719438abc57a5c963a51181d6679fa80b74e653",
+      "radio_driver/platform/hp_timer/nrf_802154_hp_timer.h": "6f926ccaa421cc90e09b5aa67d32611692c7d9d90f2a17844e237fe3aa942c39",
+      "radio_driver/platform/lp_timer/nrf_802154_lp_timer.h": "777bffb4f40d5f406ea2168bb8485d3246ad36073b2709e0badef85e718212de",
+      "radio_driver/platform/lp_timer/nrf_802154_lp_timer_nodrv.c": "da8caad28be82c2520536673083e3309301f41365beb8cbd30356d4502682f68",
+      "radio_driver/platform/lp_timer/nrf_802154_lp_timer_none.c": "e052bddcc83f3974ca183457c25edfba25833347f6ebbeb9ae92eefa104256fb",
+      "radio_driver/platform/random/nrf_802154_random.h": "18ba0df31c704026f135417c484298bc6f7bf5f892b220516d4c6a2502391924",
+      "radio_driver/platform/random/nrf_802154_random_newlib.c": "3a8a167996b33691306e6ccd8932970b7ebbd923f9e105f55212298265984073",
+      "radio_driver/platform/random/nrf_802154_random_stdlib.c": "36a37de6382b5a08104bbeb91dc601f639087e36c9eee88e34aefb57cbd45796",
+      "radio_driver/platform/temperature/nrf_802154_temperature.h": "e370783fd24e380da7b3510a46dcfc5d1f55d7a2a96e38e961d699b806b50cac",
+      "radio_driver/platform/temperature/nrf_802154_temperature_none.c": "d65698bb874fc7982ef453131c57aa2faba0b41a556f5003fbc49eaa5f197930",
+      "radio_driver/rsch/raal/nrf_raal_api.h": "19d1cea822bf853294edebfa0b049fb0d5d2bb45b0fd3a1a1f195407fd88ac58",
+      "radio_driver/rsch/raal/nrf_raal_config.h": "68741f4600f3aa320984a928f0dabb372bae383c4bc946ad72d62daa173574af",
+      "radio_driver/rsch/raal/simulator/nrf_802154_debug.h": "4aa42a3e08bcd242e60a9a49cd8141df4343338433f16d967133e4176b2d8948",
+      "radio_driver/rsch/raal/simulator/nrf_raal_simulator.c": "60916fd50949bfd89f6fed02dbf1d912551c035d9278868760459ba10033b184",
+      "radio_driver/rsch/raal/single_phy/single_phy.c": "95a2eadb4d59d54fc3799c0c64556f199bb8599e1f9e9952b258dc9e0a0f1d5d",
+      "radio_driver/rsch/raal/softdevice/nrf_802154_debug.h": "4aa42a3e08bcd242e60a9a49cd8141df4343338433f16d967133e4176b2d8948",
+      "radio_driver/rsch/raal/softdevice/nrf_raal_softdevice.c": "a19c8a28b524aa62311f563529f8f804f77e9bbec7aed52ac7e1a2e0afee5b15",
+      "radio_driver/rsch/raal/softdevice/nrf_raal_softdevice.h": "de5cf790d8a5ea8c6d4ef98310921c027fe1afb4c426889d1c1868757b8cd513",
+      "host/core.py": "e94a29c8be507c3fe0bf2c04cf214de720b64b29414ec22cbe31105e4a3362d5",
+      "host/current_a7_baseline.py": "fe1282048b797998093a8428461ff0cad6daeba7548b73b8104a8690aacdc572",
+      "host/single_boot.py": "d1743fdf197f0d58671d469545ace57ecad9291f7d03a97b1bd04a2ad0b76aca",
+      "host/transport.py": "cec15c0c2189bca38f380ac112ffb44dcebd1a1f2e474b2dbb031b0521cf8207",
+      "tools/build.py": "147369d51b5cf6e65bc0059cb091e0dee942ea64c85d560637f45149bbdd6b28",
+      "tools/final_audit.py": "4d17c21de3aecfded12c3a8abd9aae31cdb0200cc7af5fbed77a067d3a50ab32",
+      "tools/key_announce.py": "0ac9a56a467c860e0afe88cab1ef6257f3649f6f1433180be858f255106cd8db",
+      "tools/native_build.py": "89a1844179ab48892724edcb05f954a53765fcffef78bfe8f8d4b566cdebeae6",
+      "tools/test_cca.py": "fdfa5dcde6d2a0541d6afea1389c735b641db28b591f3f13cb537aea7425f9f3",
+      "tests/actual_failure.json": "e3335cfd9296469ef1725790a43b5eedc1a0b6a5cb4cf2c69bf3ac03940bd417",
+      "tests/assoc_main_mock.h": "93bff2fcf500d1fcafbec649f8f9a52d88bef464e9413c7cf9014b1fd6b52f88",
+      "tests/firmware_cli.c": "ec2659565fea01509cfee7e0225a91ab9534bf784844fb72cc8f2d8f31c4b4e2",
+      "tests/nrf_radio.h": "8d84d302aa526fd3296c40b40c0d00e897f6a045ce003949858c45f502dabbc8",
+      "tests/synthetic_dispatch.h": "d65600fb3958a0e0aa0d8d9a9232316177be9fd0abc0d9d195191d8ab76aebcd",
+      "tests/test_baseline.py": "fc8526e51a358ac5f5018fb2b94f20e1bb642deb6875408539144df2fd29441c",
+      "tests/test_cca.c": "0a4aeec2b7bd7c49a87fd2f1d92083c70139f31814a139c7285556bef3f96b1e",
+      "tests/test_cca.py": "a5d63d59ae667410f81a49d1879d1548f35a11d83fe2eca5687a454879f2c771",
+      "tests/test_crash.py": "5849a74c8ae029af6ec67905638dbdfad6482dc393f7a4e22356255ffdb63074",
+      "tests/test_dispatcher.c": "73af5d3f091fd25b104f7e4d8bd46a86b893f86af2a01d8a5fcbd4c4f37d42e3",
+      "tests/test_durable.py": "183c2010deeeb0c20e99135878505e3734046bbddaaf39f77617a30a823bb246",
+      "tests/test_historical.py": "9f40f6f520945d4b2e8e248692a0c7dff65e844c59484eff329b8515407c672b",
+      "tests/test_host.py": "d8d6f2c08a3348238cd93d9c95a57a2e32e8a1e6962cebac55f88b4fed87f9f9",
+      "tests/test_ring.c": "076b9e0a1374313504eeab9b004e25e6877048d07b51e709cfeba8594d637d12",
+      "tests/test_single_boot.py": "cab2276045f9a75b35ec56fecc1d9e98e6bcd3eb31f6876c98bff23f028d3ea1",
+      "tests/ring_mocks/nrf.h": "4f3a8cae2064d86f65549471944b4db11768fd4071d75aa1d7856d71389150b0",
+      "tests/ring_mocks/nrf_802154.h": "3051869b0c38d6e1221eac7637a269a4aca8776c180b0df429dbce5bf089b1c9",
+      "tests/ring_mocks/nrf_802154_peripherals.h": "3632c0f5d20b94f9b3e66f9818566a17322da77d6b36b1a3490720e38de3d17b"
+    },
+    "protected_comparisons": {
+      "sdk": {
+        "files": 13531,
+        "changes": []
+      },
+      "v17": {
+        "files": 49,
+        "changes": []
+      },
+      "v1": {
+        "files": 2108,
+        "changes": []
+      },
+      "v2": {
+        "files": 2151,
+        "changes": []
+      },
+      "v3": {
+        "files": 2068,
+        "changes": []
+      },
+      "v4": {
+        "files": 2054,
+        "changes": []
+      },
+      "v5": {
+        "files": 2042,
+        "changes": []
+      },
+      "v6": {
+        "files": 2130,
+        "changes": []
+      },
+      "python": {
+        "files": 4524,
+        "changes": []
+      },
+      "old_hardware": {
+        "files": 24,
+        "changes": []
+      },
+      "oracle": {
+        "files": 18,
+        "changes": []
+      },
+      "hardware_single_boot_v1": {
+        "files": 24,
+        "changes": []
+      },
+      "raw_radio_v6_single_boot_commission": {
+        "files": 2130,
+        "changes": []
+      },
+      "raw_radio_v7_assoc_poll_cca": {
+        "files": 2136,
+        "changes": []
+      }
+    },
+    "seed_sha256": "da13f9035f9f924c423f8b63e60e38c9e895cd7a1e22165c7f8819c2e0d15f6c",
+    "V7_sha256": "A48EBFD3C8A931C7C7D326EFACFC3589C67D1FDA293DE987751957453CD7DCBD",
+    "V17_sha256": "2FFFE202FC0B8766113CADF92156B76A98942B64A0E4F3D3692513F210575193",
+    "secret_scan": true,
+    "firmware_changed": false,
+    "CCA_policy": "Unmodified V7 SingleBoot.association_poll_due; first completed CCA only; >=3200us after receipt; <=2 polls; one request",
+    "hardware": {
+      "COM": 0,
+      "flash": 0,
+      "RF_TX": 0,
+      "new_real_attempt": 0,
+      "key_install": 0,
+      "FC_lease": 0
+    }
+  },
+  "Part_B": {
+    "records": [
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:18:22.141152+00:00",
+        "monotonic": 465056.812,
+        "raw": "RADIOV7 INFO id=1"
+      },
+      {
+        "kind": "INFO",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "1",
+          "identity": "airnanny_raw_assoc_poll_cca_v7_prep",
+          "version": "7",
+          "channel": "21",
+          "application_tx": "locked",
+          "role_capability": "80",
+          "crypto": "host_only",
+          "immediate_ack": "0",
+          "pending_tx": "0",
+          "session": "0",
+          "rx_revision": "38",
+          "rx_drop": "0",
+          "out_drop": "0",
+          "baseline_current_a7": "0",
+          "permit_ready": "0",
+          "timing": "unvalidated"
+        },
+        "raw": "RADIOV7 INFO boot=84bd4609c63f48fd094d5a8852fdeb58 id=1 identity=airnanny_raw_assoc_poll_cca_v7_prep version=7 channel=21 application_tx=locked role_capability=80 crypto=host_only immediate_ack=0 pending_tx=0 session=0 rx_revision=38 rx_drop=0 out_drop=0 baseline_current_a7=0 permit_ready=0 timing=unvalidated",
+        "utc": "2026-10-07T16:18:22.143186+00:00",
+        "observed": 465056.812
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "39",
+          "channel": "21",
+          "time_us": "29179606",
+          "rssi": "-72",
+          "lqi": "84",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188a39bfaffff00000802fdffb7c93b8f287e631f00e548a136004b120000f2f02a040f582d6ad0c755d52b27f22b"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=39 channel=21 time_us=29179606 rssi=-72 lqi=84 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188a39bfaffff00000802fdffb7c93b8f287e631f00e548a136004b120000f2f02a040f582d6ad0c755d52b27f22b",
+        "utc": "2026-10-07T16:18:22.954060+00:00",
+        "observed": 465057.625
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "40",
+          "channel": "21",
+          "time_us": "29270321",
+          "rssi": "-82",
+          "lqi": "44",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388119bfa0000b7c904"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=40 channel=21 time_us=29270321 rssi=-82 lqi=44 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388119bfa0000b7c904",
+        "utc": "2026-10-07T16:18:23.044672+00:00",
+        "observed": 465057.687
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "41",
+          "channel": "21",
+          "time_us": "29270865",
+          "rssi": "-72",
+          "lqi": "84",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "120011"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=41 channel=21 time_us=29270865 rssi=-72 lqi=84 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=120011",
+        "utc": "2026-10-07T16:18:23.044672+00:00",
+        "observed": 465057.718
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "42",
+          "channel": "21",
+          "time_us": "29281409",
+          "rssi": "-72",
+          "lqi": "84",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188a49bfab7c900004802b7c900003c35287f631f00e548a136004b120000149bffd8a707e57d2052fab14b9840ca828262c7ec0cbdbea444af21fde3b729b30913ad42af"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=42 channel=21 time_us=29281409 rssi=-72 lqi=84 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188a49bfab7c900004802b7c900003c35287f631f00e548a136004b120000149bffd8a707e57d2052fab14b9840ca828262c7ec0cbdbea444af21fde3b729b30913ad42af",
+        "utc": "2026-10-07T16:18:23.055794+00:00",
+        "observed": 465057.718
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:18:23.061879+00:00",
+        "monotonic": 465057.734,
+        "raw": "RADIOV7 BASELINE_READY id=2 boot=84bd4609c63f48fd094d5a8852fdeb58 ctx=0 generation=3 baseline_revision=42"
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "43",
+          "channel": "21",
+          "time_us": "29281953",
+          "rssi": "-82",
+          "lqi": "44",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "0200a4"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=43 channel=21 time_us=29281953 rssi=-82 lqi=44 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=0200a4",
+        "utc": "2026-10-07T16:18:23.062879+00:00",
+        "observed": 465057.734
+      },
+      {
+        "kind": "STATUS",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "2",
+          "session": "0",
+          "state": "BASELINE_READY",
+          "association_state": "IDLE",
+          "key_state": "IDLE",
+          "generation": "3",
+          "assigned_short": "0000",
+          "polls": "0",
+          "pending": "0",
+          "used": "0",
+          "immediate_ack": "0",
+          "application_tx": "locked",
+          "rx_revision": "43",
+          "rx_drop": "0",
+          "out_drop": "0",
+          "crc_error": "9"
+        },
+        "raw": "RADIOV7 STATUS boot=84bd4609c63f48fd094d5a8852fdeb58 id=2 session=0 state=BASELINE_READY association_state=IDLE key_state=IDLE generation=3 assigned_short=0000 polls=0 pending=0 used=0 immediate_ack=0 application_tx=locked rx_revision=43 rx_drop=0 out_drop=0 crc_error=9",
+        "utc": "2026-10-07T16:18:23.065079+00:00",
+        "observed": 465057.734
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:18:23.065079+00:00",
+        "monotonic": 465057.75,
+        "raw": "RADIOV7 ARM id=3 boot=84bd4609c63f48fd094d5a8852fdeb58 ctx=0 generation=3 baseline_revision=42"
+      },
+      {
+        "kind": "STATUS",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "3",
+          "session": "0",
+          "state": "PERMIT_ARMED",
+          "association_state": "IDLE",
+          "key_state": "IDLE",
+          "generation": "3",
+          "assigned_short": "0000",
+          "polls": "0",
+          "pending": "0",
+          "used": "0",
+          "immediate_ack": "0",
+          "application_tx": "locked",
+          "rx_revision": "43",
+          "rx_drop": "0",
+          "out_drop": "0",
+          "crc_error": "9"
+        },
+        "raw": "RADIOV7 STATUS boot=84bd4609c63f48fd094d5a8852fdeb58 id=3 session=0 state=PERMIT_ARMED association_state=IDLE key_state=IDLE generation=3 assigned_short=0000 polls=0 pending=0 used=0 immediate_ack=0 application_tx=locked rx_revision=43 rx_drop=0 out_drop=0 crc_error=9",
+        "utc": "2026-10-07T16:18:23.068070+00:00",
+        "observed": 465057.75
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "44",
+          "channel": "21",
+          "time_us": "29586761",
+          "rssi": "-72",
+          "lqi": "84",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020012"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=44 channel=21 time_us=29586761 rssi=-72 lqi=84 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020012",
+        "utc": "2026-10-07T16:18:23.360520+00:00",
+        "observed": 465058.031
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "45",
+          "channel": "21",
+          "time_us": "35612502",
+          "rssi": "-75",
+          "lqi": "72",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188787a0b00009ff50822fdff9ff53ce028435a0c004489a136004b12000025cbe0c7b72dd8508bc3a25565bd2892"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=45 channel=21 time_us=35612502 rssi=-75 lqi=72 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188787a0b00009ff50822fdff9ff53ce028435a0c004489a136004b12000025cbe0c7b72dd8508bc3a25565bd2892",
+        "utc": "2026-10-07T16:18:29.386829+00:00",
+        "observed": 465064.046
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "46",
+          "channel": "21",
+          "time_us": "35613046",
+          "rssi": "-77",
+          "lqi": "64",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020078"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=46 channel=21 time_us=35613046 rssi=-77 lqi=64 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020078",
+        "utc": "2026-10-07T16:18:29.386829+00:00",
+        "observed": 465064.062
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "47",
+          "channel": "21",
+          "time_us": "35625922",
+          "rssi": "-78",
+          "lqi": "64",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188e57a0bffff00000802fdff9ff53be02805e924005f87a136004b120000aee8933ea5d2e1f6f928f258e1f032b1"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=47 channel=21 time_us=35625922 rssi=-78 lqi=64 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188e57a0bffff00000802fdff9ff53be02805e924005f87a136004b120000aee8933ea5d2e1f6f928f258e1f032b1",
+        "utc": "2026-10-07T16:18:29.399802+00:00",
+        "observed": 465064.062
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "48",
+          "channel": "21",
+          "time_us": "35729591",
+          "rssi": "-77",
+          "lqi": "64",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188e67a0b9ff5000008029ff500003c6f2806e924005f87a136004b120000c67fbaf1595ac4966ed6f88b2138047e327474296bd0b4d007c8c1aae305df69109d83ee8486"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=48 channel=21 time_us=35729591 rssi=-77 lqi=64 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188e67a0b9ff5000008029ff500003c6f2806e924005f87a136004b120000c67fbaf1595ac4966ed6f88b2138047e327474296bd0b4d007c8c1aae305df69109d83ee8486",
+        "utc": "2026-10-07T16:18:29.503975+00:00",
+        "observed": 465064.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "49",
+          "channel": "21",
+          "time_us": "35730135",
+          "rssi": "-75",
+          "lqi": "72",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "0200e6"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=49 channel=21 time_us=35730135 rssi=-75 lqi=72 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=0200e6",
+        "utc": "2026-10-07T16:18:29.504735+00:00",
+        "observed": 465064.187
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "50",
+          "channel": "21",
+          "time_us": "36035449",
+          "rssi": "-75",
+          "lqi": "72",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "63887a7a0b00009ff504"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=50 channel=21 time_us=36035449 rssi=-75 lqi=72 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=63887a7a0b00009ff504",
+        "utc": "2026-10-07T16:18:29.809383+00:00",
+        "observed": 465064.468
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "51",
+          "channel": "21",
+          "time_us": "36035993",
+          "rssi": "-77",
+          "lqi": "64",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "02007a"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=51 channel=21 time_us=36035993 rssi=-77 lqi=64 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=02007a",
+        "utc": "2026-10-07T16:18:29.809383+00:00",
+        "observed": 465064.484
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "52",
+          "channel": "21",
+          "time_us": "36408689",
+          "rssi": "-77",
+          "lqi": "64",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188e77a0bffff00000912fcff000001705f87a136004b12002807e924005f87a136004b120000a3c9895d3e48"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=52 channel=21 time_us=36408689 rssi=-77 lqi=64 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188e77a0bffff00000912fcff000001705f87a136004b12002807e924005f87a136004b120000a3c9895d3e48",
+        "utc": "2026-10-07T16:18:30.182310+00:00",
+        "observed": 465064.859
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "53",
+          "channel": "21",
+          "time_us": "39161344",
+          "rssi": "-72",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188a59bfaffff00000912fcff00000138e548a136004b12002880631f00e548a136004b120000c04234267cbc"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=53 channel=21 time_us=39161344 rssi=-72 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188a59bfaffff00000912fcff00000138e548a136004b12002880631f00e548a136004b120000c04234267cbc",
+        "utc": "2026-10-07T16:18:32.935473+00:00",
+        "observed": 465067.609
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "54",
+          "channel": "21",
+          "time_us": "39170265",
+          "rssi": "-82",
+          "lqi": "44",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188139bfa0000b7c90822fdffb7c93c90288f1107001f719c36004b12000076a4b74aef1268ee5a945d8ed29360ff"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=54 channel=21 time_us=39170265 rssi=-82 lqi=44 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188139bfa0000b7c90822fdffb7c93c90288f1107001f719c36004b12000076a4b74aef1268ee5a945d8ed29360ff",
+        "utc": "2026-10-07T16:18:32.944522+00:00",
+        "observed": 465067.609
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "55",
+          "channel": "21",
+          "time_us": "39170809",
+          "rssi": "-72",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020013"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=55 channel=21 time_us=39170809 rssi=-72 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020013",
+        "utc": "2026-10-07T16:18:32.944522+00:00",
+        "observed": 465067.625
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "56",
+          "channel": "21",
+          "time_us": "39183084",
+          "rssi": "-73",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188a69bfaffff00000802fdffb7c93b902881631f00e548a136004b12000080e4dfd660c447260e239242d2b072cc"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=56 channel=21 time_us=39183084 rssi=-73 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188a69bfaffff00000802fdffb7c93b902881631f00e548a136004b12000080e4dfd660c447260e239242d2b072cc",
+        "utc": "2026-10-07T16:18:32.956962+00:00",
+        "observed": 465067.625
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "57",
+          "channel": "21",
+          "time_us": "39275043",
+          "rssi": "-82",
+          "lqi": "40",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388149bfa0000b7c904"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=57 channel=21 time_us=39275043 rssi=-82 lqi=40 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388149bfa0000b7c904",
+        "utc": "2026-10-07T16:18:33.049079+00:00",
+        "observed": 465067.734
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "58",
+          "channel": "21",
+          "time_us": "39275587",
+          "rssi": "-72",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "120014"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=58 channel=21 time_us=39275587 rssi=-72 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=120014",
+        "utc": "2026-10-07T16:18:33.049079+00:00",
+        "observed": 465067.734
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "59",
+          "channel": "21",
+          "time_us": "39285785",
+          "rssi": "-73",
+          "lqi": "84",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188a79bfab7c900004802b7c900003c372882631f00e548a136004b1200003a80fd81fc6d972edf403765b52dda76aaa5286d55a255e135d59d9a275d5f0ae0eb0f8a23fa"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=59 channel=21 time_us=39285785 rssi=-73 lqi=84 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188a79bfab7c900004802b7c900003c372882631f00e548a136004b1200003a80fd81fc6d972edf403765b52dda76aaa5286d55a255e135d59d9a275d5f0ae0eb0f8a23fa",
+        "utc": "2026-10-07T16:18:33.060183+00:00",
+        "observed": 465067.734
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "60",
+          "channel": "21",
+          "time_us": "39286329",
+          "rssi": "-82",
+          "lqi": "44",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "0200a7"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=60 channel=21 time_us=39286329 rssi=-82 lqi=44 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=0200a7",
+        "utc": "2026-10-07T16:18:33.060183+00:00",
+        "observed": 465067.734
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "61",
+          "channel": "21",
+          "time_us": "39592186",
+          "rssi": "-72",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020015"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=61 channel=21 time_us=39592186 rssi=-72 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020015",
+        "utc": "2026-10-07T16:18:33.366038+00:00",
+        "observed": 465068.031
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "62",
+          "channel": "21",
+          "time_us": "45612093",
+          "rssi": "-75",
+          "lqi": "72",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "61887b7a0b00009ff50822fdff9ff53ce128445a0c004489a136004b120000b5f4ff3659b590a1ad2e99fa93bfe572"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=62 channel=21 time_us=45612093 rssi=-75 lqi=72 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=61887b7a0b00009ff50822fdff9ff53ce128445a0c004489a136004b120000b5f4ff3659b590a1ad2e99fa93bfe572",
+        "utc": "2026-10-07T16:18:39.385373+00:00",
+        "observed": 465074.031
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "63",
+          "channel": "21",
+          "time_us": "45612637",
+          "rssi": "-77",
+          "lqi": "64",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "02007b"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=63 channel=21 time_us=45612637 rssi=-77 lqi=64 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=02007b",
+        "utc": "2026-10-07T16:18:39.386357+00:00",
+        "observed": 465074.062
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "64",
+          "channel": "21",
+          "time_us": "45717206",
+          "rssi": "-75",
+          "lqi": "72",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "63887c7a0b00009ff504"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=64 channel=21 time_us=45717206 rssi=-75 lqi=72 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=63887c7a0b00009ff504",
+        "utc": "2026-10-07T16:18:39.490884+00:00",
+        "observed": 465074.14
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "65",
+          "channel": "21",
+          "time_us": "45717749",
+          "rssi": "-77",
+          "lqi": "64",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "12007c"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=65 channel=21 time_us=45717749 rssi=-77 lqi=64 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=12007c",
+        "utc": "2026-10-07T16:18:39.490884+00:00",
+        "observed": 465074.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "66",
+          "channel": "21",
+          "time_us": "45728982",
+          "rssi": "-77",
+          "lqi": "60",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188e97a0b9ff5000008029ff500003c712809e924005f87a136004b120000c526be0108f588f909e9fea8281a7d05318d8d833d22d07ebefecc0f4071f8a80d514d5f2a76"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=66 channel=21 time_us=45728982 rssi=-77 lqi=60 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188e97a0b9ff5000008029ff500003c712809e924005f87a136004b120000c526be0108f588f909e9fea8281a7d05318d8d833d22d07ebefecc0f4071f8a80d514d5f2a76",
+        "utc": "2026-10-07T16:18:39.503148+00:00",
+        "observed": 465074.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "67",
+          "channel": "21",
+          "time_us": "45729526",
+          "rssi": "-75",
+          "lqi": "72",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "0200e9"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=67 channel=21 time_us=45729526 rssi=-75 lqi=72 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=0200e9",
+        "utc": "2026-10-07T16:18:39.503908+00:00",
+        "observed": 465074.187
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "68",
+          "channel": "21",
+          "time_us": "46034078",
+          "rssi": "-75",
+          "lqi": "72",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "63887d7a0b00009ff504"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=68 channel=21 time_us=46034078 rssi=-75 lqi=72 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=63887d7a0b00009ff504",
+        "utc": "2026-10-07T16:18:39.807347+00:00",
+        "observed": 465074.453
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "69",
+          "channel": "21",
+          "time_us": "46034622",
+          "rssi": "-77",
+          "lqi": "64",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "02007d"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=69 channel=21 time_us=46034622 rssi=-77 lqi=64 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=02007d",
+        "utc": "2026-10-07T16:18:39.808281+00:00",
+        "observed": 465074.484
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "70",
+          "channel": "21",
+          "time_us": "49175247",
+          "rssi": "-73",
+          "lqi": "76",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020016"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=70 channel=21 time_us=49175247 rssi=-73 lqi=76 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020016",
+        "utc": "2026-10-07T16:18:42.948410+00:00",
+        "observed": 465077.609
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "71",
+          "channel": "21",
+          "time_us": "49188691",
+          "rssi": "-73",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188a89bfaffff00000802fdffb7c93b912883631f00e548a136004b1200002b0e3526de3aae8ccf96b486d28d0f42"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=71 channel=21 time_us=49188691 rssi=-73 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188a89bfaffff00000802fdffb7c93b912883631f00e548a136004b1200002b0e3526de3aae8ccf96b486d28d0f42",
+        "utc": "2026-10-07T16:18:42.962407+00:00",
+        "observed": 465077.625
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "72",
+          "channel": "21",
+          "time_us": "49278653",
+          "rssi": "-84",
+          "lqi": "36",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388179bfa0000b7c904"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=72 channel=21 time_us=49278653 rssi=-84 lqi=36 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388179bfa0000b7c904",
+        "utc": "2026-10-07T16:18:43.051973+00:00",
+        "observed": 465077.703
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "73",
+          "channel": "21",
+          "time_us": "49279197",
+          "rssi": "-73",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "120017"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=73 channel=21 time_us=49279197 rssi=-73 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=120017",
+        "utc": "2026-10-07T16:18:43.052699+00:00",
+        "observed": 465077.734
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "74",
+          "channel": "21",
+          "time_us": "49290295",
+          "rssi": "-73",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188a99bfab7c900004802b7c900003c392884631f00e548a136004b1200006366c32859a0bc6ac5ad63afd7bff3786d25f9d88132c33814872026c2458b9657a758f8ae2f"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=74 channel=21 time_us=49290295 rssi=-73 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188a99bfab7c900004802b7c900003c392884631f00e548a136004b1200006366c32859a0bc6ac5ad63afd7bff3786d25f9d88132c33814872026c2458b9657a758f8ae2f",
+        "utc": "2026-10-07T16:18:43.063826+00:00",
+        "observed": 465077.734
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "75",
+          "channel": "21",
+          "time_us": "49295945",
+          "rssi": "-73",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188a99bfab7c900004802b7c900003c392884631f00e548a136004b1200006366c32859a0bc6ac5ad63afd7bff3786d25f9d88132c33814872026c2458b9657a758f8ae2f"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=75 channel=21 time_us=49295945 rssi=-73 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188a99bfab7c900004802b7c900003c392884631f00e548a136004b1200006366c32859a0bc6ac5ad63afd7bff3786d25f9d88132c33814872026c2458b9657a758f8ae2f",
+        "utc": "2026-10-07T16:18:43.069819+00:00",
+        "observed": 465077.75
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "76",
+          "channel": "21",
+          "time_us": "49300913",
+          "rssi": "-73",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188a99bfab7c900004802b7c900003c392884631f00e548a136004b1200006366c32859a0bc6ac5ad63afd7bff3786d25f9d88132c33814872026c2458b9657a758f8ae2f"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=76 channel=21 time_us=49300913 rssi=-73 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188a99bfab7c900004802b7c900003c392884631f00e548a136004b1200006366c32859a0bc6ac5ad63afd7bff3786d25f9d88132c33814872026c2458b9657a758f8ae2f",
+        "utc": "2026-10-07T16:18:43.074549+00:00",
+        "observed": 465077.75
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "77",
+          "channel": "21",
+          "time_us": "49306210",
+          "rssi": "-73",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188a99bfab7c900004802b7c900003c392884631f00e548a136004b1200006366c32859a0bc6ac5ad63afd7bff3786d25f9d88132c33814872026c2458b9657a758f8ae2f"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=77 channel=21 time_us=49306210 rssi=-73 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188a99bfab7c900004802b7c900003c392884631f00e548a136004b1200006366c32859a0bc6ac5ad63afd7bff3786d25f9d88132c33814872026c2458b9657a758f8ae2f",
+        "utc": "2026-10-07T16:18:43.080128+00:00",
+        "observed": 465077.75
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "78",
+          "channel": "21",
+          "time_us": "49595410",
+          "rssi": "-74",
+          "lqi": "76",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "120018"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=78 channel=21 time_us=49595410 rssi=-74 lqi=76 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=120018",
+        "utc": "2026-10-07T16:18:43.368614+00:00",
+        "observed": 465078.031
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "79",
+          "channel": "21",
+          "time_us": "49604471",
+          "rssi": "-73",
+          "lqi": "76",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188aa9bfab7c900004802b7c900003c392885631f00e548a136004b120000fb5021ec844531bcfbce17f4b137b9a1ea5cb1c3640b8c70a9fc6ad6c6cd7449aa47acdb68e7"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=79 channel=21 time_us=49604471 rssi=-73 lqi=76 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188aa9bfab7c900004802b7c900003c392885631f00e548a136004b120000fb5021ec844531bcfbce17f4b137b9a1ea5cb1c3640b8c70a9fc6ad6c6cd7449aa47acdb68e7",
+        "utc": "2026-10-07T16:18:43.378235+00:00",
+        "observed": 465078.046
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "80",
+          "channel": "21",
+          "time_us": "49605016",
+          "rssi": "-83",
+          "lqi": "36",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "0200aa"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=80 channel=21 time_us=49605016 rssi=-83 lqi=36 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=0200aa",
+        "utc": "2026-10-07T16:18:43.378235+00:00",
+        "observed": 465078.062
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "81",
+          "channel": "21",
+          "time_us": "49909380",
+          "rssi": "-85",
+          "lqi": "32",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388199bfa0000b7c904"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=81 channel=21 time_us=49909380 rssi=-85 lqi=32 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388199bfa0000b7c904",
+        "utc": "2026-10-07T16:18:43.683153+00:00",
+        "observed": 465078.359
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "82",
+          "channel": "21",
+          "time_us": "49909924",
+          "rssi": "-75",
+          "lqi": "68",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020019"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=82 channel=21 time_us=49909924 rssi=-75 lqi=68 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020019",
+        "utc": "2026-10-07T16:18:43.683153+00:00",
+        "observed": 465078.359
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "83",
+          "channel": "21",
+          "time_us": "54281494",
+          "rssi": "-72",
+          "lqi": "84",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188ab9bfaffff00000912fcff0000013be548a136004b12002886631f00e548a136004b120000c72c1d8f2618"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=83 channel=21 time_us=54281494 rssi=-72 lqi=84 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188ab9bfaffff00000912fcff0000013be548a136004b12002886631f00e548a136004b120000c72c1d8f2618",
+        "utc": "2026-10-07T16:18:48.054575+00:00",
+        "observed": 465082.734
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "84",
+          "channel": "21",
+          "time_us": "55612723",
+          "rssi": "-75",
+          "lqi": "72",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "02007e"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=84 channel=21 time_us=55612723 rssi=-75 lqi=72 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=02007e",
+        "utc": "2026-10-07T16:18:49.386424+00:00",
+        "observed": 465084.031
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "85",
+          "channel": "21",
+          "time_us": "55625039",
+          "rssi": "-75",
+          "lqi": "68",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188eb7a0bffff00000802fdff9ff53be2280be924005f87a136004b120000e7036ec92f861a08abf3fba80e1e9c31"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=85 channel=21 time_us=55625039 rssi=-75 lqi=68 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188eb7a0bffff00000802fdff9ff53be2280be924005f87a136004b120000e7036ec92f861a08abf3fba80e1e9c31",
+        "utc": "2026-10-07T16:18:49.398609+00:00",
+        "observed": 465084.062
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "86",
+          "channel": "21",
+          "time_us": "55717969",
+          "rssi": "-85",
+          "lqi": "32",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "63887f7a0b00009ff504"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=86 channel=21 time_us=55717969 rssi=-85 lqi=32 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=63887f7a0b00009ff504",
+        "utc": "2026-10-07T16:18:49.491379+00:00",
+        "observed": 465084.156
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "87",
+          "channel": "21",
+          "time_us": "55718513",
+          "rssi": "-75",
+          "lqi": "72",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "12007f"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=87 channel=21 time_us=55718513 rssi=-75 lqi=72 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=12007f",
+        "utc": "2026-10-07T16:18:49.491379+00:00",
+        "observed": 465084.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "88",
+          "channel": "21",
+          "time_us": "55728868",
+          "rssi": "-75",
+          "lqi": "72",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188ec7a0b9ff5000008029ff500003c73280ce924005f87a136004b12000060198a5e6e89dae0bc11109dcb6bbd24d3de073a4ed281d2eb81c570ac488f5cfd829d4996d1"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=88 channel=21 time_us=55728868 rssi=-75 lqi=72 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188ec7a0b9ff5000008029ff500003c73280ce924005f87a136004b12000060198a5e6e89dae0bc11109dcb6bbd24d3de073a4ed281d2eb81c570ac488f5cfd829d4996d1",
+        "utc": "2026-10-07T16:18:49.502308+00:00",
+        "observed": 465084.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "89",
+          "channel": "21",
+          "time_us": "55729412",
+          "rssi": "-85",
+          "lqi": "32",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "0200ec"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=89 channel=21 time_us=55729412 rssi=-85 lqi=32 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=0200ec",
+        "utc": "2026-10-07T16:18:49.503335+00:00",
+        "observed": 465084.187
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "90",
+          "channel": "21",
+          "time_us": "56033577",
+          "rssi": "-87",
+          "lqi": "24",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388807a0b00009ff504"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=90 channel=21 time_us=56033577 rssi=-87 lqi=24 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388807a0b00009ff504",
+        "utc": "2026-10-07T16:18:49.806617+00:00",
+        "observed": 465084.453
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "91",
+          "channel": "21",
+          "time_us": "56034121",
+          "rssi": "-81",
+          "lqi": "48",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020080"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=91 channel=21 time_us=56034121 rssi=-81 lqi=48 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020080",
+        "utc": "2026-10-07T16:18:49.806617+00:00",
+        "observed": 465084.484
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "92",
+          "channel": "21",
+          "time_us": "59164100",
+          "rssi": "-67",
+          "lqi": "104",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "02001a"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=92 channel=21 time_us=59164100 rssi=-67 lqi=104 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=02001a",
+        "utc": "2026-10-07T16:18:52.937938+00:00",
+        "observed": 465087.609
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "93",
+          "channel": "21",
+          "time_us": "59176748",
+          "rssi": "-67",
+          "lqi": "104",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188ac9bfaffff00000802fdffb7c93b922887631f00e548a136004b120000a6c4048197a6f21ad602e8693f17def0"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=93 channel=21 time_us=59176748 rssi=-67 lqi=104 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188ac9bfaffff00000802fdffb7c93b922887631f00e548a136004b120000a6c4048197a6f21ad602e8693f17def0",
+        "utc": "2026-10-07T16:18:52.950367+00:00",
+        "observed": 465087.609
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "94",
+          "channel": "21",
+          "time_us": "59268691",
+          "rssi": "-90",
+          "lqi": "16",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "63881b9bfa0000b7c904"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=94 channel=21 time_us=59268691 rssi=-90 lqi=16 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=63881b9bfa0000b7c904",
+        "utc": "2026-10-07T16:18:53.041886+00:00",
+        "observed": 465087.687
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "95",
+          "channel": "21",
+          "time_us": "59584068",
+          "rssi": "-84",
+          "lqi": "36",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "63881c9bfa0000b7c904"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=95 channel=21 time_us=59584068 rssi=-84 lqi=36 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=63881c9bfa0000b7c904",
+        "utc": "2026-10-07T16:18:53.357354+00:00",
+        "observed": 465088.015
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "96",
+          "channel": "21",
+          "time_us": "59584612",
+          "rssi": "-72",
+          "lqi": "84",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "02001c"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=96 channel=21 time_us=59584612 rssi=-72 lqi=84 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=02001c",
+        "utc": "2026-10-07T16:18:53.357354+00:00",
+        "observed": 465088.031
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "97",
+          "channel": "21",
+          "time_us": "65717919",
+          "rssi": "-82",
+          "lqi": "40",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388827a0b00009ff504"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=97 channel=21 time_us=65717919 rssi=-82 lqi=40 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388827a0b00009ff504",
+        "utc": "2026-10-07T16:18:59.491075+00:00",
+        "observed": 465094.14
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "98",
+          "channel": "21",
+          "time_us": "65718463",
+          "rssi": "-84",
+          "lqi": "32",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "120082"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=98 channel=21 time_us=65718463 rssi=-84 lqi=32 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=120082",
+        "utc": "2026-10-07T16:18:59.491075+00:00",
+        "observed": 465094.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "99",
+          "channel": "21",
+          "time_us": "65729374",
+          "rssi": "-84",
+          "lqi": "36",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188ee7a0b9ff5000008029ff500003c74280ee924005f87a136004b120000946b5534f05472e4163c0d165b703370d2d5dd313c13ef17acbebc81fea55c6b2ad1df23d09f"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=99 channel=21 time_us=65729374 rssi=-84 lqi=36 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188ee7a0b9ff5000008029ff500003c74280ee924005f87a136004b120000946b5534f05472e4163c0d165b703370d2d5dd313c13ef17acbebc81fea55c6b2ad1df23d09f",
+        "utc": "2026-10-07T16:18:59.503059+00:00",
+        "observed": 465094.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "100",
+          "channel": "21",
+          "time_us": "65729918",
+          "rssi": "-81",
+          "lqi": "52",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "0200ee"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=100 channel=21 time_us=65729918 rssi=-81 lqi=52 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=0200ee",
+        "utc": "2026-10-07T16:18:59.503059+00:00",
+        "observed": 465094.187
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "101",
+          "channel": "21",
+          "time_us": "66035272",
+          "rssi": "-74",
+          "lqi": "76",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388837a0b00009ff504"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=101 channel=21 time_us=66035272 rssi=-74 lqi=76 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388837a0b00009ff504",
+        "utc": "2026-10-07T16:18:59.808345+00:00",
+        "observed": 465094.484
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "102",
+          "channel": "21",
+          "time_us": "66035816",
+          "rssi": "-82",
+          "lqi": "40",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020083"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=102 channel=21 time_us=66035816 rssi=-82 lqi=40 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020083",
+        "utc": "2026-10-07T16:18:59.808345+00:00",
+        "observed": 465094.484
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "103",
+          "channel": "21",
+          "time_us": "69163041",
+          "rssi": "-72",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "61881d9bfa0000b7c90822fdffb7c93c9328921107001f719c36004b1200006c30dcbbcd08cc900e34e4d08f116580"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=103 channel=21 time_us=69163041 rssi=-72 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=61881d9bfa0000b7c90822fdffb7c93c9328921107001f719c36004b1200006c30dcbbcd08cc900e34e4d08f116580",
+        "utc": "2026-10-07T16:19:02.936123+00:00",
+        "observed": 465097.609
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "104",
+          "channel": "21",
+          "time_us": "69163585",
+          "rssi": "-71",
+          "lqi": "88",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "02001d"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=104 channel=21 time_us=69163585 rssi=-71 lqi=88 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=02001d",
+        "utc": "2026-10-07T16:19:02.936123+00:00",
+        "observed": 465097.609
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "105",
+          "channel": "21",
+          "time_us": "69177305",
+          "rssi": "-69",
+          "lqi": "96",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188ae9bfaffff00000802fdffb7c93b932889631f00e548a136004b120000c4d7a6d1c6f713ce38a8f4a61f0d60f4"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=105 channel=21 time_us=69177305 rssi=-69 lqi=96 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188ae9bfaffff00000802fdffb7c93b932889631f00e548a136004b120000c4d7a6d1c6f713ce38a8f4a61f0d60f4",
+        "utc": "2026-10-07T16:19:02.950690+00:00",
+        "observed": 465097.609
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "106",
+          "channel": "21",
+          "time_us": "69267199",
+          "rssi": "-72",
+          "lqi": "80",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "63881e9bfa0000b7c904"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=106 channel=21 time_us=69267199 rssi=-72 lqi=80 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=63881e9bfa0000b7c904",
+        "utc": "2026-10-07T16:19:03.040234+00:00",
+        "observed": 465097.687
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "107",
+          "channel": "21",
+          "time_us": "69267743",
+          "rssi": "-69",
+          "lqi": "96",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "12001e"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=107 channel=21 time_us=69267743 rssi=-69 lqi=96 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=12001e",
+        "utc": "2026-10-07T16:19:03.040234+00:00",
+        "observed": 465097.718
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "108",
+          "channel": "21",
+          "time_us": "69277606",
+          "rssi": "-69",
+          "lqi": "96",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188af9bfab7c900004802b7c900003c3c288a631f00e548a136004b120000c14b9e6975cef9e54c54f6ca65899595ff4a42cc1a4152642fd7d223f00b4aa575e38322eb0f"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=108 channel=21 time_us=69277606 rssi=-69 lqi=96 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188af9bfab7c900004802b7c900003c3c288a631f00e548a136004b120000c14b9e6975cef9e54c54f6ca65899595ff4a42cc1a4152642fd7d223f00b4aa575e38322eb0f",
+        "utc": "2026-10-07T16:19:03.050629+00:00",
+        "observed": 465097.718
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "109",
+          "channel": "21",
+          "time_us": "69278150",
+          "rssi": "-72",
+          "lqi": "84",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "0200af"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=109 channel=21 time_us=69278150 rssi=-72 lqi=84 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=0200af",
+        "utc": "2026-10-07T16:19:03.051718+00:00",
+        "observed": 465097.734
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "110",
+          "channel": "21",
+          "time_us": "69403418",
+          "rssi": "-67",
+          "lqi": "104",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188b09bfaffff00000912fcff0000013de548a136004b1200288b631f00e548a136004b120000a1d9b88cb661"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=110 channel=21 time_us=69403418 rssi=-67 lqi=104 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188b09bfaffff00000912fcff0000013de548a136004b1200288b631f00e548a136004b120000a1d9b88cb661",
+        "utc": "2026-10-07T16:19:03.176144+00:00",
+        "observed": 465097.843
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "111",
+          "channel": "21",
+          "time_us": "69581881",
+          "rssi": "-73",
+          "lqi": "76",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "63881f9bfa0000b7c904"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=111 channel=21 time_us=69581881 rssi=-73 lqi=76 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=63881f9bfa0000b7c904",
+        "utc": "2026-10-07T16:19:03.354899+00:00",
+        "observed": 465098.0
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "112",
+          "channel": "21",
+          "time_us": "69582425",
+          "rssi": "-77",
+          "lqi": "60",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "02001f"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=112 channel=21 time_us=69582425 rssi=-77 lqi=60 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=02001f",
+        "utc": "2026-10-07T16:19:03.354899+00:00",
+        "observed": 465098.031
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "113",
+          "channel": "21",
+          "time_us": "75613826",
+          "rssi": "-68",
+          "lqi": "100",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188847a0b00009ff50822fdff9ff53ce428475a0c004489a136004b120000864099ba9e45866ea848cfc264ff3485"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=113 channel=21 time_us=75613826 rssi=-68 lqi=100 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188847a0b00009ff50822fdff9ff53ce428475a0c004489a136004b120000864099ba9e45866ea848cfc264ff3485",
+        "utc": "2026-10-07T16:19:09.386847+00:00",
+        "observed": 465104.031
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "114",
+          "channel": "21",
+          "time_us": "75614370",
+          "rssi": "-70",
+          "lqi": "88",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020084"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=114 channel=21 time_us=75614370 rssi=-70 lqi=88 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020084",
+        "utc": "2026-10-07T16:19:09.386847+00:00",
+        "observed": 465104.062
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "115",
+          "channel": "21",
+          "time_us": "75626878",
+          "rssi": "-71",
+          "lqi": "88",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188f07a0bffff00000802fdff9ff53be42810e924005f87a136004b120000c36daf54ec4716084e2a5a5259dfd7d8"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=115 channel=21 time_us=75626878 rssi=-71 lqi=88 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188f07a0bffff00000802fdff9ff53be42810e924005f87a136004b120000c36daf54ec4716084e2a5a5259dfd7d8",
+        "utc": "2026-10-07T16:19:09.399585+00:00",
+        "observed": 465104.062
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "116",
+          "channel": "21",
+          "time_us": "75720181",
+          "rssi": "-67",
+          "lqi": "100",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388857a0b00009ff504"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=116 channel=21 time_us=75720181 rssi=-67 lqi=100 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388857a0b00009ff504",
+        "utc": "2026-10-07T16:19:09.493130+00:00",
+        "observed": 465104.14
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "117",
+          "channel": "21",
+          "time_us": "75720725",
+          "rssi": "-70",
+          "lqi": "88",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "120085"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=117 channel=21 time_us=75720725 rssi=-70 lqi=88 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=120085",
+        "utc": "2026-10-07T16:19:09.493130+00:00",
+        "observed": 465104.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "118",
+          "channel": "21",
+          "time_us": "75731992",
+          "rssi": "-71",
+          "lqi": "88",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188f17a0b9ff5000008029ff500003c762811e924005f87a136004b1200000a6cbb9567602354a0aa278efbbd73cb885a3790fd4afe5c6789f3f87cdd0abef7346a45bdbf"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=118 channel=21 time_us=75731992 rssi=-71 lqi=88 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188f17a0b9ff5000008029ff500003c762811e924005f87a136004b1200000a6cbb9567602354a0aa278efbbd73cb885a3790fd4afe5c6789f3f87cdd0abef7346a45bdbf",
+        "utc": "2026-10-07T16:19:09.505109+00:00",
+        "observed": 465104.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "119",
+          "channel": "21",
+          "time_us": "75732536",
+          "rssi": "-68",
+          "lqi": "100",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "0200f1"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=119 channel=21 time_us=75732536 rssi=-68 lqi=100 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=0200f1",
+        "utc": "2026-10-07T16:19:09.505109+00:00",
+        "observed": 465104.187
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "120",
+          "channel": "21",
+          "time_us": "76036553",
+          "rssi": "-68",
+          "lqi": "100",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388867a0b00009ff504"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=120 channel=21 time_us=76036553 rssi=-68 lqi=100 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388867a0b00009ff504",
+        "utc": "2026-10-07T16:19:09.809559+00:00",
+        "observed": 465104.453
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "121",
+          "channel": "21",
+          "time_us": "76037097",
+          "rssi": "-70",
+          "lqi": "88",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020086"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=121 channel=21 time_us=76037097 rssi=-70 lqi=88 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020086",
+        "utc": "2026-10-07T16:19:09.809559+00:00",
+        "observed": 465104.484
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "0",
+          "revision": "122",
+          "channel": "21",
+          "time_us": "76258125",
+          "rssi": "-58",
+          "lqi": "140",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188b19bfaffff00000802fcff00003c3f288c631f00e548a136004b12000005eafc01a5816200ce9e6727b06153"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=0 revision=122 channel=21 time_us=76258125 rssi=-58 lqi=140 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188b19bfaffff00000802fcff00003c3f288c631f00e548a136004b12000005eafc01a5816200ce9e6727b06153",
+        "utc": "2026-10-07T16:19:10.031182+00:00",
+        "observed": 465104.703
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:19:10.067731+00:00",
+        "monotonic": 465104.75,
+        "raw": "RADIOV7 ASSOC BEGIN_PERMIT_EVIDENCE boot=84bd4609c63f48fd094d5a8852fdeb58 id=4 ctx=0 raw_ieee=e2b0275f4d582069 target_pan=fa9b extpan=00124b0036a148e5 coordinator_ieee=00124b0036a148e5 coordinator_short=0000 policy=local_experimental_v1 attempt=5b09cb6bc02746298fbffcfb780844a5 permit_revision=122 raw_hash=e85d92db81f61bea24a59db0fd3296ba961bf187215ef368086f554fe1eeb35a validation_generation=3 max_polls=2 poll_interval_ms=500 timeout_ms=10000 dsn=30"
+      },
+      {
+        "kind": "STATUS",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "4",
+          "session": "1",
+          "state": "ASSOCIATION",
+          "association_state": "TARGET_SELECTED",
+          "key_state": "IDLE",
+          "generation": "3",
+          "assigned_short": "0000",
+          "polls": "0",
+          "pending": "0",
+          "used": "0",
+          "immediate_ack": "0",
+          "application_tx": "locked",
+          "rx_revision": "122",
+          "rx_drop": "0",
+          "out_drop": "0",
+          "crc_error": "24"
+        },
+        "raw": "RADIOV7 STATUS boot=84bd4609c63f48fd094d5a8852fdeb58 id=4 session=1 state=ASSOCIATION association_state=TARGET_SELECTED key_state=IDLE generation=3 assigned_short=0000 polls=0 pending=0 used=0 immediate_ack=0 application_tx=locked rx_revision=122 rx_drop=0 out_drop=0 crc_error=24",
+        "utc": "2026-10-07T16:19:10.073358+00:00",
+        "observed": 465104.75
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:19:10.073358+00:00",
+        "monotonic": 465104.75,
+        "raw": "RADIOV7 ASSOC REQUEST id=5 boot=84bd4609c63f48fd094d5a8852fdeb58 session=1"
+      },
+      {
+        "kind": "TXACCEPT",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "5",
+          "session": "1",
+          "class": "ASSOCIATION_REQUEST",
+          "mac": "23c81e9bfa0000ffff6920584d5f27b0e20180",
+          "retry": "0"
+        },
+        "raw": "RADIOV7 TXACCEPT boot=84bd4609c63f48fd094d5a8852fdeb58 id=5 session=1 class=ASSOCIATION_REQUEST mac=23c81e9bfa0000ffff6920584d5f27b0e20180 retry=0",
+        "utc": "2026-10-07T16:19:10.074884+00:00",
+        "observed": 465104.75
+      },
+      {
+        "kind": "TXDONE",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "5",
+          "session": "1",
+          "result": "local_tx_ok",
+          "management_complete": "0",
+          "application_tx": "locked"
+        },
+        "raw": "RADIOV7 TXDONE boot=84bd4609c63f48fd094d5a8852fdeb58 id=5 session=1 result=local_tx_ok management_complete=0 application_tx=locked",
+        "utc": "2026-10-07T16:19:10.077630+00:00",
+        "observed": 465104.75,
+        "completed_at": 465104.75,
+        "host_completion_latency_ms": 0.0,
+        "RF_ACK_timing": "not exposed by frozen V7; host latency is not RF timing"
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:19:10.576968+00:00",
+        "monotonic": 465105.25,
+        "raw": "RADIOV7 ASSOC POLL id=6 boot=84bd4609c63f48fd094d5a8852fdeb58 session=1"
+      },
+      {
+        "kind": "TXACCEPT",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "6",
+          "session": "1",
+          "class": "ASSOCIATION_EXT_POLL",
+          "mac": "63c81f9bfa00006920584d5f27b0e204",
+          "retry": "0"
+        },
+        "raw": "RADIOV7 TXACCEPT boot=84bd4609c63f48fd094d5a8852fdeb58 id=6 session=1 class=ASSOCIATION_EXT_POLL mac=63c81f9bfa00006920584d5f27b0e204 retry=0",
+        "utc": "2026-10-07T16:19:10.578916+00:00",
+        "observed": 465105.25
+      },
+      {
+        "kind": "TXDONE",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "6",
+          "session": "1",
+          "result": "local_tx_ok",
+          "management_complete": "0",
+          "application_tx": "locked"
+        },
+        "raw": "RADIOV7 TXDONE boot=84bd4609c63f48fd094d5a8852fdeb58 id=6 session=1 result=local_tx_ok management_complete=0 application_tx=locked",
+        "utc": "2026-10-07T16:19:10.580965+00:00",
+        "observed": 465105.265,
+        "completed_at": 465105.265,
+        "host_completion_latency_ms": 15.000000013969839,
+        "RF_ACK_timing": "not exposed by frozen V7; host latency is not RF timing"
+      },
+      {
+        "kind": "RESPONSE",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "123",
+          "status": "0",
+          "assigned_short": "a326",
+          "ack_started": "1",
+          "ack_completed": "1",
+          "deadline_miss": "0"
+        },
+        "raw": "RADIOV7 RESPONSE boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=123 status=0 assigned_short=a326 ack_started=1 ack_completed=1 deadline_miss=0",
+        "utc": "2026-10-07T16:19:10.583732+00:00",
+        "observed": 465105.265
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "123",
+          "channel": "21",
+          "time_us": "76810552",
+          "rssi": "-59",
+          "lqi": "136",
+          "fcs_ok": "1",
+          "ack_started": "1",
+          "ack_completed": "1",
+          "deadline_miss": "0",
+          "mac": "63ccb29bfa6920584d5f27b0e2e548a136004b12000226a300"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=123 channel=21 time_us=76810552 rssi=-59 lqi=136 fcs_ok=1 ack_started=1 ack_completed=1 deadline_miss=0 mac=63ccb29bfa6920584d5f27b0e2e548a136004b12000226a300",
+        "utc": "2026-10-07T16:19:10.584730+00:00",
+        "observed": 465105.265
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:19:10.662195+00:00",
+        "monotonic": 465105.343,
+        "raw": "RADIOV7 ASSOC_COMMIT id=7 boot=84bd4609c63f48fd094d5a8852fdeb58 ctx=0 generation=4 raw_ieee=e2b0275f4d582069 short=a326 pan=fa9b coordinator=00124b0036a148e5 extpan=00124b0036a148e5 attempt=5b09cb6bc02746298fbffcfb780844a5 max_key_polls=8 poll_interval_ms=500 total_timeout_ms=10000 session=1"
+      },
+      {
+        "kind": "STATUS",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "7",
+          "session": "1",
+          "state": "WAIT_NETWORK_KEY",
+          "association_state": "ASSOCIATED_UNKEYED",
+          "key_state": "ASSOCIATED_UNKEYED",
+          "generation": "4",
+          "assigned_short": "a326",
+          "polls": "0",
+          "pending": "0",
+          "used": "0",
+          "immediate_ack": "0",
+          "application_tx": "locked",
+          "rx_revision": "123",
+          "rx_drop": "0",
+          "out_drop": "0",
+          "crc_error": "24"
+        },
+        "raw": "RADIOV7 STATUS boot=84bd4609c63f48fd094d5a8852fdeb58 id=7 session=1 state=WAIT_NETWORK_KEY association_state=ASSOCIATED_UNKEYED key_state=ASSOCIATED_UNKEYED generation=4 assigned_short=a326 polls=0 pending=0 used=0 immediate_ack=0 application_tx=locked rx_revision=123 rx_drop=0 out_drop=0 crc_error=24",
+        "utc": "2026-10-07T16:19:10.667327+00:00",
+        "observed": 465105.343
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:19:10.667327+00:00",
+        "monotonic": 465105.343,
+        "raw": "RADIOV7 POST_ASSOC_POLL id=8 boot=84bd4609c63f48fd094d5a8852fdeb58 ctx=0 generation=4 dsn=224 session=1 attempt=5b09cb6bc02746298fbffcfb780844a5 raw_ieee=e2b0275f4d582069 short=a326 pan=fa9b coordinator=00124b0036a148e5"
+      },
+      {
+        "kind": "TXACCEPT",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "8",
+          "session": "1",
+          "class": "POST_ASSOC_KEY_POLL",
+          "mac": "6388e09bfa000026a304",
+          "retry": "0"
+        },
+        "raw": "RADIOV7 TXACCEPT boot=84bd4609c63f48fd094d5a8852fdeb58 id=8 session=1 class=POST_ASSOC_KEY_POLL mac=6388e09bfa000026a304 retry=0",
+        "utc": "2026-10-07T16:19:10.670323+00:00",
+        "observed": 465105.343
+      },
+      {
+        "kind": "TXDONE",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "8",
+          "session": "1",
+          "result": "local_tx_ok",
+          "management_complete": "0",
+          "application_tx": "locked"
+        },
+        "raw": "RADIOV7 TXDONE boot=84bd4609c63f48fd094d5a8852fdeb58 id=8 session=1 result=local_tx_ok management_complete=0 application_tx=locked",
+        "utc": "2026-10-07T16:19:10.671413+00:00",
+        "observed": 465105.343,
+        "completed_at": 465105.343,
+        "host_completion_latency_ms": 0.0,
+        "RF_ACK_timing": "not exposed by frozen V7; host latency is not RF timing"
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:19:11.174332+00:00",
+        "monotonic": 465105.859,
+        "raw": "RADIOV7 POST_ASSOC_POLL id=9 boot=84bd4609c63f48fd094d5a8852fdeb58 ctx=0 generation=4 dsn=225 session=1 attempt=5b09cb6bc02746298fbffcfb780844a5 raw_ieee=e2b0275f4d582069 short=a326 pan=fa9b coordinator=00124b0036a148e5"
+      },
+      {
+        "kind": "TXACCEPT",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "9",
+          "session": "1",
+          "class": "POST_ASSOC_KEY_POLL",
+          "mac": "6388e19bfa000026a304",
+          "retry": "0"
+        },
+        "raw": "RADIOV7 TXACCEPT boot=84bd4609c63f48fd094d5a8852fdeb58 id=9 session=1 class=POST_ASSOC_KEY_POLL mac=6388e19bfa000026a304 retry=0",
+        "utc": "2026-10-07T16:19:11.176331+00:00",
+        "observed": 465105.859
+      },
+      {
+        "kind": "TXDONE",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "9",
+          "session": "1",
+          "result": "local_tx_ok",
+          "management_complete": "0",
+          "application_tx": "locked"
+        },
+        "raw": "RADIOV7 TXDONE boot=84bd4609c63f48fd094d5a8852fdeb58 id=9 session=1 result=local_tx_ok management_complete=0 application_tx=locked",
+        "utc": "2026-10-07T16:19:11.178333+00:00",
+        "observed": 465105.859,
+        "completed_at": 465105.859,
+        "host_completion_latency_ms": 0.0,
+        "RF_ACK_timing": "not exposed by frozen V7; host latency is not RF timing"
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:19:11.712622+00:00",
+        "monotonic": 465106.39,
+        "raw": "RADIOV7 POST_ASSOC_POLL id=10 boot=84bd4609c63f48fd094d5a8852fdeb58 ctx=0 generation=4 dsn=226 session=1 attempt=5b09cb6bc02746298fbffcfb780844a5 raw_ieee=e2b0275f4d582069 short=a326 pan=fa9b coordinator=00124b0036a148e5"
+      },
+      {
+        "kind": "TXACCEPT",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "10",
+          "session": "1",
+          "class": "POST_ASSOC_KEY_POLL",
+          "mac": "6388e29bfa000026a304",
+          "retry": "0"
+        },
+        "raw": "RADIOV7 TXACCEPT boot=84bd4609c63f48fd094d5a8852fdeb58 id=10 session=1 class=POST_ASSOC_KEY_POLL mac=6388e29bfa000026a304 retry=0",
+        "utc": "2026-10-07T16:19:11.714621+00:00",
+        "observed": 465106.39
+      },
+      {
+        "kind": "TXDONE",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "10",
+          "session": "1",
+          "result": "local_tx_ok",
+          "management_complete": "0",
+          "application_tx": "locked"
+        },
+        "raw": "RADIOV7 TXDONE boot=84bd4609c63f48fd094d5a8852fdeb58 id=10 session=1 result=local_tx_ok management_complete=0 application_tx=locked",
+        "utc": "2026-10-07T16:19:11.716556+00:00",
+        "observed": 465106.39,
+        "completed_at": 465106.39,
+        "host_completion_latency_ms": 0.0,
+        "RF_ACK_timing": "not exposed by frozen V7; host latency is not RF timing"
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "124",
+          "channel": "21",
+          "time_us": "77952982",
+          "rssi": "-59",
+          "lqi": "136",
+          "fcs_ok": "1",
+          "ack_started": "1",
+          "ack_completed": "1",
+          "deadline_miss": "0",
+          "mac": "6188b39bfa26a30000480026a300003c40217d3000000000e548a136004b12008e936917861913ac7689437a74093567e39a76d0d744652f41dd046f36252cd306c19fde795250"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=124 channel=21 time_us=77952982 rssi=-59 lqi=136 fcs_ok=1 ack_started=1 ack_completed=1 deadline_miss=0 mac=6188b39bfa26a30000480026a300003c40217d3000000000e548a136004b12008e936917861913ac7689437a74093567e39a76d0d744652f41dd046f36252cd306c19fde795250",
+        "utc": "2026-10-07T16:19:11.725621+00:00",
+        "observed": 465106.39
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:19:11.793831+00:00",
+        "monotonic": 465106.468,
+        "raw": "RADIOV7 KEY_STATE id=11 boot=84bd4609c63f48fd094d5a8852fdeb58 ctx=0 generation=6 epoch=1ea30211ee014345a8288337a173a833 keyseq=0 session=1 attempt=5b09cb6bc02746298fbffcfb780844a5 raw_ieee=e2b0275f4d582069 short=a326 pan=fa9b coordinator=00124b0036a148e5"
+      },
+      {
+        "kind": "STATUS",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "11",
+          "session": "1",
+          "state": "KEY_INSTALLED",
+          "association_state": "ASSOCIATED_UNKEYED",
+          "key_state": "KEY_INSTALLED",
+          "generation": "6",
+          "assigned_short": "a326",
+          "polls": "3",
+          "pending": "0",
+          "used": "0",
+          "immediate_ack": "1",
+          "application_tx": "locked",
+          "rx_revision": "124",
+          "rx_drop": "0",
+          "out_drop": "0",
+          "crc_error": "24"
+        },
+        "raw": "RADIOV7 STATUS boot=84bd4609c63f48fd094d5a8852fdeb58 id=11 session=1 state=KEY_INSTALLED association_state=ASSOCIATED_UNKEYED key_state=KEY_INSTALLED generation=6 assigned_short=a326 polls=3 pending=0 used=0 immediate_ack=1 application_tx=locked rx_revision=124 rx_drop=0 out_drop=0 crc_error=24",
+        "utc": "2026-10-07T16:19:11.796905+00:00",
+        "observed": 465106.468
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:19:11.866130+00:00",
+        "monotonic": 465106.546,
+        "raw": "RADIOV7 DEVICE_ANNOUNCE id=12 boot=84bd4609c63f48fd094d5a8852fdeb58 ctx=0 generation=6 raw_ieee=e2b0275f4d582069 short=a326 pan=fa9b coordinator=00124b0036a148e5 epoch=1ea30211ee014345a8288337a173a833 keyseq=0 fc=0 intent=1 hash=5ae72dab320c1865a7369e0bcde9db4190dcdf90a879a797943b7011e79159fc mac=6188009bfa000026a30802fdff26a33c0028000000006920584d5f27b0e200aab8e30dd2d26739564ac1041344ad91d747827c5ea8e89e session=1 attempt=5b09cb6bc02746298fbffcfb780844a5"
+      },
+      {
+        "kind": "TXACCEPT",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "12",
+          "session": "1",
+          "class": "DEVICE_ANNOUNCE",
+          "mac": "6188009bfa000026a30802fdff26a33c0028000000006920584d5f27b0e200aab8e30dd2d26739564ac1041344ad91d747827c5ea8e89e",
+          "retry": "0"
+        },
+        "raw": "RADIOV7 TXACCEPT boot=84bd4609c63f48fd094d5a8852fdeb58 id=12 session=1 class=DEVICE_ANNOUNCE mac=6188009bfa000026a30802fdff26a33c0028000000006920584d5f27b0e200aab8e30dd2d26739564ac1041344ad91d747827c5ea8e89e retry=0",
+        "utc": "2026-10-07T16:19:11.871699+00:00",
+        "observed": 465106.546
+      },
+      {
+        "kind": "TXDONE",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "12",
+          "session": "1",
+          "result": "local_tx_ok",
+          "management_complete": "0",
+          "application_tx": "locked"
+        },
+        "raw": "RADIOV7 TXDONE boot=84bd4609c63f48fd094d5a8852fdeb58 id=12 session=1 result=local_tx_ok management_complete=0 application_tx=locked",
+        "utc": "2026-10-07T16:19:11.875769+00:00",
+        "observed": 465106.546,
+        "completed_at": 465106.562,
+        "host_completion_latency_ms": 16.00000000325963,
+        "RF_ACK_timing": "not exposed by frozen V7; host latency is not RF timing"
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "125",
+          "channel": "21",
+          "time_us": "78118466",
+          "rssi": "-59",
+          "lqi": "136",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188b49bfaffff00000802fdff26a33b00288d631f00e548a136004b120000b6b0231efada7d8399383862935e19ce2dbe695f5419d6d8"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=125 channel=21 time_us=78118466 rssi=-59 lqi=136 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188b49bfaffff00000802fdff26a33b00288d631f00e548a136004b120000b6b0231efada7d8399383862935e19ce2dbe695f5419d6d8",
+        "utc": "2026-10-07T16:19:11.891391+00:00",
+        "observed": 465106.562
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "126",
+          "channel": "21",
+          "time_us": "79163807",
+          "rssi": "-69",
+          "lqi": "96",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188209bfa0000b7c90822fdffb7c93c9428931107001f719c36004b120000ee6d0fffd5dad031015e1aa69612eabf"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=126 channel=21 time_us=79163807 rssi=-69 lqi=96 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188209bfa0000b7c90822fdffb7c93c9428931107001f719c36004b120000ee6d0fffd5dad031015e1aa69612eabf",
+        "utc": "2026-10-07T16:19:12.936169+00:00",
+        "observed": 465107.593
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "127",
+          "channel": "21",
+          "time_us": "79164352",
+          "rssi": "-59",
+          "lqi": "136",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020020"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=127 channel=21 time_us=79164352 rssi=-59 lqi=136 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020020",
+        "utc": "2026-10-07T16:19:12.937169+00:00",
+        "observed": 465107.609
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "128",
+          "channel": "21",
+          "time_us": "79176819",
+          "rssi": "-59",
+          "lqi": "136",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188b59bfaffff00000802fdffb7c93b94288e631f00e548a136004b120000c062cc679f0a21ee47821218fba29ebd"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=128 channel=21 time_us=79176819 rssi=-59 lqi=136 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188b59bfaffff00000802fdffb7c93b94288e631f00e548a136004b120000c062cc679f0a21ee47821218fba29ebd",
+        "utc": "2026-10-07T16:19:12.949050+00:00",
+        "observed": 465107.609
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "129",
+          "channel": "21",
+          "time_us": "79270221",
+          "rssi": "-68",
+          "lqi": "96",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388219bfa0000b7c904"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=129 channel=21 time_us=79270221 rssi=-68 lqi=96 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388219bfa0000b7c904",
+        "utc": "2026-10-07T16:19:13.042941+00:00",
+        "observed": 465107.718
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "130",
+          "channel": "21",
+          "time_us": "79270765",
+          "rssi": "-59",
+          "lqi": "136",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "120021"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=130 channel=21 time_us=79270765 rssi=-59 lqi=136 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=120021",
+        "utc": "2026-10-07T16:19:13.042941+00:00",
+        "observed": 465107.718
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "131",
+          "channel": "21",
+          "time_us": "79281832",
+          "rssi": "-59",
+          "lqi": "136",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188b69bfab7c900004802b7c900003c3e288f631f00e548a136004b1200000968f3dd1865c7116ea20ea2bbfc18007d24912a29d091eeadb17dbcdfb24c333899311c091b"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=131 channel=21 time_us=79281832 rssi=-59 lqi=136 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188b69bfab7c900004802b7c900003c3e288f631f00e548a136004b1200000968f3dd1865c7116ea20ea2bbfc18007d24912a29d091eeadb17dbcdfb24c333899311c091b",
+        "utc": "2026-10-07T16:19:13.054722+00:00",
+        "observed": 465107.718
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "132",
+          "channel": "21",
+          "time_us": "79586746",
+          "rssi": "-69",
+          "lqi": "96",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388229bfa0000b7c904"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=132 channel=21 time_us=79586746 rssi=-69 lqi=96 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388229bfa0000b7c904",
+        "utc": "2026-10-07T16:19:13.359368+00:00",
+        "observed": 465108.015
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "133",
+          "channel": "21",
+          "time_us": "79587290",
+          "rssi": "-59",
+          "lqi": "136",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020022"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=133 channel=21 time_us=79587290 rssi=-59 lqi=136 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020022",
+        "utc": "2026-10-07T16:19:13.359368+00:00",
+        "observed": 465108.031
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "134",
+          "channel": "21",
+          "time_us": "81682138",
+          "rssi": "-72",
+          "lqi": "84",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188f27a0bffff00000912fcff000001775f87a136004b12002812e924005f87a136004b120000f376f9cdebb1"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=134 channel=21 time_us=81682138 rssi=-72 lqi=84 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188f27a0bffff00000912fcff000001775f87a136004b12002812e924005f87a136004b120000f376f9cdebb1",
+        "utc": "2026-10-07T16:19:15.454526+00:00",
+        "observed": 465110.109
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "135",
+          "channel": "21",
+          "time_us": "84524025",
+          "rssi": "-59",
+          "lqi": "136",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188b79bfaffff00000912fcff00000142e548a136004b12002890631f00e548a136004b120000bf1bd98eb640"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=135 channel=21 time_us=84524025 rssi=-59 lqi=136 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188b79bfaffff00000912fcff00000142e548a136004b12002890631f00e548a136004b120000bf1bd98eb640",
+        "utc": "2026-10-07T16:19:18.296945+00:00",
+        "observed": 465112.968
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "136",
+          "channel": "21",
+          "time_us": "85614466",
+          "rssi": "-68",
+          "lqi": "100",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188877a0b00009ff50822fdff9ff53ce528485a0c004489a136004b1200009a6610a7f7062bd14f527c03f182f98e"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=136 channel=21 time_us=85614466 rssi=-68 lqi=100 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188877a0b00009ff50822fdff9ff53ce528485a0c004489a136004b1200009a6610a7f7062bd14f527c03f182f98e",
+        "utc": "2026-10-07T16:19:19.387154+00:00",
+        "observed": 465114.046
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "137",
+          "channel": "21",
+          "time_us": "85615011",
+          "rssi": "-69",
+          "lqi": "96",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020087"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=137 channel=21 time_us=85615011 rssi=-69 lqi=96 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020087",
+        "utc": "2026-10-07T16:19:19.387154+00:00",
+        "observed": 465114.062
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "138",
+          "channel": "21",
+          "time_us": "85628300",
+          "rssi": "-69",
+          "lqi": "96",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "4188f37a0bffff00000802fdff9ff53be52813e924005f87a136004b12000066691e0fddff22ce7659b42310d7a4a6"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=138 channel=21 time_us=85628300 rssi=-69 lqi=96 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188f37a0bffff00000802fdff9ff53be52813e924005f87a136004b12000066691e0fddff22ce7659b42310d7a4a6",
+        "utc": "2026-10-07T16:19:19.400197+00:00",
+        "observed": 465114.062
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "139",
+          "channel": "21",
+          "time_us": "85718930",
+          "rssi": "-67",
+          "lqi": "104",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388887a0b00009ff504"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=139 channel=21 time_us=85718930 rssi=-67 lqi=104 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388887a0b00009ff504",
+        "utc": "2026-10-07T16:19:19.491230+00:00",
+        "observed": 465114.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "140",
+          "channel": "21",
+          "time_us": "85719475",
+          "rssi": "-69",
+          "lqi": "96",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "120088"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=140 channel=21 time_us=85719475 rssi=-69 lqi=96 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=120088",
+        "utc": "2026-10-07T16:19:19.491230+00:00",
+        "observed": 465114.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "141",
+          "channel": "21",
+          "time_us": "85728581",
+          "rssi": "-69",
+          "lqi": "96",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6188f47a0b9ff5000008029ff500003c782814e924005f87a136004b120000186be1f09ad8ed8e7f9cb23b67b12e97a74969221ad00529ff4625ce1715afb49ce74a6a9f30"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=141 channel=21 time_us=85728581 rssi=-69 lqi=96 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188f47a0b9ff5000008029ff500003c782814e924005f87a136004b120000186be1f09ad8ed8e7f9cb23b67b12e97a74969221ad00529ff4625ce1715afb49ce74a6a9f30",
+        "utc": "2026-10-07T16:19:19.501163+00:00",
+        "observed": 465114.171
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "142",
+          "channel": "21",
+          "time_us": "85729125",
+          "rssi": "-67",
+          "lqi": "104",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "0200f4"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=142 channel=21 time_us=85729125 rssi=-67 lqi=104 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=0200f4",
+        "utc": "2026-10-07T16:19:19.501163+00:00",
+        "observed": 465114.187
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "143",
+          "channel": "21",
+          "time_us": "86033777",
+          "rssi": "-68",
+          "lqi": "96",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "6388897a0b00009ff504"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=143 channel=21 time_us=86033777 rssi=-68 lqi=96 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6388897a0b00009ff504",
+        "utc": "2026-10-07T16:19:19.805828+00:00",
+        "observed": 465114.484
+      },
+      {
+        "kind": "RX",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "session": "1",
+          "revision": "144",
+          "channel": "21",
+          "time_us": "86034321",
+          "rssi": "-68",
+          "lqi": "100",
+          "fcs_ok": "1",
+          "ack_started": "0",
+          "ack_completed": "0",
+          "deadline_miss": "0",
+          "mac": "020089"
+        },
+        "raw": "RADIOV7 RX boot=84bd4609c63f48fd094d5a8852fdeb58 session=1 revision=144 channel=21 time_us=86034321 rssi=-68 lqi=100 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=020089",
+        "utc": "2026-10-07T16:19:19.806774+00:00",
+        "observed": 465114.484
+      },
+      {
+        "kind": "HOST_COMMAND",
+        "utc": "2026-10-07T16:19:21.898460+00:00",
+        "monotonic": 465116.578,
+        "raw": "RADIOV7 END id=13 boot=84bd4609c63f48fd094d5a8852fdeb58 session=1"
+      },
+      {
+        "kind": "STATUS",
+        "fields": {
+          "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+          "id": "13",
+          "session": "1",
+          "state": "STOPPED",
+          "association_state": "ASSOCIATED_UNKEYED",
+          "key_state": "STOPPED",
+          "generation": "6",
+          "assigned_short": "a326",
+          "polls": "3",
+          "pending": "0",
+          "used": "1",
+          "immediate_ack": "0",
+          "application_tx": "locked",
+          "rx_revision": "144",
+          "rx_drop": "0",
+          "out_drop": "0",
+          "crc_error": "25"
+        },
+        "raw": "RADIOV7 STATUS boot=84bd4609c63f48fd094d5a8852fdeb58 id=13 session=1 state=STOPPED association_state=ASSOCIATED_UNKEYED key_state=STOPPED generation=6 assigned_short=a326 polls=3 pending=0 used=1 immediate_ack=0 application_tx=locked rx_revision=144 rx_drop=0 out_drop=0 crc_error=25",
+        "utc": "2026-10-07T16:19:21.900463+00:00",
+        "observed": 465116.578
+      }
+    ],
+    "phases": [
+      {
+        "phase": "BASELINE",
+        "utc": "2026-10-07T16:18:22.143186+00:00",
+        "monotonic": 465056.828
+      },
+      {
+        "phase": "ARM",
+        "utc": "2026-10-07T16:18:23.065079+00:00",
+        "monotonic": 465057.75
+      },
+      {
+        "phase": "PERMIT",
+        "utc": "2026-10-07T16:18:23.068070+00:00",
+        "monotonic": 465057.75
+      },
+      {
+        "phase": "REASSOCIATION",
+        "utc": "2026-10-07T16:19:10.031182+00:00",
+        "monotonic": 465104.703
+      },
+      {
+        "phase": "SHORT_COMMIT",
+        "utc": "2026-10-07T16:19:10.584730+00:00",
+        "monotonic": 465105.265
+      },
+      {
+        "phase": "KEY_POLL",
+        "utc": "2026-10-07T16:19:10.667327+00:00",
+        "monotonic": 465105.343
+      },
+      {
+        "phase": "KEY_VALIDATE",
+        "utc": "2026-10-07T16:19:11.726589+00:00",
+        "monotonic": 465106.406
+      },
+      {
+        "phase": "KEY_DURABILITY",
+        "utc": "2026-10-07T16:19:11.726589+00:00",
+        "monotonic": 465106.406
+      },
+      {
+        "phase": "KEY_DURABILITY",
+        "utc": "2026-10-07T16:19:11.792865+00:00",
+        "monotonic": 465106.468
+      },
+      {
+        "phase": "FC_RESERVE",
+        "utc": "2026-10-07T16:19:11.796905+00:00",
+        "monotonic": 465106.468
+      },
+      {
+        "phase": "ANNOUNCE_BUILD",
+        "utc": "2026-10-07T16:19:11.796905+00:00",
+        "monotonic": 465106.468
+      },
+      {
+        "phase": "ANNOUNCE_HANDOFF",
+        "utc": "2026-10-07T16:19:11.838843+00:00",
+        "monotonic": 465106.515
+      },
+      {
+        "phase": "PASSIVE_OBSERVE",
+        "utc": "2026-10-07T16:19:11.890428+00:00",
+        "monotonic": 465106.562
+      },
+      {
+        "phase": "END",
+        "utc": "2026-10-07T16:19:21.898460+00:00",
+        "monotonic": 465116.578
+      },
+      {
+        "phase": "RECOVERY",
+        "utc": "2026-10-07T16:19:21.900463+00:00",
+        "monotonic": 465116.578
+      }
+    ],
+    "candidate_rejections": [],
+    "primary": "A SINGLE-BOOT NETWORK KEY + ANNOUNCE PASS",
+    "recovery_required": false,
+    "RAW": "e2b0275f4d582069",
+    "hardware": true,
+    "INFO": {
+      "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+      "id": "1",
+      "identity": "airnanny_raw_assoc_poll_cca_v7_prep",
+      "version": "7",
+      "channel": "21",
+      "application_tx": "locked",
+      "role_capability": "80",
+      "crypto": "host_only",
+      "immediate_ack": "0",
+      "pending_tx": "0",
+      "session": "0",
+      "rx_revision": "38",
+      "rx_drop": "0",
+      "out_drop": "0",
+      "baseline_current_a7": "0",
+      "permit_ready": "0",
+      "timing": "unvalidated"
+    },
+    "baseline": {
+      "revision": 42,
+      "pan": 64155,
+      "security_source": "00124b0036a148e5",
+      "keyseq": 0,
+      "security_fc": 2057087,
+      "nwk_fcf": "0248",
+      "semantic_policy": "captured_A7_TYPE06_unicast",
+      "mic_valid": true,
+      "accepted": true
+    },
+    "baseline_trace": [
+      {
+        "revision": 39,
+        "pan": 64155,
+        "security_source": null,
+        "keyseq": null,
+        "security_fc": null,
+        "nwk_fcf": "0208",
+        "mic_valid": null,
+        "semantic_policy": null,
+        "accepted": false,
+        "reason": "NWK_source_not_coordinator"
+      },
+      {
+        "revision": 40,
+        "baseline_current_a7": false,
+        "reason": "pre_arm_not_ordinary_TYPE06"
+      },
+      {
+        "revision": 41,
+        "baseline_current_a7": false,
+        "reason": "pre_arm_not_ordinary_TYPE06"
+      },
+      {
+        "revision": 42,
+        "pan": 64155,
+        "security_source": "00124b0036a148e5",
+        "keyseq": 0,
+        "security_fc": 2057087,
+        "nwk_fcf": "0248",
+        "semantic_policy": "captured_A7_TYPE06_unicast",
+        "mic_valid": true,
+        "accepted": true,
+        "permit_ready": false
+      },
+      {
+        "revision": 43,
+        "baseline_current_a7": false,
+        "reason": "pre_arm_not_ordinary_TYPE06"
+      }
+    ],
+    "ARM": {
+      "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+      "id": "3",
+      "session": "0",
+      "state": "PERMIT_ARMED",
+      "association_state": "IDLE",
+      "key_state": "IDLE",
+      "generation": "3",
+      "assigned_short": "0000",
+      "polls": "0",
+      "pending": "0",
+      "used": "0",
+      "immediate_ack": "0",
+      "application_tx": "locked",
+      "rx_revision": "43",
+      "rx_drop": "0",
+      "out_drop": "0",
+      "crc_error": "9"
+    },
+    "permit": {
+      "boot_id": "84bd4609c63f48fd094d5a8852fdeb58",
+      "rx_revision": 122,
+      "raw_mac_hash": "e85d92db81f61bea24a59db0fd3296ba961bf187215ef368086f554fe1eeb35a",
+      "observed_timestamp": 465104.703,
+      "pan": 64155,
+      "mac_source_short": 0,
+      "nwk_source": 0,
+      "nwk_destination": 65532,
+      "authenticated_security_source_ieee": "00124b0036a148e5",
+      "security_frame_counter": 2057100,
+      "key_sequence": 0,
+      "key_epoch_context": "explicit_protected_current_network",
+      "aps_profile": 0,
+      "zdo_cluster": 54,
+      "zdo_tsn": 8,
+      "permit_duration": 180,
+      "tc_significance": 1,
+      "target_coordinator_ieee": "00124b0036a148e5",
+      "validation_generation": 3,
+      "ctx": 0,
+      "aps_counter": 123
+    },
+    "bound_response_revision": 123,
+    "association": {
+      "schema_version": 1,
+      "ctx": 0,
+      "raw_ieee": "e2b0275f4d582069",
+      "wire_ieee_le": "6920584d5f27b0e2",
+      "policy": "local_experimental_v1",
+      "generation": 4,
+      "attempt": "5b09cb6bc02746298fbffcfb780844a5",
+      "state": "ASSOCIATED_UNKEYED",
+      "hardware_used": true,
+      "forbidden_inventory": [
+        "00124b00369c711f",
+        "00124b0036a148e5",
+        "00124b0036a1875f",
+        "00124b0036a18944",
+        "f4ce36c0b553e5a8"
+      ],
+      "durability": "file_fsync; Windows write-through rename or POSIX directory fsync; hardware cache guarantees not proved",
+      "target_pan": 64155,
+      "coordinator_ieee": "00124b0036a148e5",
+      "assigned_short": 41766,
+      "previous_attempt": "9e96a9c130c44db687c1569b811dcf99",
+      "previous_generation": 2,
+      "previous_short": 35595,
+      "permit": {
+        "boot_id": "84bd4609c63f48fd094d5a8852fdeb58",
+        "rx_revision": 122,
+        "raw_mac_hash": "e85d92db81f61bea24a59db0fd3296ba961bf187215ef368086f554fe1eeb35a",
+        "observed_timestamp": 465104.703,
+        "pan": 64155,
+        "mac_source_short": 0,
+        "nwk_source": 0,
+        "nwk_destination": 65532,
+        "authenticated_security_source_ieee": "00124b0036a148e5",
+        "security_frame_counter": 2057100,
+        "key_sequence": 0,
+        "key_epoch_context": "explicit_protected_current_network",
+        "aps_profile": 0,
+        "zdo_cluster": 54,
+        "zdo_tsn": 8,
+        "permit_duration": 180,
+        "tc_significance": 1,
+        "target_coordinator_ieee": "00124b0036a148e5",
+        "validation_generation": 3,
+        "ctx": 0,
+        "aps_counter": 123
+      },
+      "ever_secured_tx": false,
+      "response_raw": "63ccb29bfa6920584d5f27b0e2e548a136004b12000226a300",
+      "response_revision": 123,
+      "response_ack": {
+        "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+        "session": "1",
+        "revision": "123",
+        "channel": "21",
+        "time_us": "76810552",
+        "rssi": "-59",
+        "lqi": "136",
+        "fcs_ok": "1",
+        "ack_started": "1",
+        "ack_completed": "1",
+        "deadline_miss": "0",
+        "mac": "63ccb29bfa6920584d5f27b0e2e548a136004b12000226a300"
+      }
+    },
+    "self_check": {
+      "wire_control": 40,
+      "effective_control": 45,
+      "counter": 0,
+      "source_ieee": "e2b0275f4d582069",
+      "keyseq": 0,
+      "nonce": "6920584d5f27b0e2000000002d",
+      "aad": "0802fdff26a33c002d000000006920584d5f27b0e200",
+      "reencrypt_exact": true
+    },
+    "intent": {
+      "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+      "ctx": 0,
+      "provision_generation": 6,
+      "raw_ieee": "e2b0275f4d582069",
+      "short": 41766,
+      "pan": 64155,
+      "coordinator": "00124b0036a148e5",
+      "key_epoch": "1ea30211ee014345a8288337a173a833",
+      "fc": 0,
+      "keyseq": 0,
+      "mac_hash": "5ae72dab320c1865a7369e0bcde9db4190dcdf90a879a797943b7011e79159fc",
+      "intent_generation": 1
+    },
+    "terminal_STATUS": {
+      "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+      "id": "13",
+      "session": "1",
+      "state": "STOPPED",
+      "association_state": "ASSOCIATED_UNKEYED",
+      "key_state": "STOPPED",
+      "generation": "6",
+      "assigned_short": "a326",
+      "polls": "3",
+      "pending": "0",
+      "used": "1",
+      "immediate_ack": "0",
+      "application_tx": "locked",
+      "rx_revision": "144",
+      "rx_drop": "0",
+      "out_drop": "0",
+      "crc_error": "25"
+    },
+    "timestamps": {
+      "association_response": 465105.265,
+      "short_durable_commit": 465105.343,
+      "assoc_commit_ack": 465105.343,
+      "first_key_poll": 465105.343,
+      "valid_transport_key": 465106.468
+    },
+    "timings": {
+      "assoc_response_to_first_key_poll_ms": 77.9999999795109,
+      "assoc_response_to_transport_key_ms": 1141.0000000032596
+    },
+    "tx_counts": {
+      "ASSOCIATION_REQUEST": 1,
+      "ASSOCIATION_EXT_POLL": 1,
+      "POST_ASSOC_KEY_POLL": 3,
+      "DEVICE_ANNOUNCE": 1
+    },
+    "next_protocol_state": "MANAGEMENT_PENDING",
+    "public_epoch": {
+      "context": {
+        "attempt": "5b09cb6bc02746298fbffcfb780844a5",
+        "generation": 4,
+        "ctx": 0,
+        "raw_ieee": "e2b0275f4d582069",
+        "short": 41766,
+        "pan": 64155,
+        "extpan": "00124b0036a148e5",
+        "channel": 21,
+        "tc_ieee": "00124b0036a148e5",
+        "coordinator_short": 0,
+        "expected_keyseq": 0
+      },
+      "state": "MANAGEMENT_PENDING",
+      "generation": 6,
+      "replay": {
+        "aps_commissioning_selector0:00124b0036a148e5": 1
+      },
+      "nwk_source_floors": {},
+      "tc_upgrade_floors": {},
+      "next_fc": 32,
+      "sequences": {
+        "nwk": 1,
+        "aps": 1,
+        "zdo": 1,
+        "dsn": 1
+      },
+      "announced": true,
+      "secret_ref": "690abf30e9f04cb1b400d9669cf48098",
+      "key_epoch_id": "1ea30211ee014345a8288337a173a833",
+      "keyseq": 0,
+      "transport_rx_revision": 124,
+      "lease": {
+        "epoch": "1ea30211ee014345a8288337a173a833",
+        "ctx": 0,
+        "fc": 0,
+        "token": "ac682d506a434dc6b5b2b2f4db033802"
+      },
+      "lease_sequences": {
+        "nwk": 0,
+        "aps": 0,
+        "zdo": 0,
+        "dsn": 0
+      },
+      "lease_phase": "handed",
+      "frame_hash": "5ae72dab320c1865a7369e0bcde9db4190dcdf90a879a797943b7011e79159fc",
+      "local_mac_ack": true
+    },
+    "physical_recovery": {
+      "both_healthy": true,
+      "no_check_case": true,
+      "no_repairing": true,
+      "current_data": true,
+      "recovery_actions": [],
+      "operator_confirmation": "\u041e\u0431\u0435 \u043f\u0430\u0440\u044b \u0440\u0430\u0431\u043e\u0442\u0430\u044e\u0442; \u043f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u043e\u043a \u0438 \u0434\u0440\u0443\u0433\u0438\u0445 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 \u043d\u0435 \u0431\u044b\u043b\u043e",
+      "utc": "2026-10-07T16:24:27.204343+00:00"
+    },
+    "V17_recovery": {
+      "command": "airctl 20000006 info",
+      "response": "airctl 20000006 info\r\n\r\r\nAIRV1 INFO id=20000006 protocol=1 firmware=airnanny_status_v17_machine_serial safe_checks=64445 safe_failed=0 serial_checks=3612 serial_failed=0\r\r\n\r\r\nAIRV1 DONE id=20000006 cmd=info result=ok\r\r\n\u001b[1;32m> \u001b[1;37m",
+      "verified": true,
+      "RF_TX": 0
+    }
+  },
+  "STOP": true,
+  "PASS": true,
+  "acceptance_state": "MANAGEMENT_PENDING",
+  "analysis": {
+    "run_uuid": "6ad64bba458744b1b085d0ba02bbc388",
+    "Transport_Key": {
+      "wire_control": 48,
+      "effective_control": 53,
+      "counter": 0,
+      "source_ieee": "00124b0036a148e5",
+      "keyseq": null,
+      "nonce": "e548a136004b12000000000035",
+      "aad": "217d3500000000e548a136004b1200",
+      "reencrypt_exact": true,
+      "command": 5,
+      "delivered_key_type": 1,
+      "delivered_key_sequence": 0,
+      "destination_ieee": "e2b0275f4d582069",
+      "trust_center_ieee": "00124b0036a148e5",
+      "derivation_selector": 0,
+      "plaintext_length": 35,
+      "rx_revision": 124,
+      "protected_key_matches": true,
+      "MIC_PASS": true
+    },
+    "Device_Announce": {
+      "encrypted_mac": "6188009bfa000026a30802fdff26a33c0028000000006920584d5f27b0e200aab8e30dd2d26739564ac1041344ad91d747827c5ea8e89e",
+      "TXDONE": {
+        "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+        "id": "12",
+        "session": "1",
+        "result": "local_tx_ok",
+        "management_complete": "0",
+        "application_tx": "locked"
+      },
+      "self_check": {
+        "wire_control": 40,
+        "effective_control": 45,
+        "counter": 0,
+        "source_ieee": "e2b0275f4d582069",
+        "keyseq": 0,
+        "nonce": "6920584d5f27b0e2000000002d",
+        "aad": "0802fdff26a33c002d000000006920584d5f27b0e200",
+        "reencrypt_exact": true
+      },
+      "used_FC": 0,
+      "next_fc": 32
+    },
+    "passive": {
+      "begin_utc": "2026-10-07T16:19:11.890428+00:00",
+      "end_utc": "2026-10-07T16:19:21.898460+00:00",
+      "RX_count": 20,
+      "categories": {
+        "relayed_Device_Announce": {
+          "observed_revisions": [
+            125
+          ],
+          "result": "OBSERVED"
+        },
+        "End_Device_Timeout": {
+          "observed_revisions": [],
+          "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+        },
+        "Node_Descriptor": {
+          "observed_revisions": [],
+          "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+        },
+        "Request_Key": {
+          "observed_revisions": [],
+          "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+        },
+        "TC_link_key_Transport_Key": {
+          "observed_revisions": [],
+          "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+        },
+        "Verify_Key": {
+          "observed_revisions": [],
+          "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+        },
+        "Confirm_Key": {
+          "observed_revisions": [],
+          "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+        },
+        "application_to_RAW": {
+          "observed_revisions": [],
+          "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+        }
+      },
+      "observations": [
+        {
+          "revision": 125,
+          "utc": "2026-10-07T16:19:11.891391+00:00",
+          "mac_source": "0000",
+          "mac_destination": "ffff",
+          "NWK_FCF": "0208",
+          "MIC_PASS": true,
+          "security_source": "00124b0036a148e5",
+          "security_FC": 2057101,
+          "NWK_source": "a326",
+          "NWK_destination": "fffd",
+          "cluster": "0013",
+          "profile": "0000",
+          "classification": "APS_data",
+          "announced_short": "a326",
+          "announced_ieee": "e2b0275f4d582069",
+          "capability": 128
+        },
+        {
+          "revision": 126,
+          "utc": "2026-10-07T16:19:12.936169+00:00",
+          "mac_source": "c9b7",
+          "mac_destination": "0000",
+          "NWK_FCF": "2208",
+          "MIC_PASS": true,
+          "security_source": "00124b00369c711f",
+          "security_FC": 463251,
+          "NWK_source": "c9b7",
+          "NWK_destination": "fffd",
+          "cluster": "0600",
+          "profile": "0400",
+          "classification": "APS_data"
+        },
+        {
+          "revision": 127,
+          "utc": "2026-10-07T16:19:12.937169+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 128,
+          "utc": "2026-10-07T16:19:12.949050+00:00",
+          "mac_source": "0000",
+          "mac_destination": "ffff",
+          "NWK_FCF": "0208",
+          "MIC_PASS": true,
+          "security_source": "00124b0036a148e5",
+          "security_FC": 2057102,
+          "NWK_source": "c9b7",
+          "NWK_destination": "fffd",
+          "cluster": "0600",
+          "profile": "0400",
+          "classification": "APS_data"
+        },
+        {
+          "revision": 129,
+          "utc": "2026-10-07T16:19:13.042941+00:00",
+          "mac_source": "c9b7",
+          "mac_destination": "0000",
+          "classification": "MAC_command_or_no_NWK"
+        },
+        {
+          "revision": 130,
+          "utc": "2026-10-07T16:19:13.042941+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 131,
+          "utc": "2026-10-07T16:19:13.054722+00:00",
+          "mac_source": "0000",
+          "mac_destination": "c9b7",
+          "NWK_FCF": "0248",
+          "MIC_PASS": true,
+          "security_source": "00124b0036a148e5",
+          "security_FC": 2057103,
+          "NWK_source": "0000",
+          "NWK_destination": "c9b7",
+          "cluster": "0006",
+          "profile": "0104",
+          "classification": "APS_data"
+        },
+        {
+          "revision": 132,
+          "utc": "2026-10-07T16:19:13.359368+00:00",
+          "mac_source": "c9b7",
+          "mac_destination": "0000",
+          "classification": "MAC_command_or_no_NWK"
+        },
+        {
+          "revision": 133,
+          "utc": "2026-10-07T16:19:13.359368+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 134,
+          "utc": "2026-10-07T16:19:15.454526+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 135,
+          "utc": "2026-10-07T16:19:18.296945+00:00",
+          "mac_source": "0000",
+          "mac_destination": "ffff",
+          "NWK_FCF": "1209",
+          "classification": "outside_fixed_secured_NWK_subset"
+        },
+        {
+          "revision": 136,
+          "utc": "2026-10-07T16:19:19.387154+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 137,
+          "utc": "2026-10-07T16:19:19.387154+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 138,
+          "utc": "2026-10-07T16:19:19.400197+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 139,
+          "utc": "2026-10-07T16:19:19.491230+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 140,
+          "utc": "2026-10-07T16:19:19.491230+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 141,
+          "utc": "2026-10-07T16:19:19.501163+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 142,
+          "utc": "2026-10-07T16:19:19.501163+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 143,
+          "utc": "2026-10-07T16:19:19.805828+00:00",
+          "classification": "ACK_or_other_PAN"
+        },
+        {
+          "revision": 144,
+          "utc": "2026-10-07T16:19:19.806774+00:00",
+          "classification": "ACK_or_other_PAN"
+        }
+      ],
+      "limits": [
+        "Observational decode only; does not advance runtime replay floors or authorize TX",
+        "No try-all keys: only installed FA9B epoch selected by exact PAN/keyseq",
+        "No management/application request or response sent",
+        "Not observed in 10s does not prove optionality or application readiness",
+        "Unrecognized/encrypted APS semantic remains unknown"
+      ]
+    }
+  },
+  "post_hardware_audit": {
+    "protected_changes": {
+      "sdk": [],
+      "v17": [],
+      "v1": [],
+      "v2": [],
+      "v3": [],
+      "v4": [],
+      "v5": [],
+      "v6": [],
+      "python": [],
+      "old_hardware": [],
+      "oracle": [],
+      "hardware_single_boot_v1": [],
+      "raw_radio_v6_single_boot_commission": [],
+      "raw_radio_v7_assoc_poll_cca": []
+    },
+    "secret_scan": true,
+    "public_files": 16,
+    "runtime_source_hashes_verified": true,
+    "COM_opened": false,
+    "RF_TX": 0
+  },
+  "sanitized_summary": {
+    "run_uuid": "6ad64bba458744b1b085d0ba02bbc388",
+    "same_RAW": "e2b0275f4d582069",
+    "current_short": "a326",
+    "attempt": "5b09cb6bc02746298fbffcfb780844a5",
+    "durability_generations": {
+      "association_reserved": 3,
+      "current_short_committed": 4,
+      "key_pending": 5,
+      "key_installed": 6
+    },
+    "secured_NWK_domain": {
+      "first_fc": 0,
+      "reserved_inclusive": [
+        0,
+        31
+      ],
+      "next_fc": 32,
+      "entire_block_burned": true
+    },
+    "no_gap": {
+      "USB_sessions": 1,
+      "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+      "commit_ACK_to_first_key_poll_ms": 0.0
+    },
+    "CCA_recovery_used": false,
+    "physical_recovery": {
+      "both_healthy": true,
+      "no_check_case": true,
+      "no_repairing": true,
+      "current_data": true,
+      "recovery_actions": [],
+      "operator_confirmation": "\u041e\u0431\u0435 \u043f\u0430\u0440\u044b \u0440\u0430\u0431\u043e\u0442\u0430\u044e\u0442; \u043f\u0435\u0440\u0435\u0437\u0430\u0433\u0440\u0443\u0437\u043e\u043a \u0438 \u0434\u0440\u0443\u0433\u0438\u0445 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0439 \u043d\u0435 \u0431\u044b\u043b\u043e",
+      "utc": "2026-10-07T16:24:27.204343+00:00"
+    }
+  }
+}

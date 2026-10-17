@@ -1,0 +1,97 @@
+{
+  "record": "dual_sessions_offline",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.5d two sessions in main.c",
+  "date": "2026-10-11",
+  "scope": "offline only; no COM, no RF, no flash, no HEX, no cryptography, no keys",
+  "status": "OFFLINE_PASS_SOFTWARE_ONLY",
+  "hardware_pass": false,
+  "arm_image_linked": false,
+  "what_main_c_does_now": {
+    "sessions": "two independent commission_t, with one tx_t because one radio means one frame in flight; the frame records which session owns it and the TX lifecycle reads that owner",
+    "ack_gating": "per context through the admission layer's own gate. The driver's auto-ACK enable is global and is on whenever any context may answer; which context answers is decided per frame. V25 could only gate the whole radio, which in a dual runtime would silence both contexts whenever either scanned.",
+    "bind": "resumes the named context and then publishes its configuration entry and admission binding atomically, which is what opens its ACK. Verified: immediate_ack goes 0 to 1 across a BIND.",
+    "pib_no_longer_written": "under DUAL_PAN_GATE the driver's destination filter is replaced, so the PIB PAN and short address take no part in admission. V25 wrote them and had to stop the radio to do it; in a dual runtime that would disturb the other context for no benefit.",
+    "scan": "a discovery scan no longer retunes the radio PAN to broadcast. Promiscuous RX delivers every CRC-valid frame and the admission layer only decides the ACK, so the scan is now a per-context state rather than a global radio change, and the other context keeps receiving and answering throughout.",
+    "short_commit": "a reassigned short republishes only that context's entry, atomically, without stopping the radio",
+    "automatic_polls": "round robin across contexts, offered only when no frame is in flight, so the two one-hertz pollers interleave; a context that was ready but not served is counted",
+    "rx_routing": "an attributed frame goes to its context only; a frame the classifier cannot attribute goes to both, each validating for itself",
+    "stop_split": "a fault in the shared evidence path (USB, output queue, RX ring, clock) stops both contexts because neither one's state can still be trusted; a fault belonging to one context stops only that context, which is the isolation the issue requires",
+    "status": "describes one context and names it in the record"
+  },
+  "defects_found_and_fixed_during_this_phase": [
+    {
+      "what": "MATCH_CTX0 was the zero value of dual_match_t",
+      "why_it_mattered": "a zeroed or partially initialised record claimed membership of ctx0. The host-test harness, which fills records directly and never set match, routed every frame to ctx0 while driving ctx1.",
+      "fix": "MATCH_NONE is now zero, so an uninitialised record means belongs to nobody",
+      "found_by": "the inherited Python suites"
+    },
+    {
+      "what": "a macro was used to redirect the TX lifecycle's references to the owning session",
+      "why_it_mattered": "session is also a struct field name, so defining it rewrote tx.session and command->session as well",
+      "fix": "the macro was removed and the references were made explicit"
+    },
+    {
+      "what": "routing beacons through the classifier",
+      "why_it_mattered": "the classifier is deliberately scoped to addressed DATA because that is what an immediate ACK may answer. A beacon is frame type 0 with no destination, so it classifies as unsupported, not broadcast as assumed, and discovery would never have seen one.",
+      "fix": "unattributed frames are offered to both contexts, each validating PAN and both identities against its own keys, which is also exactly what the single-context predecessor did with every frame",
+      "found_by": "the inherited Python suites"
+    },
+    {
+      "what": "bound was tested as phase != G_IDLE",
+      "why_it_mattered": "stopping the runtime leaves a never-resumed context in G_STOPPED, which then looked bound and could answer a STATUS with a session number it never had; the host requires the session number to be non-decreasing and refused it",
+      "fix": "bound now means the context was actually resumed, which management_resume marks with a session number",
+      "found_by": "the inherited Python suites"
+    },
+    {
+      "what": "a STATUS naming no context, taken after a rejected bind",
+      "why_it_mattered": "nothing is bound after a rejected bind, yet the fault belongs to the context the command named. Defaulting to the first context silently described the wrong one and hid the stop.",
+      "fix": "a STATUS that named no context describes the one bound context when exactly one is, otherwise the context a command last acted on, and the record always names which. An action still never defaults.",
+      "found_by": "the inherited Python suites"
+    }
+  ],
+  "deliberate_guards_preserved": {
+    "host_identity_guard": "host/probe.py pins the exact firmware identity and version and refuses to drive an image it was not written for. It now pins airnanny_dual_pan_runtime_v26 version 26 contexts 2; the strictness is unchanged, only the target.",
+    "command_ambiguity": "ctx is required on BIND and optional elsewhere. With exactly one context bound, a command that omitted it means that one; with more than one bound it is refused as ctx_required. Guessing is what a dual runtime must never do.",
+    "harness_models_the_real_predicate": "the host-test harness now computes the ACK with dual_admit_part and classifies with dual_addr_match, rather than asserting a context or using V25's single-context predicate which is no longer on the admission path"
+  },
+  "validation": {
+    "arm_compile": {
+      "toolchain": "xPack arm-none-eabi-gcc 7.3.1 20180622 revision 261907, Linux host",
+      "flags": "the exact flag list, include derivation and defines of tools/build.py",
+      "files_ok": ["main.c", "gate_events.c", "dual_context.c", "dual_admit.c", "dual_identity.c", "dual_sched.c", "dual_records.c", "rejoin_transport.c", "assoc.c", "key_gate.c", "permit_binding.c", "assoc_filter.c"],
+      "note": "compilation only; the image has still never been linked"
+    },
+    "native_c": { "total_checks": 472, "failures": 0, "sanitizers": "address and undefined pass" },
+    "equivalences": {
+      "filter_predicate": { "corpus": 40960, "divergence": 0 },
+      "transport_frames": { "checks": 117, "failures": 0 }
+    },
+    "parser_fuzz": { "iterations": 300000, "invariant_violations": 0 },
+    "python_regression": {
+      "green": ["test_mac_backoff", "test_peer_scope", "test_completion", "test_clock_dispatch", "test_permit_observation", "test_foreign_status_scope"],
+      "inherited_failures_unchanged": { "test_recovery": 1, "test_rx_deadline": 6 },
+      "new_failures": 0,
+      "note": "these suites compile the actual main.c through tests/firmware_cli.c, so they exercise the dual runtime rather than a model of it"
+    }
+  },
+  "tooling_note": {
+    "observed": "three times in this phase device_commit_files reported a file as written while the content on disk stayed stale",
+    "consequence": "a test run was attributed to code that was not on disk",
+    "practice_adopted": "verify every file write by hash, and for small changes edit in place on the device rather than copying a whole file across"
+  },
+  "not_done_yet": [
+    "the RADIOV10 prefix and the ctx-mandatory command set: the records still say RADIOV9, because renaming the whole corpus at the same time as this refactor would have made regressions impossible to attribute",
+    "dual_sched is written and tested but is not on the host-command TX path; automatic polls use their own round robin, and host commands keep the one-in-flight tx_busy contract",
+    "the STATS record and the ARM link",
+    "tools/ remains unported"
+  ],
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0
+  }
+}

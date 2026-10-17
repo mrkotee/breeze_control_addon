@@ -1,0 +1,81 @@
+{
+  "record": "release_image_lineage",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.9 the release image, built with the lineage toolchain",
+  "date": "2026-10-11",
+  "scope": "build and verification only; no flash, no COM port, no erase, no security reset, no RF",
+  "status": "RELEASE_IMAGE_BUILT_AND_VERIFIED_NOT_FLASHED",
+  "flashed": false,
+  "hardware_pass": false,
+  "image": {
+    "path": "releases/airnanny_dual_pan_runtime_v26.hex",
+    "hex_sha256": "1E2A2CB5DF3CA792C4FBA18EC5D3DFC026F87D4A9CBD776F92833A863ED727FE",
+    "text": 61568,
+    "data": 176,
+    "bss": 53204,
+    "total": 114948,
+    "target": "nRF52840 PCA10059 MBR, application at 0x1000",
+    "compiler": "arm-none-eabi-gcc.exe (GNU Tools for Arm Embedded Processors 7-2018-q2-update) 7.3.1 20180622 (release) [ARM/embedded-7-branch revision 261907]",
+    "build_host": "Windows",
+    "bit_comparable_with_v17_to_v25_lineage": true,
+    "build_duration_seconds": 24,
+    "exit_code": 0
+  },
+  "why_this_build_and_not_mine": {
+    "decision": "the operator's, not the assistant's. Asked whether to flash an image built by a different compiler build than the five images with hardware proof, the operator said to run the build on Windows",
+    "routes_the_assistant_tried_and_why_each_failed": [
+      "the linked shell is a Linux VM and cannot execute the lineage .exe binaries",
+      "wine is not installed and there is no root in the VM to install it",
+      "ARM's own Linux distribution of the identical toolchain is 403 from the egress proxy, so the lineage libraries could not be paired with a lineage-built compiler",
+      "computer use, which would have launched the build by a double-click without typing, was declined by the operator"
+    ],
+    "what_was_handed_over": "build_v26_windows.ps1 in the airnanny folder: one command, no typing, no paths to remember. It runs tools/build.py unchanged and flashes nothing"
+  },
+  "a_trap_caught_before_the_operator_ran_it": {
+    "what": "build/ held 66 object files compiled by the Linux VM, and build.py reuses any object newer than its source and headers. Those objects were newer than every source, so a Windows build would have linked Linux objects and produced an image belonging to neither toolchain while reporting success",
+    "fix": "the launcher clears build/ first and hard-fails if any object survives, rather than proceeding",
+    "second_defect_in_the_launcher_itself": "the first version wrote Get-ChildItem -Path 'build' -Include *.o, which silently matches nothing in PowerShell because -Include only applies when the path ends in a wildcard or -Recurse is given. The block that existed to prevent the trap would have done nothing at all. Corrected to 'build\\*' with an explicit post-check before the operator ran it",
+    "observed": "the run reported clearing 70 stale object and output files, which is the 66 objects plus the elf, hex, map and compile.log"
+  },
+  "verification_performed_after_the_build": {
+    "hex_hash": "the HEX on the operator's disk hashes to the value the manifest records, and the copy staged into releases/ hashes to the same value",
+    "sources_actually_built": "all 83 repository-relative input hashes in the Windows manifest were re-verified against the container's own source files: zero mismatches. The image was built from exactly the reviewed sources rather than from a stale or divergent tree",
+    "manifest_portability": "zero absolute paths in the manifest's input hashes, so the evidence stays meaningful off this machine",
+    "v17_reference": "airnanny_v17/releases/airnanny_status_v17_machine_serial.hex still hashes to 2FFFE202FC0B8766113CADF92156B76A98942B64A0E4F3D3692513F210575193",
+    "manifest_states": "flashed false, bit_comparable_with_v17_to_v25_lineage true"
+  },
+  "toolchain_delta_independently_reproduced": {
+    "v26_linux_minus_v26_lineage": {
+      "text": 572,
+      "data": 0,
+      "bss": 12
+    },
+    "v25_linux_minus_v25_lineage_measured_earlier": {
+      "text": 568,
+      "bss": 12
+    },
+    "why_this_matters": "the earlier +568/+12 was a single measurement on one codebase and could have been a coincidence of that build. V26 reproduces it at +572/+12 on different sources, which makes the toolchain delta a stable property rather than noise, and retrospectively validates the measurement dual_pan_build_toolchain.json rests on",
+    "bss_attribution_carries_over": "1.6 Linux bss was 51696 and 1.8 Linux bss 53216, so the scheduler accounted for 1520. The lineage image's bss is 53204, exactly 12 lower, which is the toolchain's own bss delta -- so under the lineage toolchain the scheduler accounts for 1508 bytes and nothing else moved"
+  },
+  "what_this_image_is_and_is_not": {
+    "is": "the first V26 image that is bit-comparable with the V17..V25 lineage, built from the reviewed sources by the operator's own toolchain, with 503 offline checks and the full twelve-suite Python baseline behind it",
+    "is_not": "a passed gate. Nothing has been flashed, no RF has been emitted, no ACK timing has been measured on hardware, and no guard exists yet. Gate A has not been prepared or reviewed",
+    "do_not_flash_yet": "the image exists so that Gate A can pin its hash. Flashing is the operator's manual step and happens only once the Gate A guard is written and reviewed"
+  },
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0,
+    "firmware_sources_edited": 0,
+    "frozen_v25_sources_edited": 0
+  },
+  "superseded_by_a_later_source_change": {
+    "what": "src/main.c changed after this image was built: the RX record now carries reason=, which Gate A needs in order to say why an unintended ACK should have been refused",
+    "consequence": "this HEX no longer corresponds to the tree and must NOT be flashed. One final Windows build is required once the firmware is final, so that the image Gate A pins is the image the sources describe",
+    "the_machinery_already_refuses_it": "the guard's own check -- for path,digest in manifest['input_sha256'].items(): if sha(path)!=digest: raise Fault('firmware_input_changed') -- compares every recorded input against the tree, and the manifest's src/main.c hash 60916945... no longer matches the tree's 51AEE1CC.... Verified rather than assumed. Nothing here depends on me remembering to rebuild",
+    "kept_rather_than_deleted": "the artifact and its measurements are real and the toolchain result it established stands. It is marked instead of removed so the lineage build and its +572/+12 cross-check remain readable"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "record": "dual_transport_offline",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.5b context-parameterised transport",
+  "date": "2026-10-10",
+  "scope": "offline only; no COM, no RF, no flash, no HEX, no cryptography, no keys",
+  "status": "OFFLINE_PASS_SOFTWARE_ONLY",
+  "hardware_pass": false,
+  "arm_build": false,
+  "what_changed": {
+    "file": "src/rejoin_transport.c",
+    "before": "the transport was pinned to ctx1: ctx1's RAW and trust-centre addresses as file-scope constants, PAN literal 0x0b7a in the beacon check, both poll builders, the typed envelope, the application envelope and the response observation, short 0x6c55, the epoch and attempt strings, and keys.ctx=1",
+    "after": "every one of those reads the session's own key_gate, which management_resume fills from the pinned identity table for the context the BIND command names",
+    "edits": 16,
+    "line_endings": "CRLF preserved exactly; the repository's .gitattributes states that evidence and source bindings depend on exact bytes including line endings, and the round-trip was verified lossless before editing"
+  },
+  "command_set_change": {
+    "bind_now_names_its_context": "BIND requires ctx; a missing ctx is refused with field_set rather than defaulted, because defaulting is what makes a cross-context action possible",
+    "parser_field_added": "ctx, refused above DUAL_CONTEXTS-1",
+    "callers_updated": ["host/probe.py", "tests/test_completion.py", "tests/scan_replay.c"]
+  },
+  "budgets": {
+    "session_limit_us": 3900000000,
+    "previous_session_limit_us": 360000000,
+    "max_total_polls_per_context": 3600,
+    "previous_max_total_polls": 400,
+    "rationale": "the observed readiness cadence is one poll per second per context, so a 60 minute soak with both contexts live needs about 3600 polls each",
+    "clock_domain_note": "3.9e9 microseconds still fits the 32 bit microsecond timer, but the margin to its 4.295e9 wrap is about 6.6 minutes; main.c stops the session when the clock goes backwards, so a wrap during a long soak terminates it. This is recorded as a constraint to design the soak around, not as a solved problem."
+  },
+  "design_correction_during_this_phase": {
+    "what_i_did_wrong": "the pinned identity table initially carried min_generation set to each store's current generation (19 and 16), and management_resume refused anything below it",
+    "why_it_was_wrong": "two reasons. It silently tightened behaviour beyond parameterisation, breaking the inherited suites that bind at generation 6 and 13. And a store's generation advances every session, so pinning it into the image would demand a rebuild after every run.",
+    "how_it_surfaced": "the Python regression baseline caught it immediately: test_completion went from green to 65 failures",
+    "correction": "min_generation removed. DUAL_GENERATION_FLOOR keeps V25's exact floor of 6, and real rollback protection stays where it already lives, in the host's durable store with the live generation and outgoing counter high-water."
+  },
+  "offline_tests": {
+    "native_c": {
+      "test_dual_admit": { "checks": 120, "failures": 0 },
+      "test_dual_sched": { "checks": 137, "failures": 0 },
+      "test_dual_records": { "checks": 98, "failures": 0 },
+      "test_transport_equivalence": { "checks": 117, "failures": 0 },
+      "total_checks": 472,
+      "flags": ["-std=c11", "-Wall", "-Wextra", "-Werror", "-Wconversion", "-O1"],
+      "sanitizers": "address and undefined pass on the three dual_* suites"
+    },
+    "test_transport_equivalence_method": "the frozen ctx1_rx_admission_v25/src/rejoin_transport.c is compiled into the same binary with its external names prefixed v25_, so both implementations coexist. Both are driven over the same commands with ctx1 selected and compared on emitted frame bytes and resulting state.",
+    "test_transport_equivalence_coverage": [
+      "resume: identical PAN, short, RAW identity, trust-centre identity, key sequence, context index, phase and generation",
+      "beacon acceptance agrees over a 512 variant corpus perturbing PAN, trust centre, FCF, superframe, payload tag, length, reserved bits and the association bit",
+      "automatic poll frames byte-identical over five rounds, same DSN and counters",
+      "idle MANAGEMENT_POLL frames byte-identical over four rounds",
+      "response observation agrees over a 64 variant corpus perturbing PAN, both identities, aux control, aux source and key sequence",
+      "a third context is refused by the parser",
+      "ctx1's epoch presented on ctx0 is refused at resume and leaves the session untouched",
+      "ctx0 resumes with its own pinned identity and its poll frame carries ctx0's PAN, which V25 could not do at all"
+    ],
+    "filter_equivalence_still_holds": { "corpus": 40960, "both_admit": 11, "both_refuse": 40949, "divergence": 0 },
+    "parser_fuzz_still_clean": { "iterations": 300000, "invariant_violations": 0, "crashes": 0 },
+    "python_regression": {
+      "where": "device VM, gcc 11.4, against the real private stores",
+      "baseline_method": "the same suites were run against ctx1_rx_admission_v25 the same way, to separate inherited failures from new ones",
+      "green_before_and_after": ["test_mac_backoff", "test_peer_scope", "test_completion", "test_clock_dispatch", "test_permit_observation", "test_foreign_status_scope"],
+      "inherited_failures_unchanged": { "test_recovery": 1, "test_rx_deadline": 6 },
+      "inherited_failures_confirmed_in_v25": true,
+      "new_failures": 0,
+      "not_runnable_in_v26_by_design": ["test_discovery_cca", "test_ctx1_admission", "test_power", "test_first_control"],
+      "note": "these suites need file deletion inside the connected folder for their disposable ledgers; that was granted for this session"
+    }
+  },
+  "not_done_yet": [
+    "main.c still holds one commission_t session, still speaks RADIOV9 and its RX record carries no ctx",
+    "the two sessions are not yet instantiated and the scheduler is not yet wired into the radio path",
+    "gate_events.h is still V25's, without the per-context statistics and the four RX timestamps",
+    "tools/ remains unported"
+  ],
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "files": {
+    "airnanny_pairing.pcapng": {
+      "sha256": "12ACF38889F98FD92E4D4032E071F12BD6240092A5FA888ADB788C9521713B37",
+      "frames": 410
+    },
+    "app_speed_3_to_4.pcapng": {
+      "sha256": "6D799BF9FCBA251625DED579F084653DE674E2FD48F5AEB3DC28085968DB188D",
+      "frames": 47
+    },
+    "autonanny_button.pcapng": {
+      "sha256": "9BD1906CD913C2E51A0DA4C1AB506869102C64D1E4578888D34C71DF2CD5A09C",
+      "frames": 51
+    },
+    "humidity_plus_plus_minus.pcapng": {
+      "sha256": "C5CBAE1CD7B77C7EAB66E5F6AA66CAA903A8FCD6052E39AF6D2629802FF3BDD4",
+      "frames": 88
+    },
+    "idle.pcapng": {
+      "sha256": "E7B6C58936A349D8E27A8DDEC28DD1FF2353F921A3BF29067DE7550D6D78D1E0",
+      "frames": 48
+    },
+    "night_mode_on_off.pcapng": {
+      "sha256": "453F1D5A44E45555CFBA8293D3EB9586A6E476E854044B72350C352659BC45D4",
+      "frames": 95
+    },
+    "permit_listen.pcapng": {
+      "sha256": "CFA62F30BB0B7BBF515123B8DD65637236980B66BAD7FCE81E4B2792B66C7B31",
+      "frames": 130
+    },
+    "power_off_on.pcapng": {
+      "sha256": "A5941AE77B1EF94DC807D7BB0C5453FE35BD30E3BF53882F3C2C257A820C49D6",
+      "frames": 75
+    },
+    "remote_speed_3_to_4.pcapng": {
+      "sha256": "8F35E64C2261F6562CF0D41FF20B74028011EBAFAF043021F89479700EFAF303",
+      "frames": 34
+    },
+    "remote_speed_4_to_3.pcapng": {
+      "sha256": "8B5FA2BB7EDFE1F7988F1D11A7C4C06C5F63BFBA4C9A36CF81E962A504570795",
+      "frames": 41
+    },
+    "switch_mode.pcapng": {
+      "sha256": "1234437D9FCD4F5DE967A706DE2A5C1CBB491F05F0BBA7E017982D220D17CB20",
+      "frames": 98
+    },
+    "temperature_up_down.pcapng": {
+      "sha256": "04FB8866DA2F9FBDCD1D697576C223EDC9C8EDD4AB50A6A91002ED8311B61002",
+      "frames": 50
+    },
+    "timer_btn1.pcapng": {
+      "sha256": "84219F447CFEDD50597B0B576CFB9A23D914BA32B47E086C014A57E946A8EBB6",
+      "frames": 90
+    },
+    "timer_btn2.pcapng": {
+      "sha256": "1F690F20808C2B548089D1A49502781CFE22735EAAD51DAF3B1696EF719AFC91",
+      "frames": 68
+    },
+    "приток.pcapng": {
+      "sha256": "48CA92ECEA03A302D882E00EB9C757D676BC06104FDC5B42DB701B16EC216F9C",
+      "frames": 74
+    },
+    "рециркуляция.pcapng": {
+      "sha256": "E5F1D157C51E841E1E63222406EC2073A8CAD04429A5BFC6CD758AA4C6D35473",
+      "frames": 60
+    },
+    "смешанный.pcapng": {
+      "sha256": "183D66DCC44C802EA7125D67F614518A0002826395F96B149329E04834BDB39F",
+      "frames": 70
+    }
+  },
+  "total": 278,
+  "types": {
+    "6": 203,
+    "7": 75
+  },
+  "channels": {
+    "21": 278
+  },
+  "type06_fcf": {
+    "0x8861": 203
+  },
+  "type06_mac_ack": {
+    "1": 203
+  },
+  "type07_mac_ack": {
+    "1": 44,
+    "0": 31
+  },
+  "nwk_security": {
+    "1": 278
+  },
+  "aps_security": {
+    "0": 278
+  },
+  "tuples": {
+    "(6, '0xfa9b', '0xc9b7', '0x0000')": 151,
+    "(6, '0x0b7a', '0xf59f', '0x0000')": 52,
+    "(7, '0xfa9b', '0xc9b7', '0x0000')": 13,
+    "(7, '0xfa9b', '0x0000', '0xc9b7')": 30,
+    "(7, '0xfa9b', '0xffff', '0x0000')": 29,
+    "(7, '0x0b7a', '0xffff', '0x0000')": 2,
+    "(7, '0x0b7a', '0xf59f', '0x0000')": 1
+  }
+}

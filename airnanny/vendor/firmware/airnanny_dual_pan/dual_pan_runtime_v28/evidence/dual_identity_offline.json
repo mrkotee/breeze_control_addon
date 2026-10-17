@@ -1,0 +1,66 @@
+{
+  "record": "dual_identity_offline",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.5a pinned dual identity",
+  "date": "2026-10-10",
+  "scope": "offline only; no COM, no RF, no flash, no HEX, no cryptography, no keys",
+  "status": "OFFLINE_PASS_SOFTWARE_ONLY",
+  "hardware_pass": false,
+  "design_correction": {
+    "what_was_wrong": "the first RADIOV10 draft let the host supply PAN, short and IEEE for each context as arbitrary values",
+    "why_that_was_wrong": "every predecessor pinned its single context in file-scope constants on purpose. ctx1_rx_admission_v25/src/rejoin_transport.c carries ctx1's RAW and trust-centre addresses, short 0x6c55, epoch id and attempt id as literals, and the V7 and V22 sources before it pinned ctx0 and explicitly refused ctx1. The effect is a safety property: the image cannot address a network it was not built for.",
+    "correction": "a two-entry table of compile-time constants in include/dual_identity.h. The host chooses whether a context is enabled, when it is bound and when it may ACK, and reports the current short; it never chooses which network a context is.",
+    "short_exception": "the coordinator assigns our short and a rejoin can change it, so any plausible short is accepted (not 0x0000, below 0xfff8) rather than only the recorded one",
+    "contract_updated": "../DUAL_PAN_RADIO_PROTOCOL.md now carries this amendment explicitly"
+  },
+  "latent_test_defect_found": {
+    "what": "the extended-address test vectors were written in the order of the hex string rather than wire order",
+    "how_it_hid": "both the synthetic frame and the binding used the same wrong order, so comparisons matched and the logic was still exercised correctly",
+    "how_it_surfaced": "pinning the identities against the firmware's wire-order constants made the mismatch fail immediately",
+    "fixed_in": ["tests/test_dual_admit.c", "tests/test_dual_sched.c", "tests/test_v25_equivalence.c"],
+    "convention": "IEEE addresses are stored and compared least significant byte first, matching ctx1_rx_admission_v25/src/rejoin_transport.c"
+  },
+  "pinned_table": {
+    "ctx0": { "pan": "FA9B", "recorded_short": "A326", "raw_ieee": "e2b0275f4d582069",
+      "tc_ieee": "00124b0036a148e5", "keyseq": 0,
+      "epoch": "1ea30211ee014345a8288337a173a833", "min_generation": 19 },
+    "ctx1": { "pan": "0B7A", "recorded_short": "6C55", "raw_ieee": "027a56bb75a41437",
+      "tc_ieee": "00124b0036a1875f", "keyseq": 0,
+      "epoch": "9985b15dcb574c59b87dc2fb379f317f", "min_generation": 16 },
+    "secrets": "none; all of these already appear in committed sources and published result documents, and no key material is in the header"
+  },
+  "enforcement_points": [
+    "dual_config_valid refuses a context whose PAN is not its pinned PAN, whose short is not plausible, or whose declared local IEEE is not its pinned RAW identity",
+    "dual_binding_set refuses a binding whose PAN, RAW identity, trust-centre identity or key sequence is not this context's pinned value",
+    "the admission predicate then compares frames against that validated binding, so a frame carrying the other network's identity under our own PAN and short is refused on air"
+  ],
+  "offline_tests": {
+    "totals": { "checks": 355, "failures": 0 },
+    "per_suite": {
+      "test_dual_admit": { "checks": 120, "failures": 0, "new_pinned_identity_checks": 21 },
+      "test_dual_sched": { "checks": 137, "failures": 0 },
+      "test_dual_records": { "checks": 98, "failures": 0 }
+    },
+    "flags": ["-std=c11", "-Wall", "-Wextra", "-Werror", "-Wconversion", "-O1"],
+    "sanitizers": { "address": "pass", "undefined": "pass" },
+    "equivalence_still_holds": {
+      "corpus": 40960, "both_admit": 11, "both_refuse": 40949,
+      "v25_admitted_v26_refused": 0, "v26_admitted_v25_refused": 0,
+      "note": "re-run after the wire-order correction and after pinning, with the unmodified V25 predicate in the same binary"
+    },
+    "fuzz_still_clean": { "iterations": 300000, "invariant_violations": 0, "crashes": 0 }
+  },
+  "not_done_yet": [
+    "the state machines in rejoin_transport.c still pin ctx1 only: PAN literals 0x0b7a in the poll builders and the beacon and application envelope checks, short 0x6c55, epoch and attempt strings, keys.ctx=1",
+    "session budgets remain 360 s and 400 polls, enforced at rejoin_transport.c lines 47, 49 and 96",
+    "main.c still speaks RADIOV9 with one session and no ctx on RX"
+  ],
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0
+  }
+}

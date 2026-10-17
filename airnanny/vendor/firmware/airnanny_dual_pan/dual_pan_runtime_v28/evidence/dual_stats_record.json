@@ -1,0 +1,90 @@
+{
+  "record": "dual_stats_record",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.8 the STATS record",
+  "date": "2026-10-11",
+  "scope": "offline only; no flash, no COM, no RF, no probe, no cryptography, no keys, no network",
+  "status": "OFFLINE_PASS_SOFTWARE_ONLY",
+  "hardware_pass": false,
+  "flashed": false,
+  "what_this_closes": "the admission and scheduler counters existed since phases 1.2 and 1.3 but were not observable from the host, so nothing issue #5 asks to be measured -- classification outcomes, ACK suppression, per-context TX accounting, fairness -- could actually be read off a running device. STATS is the only place they become visible",
+  "verb": {
+    "spelling": "RADIOV10 STATS id=<host-id> boot=<id>",
+    "scope": "global and read-only. ctx is refused with ctx_not_scoped, as on INFO and END",
+    "field_set": "id and boot. Not session-scoped, because the report covers both contexts and is not an action on either",
+    "enum_placement": "M_STATS is appended to management_kind_t rather than inserted, because the verbs[] table is indexed by that enum and an insertion would silently renumber every verb after it. The loop bound is now MANAGEMENT_VERB_COUNT rather than a literal 13, which is what made the old table safe to extend by hand and is no longer trusted to be"
+  },
+  "two_defects_in_my_own_earlier_code_fixed_here": [
+    {
+      "what": "dual_format_stats emitted no id=",
+      "why_it_mattered": "every other reply record carries the host id it was asked with, and host/probe.py awaits a reply by matching kind and id. A STATS record without one could never be awaited: the bounded wait would simply time out, and the formatter's 98 passing checks would not have noticed because nothing awaited it",
+      "fix": "the formatter takes host_id and emits id=, and its test now asserts the field is present rather than only that the line formatted"
+    },
+    {
+      "what": "sched_backstop_fired was dead state: set when the scheduler's deadline backstop fired, never read",
+      "why_it_mattered": "the condition it recorded is a real fault -- the lifecycle lost a frame it owned -- and writing it to a flag nobody reads means the fault is invisible except as a stop with no stated cause",
+      "fix": "removed, and both conditions now count into sched_routing_faults: a completion the scheduler refused to route, and the backstop firing. They are one failure class -- the lifecycle and the scheduler disagreeing about which frame owns the radio -- and deserve one observable counter. Both still stop the runtime, and both counters saturate rather than wrap"
+    }
+  ],
+  "firmware_counters_added_to_the_record": {
+    "starved_polls": "a context that was due to poll and could not be offered, because its own queue was still occupied. This is the fairness number issue #5 asks to be bounded, and it lives in main.c rather than in either stats struct",
+    "routing_faults": "must stay zero; see above"
+  },
+  "answered_before_the_capture_loss_check": "deliberate. Every other verb is refused once out_drop or a gate drop is seen, because acting on lost evidence is unsafe. A read-only report is the opposite case: when evidence has been lost the counters are the most useful thing left to read, and refusing to show them is the opposite of what a diagnostic is for",
+  "host_side": "probe.py names STATS in the reply-kind map and in GLOBAL_VERBS. Without the first it would have hung on its own request; without the second it would have sent a ctx the firmware refuses",
+  "validation": {
+    "native": {
+      "test_dual_records": {"checks": 101, "failures": 0, "note": "98 before; the three new checks assert id=, starved_polls= and the trailing routing_faults="},
+      "test_dual_admit": {"checks": 120, "failures": 0},
+      "test_dual_sched": {"checks": 155, "failures": 0},
+      "test_transport_equivalence": {"checks": 127, "failures": 0},
+      "test_v25_equivalence": {"corpus": 40960, "divergence": 0},
+      "fuzz_dual_records": {"iterations": 300000, "invariant_violations": 0},
+      "total_offline_checks": 503,
+      "sanitizers": "address and undefined pass",
+      "two_hosts": "identical results in the cloud container and in the device VM"
+    },
+    "live_record_through_the_real_dispatcher": {
+      "method": "firmware_cli.exe, which compiles the actual src/main.c with a fake radio",
+      "sequence": "INFO, BIND ctx=1, one MANAGEMENT_POLL on ctx1, then STATS",
+      "observed": "ctx1_tx_accepted=1 ctx1_tx_terminal=1 ctx0_tx_accepted=0 ctx0_tx_terminal=0 ctx0_tx_queue=0 ctx1_tx_queue=0 starved_polls=0 routing_faults=0 routing_error=0 scheduler_starvation=0",
+      "reading": "the one poll was accounted to the context that sent it and to no other, both queues drained, and the lifecycle and scheduler agreed throughout",
+      "scope_rules": "STATS with ctx=1 refused as ctx_not_scoped; STATS without boot refused as field_set"
+    },
+    "python_regression": {
+      "green": ["test_mac_backoff", "test_peer_scope", "test_completion", "test_clock_dispatch",
+                "test_permit_observation", "test_foreign_status_scope", "test_first_control"],
+      "inherited_failures_identical_in_v25": {
+        "test_recovery": "failures=1", "test_rx_deadline": "failures=6",
+        "test_ctx1_admission": "errors=1", "test_discovery_cca": "errors=1",
+        "test_power": "failures=2, errors=1"
+      },
+      "new_failures": 0
+    }
+  },
+  "arm_image": {
+    "status": "IMAGE_LINKS_NOT_A_RELEASE_CANDIDATE",
+    "flashed": false,
+    "hex_sha256": "BD1039EF6CD0E3643FB51B916829617099CBB79620291FDD2418576D052A5F00",
+    "text": 62140, "data": 176, "bss": 53216, "total": 115532,
+    "reproducible": "two consecutive runs produced the same HEX hash",
+    "toolchain": "xPack arm-none-eabi-gcc 7.3.1 20180622 (release) [ARM/embedded-7-branch revision 261907], Linux host",
+    "bit_comparable_with_lineage": false,
+    "delta_versus_1_7": {"text": 1092, "data": 0, "bss": 0},
+    "reading": "bss is unchanged, which is the expected shape: this phase adds the formatter (previously compiled in but unreferenced, so --gc-sections dropped it) and one parser verb, and the record is written through a stack buffer. A bss increase here would have meant the change had quietly added runtime state"
+  },
+  "still_not_done": [
+    "the contract's generic TX verb is not implemented; nothing needs it until issue #6",
+    "no hardware gate has been prepared or reviewed, and no guard exists",
+    "the 32 bit microsecond clock wraps at about 71.6 minutes and main.c stops on a backwards clock, so a 60 minute soak must be designed around that rather than into it"
+  ],
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0,
+    "frozen_v25_sources_edited": 0
+  }
+}

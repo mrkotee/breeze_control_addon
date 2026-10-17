@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Proposed local RAW provisioning record; no keys",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "context", "raw_ieee", "identity_policy", "pan", "extpan", "channel", "assigned_short", "coordinator_ieee", "coordinator_short", "trust_center_ieee", "nwk_key_secret_reference", "tc_key_secret_reference", "keyseq", "key_epoch_id", "outgoing_security_high_water", "aps_security_high_water", "incoming_replay_floors", "nwk_sequence", "aps_counter", "zdo_counter", "mac_dsn", "state", "generation", "attempt_id", "created_at", "updated_at", "journal"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "context": {"enum": [0, 1]},
+    "raw_ieee": {"$ref": "#/$defs/ieee"},
+    "identity_policy": {"type": "string", "minLength": 1},
+    "pan": {"type": ["integer", "null"], "minimum": 0, "maximum": 65534},
+    "extpan": {"anyOf": [{"$ref": "#/$defs/ieee"}, {"type": "null"}]},
+    "channel": {"const": 21},
+    "assigned_short": {"type": ["integer", "null"], "minimum": 0, "maximum": 65527},
+    "coordinator_ieee": {"anyOf": [{"$ref": "#/$defs/ieee"}, {"type": "null"}]},
+    "coordinator_short": {"type": ["integer", "null"], "minimum": 0, "maximum": 65527},
+    "trust_center_ieee": {"anyOf": [{"$ref": "#/$defs/ieee"}, {"type": "null"}]},
+    "nwk_key_secret_reference": {"type": ["string", "null"]},
+    "tc_key_secret_reference": {"type": ["string", "null"]},
+    "keyseq": {"type": ["integer", "null"], "minimum": 0, "maximum": 255},
+    "key_epoch_id": {"type": ["string", "null"]},
+    "outgoing_security_high_water": {"$ref": "#/$defs/highwater"},
+    "aps_security_high_water": {"type": "object", "description": "per actual key/source domain and epoch, not a single APS counter", "additionalProperties": {"$ref": "#/$defs/highwater"}},
+    "incoming_replay_floors": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["source_ieee", "layer", "key_epoch_id", "counter"], "properties": {"source_ieee": {"$ref": "#/$defs/ieee"}, "layer": {"enum": ["NWK", "APS"]}, "key_epoch_id": {"type": "string"}, "counter": {"type": "integer", "minimum": 0, "maximum": 4294967295}}}},
+    "nwk_sequence": {"$ref": "#/$defs/u8"},
+    "aps_counter": {"$ref": "#/$defs/u8"},
+    "zdo_counter": {"$ref": "#/$defs/u8"},
+    "mac_dsn": {"$ref": "#/$defs/u8"},
+    "state": {"enum": ["IDLE", "SCANNING", "TARGET_SELECTED", "ASSOCIATION_SENT", "ASSOCIATED", "WAIT_TRANSPORT_KEY", "KEY_INSTALLED", "DEVICE_ANNOUNCE_SENT", "MANAGEMENT_PENDING", "JOINED_RAW", "APPLICATION_SYNC_REQUIRED", "STOP", "RETIRED"]},
+    "generation": {"type": "integer", "minimum": 0},
+    "attempt_id": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "journal": {"type": "array", "description": "append-only durable lease/intent/outcome metadata, never key plaintext"}
+  },
+  "$defs": {
+    "ieee": {"type": "string", "pattern": "^[0-9a-f]{16}$"},
+    "u8": {"type": "integer", "minimum": 0, "maximum": 255},
+    "highwater": {"type": ["integer", "null"], "minimum": 0, "maximum": 4294967296, "description": "exclusive durable next-safe bound; 2^32 means exhausted"}
+  }
+}

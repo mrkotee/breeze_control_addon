@@ -1,0 +1,246 @@
+{
+  "run_uuid": "6ad64bba458744b1b085d0ba02bbc388",
+  "Transport_Key": {
+    "wire_control": 48,
+    "effective_control": 53,
+    "counter": 0,
+    "source_ieee": "00124b0036a148e5",
+    "keyseq": null,
+    "nonce": "e548a136004b12000000000035",
+    "aad": "217d3500000000e548a136004b1200",
+    "reencrypt_exact": true,
+    "command": 5,
+    "delivered_key_type": 1,
+    "delivered_key_sequence": 0,
+    "destination_ieee": "e2b0275f4d582069",
+    "trust_center_ieee": "00124b0036a148e5",
+    "derivation_selector": 0,
+    "plaintext_length": 35,
+    "rx_revision": 124,
+    "protected_key_matches": true,
+    "MIC_PASS": true
+  },
+  "Device_Announce": {
+    "encrypted_mac": "6188009bfa000026a30802fdff26a33c0028000000006920584d5f27b0e200aab8e30dd2d26739564ac1041344ad91d747827c5ea8e89e",
+    "TXDONE": {
+      "boot": "84bd4609c63f48fd094d5a8852fdeb58",
+      "id": "12",
+      "session": "1",
+      "result": "local_tx_ok",
+      "management_complete": "0",
+      "application_tx": "locked"
+    },
+    "self_check": {
+      "wire_control": 40,
+      "effective_control": 45,
+      "counter": 0,
+      "source_ieee": "e2b0275f4d582069",
+      "keyseq": 0,
+      "nonce": "6920584d5f27b0e2000000002d",
+      "aad": "0802fdff26a33c002d000000006920584d5f27b0e200",
+      "reencrypt_exact": true
+    },
+    "used_FC": 0,
+    "next_fc": 32
+  },
+  "passive": {
+    "begin_utc": "2026-10-07T16:19:11.890428+00:00",
+    "end_utc": "2026-10-07T16:19:21.898460+00:00",
+    "RX_count": 20,
+    "categories": {
+      "relayed_Device_Announce": {
+        "observed_revisions": [
+          125
+        ],
+        "result": "OBSERVED"
+      },
+      "End_Device_Timeout": {
+        "observed_revisions": [],
+        "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+      },
+      "Node_Descriptor": {
+        "observed_revisions": [],
+        "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+      },
+      "Request_Key": {
+        "observed_revisions": [],
+        "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+      },
+      "TC_link_key_Transport_Key": {
+        "observed_revisions": [],
+        "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+      },
+      "Verify_Key": {
+        "observed_revisions": [],
+        "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+      },
+      "Confirm_Key": {
+        "observed_revisions": [],
+        "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+      },
+      "application_to_RAW": {
+        "observed_revisions": [],
+        "result": "NOT_OBSERVED_IN_BOUNDED_WINDOW"
+      }
+    },
+    "observations": [
+      {
+        "revision": 125,
+        "utc": "2026-10-07T16:19:11.891391+00:00",
+        "mac_source": "0000",
+        "mac_destination": "ffff",
+        "NWK_FCF": "0208",
+        "MIC_PASS": true,
+        "security_source": "00124b0036a148e5",
+        "security_FC": 2057101,
+        "NWK_source": "a326",
+        "NWK_destination": "fffd",
+        "cluster": "0013",
+        "profile": "0000",
+        "classification": "APS_data",
+        "announced_short": "a326",
+        "announced_ieee": "e2b0275f4d582069",
+        "capability": 128
+      },
+      {
+        "revision": 126,
+        "utc": "2026-10-07T16:19:12.936169+00:00",
+        "mac_source": "c9b7",
+        "mac_destination": "0000",
+        "NWK_FCF": "2208",
+        "MIC_PASS": true,
+        "security_source": "00124b00369c711f",
+        "security_FC": 463251,
+        "NWK_source": "c9b7",
+        "NWK_destination": "fffd",
+        "cluster": "0600",
+        "profile": "0400",
+        "classification": "APS_data"
+      },
+      {
+        "revision": 127,
+        "utc": "2026-10-07T16:19:12.937169+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 128,
+        "utc": "2026-10-07T16:19:12.949050+00:00",
+        "mac_source": "0000",
+        "mac_destination": "ffff",
+        "NWK_FCF": "0208",
+        "MIC_PASS": true,
+        "security_source": "00124b0036a148e5",
+        "security_FC": 2057102,
+        "NWK_source": "c9b7",
+        "NWK_destination": "fffd",
+        "cluster": "0600",
+        "profile": "0400",
+        "classification": "APS_data"
+      },
+      {
+        "revision": 129,
+        "utc": "2026-10-07T16:19:13.042941+00:00",
+        "mac_source": "c9b7",
+        "mac_destination": "0000",
+        "classification": "MAC_command_or_no_NWK"
+      },
+      {
+        "revision": 130,
+        "utc": "2026-10-07T16:19:13.042941+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 131,
+        "utc": "2026-10-07T16:19:13.054722+00:00",
+        "mac_source": "0000",
+        "mac_destination": "c9b7",
+        "NWK_FCF": "0248",
+        "MIC_PASS": true,
+        "security_source": "00124b0036a148e5",
+        "security_FC": 2057103,
+        "NWK_source": "0000",
+        "NWK_destination": "c9b7",
+        "cluster": "0006",
+        "profile": "0104",
+        "classification": "APS_data"
+      },
+      {
+        "revision": 132,
+        "utc": "2026-10-07T16:19:13.359368+00:00",
+        "mac_source": "c9b7",
+        "mac_destination": "0000",
+        "classification": "MAC_command_or_no_NWK"
+      },
+      {
+        "revision": 133,
+        "utc": "2026-10-07T16:19:13.359368+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 134,
+        "utc": "2026-10-07T16:19:15.454526+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 135,
+        "utc": "2026-10-07T16:19:18.296945+00:00",
+        "mac_source": "0000",
+        "mac_destination": "ffff",
+        "NWK_FCF": "1209",
+        "classification": "outside_fixed_secured_NWK_subset"
+      },
+      {
+        "revision": 136,
+        "utc": "2026-10-07T16:19:19.387154+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 137,
+        "utc": "2026-10-07T16:19:19.387154+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 138,
+        "utc": "2026-10-07T16:19:19.400197+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 139,
+        "utc": "2026-10-07T16:19:19.491230+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 140,
+        "utc": "2026-10-07T16:19:19.491230+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 141,
+        "utc": "2026-10-07T16:19:19.501163+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 142,
+        "utc": "2026-10-07T16:19:19.501163+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 143,
+        "utc": "2026-10-07T16:19:19.805828+00:00",
+        "classification": "ACK_or_other_PAN"
+      },
+      {
+        "revision": 144,
+        "utc": "2026-10-07T16:19:19.806774+00:00",
+        "classification": "ACK_or_other_PAN"
+      }
+    ],
+    "limits": [
+      "Observational decode only; does not advance runtime replay floors or authorize TX",
+      "No try-all keys: only installed FA9B epoch selected by exact PAN/keyseq",
+      "No management/application request or response sent",
+      "Not observed in 10s does not prove optionality or application readiness",
+      "Unrecognized/encrypted APS semantic remains unknown"
+    ]
+  }
+}

@@ -1,0 +1,7 @@
+__pycache__/
+.local/
+build/*
+!build/airnanny_raw_assoc_permit_v4.hex
+!build/airnanny_raw_assoc_permit_v4.elf
+!build/airnanny_raw_assoc_permit_v4.map
+!build/compile.log

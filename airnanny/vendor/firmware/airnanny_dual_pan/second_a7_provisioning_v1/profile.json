@@ -1,0 +1,16 @@
+{
+  "ctx": 1,
+  "raw_ieee": "027a56bb75a41437",
+  "pan": 2938,
+  "channel": 21,
+  "coordinator_short": 0,
+  "tc_ieee": "00124b0036a1875f",
+  "physical_aircontrol_ieee": "00124b0036a18944",
+  "physical_short_observed_only": 62879,
+  "state": "ALLOCATED_UNUSED",
+  "key_epoch": null,
+  "assigned_short": null,
+  "next_fc": null,
+  "forbidden_count": 39,
+  "forbidden_inventory_sha256": "fd1730448f82bf6d18ae6c9c7b9fd2fa7bcae188700913360a400ee3e597b813"
+}

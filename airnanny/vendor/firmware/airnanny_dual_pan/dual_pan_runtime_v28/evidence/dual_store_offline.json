@@ -1,0 +1,74 @@
+{
+  "record": "dual_store_offline",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.11 the dual-store host accessor",
+  "date": "2026-10-11",
+  "scope": "read-only access to the two durable stores; no writes, no flash, no COM, no RF, no cryptography, no secrets read",
+  "status": "OFFLINE_PASS_SOFTWARE_ONLY",
+  "hardware_pass": false,
+  "flashed": false,
+  "what_this_closes": "the inherited host stack knows one context -- host/management.py pins ctx1's run and ctx1's RAW/TC -- and every guard before this one treated ctx0's store as something to inventory by hash and leave alone. Gate A is the first gate where ctx0 must become a live context, so both stores have to be readable at once. The README listed this accessor as missing",
+  "the_two_stores": {
+    "ctx0": {
+      "path": "hardware_commissioning_v7/.local/hardware_gate_v1/runs/6ad64bba458744b1b085d0ba02bbc388/runtime/current/key/security/epoch.json",
+      "lineage": "issue #3",
+      "observed": {"ctx": 0, "pan": "0xfa9b", "short": "0xa326", "generation": 19,
+                   "next_fc": 1280, "keyseq": 0, "recovery_state": "FIRST_TYPE07_CONFIRMED",
+                   "epoch_sha256_prefix": "017af4be2e55",
+                   "raw_ieee": "e2b0275f4d582069", "tc_ieee": "00124b0036a148e5",
+                   "key_epoch_id": "1ea30211ee014345a8288337a173a833",
+                   "attempt": "5b09cb6bc02746298fbffcfb780844a5"}
+    },
+    "ctx1": {
+      "path": "second_a7_provisioning_v1/.local/hardware_gate_v2/runs/7dd8634f2c1e491d9601be513519583b/runtime/current/key/security/epoch.json",
+      "lineage": "issue #4",
+      "observed": {"ctx": 1, "pan": "0x0b7a", "short": "0x6c55", "generation": 16,
+                   "next_fc": 1088, "keyseq": 0, "recovery_state": "FIRST_TYPE07_CONFIRMED",
+                   "epoch_sha256_prefix": "9eef08a7722e",
+                   "raw_ieee": "027a56bb75a41437", "tc_ieee": "00124b0036a1875f",
+                   "key_epoch_id": "9985b15dcb574c59b87dc2fb379f317f",
+                   "attempt": "cbef428849da4e87b48867ac616247d1"}
+    },
+    "why_both_paths_are_pinned_rather_than_derived": "the two stores live in different milestone lineages because they were commissioned by different issues, and neither path is derivable from the other",
+    "agreement_with_the_plan": "every ctx0 value matches DUAL_PAN_RUNTIME_PLAN.md section 1, including the current_epoch_sha256 prefix 017af4be that the plan recorded, and every ctx1 value matches it too. The plan's figures were therefore accurate and are now verified against the live stores rather than carried forward on trust"
+  },
+  "a_verification_that_fell_out_of_this": "ctx0's store carries tc_ieee 00124b0036a148e5, key_epoch_id 1ea30211ee014345a8288337a173a833 and attempt 5b09cb6bc02746298fbffcfb780844a5. Those are exactly the constants compiled into src/dual_identity.c for ctx0, which until now had only been derived from documents. The image's pinned ctx0 identity is confirmed against the real store",
+  "what_the_accessor_refuses": [
+    "a store that claims a different ctx than the slot it was read for",
+    "the other network's PAN or short",
+    "a transplanted RAW identity, trust centre, key epoch or attempt",
+    "a changed key sequence",
+    "a generation below the firmware's DUAL_GENERATION_FLOOR, or a non-integer one",
+    "an implausible frame counter",
+    "a missing or malformed guard token",
+    "a missing store, which is a refusal rather than an empty result",
+    "both stores claiming the same tuple or the same PAN -- the cross-store check, because one radio answering a single tuple for two networks is what the admission layer exists to prevent, and it would begin in the stores rather than on air"
+  ],
+  "it_never_writes": "verified by a test that hashes both files before and after a full read",
+  "keeping_the_duplication_honest": {
+    "problem": "the accessor duplicates the identity the firmware compiled in, which is the kind of duplication that rots: the C changes, Python does not, and the disagreement surfaces as a refused BIND on hardware with both A7 units live",
+    "solution": "test_pinned_constants_match_the_c_source parses include/dual_identity.h and src/dual_identity.c and compares every value, so the C is the single source of truth and a drift is a test failure",
+    "the_test_was_proven_able_to_fail": "each pinned constant was mutated in turn -- ctx0's PAN, its short, its key epoch, its RAW IEEE, and the generation floor -- and the test caught every one. A consistency test that cannot fail is worth nothing",
+    "wire_order_checked_rather_than_assumed": "the IEEE addresses are wire-order byte arrays in the .c and hex strings in Python, so the test compares them by reversing. That convention was already got wrong once in this project, in the phase 1.3 test vectors, so it is checked"
+  },
+  "validation": {
+    "offline": {"suite": "tests/test_dual_store.py", "tests": 22, "failures": 0,
+                "note": "synthetic stores in a temp directory; 15 of the 22 drive a refusal"},
+    "against_the_real_stores": "read_both() run on the operator's machine against both live stores: accepted, every pinned field matched, both BIND field sets generated. This is the one thing the offline tests cannot check, because the stores exist only there",
+    "two_hosts": "the offline suite passes identically in the cloud container and in the device VM"
+  },
+  "not_done_yet": [
+    "the Gate A launcher that uses this accessor: the one-shot guard, the protected-inventory check, the prior-gate closure and the dongle selection by exact VID/PID/serial",
+    "one final Windows build, because src/main.c moved after the release image was built",
+    "no hardware gate has been run; nothing has been flashed"
+  ],
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0,
+    "stores_written": 0
+  }
+}

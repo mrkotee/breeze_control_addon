@@ -1,0 +1,99 @@
+{
+  "record": "dual_context_offline",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.2 context layer",
+  "date": "2026-10-10",
+  "scope": "offline only; no COM, no RF, no flash, no HEX, no cryptography, no keys",
+  "status": "OFFLINE_PASS_SOFTWARE_ONLY",
+  "hardware_pass": false,
+  "arm_build": false,
+  "arm_build_note": "arm-none-eabi-gcc expected at Desktop/gcc-arm-none-eabi-7-2018-q2-update-win32/bin, outside the folders granted to this session; the ARM image is not built yet",
+  "predecessor": {
+    "firmware": "ctx1_rx_admission_v25",
+    "transport": "RADIOV9",
+    "classification_source": "dual_pan_mac_gate/src/dual_filter.c",
+    "deep_predicate_source": "ctx1_rx_admission_v25/src/assoc_filter.c"
+  },
+  "new_sources": {
+    "include/dual_context.h": "3a91768362db42f1ab30dde75598a2fea59f8b12d5c968debe6123107bfcf353",
+    "src/dual_context.c": "9cf4fcfb7a84e8833e88bdee1c7b55a6aefd54cb86345c0e16ab29b6a8fc6adb",
+    "src/dual_admit.c": "36127040c5e4ba2d8e003eb5bbbfbd5e8e98762544503ee3445b1eccd1728747",
+    "tests/test_dual_admit.c": "2a6541431ac67be72d0d54ef124f5c1c1d41057da3932c7ec2d47edef8327c2b",
+    "tests/test_v25_equivalence.c": "62f037e9189b6998a64c0bef6a08d7b644afaac6a38bb3957cc393afcdd12e67"
+  },
+  "modified_sources": {
+    "radio_driver/mac_features/nrf_802154_filter.c": {
+      "sha256": "c16fc7b02c54689a570b56fdf7ad1f81ec4ec85a58e1ffc47d9f8b66636462b6",
+      "delta": "the DUAL_PAN_GATE hook now includes dual_context.h and calls dual_admit_part instead of assoc_filter_part; nothing else changed",
+      "lines_changed": 2
+    }
+  },
+  "driver_untouched": {
+    "nrf_802154_core.c": "unchanged from V25; V25 already contains every instrumentation call dual_pan_mac_gate added",
+    "other_radio_driver_files": 93
+  },
+  "behaviour": {
+    "classification": "O(1) from clear MAC fields: paired (PAN, local short) over two entries, with cross_pair and foreign distinguished",
+    "deep_admission": "V25 predicate run against the binding of the context that classification selected; NWK FCF shape, extended identities and auxiliary security header control/source/keyseq all retained",
+    "no_try_all_key": true,
+    "ack_gate": "per context: config enabled, context enabled, bound, ack_enabled, not scanning",
+    "ack_never": ["broadcast", "cross PAN", "foreign address", "ambiguous configuration", "CRC failure"],
+    "bind_grants_ack": false,
+    "config_commit": "atomic, monotonic generation, rollback and repeat refused; disabling a context clears its binding",
+    "bcc_rounds_for_admitted_frame": 3,
+    "bcc_rounds_note": "same budget as V25: request 18, request need+1, admit; a short non-target frame stops after its MHR"
+  },
+  "offline_tests": {
+    "test_dual_admit": {
+      "compiler": "gcc 13.3.0",
+      "flags": ["-std=c11", "-Wall", "-Wextra", "-Werror", "-Wconversion", "-O1", "-O2"],
+      "checks": 99,
+      "failures": 0,
+      "sanitizers": { "address": "pass", "undefined": "pass", "checks": 99, "failures": 0 },
+      "groups": [
+        "configuration validation including identical paired tuple refusal and same short under different PAN acceptance",
+        "atomic commit with monotonic generation, repeat and rollback refusal",
+        "classification: ctx0, ctx1, cross pair, foreign, broadcast PAN, broadcast short",
+        "per context ACK gate including ctx0 admitted while ctx1 scans",
+        "deep predicate: NWK FCF variants, extended identity mismatches, aux control, aux source, key sequence, MAC source",
+        "cross context isolation and binding validation",
+        "BCC staging bounds and round budget",
+        "disabled configuration and binding clearing"
+      ]
+    },
+    "test_v25_equivalence": {
+      "corpus": 40960,
+      "both_admit": 11,
+      "both_refuse": 40949,
+      "v25_admitted_v26_refused": 0,
+      "v26_admitted_v25_refused": 0,
+      "verdict": "equivalence holds",
+      "method": "the unmodified ctx1_rx_admission_v25/src/assoc_filter.c is compiled into the same binary and bound to the same identity; both predicates are driven over identical BCC staging and compared on admitted-or-not",
+      "compared_invariant": "admitted-or-not, because that is what decides whether an ACK is sent",
+      "not_compared": "error codes of refused frames; V26 classifies generically first and reports INVALID_FRAME where V25 reported INVALID_DEST_ADDR for some malformed input",
+      "admitted_combination_count_check": "11 equals the expected product of the corpus axes: 0x0208 and 0x0248 with any extended fields (8), 0x1209 requiring the correct TC identity (2), 0x1a09 requiring both correct identities (1)"
+    }
+  },
+  "requirement_discovered": {
+    "name": "per-context ACK gating during the other context's scan",
+    "stated_in_issue": false,
+    "stated_in_prior_documents": false,
+    "detail": "V25 gated ACK with the single session-wide condition phase != G_MANAGEMENT || recovery.phase == R_SCANNING, which in a dual runtime would silence both contexts whenever either scanned",
+    "implemented": true,
+    "covered_by_test": "ctx0 still admitted while ctx1 scans"
+  },
+  "not_proven": [
+    "ACK timing for two tuples on real hardware",
+    "that the A7 accepts anything",
+    "NWK MIC, counters, membership or management behaviour",
+    "any host-side dual store behaviour"
+  ],
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0
+  }
+}

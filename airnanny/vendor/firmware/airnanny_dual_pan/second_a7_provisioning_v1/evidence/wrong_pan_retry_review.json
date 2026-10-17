@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "new_hardware_performed": false,
+  "offline_tests": 10,
+  "original_commissioning_and_firmware_unchanged": true,
+  "same_stable_ctx1_RAW": true,
+  "prior_guard": "65e522af759049afb3ba3300cb5d67b2",
+  "prior_outcome": "PERMIT_ABSENT_ZERO_TX_V17_RECOVERED",
+  "ctx0_protected_files_unchanged": 354,
+  "secret_scan": {
+    "passed": true,
+    "public_files_scanned": 67,
+    "actual_local_oracle_material_checked": true
+  },
+  "source_sha256": {
+    "retry_after_wrong_pan.py": "291ff2456a6fd0a4e2741e16ecb33ed3501d44faf1a120e82c83b369395ffeb7",
+    "review_wrong_pan_retry.py": "720a0505c9650e0c7a67a8a74ec9f201e329d3c12c02035daa5751ac8e10f341",
+    "tests/test_wrong_pan_retry.py": "ab65696d0c95eed6f280877271358d0d8bb833bfc5ffb772cc18507e1f377f2c"
+  },
+  "predecessor_sha256": {
+    "000_NOT_STARTED.json": "3d5cbda1045049a11dce2139bbf492a8dbbc2030594d4a941190f13c23198f64",
+    "001_STARTED.json": "22cf5337653bd354a70192d8834aa9c388a1cea4eb655460a8ded9733dfbc8bc",
+    "execute_claim.json": "f8b9a794cf487789765e4f72d0b2b2ca68d80b77277fb5320b2d764341f6d290",
+    "flashed.json": "9310e1b4aa51e9f030a063c232590a9c3b705edba36d1fe8def70112eafa3938",
+    "inspect_claim.json": "b71420768764d0bf6db0c903757669394f171f76e8760e671e90800748b140de",
+    "permit_forensics.json": "f01eca3957e7e422c82f7a128efb9edd1ea507b23aed3d1268b552b330a69ddf",
+    "restored.json": "aabd07c1817b58433c6b26eac0f8bc4e1a0dbf3dfbfa46a9bb5e7b5a276fe247",
+    "software.json": "9b7988b07bfc1dc08b20f7eabbfe6c27dd7c601039f1393df0be8eb7322cb6dd",
+    "terminal.json": "759982d9ae207525d4079c80612c7056290e94e6b493e36b61155682cb6d0bfc",
+    "v17_recovery.json": "17c9dbe10ae3d0c0a2b3cf0aa6892f5366a65463d1bd328e3975538c425bfd8a",
+    "runtime/outcome.json": "73a9126ccf5a2a84b451b12a92de9d3d520a6d81582145458ec9690baa93a8c2"
+  },
+  "policy": {
+    "new_guard_only": true,
+    "old_guard_reuse": false,
+    "fresh_baseline_and_permit_required": true,
+    "manual_flash_required": true,
+    "pairing_target": "OTHER_A7_PAN0B7A_NOT_ISSUE3_FA9B"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "record": "dual_pan_build_toolchain",
+  "issue": 5,
+  "date": "2026-10-10",
+  "question": "which toolchain builds the V26 ARM image, given that the operator's toolchain is Windows-only and the assistant's shells are Linux",
+  "scope": "offline reproduction experiment only; no flash, no COM, no RF, nothing written into any milestone directory",
+  "status": "LINUX_BUILD_POSSIBLE_NOT_BIT_IDENTICAL",
+  "operator_toolchain": {
+    "path": "Desktop/gcc-arm-none-eabi-7-2018-q2-update-win32/bin",
+    "distribution": "GNU Tools for Arm Embedded Processors 7-2018-q2-update",
+    "host": "win32",
+    "recorded_in_prior_manifests": "arm-none-eabi-gcc.exe (GNU Tools for Arm Embedded Processors 7-2018-q2-update) 7.3.1 20180622 (release) [ARM/embedded-7-branch revision 261907]",
+    "executable_from_assistant_shell": false,
+    "reason": "device_bash is a Linux VM on the operator's machine and cannot execute Windows binaries; the cloud container has no ARM toolchain at all"
+  },
+  "computer_use_not_a_route": {
+    "detail": "desktop control grants terminals and IDEs the click tier, where typing and key presses are blocked, so a Windows shell cannot be driven to run the build"
+  },
+  "arm_official_linux_distribution": {
+    "reachable": false,
+    "evidence": "https://developer.arm.com and https://armkeil.blob.core.windows.net both return HTTP 403 from the egress proxy after CONNECT, from the device VM",
+    "consequence": "the distribution that would carry the identical bundled newlib cannot be obtained; a third-party mirror was deliberately not used, because its contents could not be authenticated against a hash known to be ARM's"
+  },
+  "linux_toolchain_obtained": {
+    "distribution": "xPack GNU ARM Embedded GCC",
+    "package": "xpack-arm-none-eabi-gcc-7.3.1-1.2-linux-x64.tgz",
+    "source": "https://github.com/xpack-dev-tools/arm-none-eabi-gcc-xpack/releases/download/v7.3.1-1.2/",
+    "sha256": "c5c76a218f9b847c51d354c0f994de0cac5e7568a3b58e0ca04ce3d36f4eab0e",
+    "sha256_verified_against": "the publisher's own manifest in the npm package @xpack-dev-tools/arm-none-eabi-gcc@7.3.1-1.2.2",
+    "version_string": "arm-none-eabi-gcc (xPack GNU ARM Embedded GCC, 64-bit) 7.3.1 20180622 (release) [ARM/embedded-7-branch revision 261907]",
+    "compiler_version_matches_lineage": true,
+    "compiler_revision_matches_lineage": "261907, identical",
+    "build_date_matches_lineage": "20180622, identical",
+    "installed_at": "device VM home, outside the repository and outside every connected folder"
+  },
+  "reproduction_experiment": {
+    "method": "V25 was rebuilt from its own committed sources with the Linux toolchain, using the exact flag list, include derivation, source list and link command of ctx1_rx_admission_v25/tools/build.py; nothing was written into the repository and the frozen V25 build_manifest.json was not touched",
+    "build_succeeded": true,
+    "recorded_windows_build": { "text": 55524, "data": 136, "bss": 49884,
+      "hex_sha256": "F62D6F6536D021EBD488EFA1D69D240E03C2DE46B86FB9CA44D336FAA79A1AA6" },
+    "linux_rebuild": { "text": 56092, "data": 136, "bss": 49896,
+      "hex_sha256": "AC00CF38263D806E3485157A7849904E0FC893BDFA344CC621BB3036C6D3CD55" },
+    "delta": { "text": 568, "data": 0, "bss": 12 },
+    "verdict": "DIFFERENT",
+    "cause": "not embedded paths. The project's own sources contain no __FILE__, __DATE__ or __TIME__, and APP_ERROR_CHECK expands to app_error_handler_bare because DEBUG is not defined, so no source path reaches the image. A bss difference cannot come from string paths either. The remaining explanation is the bundled C library: xPack links its own newlib build rather than the one in ARM's 7-2018-q2-update distribution.",
+    "conclusion": "the GCC version, build date and branch revision match the lineage exactly, but the toolchain distribution and its libc do not, so a Linux build is functionally equivalent and byte-different"
+  },
+  "decision": {
+    "chosen": "build V26 with the Linux xPack toolchain, and record this deviation in the V26 build manifest",
+    "authority": "the operator asked the assistant to solve the build rather than hand it back",
+    "consequence_to_state_in_every_v26_manifest": [
+      "the image is not bit-comparable with the V17 to V25 lineage",
+      "the compiler version, date and revision do match",
+      "the difference measured on a V25 reproduction is text +568 and bss +12"
+    ],
+    "operator_alternative": "running tools/build.py on Windows with the existing 7-2018-q2-update toolchain still yields a lineage-identical image, should byte comparability be wanted for a specific gate",
+    "unchanged_policy": "the operator alone flashes the dongle, manually; building is not flashing"
+  },
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "v25_build_manifest": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0,
+    "repository_writes_during_this_experiment": 0
+  }
+}

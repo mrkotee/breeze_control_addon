@@ -1,0 +1,6 @@
+{
+  "utc": "2026-10-06T21:16:14.878080+00:00",
+  "kind": "OPERATOR_ACTION_WINDOW_ARMED",
+  "target": "second bedroom FA9B",
+  "scope": "exactly one attempt only after fresh authenticated permit; this marker is not admission evidence"
+}

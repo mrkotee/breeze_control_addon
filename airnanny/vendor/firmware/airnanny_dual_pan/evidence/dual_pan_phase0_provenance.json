@@ -1,0 +1,112 @@
+{
+  "record": "dual_pan_phase0_provenance",
+  "issue": 5,
+  "date": "2026-10-10",
+  "scope": "offline source provenance audit only; no COM, no RF, no build, no flash",
+  "status": "PHASE0_PROVENANCE_COMPLETE",
+  "sdk_reference": {
+    "root": "nrf sdk/external/nRF-IEEE-802.15.4-radio-driver/src",
+    "note": "external read-only input, not copied into Git"
+  },
+  "comparison_method": {
+    "normalisation": "CR stripped before hashing",
+    "digest": "md5 over normalised bytes",
+    "reason": "ctx1_rx_admission_v25/radio_driver is stored with CRLF, dual_pan_mac_gate/radio_driver with LF; without normalisation all 94 files compare as different and the real delta is hidden"
+  },
+  "radio_driver": {
+    "file_count_v25": 94,
+    "file_count_mac_gate": 94,
+    "files_only_in_v25": [],
+    "files_only_in_mac_gate": [],
+    "files_absent_from_sdk": [],
+    "invented_driver_files": 0,
+    "differing_between_lines_raw": 94,
+    "differing_between_lines_normalised": 7,
+    "modified_vs_sdk": {
+      "ctx1_rx_admission_v25": [
+        "mac_features/nrf_802154_ack_timeout.c",
+        "mac_features/nrf_802154_ack_timeout.h",
+        "mac_features/nrf_802154_filter.c",
+        "nrf_802154_core.c",
+        "nrf_802154_core.h",
+        "nrf_802154_core_hooks.c",
+        "nrf_802154_core_hooks.h"
+      ],
+      "dual_pan_mac_gate": [
+        "mac_features/nrf_802154_filter.c",
+        "nrf_802154_core.c"
+      ]
+    },
+    "overlap_requiring_merge": [
+      "mac_features/nrf_802154_filter.c",
+      "nrf_802154_core.c"
+    ]
+  },
+  "findings": {
+    "filter_c": {
+      "verdict": "IDENTICAL_CHANGE_DIFFERENT_CALLEE",
+      "detail": "Both lines add the same '#if defined(DUAL_PAN_GATE)' override of nrf_802154_filter_frame_part at the same anchor (SDK line 39) with the same '#else'/'#endif' envelope at SDK line 476. The only difference is the callee: assoc_filter_part (V25) versus dual_filter_part (mac_gate).",
+      "merge_cost": "one line"
+    },
+    "core_c": {
+      "verdict": "MAC_GATE_IS_STRICT_SUBSET_OF_V25",
+      "mac_gate_additions": [
+        "#include \"gate_events.h\" at SDK line 37",
+        "gate_hw_rx_begin(mp_current_rx_buffer->data) at SDK line 2082",
+        "gate_hw_deadline_miss() at SDK line 2254",
+        "gate_hw_ack_completed() at SDK line 2326"
+      ],
+      "v25_contains_all_mac_gate_additions_at_same_sdk_anchors": true,
+      "v25_additional_changes": [
+        "ack_trace.h and submission_trace.h includes",
+        "critical_section_enter_and_verify_timeslot_length_traced with SUBMIT_* reason codes",
+        "current_operation_terminate_traced with SUBMIT_HOOK / SUBMIT_RX_BUSY / SUBMIT_OPERATION_BUSY reason codes",
+        "ack_trace_address replacing nrf_802154_core_hooks_rx_ack_started",
+        "ack_trace_wait and PHYEND-based ACK wait arming"
+      ],
+      "merge_cost": "zero; no core.c work is required for dual-PAN"
+    },
+    "gate_events_h": {
+      "verdict": "DIVERGENT_FORKS_WITH_IDENTICAL_ISR_ABI",
+      "shared_isr_hooks": [
+        "gate_hw_init",
+        "gate_hw_rx_begin",
+        "gate_hw_ack_started",
+        "gate_hw_ack_completed",
+        "gate_hw_deadline_miss",
+        "gate_hw_receive",
+        "gate_hw_pop"
+      ],
+      "only_in_mac_gate": [
+        "gate_event_t.match (dual_match_t context classification)",
+        "gate_event_t.config_generation",
+        "separate rx_end_us / ack_start_us / ack_end_us / ack_address_us with validity flags",
+        "gate_stats_t per-context counters: ctx0_match, ctx1_match, foreign_reject, cross_pair_reject, malformed_reject, broadcast, ack_requested, ack_started, ack_completed, ack_deadline_miss, rx_drop, crc_error",
+        "gate_hw_stats, gate_hw_configure",
+        "radio_event_format / radio_stats_format"
+      ],
+      "only_in_v25": [
+        "gate_event_t.revision / session",
+        "gate_crc_t and gate_hw_crc_snapshot",
+        "gate_hw_cutoff_drained",
+        "gate_hw_crc_error",
+        "assoc_filter_bind / assoc_filter_part",
+        "gate_hw_session(const commission_t *)"
+      ],
+      "ring_size": { "v25": 32, "mac_gate": 8 },
+      "required_v26": "union: mac_gate instrumentation and per-context statistics plus V25 CRC snapshot and cutoff drain; ring stays 32 because dual traffic roughly doubles the RX rate"
+    }
+  },
+  "consequence_for_plan": {
+    "driver_merge_surface": "one line in mac_features/nrf_802154_filter.c",
+    "core_c_merge_surface": "none",
+    "real_work_location": "application layer only: two-entry context configuration with atomic commit, V25 deep admission predicate parametrised by context, per-context ACK gating, one-radio TX scheduler, host dual-store accessor",
+    "superseded_assumption": "the plan's earlier framing of 'merging two firmware lines' overstated the driver work; the Nordic driver needs no dual-PAN specific change beyond selecting the filter callee"
+  },
+  "unchanged": {
+    "v17_reference": true,
+    "protected_files_touched": 0,
+    "hex_built": false,
+    "hardware_actions": 0
+  }
+}

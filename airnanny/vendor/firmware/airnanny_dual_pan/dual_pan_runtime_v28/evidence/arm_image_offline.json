@@ -1,0 +1,62 @@
+{
+  "record": "arm_image_offline",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.5e first ARM image",
+  "date": "2026-10-11",
+  "scope": "offline build only; no flash, no COM, no RF, no probe, no network",
+  "status": "IMAGE_LINKS_NOT_A_RELEASE_CANDIDATE",
+  "hardware_pass": false,
+  "flashed": false,
+  "is_release_candidate": false,
+  "superseded_in_part_by": {
+    "record": "dual_radiov10_offline.json",
+    "what_changed": "phase 1.6 landed the RADIOV10 envelope and the ctx-mandatory command set, so the first reason below no longer holds. The other three still do. This record is left as it was written at 1.5e rather than rewritten, because the image it measures is the 1.5e image; the HEX hash here predates phase 1.6 and no longer corresponds to the tree.",
+    "still_not_a_release_candidate": true
+  },
+  "why_not_a_release_candidate": [
+    "RESOLVED IN 1.6 -- the command set is still RADIOV9 while the protocol contract specifies RADIOV10, and ctx is not yet mandatory on the per-context verbs, which the soak needs once both contexts are bound",
+    "dual_sched is compiled in but not on the host-command TX path",
+    "the STATS record is not emitted",
+    "no hardware gate has been prepared or reviewed, and no guard exists"
+  ],
+  "do_not_flash": "nothing here asks the operator to install anything. The image exists to prove the tree links and to measure it.",
+  "build": {
+    "script": "tools/build.py, ported from V25: the toolchain is located rather than assumed so the same script runs with the operator's Windows GCC and with a Linux GCC, and the manifest states whether the result is bit-comparable with the lineage",
+    "incremental": "an object is reused only when it is newer than its source and newer than every header this target owns; a full rebuild of this tree over a mounted filesystem does not fit one bounded invocation",
+    "manifest_paths": "input hashes are repository-relative, and SDK inputs are relative to the recorded sdk_root, so the evidence stays meaningful on another machine rather than pinned to one checkout",
+    "toolchain": "xPack arm-none-eabi-gcc 7.3.1 20180622 (release) [ARM/embedded-7-branch revision 261907], Linux host",
+    "reproducible": "two consecutive runs produced the same HEX hash"
+  },
+  "result": {
+    "hex_sha256": "C204CEFFC88B2A9A85749C0CAA2B556DA9270BEBE869DFE78C8FBCBFF74A09EA",
+    "text": 59500, "data": 176, "bss": 51696, "total": 111372,
+    "target": "nRF52840 PCA10059 MBR, app at 0x1000",
+    "bit_comparable_with_lineage": false,
+    "bit_comparability_note": "same GCC version, date and branch revision as V17..V25 but a different distribution with a different bundled newlib. Running tools/build.py with the operator's Windows toolchain yields a lineage-identical image; see dual_pan_build_toolchain.json."
+  },
+  "growth_accounted_for": {
+    "versus_v25": { "text": 3976, "data": 40, "bss": 1812 },
+    "toolchain_share_of_that": { "text": 568, "bss": 12, "source": "measured on a V25 reproduction, recorded in dual_pan_build_toolchain.json" },
+    "bss_attribution": {
+      "sessions": "856 bytes, the two commission_t, against roughly 428 for V25's single session",
+      "ring": "4608 to 5760 bytes, which is exactly 32 slots times 36 bytes of new record fields: the context classification, the parsed header, the configuration generation and the three ACK timestamps with their validity flags",
+      "remainder": "about 220 bytes of dual configuration, bindings, the two statistics structures and the scheduler queues"
+    },
+    "verdict": "the growth is where the design says it should be; nothing unexpected appeared in the map"
+  },
+  "headroom": {
+    "part": "nRF52840, 1 MB flash and 256 KB RAM",
+    "flash_used_approx_kb": 58.3,
+    "ram_static_used_approx_kb": 50.7,
+    "note": "the linker placed everything without error at the MBR application offset"
+  },
+  "verification_method": "arm-none-eabi-nm --size-sort -S on both images, comparing the largest BSS objects",
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "record": "review",
+  "identity": "airnanny_dual_pan_runtime_v28",
+  "issue": 5,
+  "gate": "A",
+  "utc": "2026-10-14T09:10:50.089303+00:00",
+  "review_host": "Linux",
+  "hardware_performed": false,
+  "scope": "offline only; no flash, no COM, no RF, no probe, no store writes",
+  "why_the_review_host_may_differ_from_the_build_host": "the image must be built on Windows because only Windows has the lineage ARM toolchain; the suites need a POSIX shell and a host C compiler, which Windows does not have. Both hosts see the same files, and the manifest input hashes recorded below were re-verified against the sources on this host, so the review seals the same bytes the operator built. Suite results have been measured identical on both non-Windows hosts throughout.",
+  "native": {
+    "returncode": 0,
+    "lines": [
+      "test_dual_admit              120 checks, 0 failures",
+      "test_dual_admit.san          120 checks, 0 failures",
+      "test_dual_sched              155 checks, 0 failures",
+      "test_dual_sched.san          155 checks, 0 failures",
+      "test_dual_records            101 checks, 0 failures",
+      "test_dual_records.san        101 checks, 0 failures",
+      "test_v25_equivalence         equivalence holds",
+      "test_transport_equivalence   127 checks, 0 failures",
+      "test_poll_misses             17 checks, 0 failures",
+      "test_poll_misses.san         17 checks, 0 failures",
+      "test_mac_retry               20 checks, 0 failures",
+      "test_mac_retry.san           20 checks, 0 failures",
+      "fuzz_dual_records            mutation fuzz iterations=300000 accepted=2950 refused=297050 invariant_violations=0",
+      "firmware_cli.exe            built",
+      "scan_replay.exe             built",
+      "native suites complete; no hardware was touched"
+    ],
+    "failing_lines": [],
+    "passed": true
+  },
+  "python": {
+    "test_gate_a": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_gate_a_runner": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_gate_a_authority": {
+      "returncode": 0,
+      "summary": "OK (skipped=2)",
+      "passed": true
+    },
+    "test_dual_store": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_dual_pan_ack_flow": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_wire_surface": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_gate_b": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_secured_frame": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_dual_ledger": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_gate_b_runner": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_launch_gate_b": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_dual_application": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_gate_c": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_gate_c_runner": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_launch_gate_c": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_gate_d": {
+      "returncode": 0,
+      "summary": "OK (skipped=1)",
+      "passed": true
+    },
+    "test_gate_e": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_completion": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_clock_dispatch": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_permit_observation": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_mac_backoff": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_peer_scope": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_foreign_status_scope": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    },
+    "test_first_control": {
+      "returncode": 0,
+      "summary": "OK",
+      "passed": true
+    }
+  },
+  "resumed_from_cache": [
+    "native",
+    "python:test_clock_dispatch",
+    "python:test_completion",
+    "python:test_dual_application",
+    "python:test_dual_ledger",
+    "python:test_dual_pan_ack_flow",
+    "python:test_dual_store",
+    "python:test_first_control",
+    "python:test_foreign_status_scope",
+    "python:test_gate_a",
+    "python:test_gate_a_authority",
+    "python:test_gate_a_runner",
+    "python:test_gate_b",
+    "python:test_gate_b_runner",
+    "python:test_gate_c",
+    "python:test_gate_c_runner",
+    "python:test_gate_d",
+    "python:test_gate_e",
+    "python:test_launch_gate_b",
+    "python:test_launch_gate_c",
+    "python:test_mac_backoff",
+    "python:test_peer_scope",
+    "python:test_permit_observation",
+    "python:test_secured_frame",
+    "python:test_wire_surface"
+  ],
+  "inherited_failures_not_rerun_here": {
+    "test_recovery": "failures=1",
+    "test_rx_deadline": "failures=6",
+    "test_ctx1_admission": "errors=1",
+    "test_discovery_cca": "errors=1",
+    "test_power": "failures=2, errors=1"
+  },
+  "missing_reviewed_sources": [],
+  "source_sha256": {
+    "host/gate_a.py": "7022DA8444A701879B7AC963A0CC0059C3182CBF742A74F659DC36D03378CF20",
+    "host/gate_a_runner.py": "097CA465A3CDDAAD43D59FF54AE168ACDC366A055F8B755A9C8A8F986AFBA2D4",
+    "host/dual_store.py": "AD2C864C4127501A8084DA7D221AABC4471033E83C862C9F43BC7866A63EC359",
+    "host/gate_b.py": "33EA538C4E5EB73BEB8A325CC06272905FAD4257082B07DF333DDB791AC7F0B4",
+    "tests/test_gate_b.py": "DECAC40D6926C25D969FB9E5689D2D13582AE643B1C57BF2D08EBE891DFA7E00",
+    "host/secured_frame.py": "69AA05C427336CEDB993DCB53F87E6A7EC5B8C3D10643F6F24EB68127379DFB3",
+    "tests/test_secured_frame.py": "24909921202EEC6B8BC68C05326C5067ADABDDC4DB0BEFD0B4ABF37A32AB1F48",
+    "host/dual_ledger.py": "F42B811D740CE1300427475E63FDC868C32746607C5DF5594E0593C8F19EE3B1",
+    "tests/test_dual_ledger.py": "E053290A946EC80D498355484CF81564B916BBC1E56E3DC6F5A4090FD57D14D9",
+    "host/gate_b_runner.py": "428766D0EC242822F8C972ED0CFF9428F8C45666F6C45467020B3F6726F061E5",
+    "tests/test_gate_b_runner.py": "1FA0CCC0377F0331702C08D96293D2233EC38E02FF9D45B3F96F66C8C277B994",
+    "host/id_floor.py": "C4856FFD1BC495C8B0833D08526B19A48CB7BEFD8C310E60002A93FF00080023",
+    "launch_gate_b.py": "64AE911C1F00890C49FF3894370433261961595C88C78F2AD7AFF9DCB1F86BB8",
+    "tests/test_launch_gate_b.py": "C8635503116620E27E0BD201339D83F0573759E9DC57F949B121B740ED670E4B",
+    "gate_a_authority.py": "31F1BA72DF7B22D5406D2280E7FC9D5961E7E8C1C27A2C5E9C20C2C431F6F94C",
+    "launch_gate_a.py": "8C7B29159FE5207F4169D74835E732EF391E7E23C260CE8D8E9881B3D5952830",
+    "review.py": "E77422DE03121E61F606F2F2418F280A9E353EDEFCEDC14DE00E005F61B2CF12",
+    "tests/test_gate_a.py": "41D9B7B2C3DD93C0F9DF7CCDADC967BBB70F2563B7263A037DA199F9ABD3DA1E",
+    "tests/test_gate_a_runner.py": "3477278AD79618DB538151BEDFABA8C0F499A13509648CF05F8B0157943A5C55",
+    "tests/test_gate_a_authority.py": "531E50043AE7BBAE1C09E7CCC60210F230BCBDFE4DEDD218731070D531EB7D66",
+    "tests/test_dual_store.py": "8ACEB154AF14DEF29090C40E882748CCC8B474A9FD1F95529E558F0CCDF9B049",
+    "tests/test_dual_pan_ack_flow.py": "A29973F7C23F0F26A02BB0FC9FC8D1B318D6904DACF3E5B79A224CE809489B38",
+    "tests/firmware_cli.c": "C5DB53A77057B87E8BB93175964D51AEA7D1AD16010E47D2C27F92FCEA5E2C1D",
+    "tests/run_native.sh": "CA25902BDF8D85AEBA8C849CDBA1388F59D4B261BA062511A0594F2DB1045D36",
+    "tests/test_wire_surface.py": "241E65BF49DAC104458BA629E733950396E8146EF55AA3CAF03EFEC84C3714A8",
+    "tests/test_poll_misses.c": "62A487A31ED9D5485BE0B282750D3A7316FF97420BB463D3238D1045B85334A0",
+    "tests/test_mac_retry.c": "1B69E4AE331288631F05CE729744849DD72305351B505ABA9AF01A3FDBD9EB47",
+    "tools/wire_surface.py": "ACD00889DB186CA609B5AF489A8431914B6019FEF6C6F32B6944821604AA646C",
+    "tools/gate_b_evidence.py": "E97288BABC14309110435220091094681538AAA849F159427237006C173893E0",
+    "host/dual_application.py": "A6E476B7EDD0CEE4806000CB6F7C966F3D7CC6B29DF86A5E34D1DFBCB8BB1D89",
+    "tests/test_dual_application.py": "25747172F931310A900DE4C298185458ECEB4C9E7624C6ECD89EE2FD448CEA42",
+    "host/gate_c.py": "3D1AD6B751B20B0C24C2134931CC21F63E6161F3590B0E5FCEBFF3358C92C0DA",
+    "tests/test_gate_c.py": "7D88734ED21DA1E8D292BBF64535A375F9AFE5D04164AA1F251B26A447C2E5C0",
+    "host/gate_c_runner.py": "9DD08B71F7EF9C52F99ADA9D8A879AF3416673D6B06BB2EEF3EA9DD9AF87BD9B",
+    "tests/test_gate_c_runner.py": "6F2E55A1001312BB81399B8AB596F34FBA483E0953CF4E2FF7334650F8FA4125",
+    "launch_gate_c.py": "CCE5E4BE2CFD77513EA64204BDE6C7C8D55FF8A7405F0475B696F143CB35F02D",
+    "tests/test_launch_gate_c.py": "D6F0D9CD84784331395630D1D644CB948284F657CA8C89ACC5DF842A65CB591A",
+    "tools/gate_c_evidence.py": "F0498AA331011710424A17C9890421036E3CC206F483639BB2A2DFCDFE3C89FB",
+    "host/gate_d.py": "B3D6BF5B5DA913D669930C3F00B135D7E2834A1C22F897D17602498176C225AA",
+    "host/gate_d_runner.py": "6A5368AB9E330CE4BC083A790168618810B597061ACD4A57F4A3B40569C3E7CB",
+    "launch_gate_d.py": "9B69E32DC606EE6D74C5E9CD880CD4D47C5160011A0E2C41716652C0507E4DE7",
+    "tests/test_gate_d.py": "159EC52CDC1998CAB2063C4C9DA8FB6A052B802AF5BEAC5875E92B26946BDAF2",
+    "tools/gate_d_evidence.py": "27CB75CDDFAEA6542F80547FDAB0E3F2A2473FCB48D98C27C2253A65948CCDD4",
+    "host/gate_e.py": "4CFC36C66B4A84FC71CBE278259589BBEF643282E6BCCA71F61848EAEF8D3FF9",
+    "host/gate_e_runner.py": "50B249A80531C7C120748A060E1EF475C8E10546BD1C6A2C309B9E112DF002C1",
+    "launch_gate_e.py": "B909F33718DCD7A2F7CD6F3C78984C4B6FEF19C5566AE58116DCC741B92F7568",
+    "tests/test_gate_e.py": "636B14296506CE2C4AD12B40CC1A62C3A6C1D48A8B560CD83AE70521C9A1E436",
+    "tools/gate_e_evidence.py": "9AE473C2388930433D333F32821FA98F893BF4F590BEE4956E495E957C4C63F2",
+    "tools/dual_pan_runtime_evidence.py": "1ED54E3A99484B7AFA83FDC27A06FE5B8DB2B015E8B2E15DA34FD0AF070CC1C8"
+  },
+  "image_sha256": "A8BCF8D3AA1B628AD6F54C063321175D1FF02BD1606FAD25DBCF6A2F12DEDB37",
+  "manifest_sha256": "08D13CC64F36929E2B43EE329FB1547741D648DF365B1716125E7316DBDEE2D2",
+  "image_matches_manifest": true,
+  "image_bit_comparable_with_lineage": true,
+  "manifest_flashed": false,
+  "firmware_inputs_that_moved_since_the_build": [],
+  "failures": [],
+  "passed": true,
+  "fingerprint": "7960fea4f7a2b6c7aa07f52c26e70068047eaefc822593c4e4857a821f9d0f7a"
+}

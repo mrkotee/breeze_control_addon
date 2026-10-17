@@ -1,0 +1,51 @@
+{
+  "status": "OFFLINE_NATIVE_PASS",
+  "hardware_performed": false,
+  "tests": [
+    {
+      "name": "test_application_repeat",
+      "summary": "application_repeat: 50 checks, 0 failures",
+      "binary_sha256": "afcef152f7caa250156a55f7691f1b3aac1cd51e554c47990f3f6b5212a28cb3"
+    },
+    {
+      "name": "test_mac_retry",
+      "summary": "20 checks, 0 failures",
+      "binary_sha256": "91fa10547eb7ad6efabe11d69761f067ee048ff222700d5a959e2a34fefa4afa"
+    },
+    {
+      "name": "test_id_handoff",
+      "summary": "id_handoff: 6 checks, 0 failures",
+      "binary_sha256": "c566744bf53aa84ab7feae46285fab167350e71d5d355438809fc46bcda34599"
+    },
+    {
+      "name": "test_persistent",
+      "summary": "persistent: 23 checks, 0 failures",
+      "binary_sha256": "6f02d97f0d8b97ffe2fa0d24bae5479d8436986660a649f3edf1ea902c837cf6"
+    },
+    {
+      "name": "test_poll_reset",
+      "summary": "poll_reset_v31: 21 checks, 0 failures",
+      "binary_sha256": "ea2fa5ae4437ecaafeff7140a8c0601dc12a800983688c21277f8ae240c01c0e"
+    },
+    {
+      "name": "test_radio_loss",
+      "summary": "radio_loss_v32: 2005 checks, 0 failures",
+      "binary_sha256": "e5790a6b7d3e9f598a0b15618e01a94ff6b3dfaaebb338acb04a12f0af261600"
+    },
+    {
+      "name": "test_late_join",
+      "summary": "late_join_v33: 50 checks, 0 failures",
+      "binary_sha256": "e12fd30c37ce4943abd2c0d49d5c364409665f0921d5cd612724f97195b44195"
+    }
+  ],
+  "v30_bug_reproduced": {
+    "summary": "poll_reset_v30_reproduction: 15 checks, 0 failures",
+    "binary_sha256": "231ef9be7faa87f827eec97f6575fa7961dbdfeff88dad2419f67c2067262e21"
+  },
+  "firmware_delta": [
+    "src/main.c",
+    "src/rejoin_transport.c",
+    "include/commission.h"
+  ],
+  "unchanged_radio_driver": true
+}

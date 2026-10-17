@@ -1,0 +1,13 @@
+{
+  "scope": "Exact linked build inputs and V4 source manifest after hardware. Full protected directory audit passed before hardware; redundant full after-hardware scan cancelled for excessive runtime, no after-hardware full SDK claim.",
+  "build_inputs": {
+    "files": 64,
+    "unchanged": true,
+    "changes": []
+  },
+  "V4_sources": {
+    "files": 127,
+    "unchanged": true,
+    "changes": []
+  }
+}

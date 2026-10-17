@@ -1,0 +1,167 @@
+{
+  "airnanny_pairing.pcapng": {
+    "frames": 410,
+    "selected": [
+      99,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162,
+      163,
+      164,
+      165,
+      166,
+      167,
+      168,
+      169,
+      170,
+      171,
+      172,
+      173,
+      174,
+      175,
+      176,
+      177,
+      178,
+      179,
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198,
+      199,
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209,
+      210,
+      211,
+      212,
+      213
+    ],
+    "sha256": "12acf38889f98fd92e4d4032e071f12bd6240092a5fa888adb788c9521713b37"
+  },
+  "app_speed_3_to_4.pcapng": {
+    "frames": 47,
+    "selected": [],
+    "sha256": "6d799bf9fcba251625ded579f084653de674e2fd48f5aeb3dc28085968db188d"
+  },
+  "autonanny_button.pcapng": {
+    "frames": 51,
+    "selected": [],
+    "sha256": "9bd1906cd913c2e51a0da4c1ab506869102c64d1e4578888d34c71df2cd5a09c"
+  },
+  "humidity_plus_plus_minus.pcapng": {
+    "frames": 88,
+    "selected": [],
+    "sha256": "c5cbae1cd7b77c7eab66e5f6aa66caa903a8fcd6052e39af6d2629802ff3bdd4"
+  },
+  "idle.pcapng": {
+    "frames": 48,
+    "selected": [],
+    "sha256": "e7b6c58936a349d8e27a8ddec28dd1ff2353f921a3bf29067de7550d6d78d1e0"
+  },
+  "night_mode_on_off.pcapng": {
+    "frames": 95,
+    "selected": [],
+    "sha256": "453f1d5a44e45555cfba8293d3eb9586a6e476e854044b72350c352659bc45d4"
+  },
+  "permit_listen.pcapng": {
+    "frames": 130,
+    "selected": [],
+    "sha256": "cfa62f30bb0b7bbf515123b8dd65637236980b66bad7fce81e4b2792b66c7b31"
+  },
+  "power_off_on.pcapng": {
+    "frames": 75,
+    "selected": [],
+    "sha256": "a5941ae77b1ef94dc807d7bb0c5453fe35bd30e3bf53882f3c2c257a820c49d6"
+  },
+  "remote_speed_3_to_4.pcapng": {
+    "frames": 34,
+    "selected": [],
+    "sha256": "8f35e64c2261f6562cf0d41ff20b74028011ebafaf043021f89479700efaf303"
+  },
+  "remote_speed_4_to_3.pcapng": {
+    "frames": 41,
+    "selected": [],
+    "sha256": "8b5fa2bb7edfe1f7988f1d11a7c4c06c5f63bfba4c9a36cf81e962a504570795"
+  },
+  "switch_mode.pcapng": {
+    "frames": 98,
+    "selected": [],
+    "sha256": "1234437d9fcd4f5de967a706de2a5c1cbb491f05f0bba7e017982d220d17cb20"
+  },
+  "temperature_up_down.pcapng": {
+    "frames": 50,
+    "selected": [],
+    "sha256": "04fb8866da2f9fbdcd1d697576c223edc9c8edd4ab50a6a91002ed8311b61002"
+  },
+  "timer_btn1.pcapng": {
+    "frames": 90,
+    "selected": [],
+    "sha256": "84219f447cfedd50597b0b576cfb9a23d914ba32b47e086c014a57e946a8ebb6"
+  },
+  "timer_btn2.pcapng": {
+    "frames": 68,
+    "selected": [],
+    "sha256": "1f690f20808c2b548089d1a49502781cfe22735eaad51daf3b1696ef719afc91"
+  },
+  "\u043f\u0440\u0438\u0442\u043e\u043a.pcapng": {
+    "frames": 74,
+    "selected": [],
+    "sha256": "48ca92ecea03a302d882e00eb9c757d676bc06104fdc5b42db701b16ec216f9c"
+  },
+  "\u0440\u0435\u0446\u0438\u0440\u043a\u0443\u043b\u044f\u0446\u0438\u044f.pcapng": {
+    "frames": 60,
+    "selected": [],
+    "sha256": "e5f1d157c51e841e1e63222406ec2073a8cad04429a5bfc6cd758aa4c6d35473"
+  },
+  "\u0441\u043c\u0435\u0448\u0430\u043d\u043d\u044b\u0439.pcapng": {
+    "frames": 70,
+    "selected": [],
+    "sha256": "183d66dcc44c802ea7125d67f614518a0002826395f96b149329e04834bdb39f"
+  }
+}

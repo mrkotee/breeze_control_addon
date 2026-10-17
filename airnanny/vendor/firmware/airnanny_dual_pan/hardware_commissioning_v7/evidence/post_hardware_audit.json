@@ -1,0 +1,23 @@
+{
+  "protected_changes": {
+    "sdk": [],
+    "v17": [],
+    "v1": [],
+    "v2": [],
+    "v3": [],
+    "v4": [],
+    "v5": [],
+    "v6": [],
+    "python": [],
+    "old_hardware": [],
+    "oracle": [],
+    "hardware_single_boot_v1": [],
+    "raw_radio_v6_single_boot_commission": [],
+    "raw_radio_v7_assoc_poll_cca": []
+  },
+  "secret_scan": true,
+  "public_files": 16,
+  "runtime_source_hashes_verified": true,
+  "COM_opened": false,
+  "RF_TX": 0
+}

@@ -1,0 +1,8 @@
+{
+  "started_utc": "2026-10-06T20:33:36.584155+00:00",
+  "command": "airctl 20000004 info",
+  "rf_commands_sent": 0,
+  "response": "airctl 20000004 info\r\n\r\r\nAIRV1 INFO id=20000004 protocol=1 firmware=airnanny_status_v17_machine_serial safe_checks=64445 safe_failed=0 serial_checks=3612 serial_failed=0\r\r\n\r\r\nAIRV1 DONE id=20000004 cmd=info result=ok\r\r\n\u001b[1;32m> \u001b[1;37m",
+  "verified": true,
+  "ended_utc": "2026-10-06T20:33:41.607603+00:00"
+}

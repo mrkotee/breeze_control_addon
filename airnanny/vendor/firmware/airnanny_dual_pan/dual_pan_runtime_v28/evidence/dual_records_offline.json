@@ -1,0 +1,82 @@
+{
+  "record": "dual_records_offline",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.4 RADIOV10 records",
+  "date": "2026-10-10",
+  "scope": "offline only; no COM, no RF, no flash, no HEX, no cryptography, no keys",
+  "status": "OFFLINE_PASS_SOFTWARE_ONLY",
+  "hardware_pass": false,
+  "arm_build": false,
+  "contract": "../DUAL_PAN_RADIO_PROTOCOL.md",
+  "sources": {
+    "include/dual_records.h": "7fc2884d971ce77ac17cf57a7074c3f1acea97b5afa946cbc8d4b4860cc15f17",
+    "src/dual_records.c": "70cae431ba4d64b8f0be9c023974a5ee6c6562be35d53cef7b04dd494123fd91",
+    "tests/test_dual_records.c": "eab5a078ea5e3669366cae598946536515230c3cbd0079ae3f81d6de0855a260",
+    "tests/fuzz_dual_records.c": "6aef462009376659987058726b896e6f9926e5eca248b785c11fabcc0611c8be"
+  },
+  "parser_rules": {
+    "explicit_context": "every per-context command must carry ctx; a missing ctx is refused, never defaulted",
+    "context_range": "ctx outside 0..1 is refused",
+    "session_records_reject_ctx": "INFO, STATS, STATUS and END refuse a ctx field outright",
+    "duplicate_field": "a repeated key is refused, because last-one-wins would let a second ctx silently override the first",
+    "unknown_field": "refused rather than ignored, so a host typo cannot silently change a line's meaning",
+    "ascii_only": "bytes outside 0x20..0x7e are refused before anything is interpreted",
+    "hex_case": "lowercase hex only, so one byte sequence has one spelling",
+    "channel": "only 21 is accepted",
+    "config_invariants": ["generation non zero", "at least one context enabled", "no broadcast or zero PAN", "short below 0xfffe", "two enabled entries may not share the same paired tuple"],
+    "bind_invariants": ["RAW identity differs from trust centre identity", "extPAN equals trust centre identity", "short below 0xfff8", "coordinator short is zero", "poll policy bounds carried over from V25 key_gate"],
+    "tx_invariants": ["ctx present", "at least nine MAC bytes so PAN and both shorts are present"]
+  },
+  "formatting_rules": {
+    "whole_lines_only": "a record is written completely or not at all; a truncated record is never emitted",
+    "foreign_frames": "a frame outside both contexts is tagged ctx=none, never 0 or 1",
+    "rx_timestamps": "four separate stamps with validity flags: rx_end, ack_address, ack_start, ack_end",
+    "not_in_interrupt": "formatting never runs in the RADIO interrupt"
+  },
+  "offline_tests": {
+    "test_dual_records": {
+      "compiler": "gcc 13.3.0",
+      "flags": ["-std=c11", "-Wall", "-Wextra", "-Werror", "-Wconversion", "-O1"],
+      "checks": 98,
+      "failures": 0,
+      "sanitizers": { "address": "pass", "undefined": "pass", "checks": 98, "failures": 0 },
+      "groups": [
+        "envelope: prefix, unknown command, missing id, field syntax, duplicate field, non ASCII",
+        "context field: missing, out of range, and refused on session records",
+        "CONFIG validation including identical tuple refusal and same short under different PAN acceptance",
+        "BIND validation including identity collision, extPAN mismatch and poll policy bounds",
+        "TX validation including class names, odd hex and uppercase hex refusal",
+        "formatting of RX, TXACCEPT, TXDONE, STATS and ERROR, including the small buffer refusal",
+        "result, match and reason token names"
+      ]
+    },
+    "fuzz_dual_records": {
+      "iterations": 300000,
+      "method": "one to three byte mutations or truncations of five valid seed commands",
+      "accepted": 2950,
+      "refused": 297050,
+      "invariant_violations": 0,
+      "crashes": 0,
+      "sanitizers": "address and undefined enabled during the whole run",
+      "checked_on_acceptance": [
+        "CONFIG: generation non zero, at least one context enabled, no identical tuple, channel 21",
+        "BIND: ctx present and in range, RAW differs from TC, extPAN equals TC, coordinator short zero",
+        "TX: ctx present and in range, MAC length within bounds",
+        "ACK and SCAN: ctx present and in range",
+        "INFO, STATS, STATUS, END: no ctx"
+      ]
+    }
+  },
+  "not_proven": [
+    "that any firmware emits these records; main.c still speaks RADIOV9 and carries no ctx on RX",
+    "any real radio or host behaviour"
+  ],
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0
+  }
+}

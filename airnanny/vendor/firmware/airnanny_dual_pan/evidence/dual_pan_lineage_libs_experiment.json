@@ -1,0 +1,46 @@
+{
+  "record": "dual_pan_lineage_libs_experiment",
+  "issue": 5,
+  "date": "2026-10-11",
+  "scope": "offline reproduction experiment only; no flash, no COM, no RF, nothing written into any milestone directory",
+  "status": "DIFFERENCE_LOCALISED_TO_THE_COMPILER_NOT_THE_LIBRARIES",
+  "question": "the V26 image the operator would flash is built with a Linux xPack GCC of the lineage's exact version, date and branch revision, and is not bit-comparable with the five images that have hardware proof. dual_pan_build_toolchain.json attributed that to the different bundled newlib. Is the newlib the whole of it?",
+  "why_it_was_worth_asking": "the operator's own lineage toolchain -- the ARM official 7-2018-q2-update win32 distribution that built V17..V25 -- is present as a connected folder and its libraries are readable from the Linux VM, even though its .exe binaries cannot run there and no wine is installed. So the libraries could be swapped in without the compiler being",
+  "experiment": {
+    "method": "rebuild V25 from its own sources with the Linux xPack compiler, but linking the lineage distribution's newlib and libgcc instead of the compiler's own, and compare the HEX against the shipped lineage artifact",
+    "subject": "V25 rather than V26, because V25 has a known-good lineage hash to compare against: releases/airnanny_ctx1_rx_admission_v25.hex, SHA256 F62D6F65...A79A1AA6, which matches its own build manifest",
+    "library_paths": "arm-none-eabi/lib and arm-none-eabi/lib/thumb/v7e-m/fpv4-sp/hard for newlib, lib/gcc/arm-none-eabi/7.3.1 and its hard-float multilib for libgcc, all ahead of the compiler's own",
+    "flags": "otherwise byte-identical to V25's own tools/build.py, including --specs=nano.specs and --specs=nosys.specs"
+  },
+  "result": {
+    "lineage": { "text": 55524, "data": 136, "bss": 49884 },
+    "xpack_own_libraries": { "text": "+568", "data": "+0", "bss": "+12" },
+    "lineage_libraries_linux_compiler": { "text": "+680", "data": "+0", "bss": "+0" },
+    "hex_sha256_reproduced": "E7C2A53AF8CC68F649C496FA0069306EEB7D15DF5F22E50339AD429A4184E3EC",
+    "hex_sha256_lineage": "F62D6F6536D021EBD488EFA1D69D240E03C2DE46B86FB9CA44D336FAA79A1AA6",
+    "bit_identical": false
+  },
+  "what_this_establishes": [
+    "the bss difference was the bundled newlib: linking the lineage's own libraries removes it exactly, 49884 against 49884, and data was already exact",
+    "the text difference is not the libraries: it does not shrink when they are swapped, it grows slightly, from +568 to +680",
+    "therefore the residual difference is in code generation by a differently built compiler of the same version, date and branch revision, and cannot be closed from the Linux VM at all"
+  ],
+  "honest_limits_of_this_experiment": [
+    "two attempts, deliberately time-boxed. The +680 text could also be a multilib or specs-resolution difference in how the lineage libraries were reached rather than code generation as such; this experiment does not separate those two, and separating them would not change the conclusion that the Linux VM cannot produce the lineage bytes",
+    "the experiment reproduced V25, not V26. It is evidence about the toolchains, not about V26's image"
+  ],
+  "consequence_for_issue_5": {
+    "the_decision_is_not_mine": "whether to flash an image built by a different compiler build than the five images with hardware proof is the operator's call, not the assistant's. It is a question about accepted risk on physical hardware that is in daily use, and nothing in the offline evidence settles it",
+    "the_cheap_alternative_exists": "tools/build.py locates its toolchain rather than assuming one, so the operator can run it on Windows against the lineage distribution and obtain a lineage-identical image. That is one command, and the operator already performs the flash by hand",
+    "no_firmware_change_is_implied": "nothing here asks for a code change; both candidate images are built from the same sources with the same flags"
+  },
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0,
+    "v25_sources_edited": 0,
+    "written_into_milestone_directories": 0
+  }
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "phase": "PRECHECK",
+    "recovery_required": true,
+    "primary": "G PRECONDITION STOP",
+    "RF_TX": 0
+  },
+  {
+    "phase": "BASELINE",
+    "recovery_required": true,
+    "primary": "G PRECONDITION STOP",
+    "RF_TX": 0
+  },
+  {
+    "phase": "ARM",
+    "recovery_required": true,
+    "primary": "G PRECONDITION STOP",
+    "RF_TX": 0
+  },
+  {
+    "phase": "PERMIT",
+    "recovery_required": true,
+    "primary": "G PRECONDITION STOP",
+    "RF_TX": 0
+  },
+  {
+    "phase": "REASSOCIATION",
+    "recovery_required": true,
+    "primary": "F ASSOCIATION FAILED",
+    "RF_TX": 0
+  },
+  {
+    "phase": "SHORT_COMMIT",
+    "recovery_required": true,
+    "primary": "F ASSOCIATION FAILED",
+    "RF_TX": 0
+  },
+  {
+    "phase": "KEY_POLL",
+    "recovery_required": true,
+    "primary": "B TRANSPORT KEY NOT RECEIVED",
+    "RF_TX": 0
+  },
+  {
+    "phase": "KEY_VALIDATE",
+    "recovery_required": true,
+    "primary": "D KEY DURABILITY FAIL",
+    "RF_TX": 0
+  },
+  {
+    "phase": "KEY_DURABILITY",
+    "recovery_required": true,
+    "primary": "D KEY DURABILITY FAIL",
+    "RF_TX": 0
+  },
+  {
+    "phase": "FC_RESERVE",
+    "recovery_required": true,
+    "primary": "E SECURED ANNOUNCE INCONCLUSIVE",
+    "RF_TX": 0
+  },
+  {
+    "phase": "ANNOUNCE_BUILD",
+    "recovery_required": true,
+    "primary": "E SECURED ANNOUNCE INCONCLUSIVE",
+    "RF_TX": 0
+  },
+  {
+    "phase": "ANNOUNCE_HANDOFF",
+    "recovery_required": true,
+    "primary": "E SECURED ANNOUNCE INCONCLUSIVE",
+    "RF_TX": 0
+  },
+  {
+    "phase": "PASSIVE_OBSERVE",
+    "recovery_required": true,
+    "primary": "E SECURED ANNOUNCE INCONCLUSIVE",
+    "RF_TX": 0
+  },
+  {
+    "phase": "END",
+    "recovery_required": true,
+    "primary": "H SAFETY FAIL",
+    "RF_TX": 0
+  }
+]

@@ -1,0 +1,224 @@
+[
+  {
+    "root": "external local nrf sdk",
+    "path": "documentation/release_notes.txt",
+    "bytes": 113421,
+    "sha256": "607DB31368EB8391F7AFEDB38B36EFBBD253D8DF8D02736F9E2C3C4062A36C8D"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/include/zb_version.h",
+    "bytes": 2415,
+    "sha256": "B68CC8FAB9067771323E053578B5240012D70AFB3E0D1936336C5A4040F12A38"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/include/osif/zb_revision_r22.h",
+    "bytes": 2956,
+    "sha256": "6EF18B99E1A3E3144EA8533D20F5C36A17E319875199135AC1DCD0E7878801DF"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/include/osif/build_info.h",
+    "bytes": 7428,
+    "sha256": "A13B2E69AB650559042FCA81116DAE1144B8FEC8EA1015FD627FECFBC6A2741E"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/include/zboss_api.h",
+    "bytes": 58527,
+    "sha256": "E86344BBF7A7B4CBD84E3AC5E10E95B0F8F26534C2F777FDF540E0FE0F96FAC5"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/include/zboss_api_internal.h",
+    "bytes": 29985,
+    "sha256": "43450F25331FCEC1801BD96E7887141C2662A82C463EBBFB8A2569E4491C0935"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/include/zboss_api_nwk.h",
+    "bytes": 35274,
+    "sha256": "50C73DBD1B6D646AFB1A314A2FC6C10AF467F56411E5EDBB988A7B32F25939BB"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/include/zb_mem_config_context.h",
+    "bytes": 13170,
+    "sha256": "836D1BD76C6DE0510940D0592C0850EA93891D24B21C54B00F6C5BA7090F73E8"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/src/include/zb_g_context.h",
+    "bytes": 39381,
+    "sha256": "9FC5A9D75AB6EDB6C5E25E890938D683EAF4681CC9C34925026A6D0352CBEE91"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/src/include/zb_nwk_globals.h",
+    "bytes": 23650,
+    "sha256": "122A136429D5F9BC793AE330EC4032141532F688E1CA5CCA7E5E7A75301CE271"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/src/include/zb_nwk_nib.h",
+    "bytes": 38629,
+    "sha256": "B5083DB0879548A31E9BD70245D8B28C29E918BB3E687BBEDAE30523B5C2B132"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/src/include/zb_nwk_neighbor.h",
+    "bytes": 10889,
+    "sha256": "2EBCFBC9C8A77503310265E140CEF812410953CA9F316067C86A5D873B9E8EC1"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/src/include/zb_aps_globals.h",
+    "bytes": 25478,
+    "sha256": "D78A83D1DEE82AF1158E7AB982EA2AC5A87CA5395E4B6231CA0225D5BF99E64E"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/src/include/zb_bdb_internal.h",
+    "bytes": 11573,
+    "sha256": "B8254825EBECD37F726EB5663FAEA9D4F7209DCFF45AA8F330DF79390706307C"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/src/include/zb_zdo_globals.h",
+    "bytes": 20767,
+    "sha256": "C2F631C3AF0D3B5D30539A0C4D31EE28FB71F12D4EDF94000B20A670004265AD"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/src/include/zb_common.h",
+    "bytes": 10287,
+    "sha256": "FB78E8700B110900EB1F87B951A19B0E2D3B37C84EEA6752C2CAF8B514471609"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/src/include/zb_nvram.h",
+    "bytes": 55367,
+    "sha256": "2E1B5D9A9B018BDC4503FE6794F11817FD16A7AAEA514D9DE197A8E72037C6D9"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/src/include/zb_secur.h",
+    "bytes": 47702,
+    "sha256": "E45D187C873A8D408E6411C5CE4320913563057245563AF05208C0435AD2E777"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "components/zigbee/cli/zigbee_cli_cmd.c",
+    "bytes": 6006,
+    "sha256": "2EDDCC279164B5A94D98C30F8BACCD986337DB97C5062E981A061CC4DA387441"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "components/zigbee/cli/zigbee_cli_cmd_bdb.c",
+    "bytes": 22211,
+    "sha256": "75C22828CE690ED7B807CBD4F64BE12D8911C035B03A5E4784D700CA3985D05E"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "components/libraries/cli/cdc_acm/nrf_cli_cdc_acm.c",
+    "bytes": 8705,
+    "sha256": "9CFECF32FBC64A129002459271DD92C3B9C176301DE278EC0C1F41C340E45896"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/lib/gcc/libzboss.a",
+    "bytes": 870056,
+    "sha256": "F19D140276375AE061D212078729D1AA346CFE4DEF98E2728846D987C9F83C73"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/lib/gcc/libgppb.a",
+    "bytes": 77414,
+    "sha256": "EBBBA0C239806F6BCCBCAD9F13E0480585560DEF62D576D36A0B36F5ABFB5775"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/lib/gcc/nrf52840/nrf_radio_driver.a",
+    "bytes": 184718,
+    "sha256": "F88AEA5547D8CB7C23B099C019611895F4B2F586F5C2CE902FBDE16BC4E130A9"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/nRF-IEEE-802.15.4-radio-driver/src/nrf_802154.c",
+    "bytes": 23428,
+    "sha256": "81D5137C81F5D497FEFA72B01A4F963BB939DC294FCD6C8C5E526A3FF97475AD"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/nRF-IEEE-802.15.4-radio-driver/src/nrf_802154.h",
+    "bytes": 54406,
+    "sha256": "35D2ADDA7F948DAA60666BDEFD42D6EA69915DA84F0AF11BF266B6C778658B4B"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/nRF-IEEE-802.15.4-radio-driver/src/nrf_802154_pib.c",
+    "bytes": 7948,
+    "sha256": "B49910B4714D2E5592778A5C4079280FDF43C45D0FE9FB41A9031D17F9971E1D"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/nRF-IEEE-802.15.4-radio-driver/src/nrf_802154_core.c",
+    "bytes": 106807,
+    "sha256": "0B4527B21592700D038AC7D54289EC1DBB5A5BD4D52E81C540E1895A7A0EB19A"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/nRF-IEEE-802.15.4-radio-driver/src/nrf_802154_const.h",
+    "bytes": 15517,
+    "sha256": "9E676F78CFC0C9347AF35AFF42ED4A16103206DCF94BFC5598FD032098575B44"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/nRF-IEEE-802.15.4-radio-driver/src/nrf_802154_config.h",
+    "bytes": 11256,
+    "sha256": "2943DC954EFEF30D309E00356ECCED272DF5BD12856326BA862A9D951944A575"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/nRF-IEEE-802.15.4-radio-driver/src/nrf_802154_procedures_duration.h",
+    "bytes": 5838,
+    "sha256": "9F1E0924E560A36E4283B1C4CC1B4D8264A3E5C8C2891BBD974497D9F8C707EF"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/nRF-IEEE-802.15.4-radio-driver/src/mac_features/nrf_802154_filter.c",
+    "bytes": 17005,
+    "sha256": "5AB6F96B8A7D9ADEA34A031EEB765CCD953AA0FD46666BFC1BF438D91757612F"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/nRF-IEEE-802.15.4-radio-driver/src/mac_features/ack_generator/nrf_802154_imm_ack_generator.c",
+    "bytes": 2656,
+    "sha256": "7CF13DDF7845B8EE1583DC5C080844D45334C5432925CB78AD0576259DA85764"
+  },
+  {
+    "root": "external local nrf sdk",
+    "path": "external/zboss/osif/zb_nrf52_nvram.c",
+    "bytes": 15908,
+    "sha256": "2E6A87B15F71374E5F95CF2083810ADFC74AE2445BAD9B5088E06F08DE4A0A5A"
+  },
+  {
+    "root": "repository frozen V17",
+    "path": "firmware/airnanny_v17/main_airnanny_min.c",
+    "bytes": 98105,
+    "sha256": "537271AC41BB8FEEDBBEDDFFF58C4FB08CCF2AB18A8667DA8A30D3632C1B0677"
+  },
+  {
+    "root": "repository frozen V17",
+    "path": "firmware/airnanny_v17/pca10059/mbr/armgcc/Makefile",
+    "bytes": 15540,
+    "sha256": "07FA9E3162BB7B5548C0682838F9812B8D2CA13960348167697DDFDE0A1F0EAE"
+  },
+  {
+    "root": "repository frozen V17",
+    "path": "firmware/airnanny_v17/releases/airnanny_status_v17_machine_serial.hex",
+    "bytes": 1040939,
+    "sha256": "2FFFE202FC0B8766113CADF92156B76A98942B64A0E4F3D3692513F210575193"
+  }
+]

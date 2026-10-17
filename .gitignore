@@ -1,0 +1,7 @@
+# Durable stores and runtime state never belong in this repository.
+.local/
+stores/
+*.private.json
+
+__pycache__/
+*.pyc

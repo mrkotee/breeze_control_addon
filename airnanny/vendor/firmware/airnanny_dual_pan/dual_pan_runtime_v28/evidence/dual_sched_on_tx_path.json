@@ -1,0 +1,141 @@
+{
+  "record": "dual_sched_on_tx_path",
+  "identity": "airnanny_dual_pan_runtime_v26",
+  "issue": 5,
+  "phase": "1.7 the TX scheduler on the real transmit path",
+  "date": "2026-10-11",
+  "scope": "offline only; no flash, no COM, no RF, no probe, no cryptography, no keys, no network",
+  "status": "OFFLINE_PASS_SOFTWARE_ONLY",
+  "hardware_pass": false,
+  "flashed": false,
+  "what_changed": {
+    "division_of_responsibility": "dual_sched owns the decision of what goes on air next; tx_t still owns the transmission itself, its CCA backoff, its abort paths, its watchdog and its completion guarantees. The two are not alternatives and the scheduler does not replace the lifecycle: it arbitrates between contexts, the lifecycle runs the one frame that won",
+    "frames_are_built_into_a_scratch_buffer": "management_tx and management_auto_poll used to write straight into tx.raw, which is only correct when a frame can always go on air immediately. They now build into `build` and the frame is copied into tx.raw at dispatch",
+    "host_contract": "V25 refused any command while a frame was in flight. With one radio and two contexts that would mean either context's steady one hertz poll is dropped whenever the other holds the radio, which is the starvation issue #5 asks to be bounded. A TX verb is now queued instead of refused",
+    "control_verbs_unchanged": "BIND and the three commit verbs still require a free radio exactly as in V25. They republish configuration and bindings and touch the ACK gate, and doing that underneath a transmission belonging to the other context buys nothing and risks the one obligation this firmware cannot miss",
+    "both_contexts_offered_each_pass": "auto_poll_service offers every context a turn rather than stopping at the first, because a poll now goes into that context's own queue rather than onto the radio. The round robin decides who is offered first when both are due in the same iteration; the scheduler decides who reaches the radio first",
+    "completion_routing": "tx_finish is the single terminal point and the only place the scheduler is told a frame is over. A host id that does not match the in-flight frame is a routing error in the scheduler and completes nothing, rather than freeing some other context's frame; sched_routing_faults counts that and must stay zero",
+    "ctx_on_the_completion_record": "TXDONE and AUTO_DONE now carry ctx=, which the soak needs once both contexts are bound"
+  },
+  "queue_depth_honestly_stated": {
+    "configured": 4,
+    "actually_reachable_by_this_runtime": 1,
+    "why": "management_tx commits the context's session state to a frame by the time it returns, and refuses while recovery.pending is set; every typed verb is additionally one-shot within its phase. So the protocol itself bounds a context to one outstanding management frame, upstream of any scheduler",
+    "consequence": "the depth-4 queue is not exercised above depth 1 by this runtime, and this record does not claim a deep queue has been proven. The depth will matter for issue #6's application traffic. The submit path asserts the context's queue was empty, so if that invariant ever stopped holding it fails loudly rather than completing a frame against the wrong kind"
+  },
+  "two_signals_not_invented": {
+    "rx_busy_and_ack_busy": "passed false, deliberately. The Nordic driver owns RX and auto-ACK precedence over a transmit request and that is the mechanism V17..V25 have hardware proof for. main.c has no truthful instantaneous 'an ACK is on air right now' signal -- immediate_ack is only whether ACK is enabled -- and feeding the scheduler a guessed one would be worse than feeding it none, because its counters would then read as measurements",
+    "consequence": "rx_priority_deferrals and ack_priority_deferrals stay at zero in firmware. The module's own tests exercise those paths; the firmware does not claim to measure them",
+    "scheduler_deadline": "set one second beyond the lifecycle's loosest watchdog (2 s), so the lifecycle always acts first. dual_sched_poll is a backstop whose firing would mean the lifecycle lost a frame it owned, and is treated as untrustworthy state: it stops everything"
+  },
+  "defect_found_by_wiring_it_up": {
+    "what": "the scheduler refused the active discovery beacon request with sched_length, so no context could ever have scanned",
+    "root_cause": "the ownership check assumed every frame carries this context's PAN at offset 3 and its short as the MAC source at offset 7, and imposed a nine byte floor to read them. A beacon request is FCF 0x0803: a MAC command with no source address and a broadcast destination PAN and short, eight bytes long. It is the one frame a context sends before it can name itself, so it carries no tuple at all",
+    "why_it_was_not_caught_earlier": "dual_sched was written and tested in isolation against synthetic frames that all had the outgoing shape. Nothing exercised it against the frame set the firmware actually builds. The module's 137 checks passed throughout and were not wrong -- they were incomplete in a way only integration could reveal",
+    "fix": "the check is now class-aware on the frame's own evidence rather than the caller's claim. For the sourceless broadcast case the requirement is stronger than a tuple check, not weaker: the frame must be byte-for-byte the reviewed eight byte template, variable only in its sequence number. Completion still routes by host id and never by anything read out of the frame, so the property the tuple check protected is unaffected",
+    "pinned_by": "test_dual_sched gained 18 checks: both contexts' beacon requests accepted, every single-byte mutation of the template outside the sequence number still refused, a truncated template refused, and the two beacon requests dispatching and completing against their own contexts",
+    "found_by": "test_mac_backoff, which went from OK to 4 failures the moment the scheduler reached the real path"
+  },
+  "validation": {
+    "native": {
+      "test_dual_admit": {
+        "checks": 120,
+        "failures": 0
+      },
+      "test_dual_sched": {
+        "checks": 155,
+        "failures": 0,
+        "note": "137 before this phase; the 18 new checks are the beacon request case"
+      },
+      "test_dual_records": {
+        "checks": 98,
+        "failures": 0
+      },
+      "test_transport_equivalence": {
+        "checks": 127,
+        "failures": 0
+      },
+      "test_v25_equivalence": {
+        "corpus": 40960,
+        "divergence": 0
+      },
+      "fuzz_dual_records": {
+        "iterations": 300000,
+        "invariant_violations": 0
+      },
+      "total_offline_checks": 500,
+      "sanitizers": "address and undefined pass on every suite that has them",
+      "two_hosts": "identical results in the cloud container and in the device VM"
+    },
+    "python_regression": {
+      "green": [
+        "test_mac_backoff",
+        "test_peer_scope",
+        "test_completion",
+        "test_clock_dispatch",
+        "test_permit_observation",
+        "test_foreign_status_scope",
+        "test_first_control"
+      ],
+      "inherited_failures_identical_in_v25": {
+        "test_recovery": "failures=1",
+        "test_rx_deadline": "failures=6",
+        "test_ctx1_admission": "errors=1",
+        "test_discovery_cca": "errors=1",
+        "test_power": "failures=2, errors=1"
+      },
+      "new_failures": 0,
+      "note": "the full twelve-suite baseline, measured again after the change. This is what caught the beacon request defect"
+    }
+  },
+  "arm_image": {
+    "status": "IMAGE_LINKS_NOT_A_RELEASE_CANDIDATE",
+    "flashed": false,
+    "hex_sha256": "E8D27FDF68415DB9A41BDF45F91EDCCCCD4DD459FADC10CCD94E95259F4528C0",
+    "text": 61048,
+    "data": 176,
+    "bss": 53216,
+    "total": 114440,
+    "reproducible": "two consecutive runs produced the same HEX hash",
+    "toolchain": "xPack arm-none-eabi-gcc 7.3.1 20180622 (release) [ARM/embedded-7-branch revision 261907], Linux host",
+    "bit_comparable_with_lineage": false,
+    "delta_versus_1_6": {
+      "text": 1484,
+      "data": 0,
+      "bss": 1520
+    },
+    "bss_attribution": {
+      "method": "arm-none-eabi-nm --size-sort -S, not estimated",
+      "queues": 1136,
+      "in_flight": 136,
+      "dual_sched_stats": 100,
+      "build": 125,
+      "scalars": "21 bytes: owned, last_served, starvation_bound, in_flight_deadline, sched_routing_faults, pending_kind, pending_automatic",
+      "sum": 1518,
+      "measured": 1520,
+      "remainder": "2 bytes of alignment padding",
+      "reading": "the scheduler's state was compiled in before this phase but unreferenced, so --gc-sections dropped it. It appears in the image now because it is finally on the path"
+    }
+  },
+  "still_not_done": [
+    "the STATS record is not emitted, so the scheduler's counters are not yet observable from the host",
+    "the contract's generic TX verb is not implemented; nothing needs it until issue #6",
+    "no hardware gate has been prepared or reviewed, and no guard exists",
+    "the 32 bit microsecond clock wraps at about 71.6 minutes and main.c stops on a backwards clock, so a 60 minute soak must be designed around that"
+  ],
+  "tooling_note": {
+    "observed": "device_commit_files has repeatedly reported a file as written while the content on the device stayed stale -- seven times across phases 1.5 to 1.11",
+    "my_first_diagnosis_was_wrong": "this record previously claimed the staleness is keyed on the destination path, because writing the same bytes to a fresh destination then succeeded. Phase 1.11 falsified that: a commit from an already-used SOURCE path to a brand-new destination path delivered stale content. Both a fresh source and a fresh destination have each worked once, and reusing either has failed, so neither explains it",
+    "what_is_actually_known": "the only reliable signal is the hash on the device. A stale write is indistinguishable from a successful one in the tool's own result, which reports success either way",
+    "practice_adopted": "verify every write by hash on the device; on a stale result, re-stage through a fresh source path AND a fresh destination path, then verify again. Never attribute a test run to code that has not been hash-verified in place -- that error has already happened once here, in 1.5d",
+    "why_this_is_recorded_rather_than_quietly_worked_around": "an earlier phase of this work attributed a passing test run to code that was not on disk. The cost of this tool behaviour is misattributed evidence, which is worse than a failure, so it is written down with the wrong diagnosis corrected rather than silently replaced"
+  },
+  "unchanged": {
+    "v17_reference": true,
+    "ctx0_store": true,
+    "ctx1_store": true,
+    "protected_files_touched": 0,
+    "hardware_actions": 0,
+    "frozen_v25_sources_edited": 0
+  }
+}

@@ -1,0 +1,767 @@
+{
+  "records": [
+    {
+      "kind": "HOST_COMMAND",
+      "utc": "2026-10-08T21:45:21.908457+00:00",
+      "monotonic": 0.1,
+      "raw": "RADIOV7 INFO id=1"
+    },
+    {
+      "kind": "INFO",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "1",
+        "identity": "airnanny_ctx1_commission_v7",
+        "version": "7",
+        "channel": "21",
+        "application_tx": "locked",
+        "role_capability": "80",
+        "crypto": "host_only",
+        "immediate_ack": "0",
+        "pending_tx": "0",
+        "session": "0",
+        "rx_revision": "0",
+        "rx_drop": "0",
+        "out_drop": "0",
+        "baseline_current_a7": "0",
+        "permit_ready": "0",
+        "timing": "unvalidated"
+      },
+      "raw": "RADIOV7 INFO boot=11111111111111111111111111111111 id=1 identity=airnanny_ctx1_commission_v7 version=7 channel=21 application_tx=locked role_capability=80 crypto=host_only immediate_ack=0 pending_tx=0 session=0 rx_revision=0 rx_drop=0 out_drop=0 baseline_current_a7=0 permit_ready=0 timing=unvalidated",
+      "utc": "2026-10-08T21:45:21.908457+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "RX",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "session": "0",
+        "revision": "1",
+        "channel": "21",
+        "time_us": "100000",
+        "rssi": "0",
+        "lqi": "0",
+        "fcs_ok": "1",
+        "ack_started": "0",
+        "ack_completed": "0",
+        "deadline_miss": "0",
+        "mac": "6188017a0bb7c900004802b7c900003c01280a0000005f87a136004b12000083429cd90288236f18532ef8b23562c76b667dd4c4476e1d75620b7f1fc2230811b8204d386f"
+      },
+      "raw": "RADIOV7 RX boot=11111111111111111111111111111111 session=0 revision=1 channel=21 time_us=100000 rssi=0 lqi=0 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=6188017a0bb7c900004802b7c900003c01280a0000005f87a136004b12000083429cd90288236f18532ef8b23562c76b667dd4c4476e1d75620b7f1fc2230811b8204d386f",
+      "utc": "2026-10-08T21:45:21.908457+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "HOST_COMMAND",
+      "utc": "2026-10-08T21:45:21.908457+00:00",
+      "monotonic": 0.1,
+      "raw": "RADIOV7 BASELINE_READY id=2 boot=11111111111111111111111111111111 ctx=1 generation=3 baseline_revision=1"
+    },
+    {
+      "kind": "STATUS",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "2",
+        "session": "0",
+        "state": "BASELINE_READY",
+        "association_state": "IDLE",
+        "key_state": "IDLE",
+        "generation": "3",
+        "assigned_short": "0000",
+        "polls": "0",
+        "pending": "0",
+        "used": "0",
+        "immediate_ack": "0",
+        "application_tx": "locked",
+        "rx_revision": "1",
+        "rx_drop": "0",
+        "out_drop": "0",
+        "crc_error": "0"
+      },
+      "raw": "RADIOV7 STATUS boot=11111111111111111111111111111111 id=2 session=0 state=BASELINE_READY association_state=IDLE key_state=IDLE generation=3 assigned_short=0000 polls=0 pending=0 used=0 immediate_ack=0 application_tx=locked rx_revision=1 rx_drop=0 out_drop=0 crc_error=0",
+      "utc": "2026-10-08T21:45:21.909457+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "HOST_COMMAND",
+      "utc": "2026-10-08T21:45:21.909457+00:00",
+      "monotonic": 0.1,
+      "raw": "RADIOV7 ARM id=3 boot=11111111111111111111111111111111 ctx=1 generation=3 baseline_revision=1"
+    },
+    {
+      "kind": "STATUS",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "3",
+        "session": "0",
+        "state": "PERMIT_ARMED",
+        "association_state": "IDLE",
+        "key_state": "IDLE",
+        "generation": "3",
+        "assigned_short": "0000",
+        "polls": "0",
+        "pending": "0",
+        "used": "0",
+        "immediate_ack": "0",
+        "application_tx": "locked",
+        "rx_revision": "1",
+        "rx_drop": "0",
+        "out_drop": "0",
+        "crc_error": "0"
+      },
+      "raw": "RADIOV7 STATUS boot=11111111111111111111111111111111 id=3 session=0 state=PERMIT_ARMED association_state=IDLE key_state=IDLE generation=3 assigned_short=0000 polls=0 pending=0 used=0 immediate_ack=0 application_tx=locked rx_revision=1 rx_drop=0 out_drop=0 crc_error=0",
+      "utc": "2026-10-08T21:45:21.909457+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "RX",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "session": "0",
+        "revision": "2",
+        "channel": "21",
+        "time_us": "100000",
+        "rssi": "0",
+        "lqi": "0",
+        "fcs_ok": "1",
+        "ack_started": "0",
+        "ack_completed": "0",
+        "deadline_miss": "0",
+        "mac": "4188027a0bffff00000802fcff00003c02280b0000005f87a136004b12000063af38751a9618aa413f9b546aeacf"
+      },
+      "raw": "RADIOV7 RX boot=11111111111111111111111111111111 session=0 revision=2 channel=21 time_us=100000 rssi=0 lqi=0 fcs_ok=1 ack_started=0 ack_completed=0 deadline_miss=0 mac=4188027a0bffff00000802fcff00003c02280b0000005f87a136004b12000063af38751a9618aa413f9b546aeacf",
+      "utc": "2026-10-08T21:45:21.909457+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "HOST_COMMAND",
+      "utc": "2026-10-08T21:45:21.923457+00:00",
+      "monotonic": 0.1,
+      "raw": "RADIOV7 ASSOC BEGIN_PERMIT_EVIDENCE boot=11111111111111111111111111111111 id=4 ctx=1 raw_ieee=027a56bb75a41437 target_pan=0b7a extpan=00124b0036a1875f coordinator_ieee=00124b0036a1875f coordinator_short=0000 policy=local_experimental_v1 attempt=87b97747c3ae41a5a6f253b5043f286c permit_revision=2 raw_hash=c792f60ffe8888539f186b38118289a6dc3636684a225534bd33c0d275878bad validation_generation=3 max_polls=2 poll_interval_ms=500 timeout_ms=10000 dsn=30"
+    },
+    {
+      "kind": "STATUS",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "4",
+        "session": "1",
+        "state": "ASSOCIATION",
+        "association_state": "TARGET_SELECTED",
+        "key_state": "IDLE",
+        "generation": "3",
+        "assigned_short": "0000",
+        "polls": "0",
+        "pending": "0",
+        "used": "0",
+        "immediate_ack": "0",
+        "application_tx": "locked",
+        "rx_revision": "2",
+        "rx_drop": "0",
+        "out_drop": "0",
+        "crc_error": "0"
+      },
+      "raw": "RADIOV7 STATUS boot=11111111111111111111111111111111 id=4 session=1 state=ASSOCIATION association_state=TARGET_SELECTED key_state=IDLE generation=3 assigned_short=0000 polls=0 pending=0 used=0 immediate_ack=0 application_tx=locked rx_revision=2 rx_drop=0 out_drop=0 crc_error=0",
+      "utc": "2026-10-08T21:45:21.924457+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "HOST_COMMAND",
+      "utc": "2026-10-08T21:45:21.924457+00:00",
+      "monotonic": 0.1,
+      "raw": "RADIOV7 ASSOC REQUEST id=5 boot=11111111111111111111111111111111 session=1"
+    },
+    {
+      "kind": "TXACCEPT",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "5",
+        "session": "1",
+        "class": "ASSOCIATION_REQUEST",
+        "mac": "23c81e7a0b0000ffff3714a475bb567a020180",
+        "retry": "0"
+      },
+      "raw": "RADIOV7 TXACCEPT boot=11111111111111111111111111111111 id=5 session=1 class=ASSOCIATION_REQUEST mac=23c81e7a0b0000ffff3714a475bb567a020180 retry=0",
+      "utc": "2026-10-08T21:45:21.924457+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "TXDONE",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "5",
+        "session": "1",
+        "result": "local_tx_ok",
+        "management_complete": "0",
+        "application_tx": "locked"
+      },
+      "raw": "RADIOV7 TXDONE boot=11111111111111111111111111111111 id=5 session=1 result=local_tx_ok management_complete=0 application_tx=locked",
+      "utc": "2026-10-08T21:45:21.924457+00:00",
+      "observed": 0.1,
+      "completed_at": 0.1,
+      "host_completion_latency_ms": 0.0,
+      "RF_ACK_timing": "not exposed by frozen V7; host latency is not RF timing"
+    },
+    {
+      "kind": "RESPONSE",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "session": "1",
+        "revision": "3",
+        "status": "0",
+        "assigned_short": "1234",
+        "ack_started": "1",
+        "ack_completed": "1",
+        "deadline_miss": "0"
+      },
+      "raw": "RADIOV7 RESPONSE boot=11111111111111111111111111111111 session=1 revision=3 status=0 assigned_short=1234 ack_started=1 ack_completed=1 deadline_miss=0",
+      "utc": "2026-10-08T21:45:21.924457+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "RX",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "session": "1",
+        "revision": "3",
+        "channel": "21",
+        "time_us": "100000",
+        "rssi": "0",
+        "lqi": "0",
+        "fcs_ok": "1",
+        "ack_started": "1",
+        "ack_completed": "1",
+        "deadline_miss": "0",
+        "mac": "63cc937a0b3714a475bb567a025f87a136004b120002341200"
+      },
+      "raw": "RADIOV7 RX boot=11111111111111111111111111111111 session=1 revision=3 channel=21 time_us=100000 rssi=0 lqi=0 fcs_ok=1 ack_started=1 ack_completed=1 deadline_miss=0 mac=63cc937a0b3714a475bb567a025f87a136004b120002341200",
+      "utc": "2026-10-08T21:45:21.924457+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "HOST_COMMAND",
+      "utc": "2026-10-08T21:45:21.964458+00:00",
+      "monotonic": 0.1,
+      "raw": "RADIOV7 ASSOC_COMMIT id=6 boot=11111111111111111111111111111111 ctx=1 generation=4 raw_ieee=027a56bb75a41437 short=1234 pan=0b7a coordinator=00124b0036a1875f extpan=00124b0036a1875f attempt=87b97747c3ae41a5a6f253b5043f286c max_key_polls=8 poll_interval_ms=500 total_timeout_ms=10000 session=1"
+    },
+    {
+      "kind": "STATUS",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "6",
+        "session": "1",
+        "state": "WAIT_NETWORK_KEY",
+        "association_state": "ASSOCIATED_UNKEYED",
+        "key_state": "ASSOCIATED_UNKEYED",
+        "generation": "4",
+        "assigned_short": "1234",
+        "polls": "0",
+        "pending": "0",
+        "used": "0",
+        "immediate_ack": "1",
+        "application_tx": "locked",
+        "rx_revision": "3",
+        "rx_drop": "0",
+        "out_drop": "0",
+        "crc_error": "0"
+      },
+      "raw": "RADIOV7 STATUS boot=11111111111111111111111111111111 id=6 session=1 state=WAIT_NETWORK_KEY association_state=ASSOCIATED_UNKEYED key_state=ASSOCIATED_UNKEYED generation=4 assigned_short=1234 polls=0 pending=0 used=0 immediate_ack=1 application_tx=locked rx_revision=3 rx_drop=0 out_drop=0 crc_error=0",
+      "utc": "2026-10-08T21:45:21.965456+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "HOST_COMMAND",
+      "utc": "2026-10-08T21:45:21.965456+00:00",
+      "monotonic": 0.1,
+      "raw": "RADIOV7 POST_ASSOC_POLL id=7 boot=11111111111111111111111111111111 ctx=1 generation=4 dsn=224 session=1 attempt=87b97747c3ae41a5a6f253b5043f286c raw_ieee=027a56bb75a41437 short=1234 pan=0b7a coordinator=00124b0036a1875f"
+    },
+    {
+      "kind": "TXACCEPT",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "7",
+        "session": "1",
+        "class": "POST_ASSOC_KEY_POLL",
+        "mac": "6388e07a0b0000341204",
+        "retry": "0"
+      },
+      "raw": "RADIOV7 TXACCEPT boot=11111111111111111111111111111111 id=7 session=1 class=POST_ASSOC_KEY_POLL mac=6388e07a0b0000341204 retry=0",
+      "utc": "2026-10-08T21:45:21.965456+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "TXDONE",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "7",
+        "session": "1",
+        "result": "local_tx_ok",
+        "management_complete": "0",
+        "application_tx": "locked"
+      },
+      "raw": "RADIOV7 TXDONE boot=11111111111111111111111111111111 id=7 session=1 result=local_tx_ok management_complete=0 application_tx=locked",
+      "utc": "2026-10-08T21:45:21.965456+00:00",
+      "observed": 0.1,
+      "completed_at": 0.1,
+      "host_completion_latency_ms": 0.0,
+      "RF_ACK_timing": "not exposed by frozen V7; host latency is not RF timing"
+    },
+    {
+      "kind": "RX",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "session": "1",
+        "revision": "4",
+        "channel": "21",
+        "time_us": "100000",
+        "rssi": "0",
+        "lqi": "0",
+        "fcs_ok": "1",
+        "ack_started": "1",
+        "ack_completed": "1",
+        "deadline_miss": "0",
+        "mac": "6188027a0b341200004800341200003c01210030070000005f87a136004b1200a97cdbad37dd8bacb9b9db8c1a1d9feb1298c49314c296220ff7e5019c46cf098604bca4b87274"
+      },
+      "raw": "RADIOV7 RX boot=11111111111111111111111111111111 session=1 revision=4 channel=21 time_us=100000 rssi=0 lqi=0 fcs_ok=1 ack_started=1 ack_completed=1 deadline_miss=0 mac=6188027a0b341200004800341200003c01210030070000005f87a136004b1200a97cdbad37dd8bacb9b9db8c1a1d9feb1298c49314c296220ff7e5019c46cf098604bca4b87274",
+      "utc": "2026-10-08T21:45:21.965456+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "HOST_COMMAND",
+      "utc": "2026-10-08T21:45:22.030949+00:00",
+      "monotonic": 0.1,
+      "raw": "RADIOV7 KEY_STATE id=8 boot=11111111111111111111111111111111 ctx=1 generation=6 epoch=fc1a822f93d94489bd18a3bef2570f49 keyseq=0 session=1 attempt=87b97747c3ae41a5a6f253b5043f286c raw_ieee=027a56bb75a41437 short=1234 pan=0b7a coordinator=00124b0036a1875f"
+    },
+    {
+      "kind": "STATUS",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "8",
+        "session": "1",
+        "state": "KEY_INSTALLED",
+        "association_state": "ASSOCIATED_UNKEYED",
+        "key_state": "KEY_INSTALLED",
+        "generation": "6",
+        "assigned_short": "1234",
+        "polls": "1",
+        "pending": "0",
+        "used": "0",
+        "immediate_ack": "1",
+        "application_tx": "locked",
+        "rx_revision": "4",
+        "rx_drop": "0",
+        "out_drop": "0",
+        "crc_error": "0"
+      },
+      "raw": "RADIOV7 STATUS boot=11111111111111111111111111111111 id=8 session=1 state=KEY_INSTALLED association_state=ASSOCIATED_UNKEYED key_state=KEY_INSTALLED generation=6 assigned_short=1234 polls=1 pending=0 used=0 immediate_ack=1 application_tx=locked rx_revision=4 rx_drop=0 out_drop=0 crc_error=0",
+      "utc": "2026-10-08T21:45:22.030949+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "HOST_COMMAND",
+      "utc": "2026-10-08T21:45:22.103372+00:00",
+      "monotonic": 0.1,
+      "raw": "RADIOV7 DEVICE_ANNOUNCE id=9 boot=11111111111111111111111111111111 ctx=1 generation=6 raw_ieee=027a56bb75a41437 short=1234 pan=0b7a coordinator=00124b0036a1875f epoch=fc1a822f93d94489bd18a3bef2570f49 keyseq=0 fc=0 intent=1 hash=1e7187e9401f8fc600b7f6b220537658f8b9fbad5fe246682c29f4e4b2c7d499 mac=6188007a0b000034120802fdff34123c0028000000003714a475bb567a020037607a8e7642e97aae87d9b0c6e5cc2adbdf915bba2f7c3f session=1 attempt=87b97747c3ae41a5a6f253b5043f286c"
+    },
+    {
+      "kind": "TXACCEPT",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "9",
+        "session": "1",
+        "class": "DEVICE_ANNOUNCE",
+        "mac": "6188007a0b000034120802fdff34123c0028000000003714a475bb567a020037607a8e7642e97aae87d9b0c6e5cc2adbdf915bba2f7c3f",
+        "retry": "0"
+      },
+      "raw": "RADIOV7 TXACCEPT boot=11111111111111111111111111111111 id=9 session=1 class=DEVICE_ANNOUNCE mac=6188007a0b000034120802fdff34123c0028000000003714a475bb567a020037607a8e7642e97aae87d9b0c6e5cc2adbdf915bba2f7c3f retry=0",
+      "utc": "2026-10-08T21:45:22.103372+00:00",
+      "observed": 0.1
+    },
+    {
+      "kind": "TXDONE",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "9",
+        "session": "1",
+        "result": "local_tx_ok",
+        "management_complete": "0",
+        "application_tx": "locked"
+      },
+      "raw": "RADIOV7 TXDONE boot=11111111111111111111111111111111 id=9 session=1 result=local_tx_ok management_complete=0 application_tx=locked",
+      "utc": "2026-10-08T21:45:22.103372+00:00",
+      "observed": 0.1,
+      "completed_at": 0.1,
+      "host_completion_latency_ms": 0.0,
+      "RF_ACK_timing": "not exposed by frozen V7; host latency is not RF timing"
+    },
+    {
+      "kind": "HOST_COMMAND",
+      "utc": "2026-10-08T21:45:22.155370+00:00",
+      "monotonic": 10.109999999999829,
+      "raw": "RADIOV7 END id=10 boot=11111111111111111111111111111111 session=1"
+    },
+    {
+      "kind": "STATUS",
+      "fields": {
+        "boot": "11111111111111111111111111111111",
+        "id": "10",
+        "session": "1",
+        "state": "STOPPED",
+        "association_state": "ASSOCIATED_UNKEYED",
+        "key_state": "STOPPED",
+        "generation": "6",
+        "assigned_short": "1234",
+        "polls": "1",
+        "pending": "0",
+        "used": "1",
+        "immediate_ack": "0",
+        "application_tx": "locked",
+        "rx_revision": "4",
+        "rx_drop": "0",
+        "out_drop": "0",
+        "crc_error": "0"
+      },
+      "raw": "RADIOV7 STATUS boot=11111111111111111111111111111111 id=10 session=1 state=STOPPED association_state=ASSOCIATED_UNKEYED key_state=STOPPED generation=6 assigned_short=1234 polls=1 pending=0 used=1 immediate_ack=0 application_tx=locked rx_revision=4 rx_drop=0 out_drop=0 crc_error=0",
+      "utc": "2026-10-08T21:45:22.155370+00:00",
+      "observed": 10.109999999999829
+    }
+  ],
+  "phases": [
+    {
+      "phase": "BASELINE",
+      "utc": "2026-10-08T21:45:21.908457+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "ARM",
+      "utc": "2026-10-08T21:45:21.909457+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "PERMIT",
+      "utc": "2026-10-08T21:45:21.909457+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "REASSOCIATION",
+      "utc": "2026-10-08T21:45:21.909457+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "SHORT_COMMIT",
+      "utc": "2026-10-08T21:45:21.924457+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "KEY_POLL",
+      "utc": "2026-10-08T21:45:21.965456+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "KEY_VALIDATE",
+      "utc": "2026-10-08T21:45:21.965456+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "KEY_DURABILITY",
+      "utc": "2026-10-08T21:45:21.965456+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "KEY_DURABILITY",
+      "utc": "2026-10-08T21:45:22.030949+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "FC_RESERVE",
+      "utc": "2026-10-08T21:45:22.031948+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "ANNOUNCE_BUILD",
+      "utc": "2026-10-08T21:45:22.031948+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "ANNOUNCE_HANDOFF",
+      "utc": "2026-10-08T21:45:22.074948+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "PASSIVE_OBSERVE",
+      "utc": "2026-10-08T21:45:22.117372+00:00",
+      "monotonic": 0.1
+    },
+    {
+      "phase": "END",
+      "utc": "2026-10-08T21:45:22.155370+00:00",
+      "monotonic": 10.109999999999829
+    },
+    {
+      "phase": "RECOVERY",
+      "utc": "2026-10-08T21:45:22.155370+00:00",
+      "monotonic": 10.109999999999829
+    }
+  ],
+  "candidate_rejections": [],
+  "primary": "A SINGLE-BOOT NETWORK KEY + ANNOUNCE PASS",
+  "recovery_required": true,
+  "RAW": "027a56bb75a41437",
+  "hardware": false,
+  "INFO": {
+    "boot": "11111111111111111111111111111111",
+    "id": "1",
+    "identity": "airnanny_ctx1_commission_v7",
+    "version": "7",
+    "channel": "21",
+    "application_tx": "locked",
+    "role_capability": "80",
+    "crypto": "host_only",
+    "immediate_ack": "0",
+    "pending_tx": "0",
+    "session": "0",
+    "rx_revision": "0",
+    "rx_drop": "0",
+    "out_drop": "0",
+    "baseline_current_a7": "0",
+    "permit_ready": "0",
+    "timing": "unvalidated"
+  },
+  "baseline": {
+    "revision": 1,
+    "pan": 2938,
+    "security_source": "00124b0036a1875f",
+    "keyseq": 0,
+    "security_fc": 10,
+    "nwk_fcf": "0248",
+    "semantic_policy": "captured_A7_TYPE06_unicast",
+    "mic_valid": true,
+    "accepted": true
+  },
+  "baseline_trace": [
+    {
+      "revision": 1,
+      "pan": 2938,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0,
+      "security_fc": 10,
+      "nwk_fcf": "0248",
+      "semantic_policy": "captured_A7_TYPE06_unicast",
+      "mic_valid": true,
+      "accepted": true,
+      "permit_ready": false
+    }
+  ],
+  "ARM": {
+    "boot": "11111111111111111111111111111111",
+    "id": "3",
+    "session": "0",
+    "state": "PERMIT_ARMED",
+    "association_state": "IDLE",
+    "key_state": "IDLE",
+    "generation": "3",
+    "assigned_short": "0000",
+    "polls": "0",
+    "pending": "0",
+    "used": "0",
+    "immediate_ack": "0",
+    "application_tx": "locked",
+    "rx_revision": "1",
+    "rx_drop": "0",
+    "out_drop": "0",
+    "crc_error": "0"
+  },
+  "permit": {
+    "boot_id": "11111111111111111111111111111111",
+    "rx_revision": 2,
+    "raw_mac_hash": "c792f60ffe8888539f186b38118289a6dc3636684a225534bd33c0d275878bad",
+    "observed_timestamp": 0.1,
+    "pan": 2938,
+    "mac_source_short": 0,
+    "nwk_source": 0,
+    "nwk_destination": 65532,
+    "authenticated_security_source_ieee": "00124b0036a1875f",
+    "security_frame_counter": 11,
+    "key_sequence": 0,
+    "key_epoch_context": "synthetic-ctx1-candidate",
+    "aps_profile": 0,
+    "zdo_cluster": 54,
+    "zdo_tsn": 2,
+    "permit_duration": 180,
+    "tc_significance": 1,
+    "target_coordinator_ieee": "00124b0036a1875f",
+    "validation_generation": 3,
+    "ctx": 1,
+    "aps_counter": 0
+  },
+  "bound_response_revision": 3,
+  "association": {
+    "raw_ieee": "027a56bb75a41437",
+    "ctx": 1,
+    "state": "ASSOCIATED_UNKEYED",
+    "generation": 4,
+    "attempt": "87b97747c3ae41a5a6f253b5043f286c",
+    "target_pan": 2938,
+    "coordinator_ieee": "00124b0036a1875f",
+    "assigned_short": 4660,
+    "policy": "local_experimental_v1",
+    "forbidden_inventory": [
+      "00124b0036a1875f",
+      "00124b00369c711f",
+      "00124b0036a18944"
+    ],
+    "previous_attempt": null,
+    "previous_generation": 0,
+    "previous_short": null,
+    "permit": {
+      "boot_id": "11111111111111111111111111111111",
+      "rx_revision": 2,
+      "raw_mac_hash": "c792f60ffe8888539f186b38118289a6dc3636684a225534bd33c0d275878bad",
+      "observed_timestamp": 0.1,
+      "pan": 2938,
+      "mac_source_short": 0,
+      "nwk_source": 0,
+      "nwk_destination": 65532,
+      "authenticated_security_source_ieee": "00124b0036a1875f",
+      "security_frame_counter": 11,
+      "key_sequence": 0,
+      "key_epoch_context": "synthetic-ctx1-candidate",
+      "aps_profile": 0,
+      "zdo_cluster": 54,
+      "zdo_tsn": 2,
+      "permit_duration": 180,
+      "tc_significance": 1,
+      "target_coordinator_ieee": "00124b0036a1875f",
+      "validation_generation": 3,
+      "ctx": 1,
+      "aps_counter": 0
+    },
+    "ever_secured_tx": false,
+    "response_raw": "63cc937a0b3714a475bb567a025f87a136004b120002341200",
+    "response_revision": 3,
+    "response_ack": {
+      "boot": "11111111111111111111111111111111",
+      "session": "1",
+      "revision": "3",
+      "channel": "21",
+      "time_us": "100000",
+      "rssi": "0",
+      "lqi": "0",
+      "fcs_ok": "1",
+      "ack_started": "1",
+      "ack_completed": "1",
+      "deadline_miss": "0",
+      "mac": "63cc937a0b3714a475bb567a025f87a136004b120002341200"
+    }
+  },
+  "self_check": {
+    "wire_control": 40,
+    "effective_control": 45,
+    "counter": 0,
+    "source_ieee": "027a56bb75a41437",
+    "keyseq": 0,
+    "nonce": "3714a475bb567a02000000002d",
+    "aad": "0802fdff34123c002d000000003714a475bb567a0200",
+    "reencrypt_exact": true
+  },
+  "intent": {
+    "boot": "11111111111111111111111111111111",
+    "ctx": 1,
+    "provision_generation": 6,
+    "raw_ieee": "027a56bb75a41437",
+    "short": 4660,
+    "pan": 2938,
+    "coordinator": "00124b0036a1875f",
+    "key_epoch": "fc1a822f93d94489bd18a3bef2570f49",
+    "fc": 0,
+    "keyseq": 0,
+    "mac_hash": "1e7187e9401f8fc600b7f6b220537658f8b9fbad5fe246682c29f4e4b2c7d499",
+    "intent_generation": 1
+  },
+  "terminal_STATUS": {
+    "boot": "11111111111111111111111111111111",
+    "id": "10",
+    "session": "1",
+    "state": "STOPPED",
+    "association_state": "ASSOCIATED_UNKEYED",
+    "key_state": "STOPPED",
+    "generation": "6",
+    "assigned_short": "1234",
+    "polls": "1",
+    "pending": "0",
+    "used": "1",
+    "immediate_ack": "0",
+    "application_tx": "locked",
+    "rx_revision": "4",
+    "rx_drop": "0",
+    "out_drop": "0",
+    "crc_error": "0"
+  },
+  "timestamps": {
+    "association_response": 0.1,
+    "short_durable_commit": 0.1,
+    "assoc_commit_ack": 0.1,
+    "first_key_poll": 0.1,
+    "valid_transport_key": 0.1
+  },
+  "timings": {
+    "assoc_response_to_first_key_poll_ms": 0.0,
+    "assoc_response_to_transport_key_ms": 0.0
+  },
+  "tx_counts": {
+    "ASSOCIATION_REQUEST": 1,
+    "POST_ASSOC_KEY_POLL": 1,
+    "DEVICE_ANNOUNCE": 1
+  },
+  "next_protocol_state": "MANAGEMENT_PENDING",
+  "public_epoch": {
+    "context": {
+      "attempt": "87b97747c3ae41a5a6f253b5043f286c",
+      "generation": 4,
+      "ctx": 1,
+      "raw_ieee": "027a56bb75a41437",
+      "short": 4660,
+      "pan": 2938,
+      "extpan": "00124b0036a1875f",
+      "channel": 21,
+      "tc_ieee": "00124b0036a1875f",
+      "coordinator_short": 0,
+      "expected_keyseq": 0
+    },
+    "state": "MANAGEMENT_PENDING",
+    "generation": 6,
+    "replay": {
+      "aps_commissioning_selector0:00124b0036a1875f": 8
+    },
+    "nwk_source_floors": {},
+    "tc_upgrade_floors": {},
+    "next_fc": 32,
+    "sequences": {
+      "nwk": 1,
+      "aps": 1,
+      "zdo": 1,
+      "dsn": 1
+    },
+    "announced": true,
+    "secret_ref": "dd612f647141409bbc93362893f74dc6",
+    "key_epoch_id": "fc1a822f93d94489bd18a3bef2570f49",
+    "keyseq": 0,
+    "transport_rx_revision": 4,
+    "lease": {
+      "epoch": "fc1a822f93d94489bd18a3bef2570f49",
+      "ctx": 1,
+      "fc": 0,
+      "token": "e9881531cdbb45619e5b939e66decf52"
+    },
+    "lease_sequences": {
+      "nwk": 0,
+      "aps": 0,
+      "zdo": 0,
+      "dsn": 0
+    },
+    "lease_phase": "handed",
+    "frame_hash": "1e7187e9401f8fc600b7f6b220537658f8b9fbad5fe246682c29f4e4b2c7d499",
+    "local_mac_ack": true
+  },
+  "RF_TX": 0,
+  "COM": 0
+}

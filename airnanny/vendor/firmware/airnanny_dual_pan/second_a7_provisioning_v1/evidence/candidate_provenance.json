@@ -1,0 +1,438 @@
+{
+  "hardware_performed": false,
+  "ctx": 1,
+  "pan": "0B7A",
+  "independent_DPAPI_storage": true,
+  "historical_ctx1_NWK_MIC_proofs": [
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 18,
+      "ciphertext_sha256": "d583c0dece78196add61ae884d9294e41fd92bda3fb6ef78aa46767524d7fc3c",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 50,
+      "ciphertext_sha256": "3848a9d8db25359de2e129e7b07ecfc507094902c25276309a5376ca65c184da",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 63,
+      "ciphertext_sha256": "d95b00702e869c2b2aa6e33e00aec1994597f3a8183f63a975dfa0ca32dabf17",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 82,
+      "ciphertext_sha256": "484a7f29311e58b2fd42e8628a8390df640a62e97fa49bb3f1410b225293e914",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 95,
+      "ciphertext_sha256": "e4033e996aa7b23ea8b34ef3904deb77d24a7ec2759fa7b85c6bc6f2f566df20",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 104,
+      "ciphertext_sha256": "5bf1be5d404ef6c4dcad3667f7880338e0eb30f9bc16794e0ea4564eb3cc17ba",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 114,
+      "ciphertext_sha256": "a7ce9545e429bd195c34575bf901baed2d2249900e3ed6286df595e3ca75482b",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 125,
+      "ciphertext_sha256": "51260fea5d86cafc6becf6f88a6c561abf62efc573cb6e47bd6a152e157f189a",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 194,
+      "ciphertext_sha256": "5495fc5569b814cbd005ef65c3007b0c4c96a7335972dcdcc7981f0568565b9e",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 224,
+      "ciphertext_sha256": "b4c478fead164a1f7431aa11c23ad2a23c1ed00481326d021fc570d8f1f925b5",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 254,
+      "ciphertext_sha256": "86cbfb0d7db886bc7e01f8534667f592e419582b9afd4227898007277dcd7803",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 272,
+      "ciphertext_sha256": "5b98c545a80fdb13a34dff47b05da92a488404a6bf2cf9a12505b4d8c62dda53",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "airnanny_pairing.pcapng",
+      "frame": 378,
+      "ciphertext_sha256": "e3195cbf43f871beb707060e1f1bbda239fd2f05d391862b56a004206872966a",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "app_speed_3_to_4.pcapng",
+      "frame": 18,
+      "ciphertext_sha256": "e3e75bd3225e8641ac09713f5756dbe9d2b2a2bc02017227d7715fcd67211dd6",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "app_speed_3_to_4.pcapng",
+      "frame": 41,
+      "ciphertext_sha256": "321357d45f663e551668a6e93f79c5f124aac8e92522d3f007d798a6b3cbb0e9",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "autonanny_button.pcapng",
+      "frame": 30,
+      "ciphertext_sha256": "ae8c8e34cb227dc84b374b3cdb1dadd5dede13e6ff6d2717cb2faab323f0f8b6",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "humidity_plus_plus_minus.pcapng",
+      "frame": 21,
+      "ciphertext_sha256": "d3064f9c1998d8f8ae9d8a737b56e4fce9a5bdc69a51f8fba77402fbb6b700f9",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "idle.pcapng",
+      "frame": 13,
+      "ciphertext_sha256": "aac87672021d9cdc5304790075e36f444c288d5b2b770a0530fd5570e4997c95",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "idle.pcapng",
+      "frame": 30,
+      "ciphertext_sha256": "daef97639642235b72af7ee8be5d12686dc77f4b5d0551b8447f91b5ca69532a",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "idle.pcapng",
+      "frame": 45,
+      "ciphertext_sha256": "deb12aaf8f2f89395c662f13bc4d5c117b24c67b9af9334678115ea3d3f86dc0",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "night_mode_on_off.pcapng",
+      "frame": 16,
+      "ciphertext_sha256": "a9768dfc7ed33600a0c3a507bd93b377a433aabc84c2269daa89a404a2e6454c",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 14,
+      "ciphertext_sha256": "1facbb44af30db305036a6f33ecdfe8e2658e69e8e2ad007e5cec204994cf12d",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 22,
+      "ciphertext_sha256": "9e44177a059fda56feee9198a112d2c97fa92878abe1e88f9cc4689630f5a7e1",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 28,
+      "ciphertext_sha256": "850365fa9e087eaf301426524e2b26af1750aa25725b6e26e627ce426723ee6f",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 32,
+      "ciphertext_sha256": "b9a44afe4ac5894d53ff7e18f71ec40479b28584fec937c386d38a0d58b1a950",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 51,
+      "ciphertext_sha256": "ebed8c9474c88f65269d501084084f917a109eb1a16601261e8281cf295d7d2b",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 53,
+      "ciphertext_sha256": "537004464205810d60c87de6879306890afa12ebf6fe2e8a6f99a3ac0b4628a6",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 57,
+      "ciphertext_sha256": "ab569d1963e5f3fb65eda46b19eaf1c06dec378ee7e3a323cd2daf2edf323922",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 59,
+      "ciphertext_sha256": "4bbdd26980723255e36af21149412dda8840fcc9809051d0698708a94787b5dc",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 63,
+      "ciphertext_sha256": "4d5fb75f7180373060058cbaa0a1edacdf1c164f7440f164bcd86b71a95cf4b5",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 82,
+      "ciphertext_sha256": "722cfd602a87aa57cec633fb258ee0900f588ecabe00b28d54388a14d7a1f9c5",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 92,
+      "ciphertext_sha256": "eb1009b1a4a0c31c94e72c6f389ffd04c5fe56f5a82f52123cc84e0badfb8d75",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "permit_listen.pcapng",
+      "frame": 116,
+      "ciphertext_sha256": "75454e8b65ede5a3c88492257989cc2c62fe6b50b168229c2cd4140b074fbc1a",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "power_off_on.pcapng",
+      "frame": 15,
+      "ciphertext_sha256": "491e99afcb6a0300db317066dd5fd1e9df3d780d205efdd8f997678542920dc8",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "power_off_on.pcapng",
+      "frame": 19,
+      "ciphertext_sha256": "b84385c9e7e7a6c825884a6c3785e0ce2a0fbb560b128c52cbee4238c0f92a14",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "power_off_on.pcapng",
+      "frame": 50,
+      "ciphertext_sha256": "c50128d4f8ea4b054ae650a00fb27a55d78ea5937f7f11bdd849817ece29cf83",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "remote_speed_3_to_4.pcapng",
+      "frame": 18,
+      "ciphertext_sha256": "4ed317635aa02f7b20733e600ebefbfaf16c6b7d8c8b4ab89a5779166e840bcd",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "remote_speed_4_to_3.pcapng",
+      "frame": 13,
+      "ciphertext_sha256": "c5cca066902e7028ace93636fc6cc158b796207371231654b91af8e4eda83ec3",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "switch_mode.pcapng",
+      "frame": 21,
+      "ciphertext_sha256": "2512f7d5e7813bea3295045800acc06884296e820b033ade4836bc4a0726ad45",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "switch_mode.pcapng",
+      "frame": 74,
+      "ciphertext_sha256": "3a1b59186a6ff505e2b5866f60b542f11707e7802246c6369fee42fd48a21cb8",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "temperature_up_down.pcapng",
+      "frame": 6,
+      "ciphertext_sha256": "b182a87e69c9639a56a2d01839e2bd1105b302dc955a859ea23cc22fb36def89",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "temperature_up_down.pcapng",
+      "frame": 49,
+      "ciphertext_sha256": "ac59b1e8208f4d04bf4418eb2bd737b4a31dc569c0c99743fa6140efb7f6e020",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "timer_btn1.pcapng",
+      "frame": 4,
+      "ciphertext_sha256": "4e61daa005185d46869f3886fb6de2853cde79dc555955a54bc25fb23a16162d",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "timer_btn1.pcapng",
+      "frame": 19,
+      "ciphertext_sha256": "3f447a55852cb87f9610e9734d9f5c347b264ab4d57b6e409e6a3d23cb18789e",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "timer_btn1.pcapng",
+      "frame": 59,
+      "ciphertext_sha256": "b04306c9cacdadfa5425a6f7f3965858b94d92664118541dfa6ba7b713bc33c2",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "timer_btn1.pcapng",
+      "frame": 77,
+      "ciphertext_sha256": "422562e6598b596de5bf0b4e8a5490f98d5bb72a296bc95531dc780def9d4510",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "timer_btn2.pcapng",
+      "frame": 50,
+      "ciphertext_sha256": "6de2bb6f0268690cd1bf3eb5cb79bec636682577ce4da095be97eaf2e755d17e",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "timer_btn2.pcapng",
+      "frame": 66,
+      "ciphertext_sha256": "64674b5d1a644877e3b79d02a0770885ba1d3ea46cc7baed218539027e86a5b5",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "\u043f\u0440\u0438\u0442\u043e\u043a.pcapng",
+      "frame": 11,
+      "ciphertext_sha256": "a340a9a3f9c52ad3f8598fd6398e2ba795d63e3fa61245d36195ee367d010b7f",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "\u043f\u0440\u0438\u0442\u043e\u043a.pcapng",
+      "frame": 50,
+      "ciphertext_sha256": "2b1d14a420eaf1eea850accee502b12300ae46ba0f0b24550436bf158199300d",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "\u0440\u0435\u0446\u0438\u0440\u043a\u0443\u043b\u044f\u0446\u0438\u044f.pcapng",
+      "frame": 6,
+      "ciphertext_sha256": "a998dc3ce4e202206cdcc16fc1c52ada298946d4a6d29d46b7aac2a2fdbb839b",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "\u0440\u0435\u0446\u0438\u0440\u043a\u0443\u043b\u044f\u0446\u0438\u044f.pcapng",
+      "frame": 37,
+      "ciphertext_sha256": "c7d1cc54c523fc756e2a6f4dae9e4e1fd30e35882adc4d9a3921ea90650cffaf",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    },
+    {
+      "file": "\u0441\u043c\u0435\u0448\u0430\u043d\u043d\u044b\u0439.pcapng",
+      "frame": 53,
+      "ciphertext_sha256": "05f32140ef321f042680fb28b712d152202cf7a4ed2274f0a8399d97aff16da2",
+      "MIC_valid": true,
+      "security_source": "00124b0036a1875f",
+      "keyseq": 0
+    }
+  ],
+  "TC_bootstrap": "HISTORICAL_CANDIDATE_UNVERIFIED_ON_CTX1",
+  "live_authority": false,
+  "incoming_floor_imported": false,
+  "installed_Network_Key": false,
+  "NWK_FC_domain_created": false,
+  "no_ctx0_security_loaded": true
+}
