@@ -1,5 +1,5 @@
 name: AirNanny Dual-PAN Bridge
-version: "0.2.0"
+version: "0.3.0"
 slug: airnanny
 description: Two AirNanny A7 units on separate Zigbee PANs, bridged to Home Assistant over MQTT
 url: https://github.com/mrkotee/breeze_control_addon
@@ -56,8 +56,14 @@ options:
 
 schema:
   firmware_version: "int(33,33)"
-  ctx0_network_key: password
-  ctx1_network_key: password
+  # Not `password`, although these are secret. Supervisor sends a password
+  # option to Have I Been Pwned before saving it, and where that service is
+  # unreachable the save fails with an unexplained error rather than a
+  # warning -- home-assistant/supervisor#6463. A regex also does what the
+  # password type never did here: reject anything that is not exactly the
+  # 32 hex characters a 128-bit network key is written as.
+  ctx0_network_key: "match(^[0-9a-fA-F]{32}$)"
+  ctx1_network_key: "match(^[0-9a-fA-F]{32}$)"
   ctx0_key_sha256: "match(^[0-9a-f]{64}$)"
   ctx1_key_sha256: "match(^[0-9a-f]{64}$)"
   log_level: "list(debug|info|warning|error)"

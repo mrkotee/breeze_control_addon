@@ -7,13 +7,17 @@ configuration:
   ctx0_network_key:
     name: Network key — second bedroom (PAN FA9B)
     description: >-
-      32 hex characters, exported once from the commissioning machine. Stored
-      as plain text by the Supervisor; never written to the add-on's own data.
+      32 hex characters, exported once from the commissioning machine. Not
+      masked: a masked field is sent for a breach check that fails closed
+      where that service is unreachable. Stored as plain text by the
+      Supervisor either way; never written to the add-on's own data.
   ctx1_network_key:
     name: Network key — bedroom (PAN 0B7A)
     description: >-
-      32 hex characters, exported once from the commissioning machine. Stored
-      as plain text by the Supervisor; never written to the add-on's own data.
+      32 hex characters, exported once from the commissioning machine. Not
+      masked: a masked field is sent for a breach check that fails closed
+      where that service is unreachable. Stored as plain text by the
+      Supervisor either way; never written to the add-on's own data.
   ctx0_key_sha256:
     name: Key digest — second bedroom
     description: >-
