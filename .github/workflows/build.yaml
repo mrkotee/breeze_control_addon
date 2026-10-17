@@ -1,0 +1,67 @@
+name: Build add-on image
+
+# Supervisor builds an add-on on the target machine by first pulling its own
+# buildx helper image from Docker Hub. Where that registry is unreachable the
+# install fails before the add-on's own Dockerfile is ever read, and there is
+# no way to opt out of that helper. Publishing a finished image instead means
+# Supervisor only pulls, from the same registry it already uses for Home
+# Assistant itself.
+#
+# It also moves the build off the Raspberry Pi, which no longer spends time
+# and SD-card writes compiling on every install.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'airnanny/**'
+      - '.github/workflows/build.yaml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read the add-on version and base image
+        id: addon
+        run: |
+          version="$(grep -E '^version:' airnanny/config.yaml | cut -d'"' -f2)"
+          base="$(grep -E '^[[:space:]]+aarch64:' airnanny/build.yaml | awk '{print $2}')"
+          test -n "$version" && test -n "$base"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
+          echo "Building $version from $base"
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: airnanny
+          file: airnanny/Dockerfile
+          platforms: linux/arm64
+          push: true
+          build-args: |
+            BUILD_FROM=${{ steps.addon.outputs.base }}
+          # The tag Supervisor asks for is the add-on's own version, so the
+          # two cannot drift: a version bump that was never built fails to
+          # pull rather than silently running the previous image.
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/breeze_control_addon-aarch64:${{ steps.addon.outputs.version }}
+            ghcr.io/${{ github.repository_owner }}/breeze_control_addon-aarch64:latest
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.revision=${{ github.sha }}

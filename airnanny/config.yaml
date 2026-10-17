@@ -6,6 +6,14 @@ url: https://github.com/mrkotee/breeze_control_addon
 arch:
   - aarch64
 
+# Pulled rather than built on the target. Building there makes Supervisor
+# fetch its buildx helper from Docker Hub first, which fails on hosts that
+# cannot reach that registry -- before this add-on's Dockerfile is read at
+# all. The image is built by this repository's workflow and published to the
+# same registry Home Assistant already pulls itself from. The tag Supervisor
+# requests is the version above.
+image: ghcr.io/mrkotee/breeze_control_addon-{arch}
+
 # The Home Assistant base images bring their own init.
 init: false
 startup: services
