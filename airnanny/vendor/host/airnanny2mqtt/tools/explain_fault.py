@@ -47,7 +47,14 @@ def transmission_key(kind, fields):
     an automatic one is further distinguished by the poll it belongs to.
     """
     family = 'AUTO' if str(kind).startswith('AUTO') else 'TX'
-    return family, fields.get('id'), fields.get('poll')
+    # Only the automatic family carries `poll` on both halves. A commanded
+    # acceptance does not report it at all while its completion does, so
+    # including it for TX gives an acceptance and its own completion
+    # different keys -- which reads as every frame accepted and none
+    # completed, the alarm this is meant to raise only when it is true.
+    if family == 'AUTO':
+        return family, fields.get('id'), fields.get('poll')
+    return family, fields.get('id'), None
 
 
 def latest_trace(state_dir):
