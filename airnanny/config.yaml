@@ -1,5 +1,5 @@
 name: AirNanny Dual-PAN Bridge
-version: "0.4.0"
+version: "0.5.0"
 slug: airnanny
 description: Two AirNanny A7 units on separate Zigbee PANs, bridged to Home Assistant over MQTT
 url: https://github.com/mrkotee/breeze_control_addon
@@ -58,6 +58,7 @@ options:
   ctx0_key_sha256: ""
   ctx1_key_sha256: ""
   log_level: info
+  acknowledge_fault: ""
 
 schema:
   firmware_version: "int(33,33)"
@@ -72,3 +73,8 @@ schema:
   ctx0_key_sha256: "match(^[0-9a-f]{64}$)"
   ctx1_key_sha256: "match(^[0-9a-f]{64}$)"
   log_level: "list(debug|info|warning|error)"
+  # Left empty in normal operation. To clear a latched fault the operator
+  # writes its reason here exactly as the log printed it, which is deliberate
+  # and leaves a record. Faults that need a person to decide what happened
+  # stay latched however exactly they are named.
+  acknowledge_fault: "str?"

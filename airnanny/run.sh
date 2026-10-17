@@ -102,6 +102,18 @@ FIRMWARE_VERSION="$(bashio::config 'firmware_version')"
 export AIRNANNY_LOG_LEVEL
 AIRNANNY_LOG_LEVEL="$(bashio::config 'log_level')"
 
+# Normally empty. A latched fault is cleared by writing its reason here
+# exactly, which the service then checks against what it actually latched --
+# so this cannot clear a different fault, and it cannot clear one that needs
+# a person to decide what happened.
+export AIRNANNY_ACKNOWLEDGE_FAULT
+if bashio::config.has_value 'acknowledge_fault'; then
+    AIRNANNY_ACKNOWLEDGE_FAULT="$(bashio::config 'acknowledge_fault')"
+    bashio::log.warning "Operator acknowledgement present for: ${AIRNANNY_ACKNOWLEDGE_FAULT}"
+else
+    AIRNANNY_ACKNOWLEDGE_FAULT=""
+fi
+
 bashio::log.info "Starting AirNanny dual-PAN bridge (V${FIRMWARE_VERSION}) against ${MQTT_HOST}:${MQTT_PORT}"
 
 cd "${HOST}"

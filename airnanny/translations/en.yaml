@@ -33,3 +33,9 @@ configuration:
     description: >-
       How much the add-on logs. Keys and other secret material are excluded at
       every level.
+  acknowledge_fault:
+    name: Acknowledge a latched fault
+    description: >-
+      Leave empty. To clear a latched fault, write its reason here exactly as
+      the log printed it. Faults that need someone to decide what happened
+      stay latched however exactly they are named.

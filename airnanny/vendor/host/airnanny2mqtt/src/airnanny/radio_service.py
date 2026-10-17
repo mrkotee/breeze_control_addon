@@ -12,6 +12,15 @@ from .daemon import AirNannyDaemon
 from .radio_daemon import RadioDaemonLoop
 
 RECOVERABLE = frozenset(('serial_io_error', 'serial_disconnected', 'serial_open_failed', 'radio_parent_link_lost'))
+
+# Faults an operator may clear by naming them, because they moved no secured
+# state and spent no counter. A failed plaintext discovery beacon is an
+# ordinary radio condition -- a busy channel -- and latching it protects
+# nothing once someone has looked at it. Everything else stays latched: a
+# rolled-back store, an authenticated Leave and any interrupted secured
+# exchange all need a person to decide what actually happened, and that
+# decision cannot be expressed as a string.
+OPERATOR_CLEARABLE = frozenset(('late_join_discovery_tx_failed',))
 HISTORY_LIMIT = 64
 RESULT_LIMIT = 256
 
@@ -484,6 +493,33 @@ class ServiceState:
             self.write('BLOCKED', reason=reason)
             raise ServiceBlocked(reason)
         self.write('WAITING', reason=reason)
+
+    def acknowledge(self, reason):
+        """Clear a latch whose reason the operator has named exactly.
+
+        Naming it is the whole mechanism. A restart must not clear a fault,
+        and neither must a blanket reset switch: someone has to have read the
+        reason and written it back, which is deliberate and leaves a record of
+        who decided what.
+
+        Only faults that moved no secured state can be cleared this way. A
+        rolled-back store or an interrupted secured recovery needs a person to
+        work out which history is the real one, and typing a string is not
+        that work. Those stay latched however exactly they are named.
+        """
+        record = self.read()
+        if record['state'] != 'BLOCKED':
+            return 'not_blocked'
+        latched = record.get('reason')
+        if reason != latched:
+            return 'mismatch'
+        if latched not in OPERATOR_CLEARABLE:
+            return 'not_clearable'
+        cleared = dict(record.get('cleared') or {})
+        cleared[latched] = cleared.get(latched, 0) + 1
+        self.write('WAITING', reason=None, cleared=cleared,
+                   last_cleared={'reason': latched, 'review': record.get('review')})
+        return 'cleared'
 
 
 class BoundedLedger:

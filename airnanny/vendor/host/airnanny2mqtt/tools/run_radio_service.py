@@ -308,6 +308,13 @@ def main():
     options=MqttRuntimeConfig(mqtt,tls=TlsConfig(enabled=args.mqtt_tls,ca_file=args.mqtt_ca),allow_non_loopback=args.mqtt_tls)
     with ServiceLock(LOCAL/'owner.lock'):
         state=ServiceState(LOCAL/'state.json')
+        acknowledged=(os.environ.get('AIRNANNY_ACKNOWLEDGE_FAULT') or '').strip()
+        if acknowledged:
+            outcome=state.acknowledge(acknowledged)
+            print({'cleared':'fault cleared by operator: '+acknowledged,
+                   'mismatch':'not cleared: the latched fault is not '+acknowledged,
+                   'not_clearable':'not cleared: '+acknowledged+' needs review, not acknowledgement',
+                   'not_blocked':'nothing to clear; the service is not latched'}[outcome],flush=True)
         service=PersistentRadioService(state,Clock(),lambda s:establish(args,options,s))
         deadline=time.monotonic()+args.duration if args.duration else None
         try:

@@ -70,10 +70,12 @@ def main(argv=None):
         print('are ready to type them straight into the add-on form.')
         return 0
 
-    print('\nNetwork keys — type these into the add-on form, then clear this screen:\n')
+    print('\nNetwork keys — type these into the add-on form, then clear this screen.')
+    print('Each key is on its own line with no indentation, so selecting the line')
+    print('cannot carry leading spaces into a field that checks its format.\n')
     for ctx, (ref, key) in contexts.items():
-        print('  %s' % CONTEXT_LABELS[ctx])
-        print('    %s\n' % key.hex())
+        print('# %s' % CONTEXT_LABELS[ctx])
+        print('%s\n' % key.hex())
     if contexts[0][1] == contexts[1][1]:
         # Expected for these units: the two PANs are separated by PAN id and
         # addresses, which the receive path checks before decryption, not by
