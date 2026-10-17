@@ -40,43 +40,63 @@ CONTEXT_PANS = {0xFA9B: 'ctx0', 0x0B7A: 'ctx1'}
 # number and checksum, nothing more -- so it cannot be attributed to a
 # network. Counting these as foreign traffic would overstate how busy the
 # channel is by exactly the amount our own units are talking.
+# A PAN holds three talkers: the AirNanny itself as coordinator, its stock
+# AirControl remote, and this dongle. Hearing the network is not the same as
+# hearing the unit, and only the unit answers a discovery beacon request --
+# so a survey that stops at the PAN can report a strong signal from a remote
+# while the thing we need to reach is inaudible.
+SOURCES = {0x0000: 'the AirNanny itself', 0xC9B7: 'stock remote (second bedroom)',
+           0xF59F: 'stock remote (bedroom)', 0xA326: 'this dongle (ctx0)',
+           0x6C55: 'this dongle (ctx1)'}
 LABELS = {'unaddressed': 'acknowledgements',
           'broadcast': 'broadcasts',
           'unreadable': 'undecodable headers'}
 BROADCAST_PAN = 0xFFFF
 
 
-def pan_ids(data):
-    """Destination and source PAN from a raw MAC header, leniently.
+def mac_header(data):
+    """Destination and source PAN and address from a raw MAC header.
 
-    The strict parser in `mac` accepts only legacy data frames, which is
-    right for the runtime: a frame it will not act on should not decode. A
-    survey wants the opposite. Beacons, beacon requests and acknowledgements
-    are exactly the traffic that says whether a device is audible at all, so
-    the header is read far enough to name the network and no further.
+    Read leniently, as a survey must: the strict parser accepts only legacy
+    data frames, and beacons and acknowledgements are exactly the traffic
+    that says whether a device is audible.
 
-    Returns (destination, source), either of which may be None when the frame
-    does not carry it.
+    Any field may be None when the frame does not carry it.
     """
+    out = {'destination_pan': None, 'destination': None,
+           'source_pan': None, 'source': None}
     if len(data) < 3:
-        return None, None
+        return out
     fcf = int.from_bytes(data[0:2], 'little')
     destination_mode, source_mode = (fcf >> 10) & 3, (fcf >> 14) & 3
     compressed = bool(fcf & 0x40)
-    offset, destination, source = 3, None, None
+    offset = 3
     if destination_mode:
         if len(data) < offset + 2:
-            return None, None
-        destination = int.from_bytes(data[offset:offset + 2], 'little')
-        offset += 2 + (2 if destination_mode == 2 else 8)
+            return out
+        out['destination_pan'] = int.from_bytes(data[offset:offset + 2], 'little')
+        offset += 2
+        width = 2 if destination_mode == 2 else 8
+        if len(data) >= offset + width and destination_mode == 2:
+            out['destination'] = int.from_bytes(data[offset:offset + 2], 'little')
+        offset += width
     if source_mode:
         if compressed:
-            source = destination
+            out['source_pan'] = out['destination_pan']
         else:
             if len(data) < offset + 2:
-                return destination, None
-            source = int.from_bytes(data[offset:offset + 2], 'little')
-    return destination, source
+                return out
+            out['source_pan'] = int.from_bytes(data[offset:offset + 2], 'little')
+            offset += 2
+        if source_mode == 2 and len(data) >= offset + 2:
+            out['source'] = int.from_bytes(data[offset:offset + 2], 'little')
+    return out
+
+
+def pan_ids(data):
+    """Destination and source PAN only; kept for callers that want just those."""
+    header = mac_header(data)
+    return header['destination_pan'], header['source_pan']
 
 
 def classify(mac_hex):
@@ -116,9 +136,11 @@ class Readings:
         self.fcs_bad = 0
         self.unmatched = 0
         self.reasons = Counter()
+        self.sources = Counter()
 
-    def add(self, fields):
+    def add(self, fields, source=None):
         self.frames += 1
+        self.sources[source] += 1
         if fields.get('fcs_ok') == '0':
             self.fcs_bad += 1
         if fields.get('match') == '0':
@@ -148,6 +170,8 @@ class Readings:
             out['lqi_worst'] = min(self.lqi)
         if self.reasons:
             out['unmatched_reasons'] = dict(self.reasons)
+        out['sources'] = {('%04x' % k if k is not None else 'unknown'): v
+                          for k, v in self.sources.most_common()}
         return out
 
 
@@ -213,7 +237,11 @@ def listen(port, seconds):
             continue
         kinds[kind] += 1
         if kind == 'RX':
-            contexts[classify(fields.get('mac', ''))].add(fields)
+            try:
+                source = mac_header(bytes.fromhex(fields.get('mac', '')))['source']
+            except (ValueError, TypeError):
+                source = None
+            contexts[classify(fields.get('mac', ''))].add(fields, source)
     return contexts, kinds, malformed, fault
 
 
@@ -268,6 +296,17 @@ def main(argv=None):
             if summary.get('fcs_bad'):
                 print('  %d frames failed their checksum - interference, not distance'
                       % summary['fcs_bad'])
+            for address, count in (summary.get('sources') or {}).items():
+                known = SOURCES.get(int(address, 16)) if address != 'unknown' else None
+                print('    from %s: %d frames%s'
+                      % (address, count, '  <- %s' % known if known else ''))
+            if not any(a != 'unknown' and int(a, 16) == 0
+                       for a in (summary.get('sources') or {})):
+                # Discovery needs a beacon from the coordinator. Traffic from
+                # its remote proves the network is live, not that the unit we
+                # must reach can be heard from here.
+                print('    NOTHING HEARD FROM THE UNIT ITSELF (address 0000).')
+                print('    Only the unit answers a discovery beacon request.')
         print()
     other = {k: v for k, v in report['contexts'].items() if k not in ('ctx0', 'ctx1')}
     if other:
