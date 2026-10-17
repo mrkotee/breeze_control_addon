@@ -1,5 +1,5 @@
 name: AirNanny Dual-PAN Bridge
-version: "0.8.0"
+version: "0.9.0"
 slug: airnanny
 description: Two AirNanny A7 units on separate Zigbee PANs, bridged to Home Assistant over MQTT
 url: https://github.com/mrkotee/breeze_control_addon

@@ -318,6 +318,13 @@ def main():
             if latched.get('review'): print('  review: '+json.dumps(latched['review'],ensure_ascii=False),flush=True)
             print('  '+('clear it by acknowledging exactly this reason' if reason in OPERATOR_CLEARABLE
                         else 'this one needs review; acknowledging it will not clear it'),flush=True)
+            # The review this fault asks for needs the trace, and on an
+            # appliance the trace is unreachable. Summarise it here.
+            try:
+                import explain_fault
+                for line in explain_fault.lines(LOCAL): print(line,flush=True)
+            except Exception as exc:
+                print('  the retained trace could not be summarised: %r'%(exc,),flush=True)
         acknowledged=(os.environ.get('AIRNANNY_ACKNOWLEDGE_FAULT') or '').strip()
         if acknowledged:
             outcome=state.acknowledge(acknowledged)
