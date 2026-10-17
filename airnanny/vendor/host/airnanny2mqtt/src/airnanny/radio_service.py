@@ -21,6 +21,14 @@ RECOVERABLE = frozenset(('serial_io_error', 'serial_disconnected', 'serial_open_
 # exchange all need a person to decide what actually happened, and that
 # decision cannot be expressed as a string.
 OPERATOR_CLEARABLE = frozenset(('late_join_discovery_tx_failed',))
+
+# Faults whose name cannot decide, but whose retained trace can. A recovery
+# chain is latched under one reason whether or not anything secured went out,
+# so the evidence is allowed to answer what the name cannot -- for these and
+# nothing else. Named positively: a rolled-back store is not about what a
+# transmission spent but about which history is real, and no trace answers
+# that, so no amount of evidence may reach it.
+EVIDENCE_CLEARABLE = frozenset(('retained_recovery_failed_or_unknown',))
 HISTORY_LIMIT = 64
 RESULT_LIMIT = 256
 
@@ -499,7 +507,7 @@ class ServiceState:
             raise ServiceBlocked(reason)
         self.write('WAITING', reason=reason)
 
-    def acknowledge(self, reason):
+    def acknowledge(self, reason, evidence_permits=False):
         """Clear a latch whose reason the operator has named exactly.
 
         Naming it is the whole mechanism. A restart must not clear a fault,
@@ -518,12 +526,21 @@ class ServiceState:
         latched = record.get('reason')
         if reason != latched:
             return 'mismatch'
-        if latched not in OPERATOR_CLEARABLE:
+        # Two ways a latch can be clearable, and a reason string only answers
+        # the first. Some faults are harmless by their nature. Others, like a
+        # recovery chain that ended without a classifiable result, are latched
+        # under one name whether or not anything secured went out -- so the
+        # name cannot decide, and the retained trace has to. The caller
+        # establishes that from the evidence; this records which it was.
+        by_name = latched in OPERATOR_CLEARABLE
+        by_evidence = evidence_permits and latched in EVIDENCE_CLEARABLE
+        if not (by_name or by_evidence):
             return 'not_clearable'
         cleared = dict(record.get('cleared') or {})
         cleared[latched] = cleared.get(latched, 0) + 1
         self.write('WAITING', reason=None, cleared=cleared,
-                   last_cleared={'reason': latched, 'review': record.get('review')})
+                   last_cleared={'reason': latched, 'review': record.get('review'),
+                                 'basis': 'reason' if by_name else 'trace_spent_nothing'})
         return 'cleared'
 
 

@@ -17,6 +17,7 @@ ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT/'.deps'),str(ROOT/'src'),str(ROOT/'.tmp/mqtt-python')]
 sys.dont_write_bytecode=True
 from run_radio_daemon import firmware_modules, preflight as prior_preflight, Clock
+import explain_fault
 from airnanny import addon_keys
 from airnanny.config_loader import MqttConfig
 from airnanny.daemon import AirNannyDaemon
@@ -316,18 +317,19 @@ def main():
             reason=latched.get('reason') or 'unknown'
             print('LATCHED FAULT: '+reason,flush=True)
             if latched.get('review'): print('  review: '+json.dumps(latched['review'],ensure_ascii=False),flush=True)
-            print('  '+('clear it by acknowledging exactly this reason' if reason in OPERATOR_CLEARABLE
+            permitted=reason in OPERATOR_CLEARABLE or explain_fault.evidence_permits_clearing(LOCAL)
+            print('  '+('clear it by acknowledging exactly this reason' if permitted
                         else 'this one needs review; acknowledging it will not clear it'),flush=True)
             # The review this fault asks for needs the trace, and on an
             # appliance the trace is unreachable. Summarise it here.
             try:
-                import explain_fault
                 for line in explain_fault.lines(LOCAL): print(line,flush=True)
             except Exception as exc:
                 print('  the retained trace could not be summarised: %r'%(exc,),flush=True)
         acknowledged=(os.environ.get('AIRNANNY_ACKNOWLEDGE_FAULT') or '').strip()
         if acknowledged:
-            outcome=state.acknowledge(acknowledged)
+            outcome=state.acknowledge(acknowledged,
+                evidence_permits=explain_fault.evidence_permits_clearing(LOCAL))
             print({'cleared':'fault cleared by operator: '+acknowledged,
                    'mismatch':'not cleared: the latched fault is '+(latched.get('reason') or 'unknown')+', not '+acknowledged,
                    'not_clearable':'not cleared: '+acknowledged+' needs review, not acknowledgement',

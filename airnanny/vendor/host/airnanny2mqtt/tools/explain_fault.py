@@ -32,6 +32,10 @@ TERMINAL_RESULTS = ('local_tx_ok', 'no_ack', 'invalid_ack', 'cca_fail', 'aborted
 # class it had not heard of an application command, which is the error this
 # is here to avoid -- and the vocabulary belongs to the firmware, not here.
 APPLICATION_CLASSES = frozenset(('TYPE07_FAN',))
+# The only transmission that carries no security. Everything else may have
+# moved secured state, whatever its result said, so only a trace made up
+# entirely of these can be shown to have spent nothing.
+PLAINTEXT_CLASSES = frozenset(('ACTIVE_DISCOVERY_BEACON_REQUEST',))
 RECOVERY_CLASSES = frozenset(('MANAGEMENT_POLL', 'ACTIVE_DISCOVERY_BEACON_REQUEST',
                               'REJOIN_REQUEST', 'DEVICE_ANNOUNCE', 'END_DEVICE_TIMEOUT'))
 
@@ -91,6 +95,45 @@ def summarise(trace):
                                  if not isinstance(v, (list, dict))}}
 
 
+def spent_nothing(summary):
+    """Does this trace prove the failed recovery moved no secured state?
+
+    A reason string cannot answer this. `retained_recovery_failed_or_unknown`
+    is latched for any chain that ended without a classifiable result,
+    including ones where secured frames went out and nobody can say whether
+    the device took them. The trace can answer it, for the cases where every
+    transmission was a plaintext beacon that cleaned up safely.
+
+    Conservative on purpose: an unrecognised purpose, an unrecognised result,
+    a transmission that cannot be attributed at all, or any cleanup other
+    than safe all mean no.
+    """
+    transmissions = summary.get('transmissions') or []
+    if not transmissions or summary.get('application_transmissions'):
+        return False
+    if summary.get('unrecognised_purposes'):
+        return False
+    for transmission in transmissions:
+        if transmission.get('purpose') not in PLAINTEXT_CLASSES:
+            return False
+        if transmission.get('cleanup') != 'safe':
+            return False
+        if transmission.get('result') not in TERMINAL_RESULTS:
+            return False
+    return True
+
+
+def evidence_permits_clearing(state_dir):
+    """True when the newest trace shows a failure that spent nothing."""
+    trace = latest_trace(state_dir)
+    if trace is None:
+        return False
+    try:
+        return spent_nothing(summarise(trace))
+    except (ValueError, OSError):
+        return False
+
+
 def lines(state_dir, limit=8):
     """Readable summary of the newest trace, bounded for a log."""
     trace = latest_trace(state_dir)
@@ -130,6 +173,9 @@ def lines(state_dir, limit=8):
         if unknown:
             out.append('    %d transmission(s) ended with an unrecognised result' % len(unknown))
 
+    if spent_nothing(summary):
+        out.append('  every transmission here was a plaintext beacon that cleaned up')
+        out.append('  safely: this failure spent no counter and moved no secured state')
     for ctx, fields in sorted(summary['last_status'].items()):
         out.append('  ctx%s last status: %s' % (ctx, ', '.join(
             '%s=%s' % (k, v) for k, v in fields.items() if v is not None)))
