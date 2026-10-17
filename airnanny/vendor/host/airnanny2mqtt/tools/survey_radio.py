@@ -33,8 +33,66 @@ from airnanny.serial_support import SerialChannel, SerialFault   # noqa: E402
 from airnanny.real_radio import serial_port_factory              # noqa: E402
 from run_radio_daemon import firmware_modules                    # noqa: E402
 
-PAN_LABELS = {'0': 'ctx0 — second bedroom, PAN FA9B',
-              '1': 'ctx1 — bedroom, PAN 0B7A'}
+PAN_LABELS = {'ctx0': 'ctx0 - second bedroom, PAN FA9B',
+              'ctx1': 'ctx1 - bedroom, PAN 0B7A'}
+CONTEXT_PANS = {0xFA9B: 'ctx0', 0x0B7A: 'ctx1'}
+BROADCAST_PAN = 0xFFFF
+
+
+def pan_ids(data):
+    """Destination and source PAN from a raw MAC header, leniently.
+
+    The strict parser in `mac` accepts only legacy data frames, which is
+    right for the runtime: a frame it will not act on should not decode. A
+    survey wants the opposite. Beacons, beacon requests and acknowledgements
+    are exactly the traffic that says whether a device is audible at all, so
+    the header is read far enough to name the network and no further.
+
+    Returns (destination, source), either of which may be None when the frame
+    does not carry it.
+    """
+    if len(data) < 3:
+        return None, None
+    fcf = int.from_bytes(data[0:2], 'little')
+    destination_mode, source_mode = (fcf >> 10) & 3, (fcf >> 14) & 3
+    compressed = bool(fcf & 0x40)
+    offset, destination, source = 3, None, None
+    if destination_mode:
+        if len(data) < offset + 2:
+            return None, None
+        destination = int.from_bytes(data[offset:offset + 2], 'little')
+        offset += 2 + (2 if destination_mode == 2 else 8)
+    if source_mode:
+        if compressed:
+            source = destination
+        else:
+            if len(data) < offset + 2:
+                return destination, None
+            source = int.from_bytes(data[offset:offset + 2], 'little')
+    return destination, source
+
+
+def classify(mac_hex):
+    """Which network a frame belongs to, by PAN rather than by context.
+
+    The firmware reports `ctx=none` for anything it is not currently bound
+    to, which during a survey is everything -- so grouping by that field
+    would report silence while frames are arriving.
+    """
+    try:
+        data = bytes.fromhex(mac_hex)
+    except (ValueError, TypeError):
+        return 'unreadable'
+    destination, source = pan_ids(data)
+    for pan in (destination, source):
+        if pan in CONTEXT_PANS:
+            return CONTEXT_PANS[pan]
+    for pan in (source, destination):
+        if pan is not None and pan != BROADCAST_PAN:
+            return 'other:%04x' % pan
+    if BROADCAST_PAN in (destination, source):
+        return 'broadcast'
+    return 'unaddressed'
 
 
 def signed_rssi(value):
@@ -142,7 +200,7 @@ def listen(port, seconds):
             continue
         kinds[kind] += 1
         if kind == 'RX':
-            contexts[fields.get('ctx', '?')].add(fields)
+            contexts[classify(fields.get('mac', ''))].add(fields)
     return contexts, kinds, malformed, fault
 
 
@@ -186,9 +244,9 @@ def main(argv=None):
     if malformed:
         print('Malformed records: %d' % malformed)
     print()
-    for slot in ('0', '1'):
+    for slot in ('ctx0', 'ctx1'):
         summary = report['contexts'].get(slot, {'frames': 0})
-        print('%s' % PAN_LABELS.get(slot, 'ctx' + slot))
+        print('%s' % PAN_LABELS[slot])
         print('  %s' % verdict(summary))
         if summary.get('frames'):
             print('  frames %d, RSSI mean %s dBm (best %s, worst %s), LQI mean %s (worst %s)'
@@ -198,13 +256,18 @@ def main(argv=None):
                 print('  %d frames failed their checksum - interference, not distance'
                       % summary['fcs_bad'])
         print()
-    other = {k: v for k, v in report['contexts'].items() if k not in ('0', '1')}
+    other = {k: v for k, v in report['contexts'].items() if k not in ('ctx0', 'ctx1')}
     if other:
         # Frames on the channel that belong to neither context are the other
         # half of the question: a busy channel is why a transmission cannot
         # start, however well we hear the devices.
-        print('Frames on the channel matching neither context: %s'
-              % ', '.join('%s=%d' % (k, v['frames']) for k, v in sorted(other.items())))
+        print('Other traffic on channel 21, by network:')
+        for key, summary in sorted(other.items(), key=lambda kv: -kv[1]['frames']):
+            print('  %-16s %4d frames, RSSI mean %s dBm'
+                  % (key, summary['frames'], summary.get('rssi_mean', 'n/a')))
+        print('')
+        print('A busy channel is why a transmission cannot start, however')
+        print('well the devices themselves are heard.')
     return 0
 
 
