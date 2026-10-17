@@ -39,3 +39,9 @@ configuration:
       Leave empty. To clear a latched fault, write its reason here exactly as
       the log printed it. Faults that need someone to decide what happened
       stay latched however exactly they are named.
+  survey_seconds:
+    name: Placement survey (seconds)
+    description: >-
+      Leave at 0 to run the bridge. Any other value listens for that long and
+      reports what each unit sounds like from here, transmitting nothing and
+      changing nothing, then stops.

@@ -114,9 +114,19 @@ else
     AIRNANNY_ACKNOWLEDGE_FAULT=""
 fi
 
-bashio::log.info "Starting AirNanny dual-PAN bridge (V${FIRMWARE_VERSION}) against ${MQTT_HOST}:${MQTT_PORT}"
-
 cd "${HOST}"
+
+# A placement survey instead of the bridge. It listens, transmits nothing,
+# and touches neither the durable stores nor the service state, so it can be
+# run between attempts without leaving anything behind. The add-on stops
+# afterwards; set this back to 0 to run the bridge again.
+SURVEY_SECONDS="$(bashio::config 'survey_seconds')"
+if [ "${SURVEY_SECONDS}" -gt 0 ] 2>/dev/null; then
+    bashio::log.warning "Survey mode: listening for ${SURVEY_SECONDS}s, the bridge will not start"
+    exec python3 tools/survey_radio.py --seconds "${SURVEY_SECONDS}"
+fi
+
+bashio::log.info "Starting AirNanny dual-PAN bridge (V${FIRMWARE_VERSION}) against ${MQTT_HOST}:${MQTT_PORT}"
 exec python3 tools/run_radio_service.py \
     --firmware-version "${FIRMWARE_VERSION}" \
     --mqtt-host "${MQTT_HOST}" \

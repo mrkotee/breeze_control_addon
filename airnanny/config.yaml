@@ -1,5 +1,5 @@
 name: AirNanny Dual-PAN Bridge
-version: "0.5.0"
+version: "0.6.0"
 slug: airnanny
 description: Two AirNanny A7 units on separate Zigbee PANs, bridged to Home Assistant over MQTT
 url: https://github.com/mrkotee/breeze_control_addon
@@ -59,6 +59,7 @@ options:
   ctx1_key_sha256: ""
   log_level: info
   acknowledge_fault: ""
+  survey_seconds: 0
 
 schema:
   firmware_version: "int(33,33)"
@@ -78,3 +79,7 @@ schema:
   # and leaves a record. Faults that need a person to decide what happened
   # stay latched however exactly they are named.
   acknowledge_fault: "str?"
+  # Non-zero runs a placement survey instead of the bridge: it listens for
+  # that many seconds, reports signal strength and link quality per context,
+  # and transmits nothing. Set it back to 0 to run the bridge.
+  survey_seconds: "int(0,3600)"
