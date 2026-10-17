@@ -1004,6 +1004,6 @@
     "host/airnanny2mqtt/tools/service_proof_commands.py": "f896f451d9a977d8d3bcd60b64d061cff6364675ad7be33d248c36bc6dc47e47",
     "host/airnanny2mqtt/tools/test_late_join_offline.py": "67744b4d0c3c0231ac67db8de1e91afd23a437b01a70cf6c0b8fceb8d2879f14"
   },
-  "source_revision": "007fb7e576f5b51652906d2d77a6bfc6dd4782ea",
+  "source_revision": "aa410b1f76e363dcfac6f70389a2438b8cb06a45",
   "source_tree_dirty": false
 }

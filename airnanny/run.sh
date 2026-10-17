@@ -74,6 +74,26 @@ fi
 
 MQTT_HOST="$(bashio::services 'mqtt' 'host')"
 MQTT_PORT="$(bashio::services 'mqtt' 'port')"
+
+# The runtime refuses plaintext MQTT to anything but a loopback address, and
+# it is right to: the rule exists so credentials and commands cannot cross a
+# network in the clear. A broker named core-mosquitto is not loopback, even
+# though its traffic never leaves this machine.
+#
+# Rather than weaken that rule or point the service at an address that merely
+# behaves like loopback, the add-on shares the host's network namespace and
+# speaks to the port the broker publishes there. Then it really is loopback,
+# and the check passes because the thing it checks for is true. Any other
+# broker keeps the existing requirement of explicit opt-in and verified TLS.
+if [ "${MQTT_HOST}" = "core-mosquitto" ] || [ "${MQTT_HOST}" = "172.30.33.0" ]; then
+    if python3 -c "import socket,sys; socket.create_connection(('127.0.0.1', int(sys.argv[1])), 3).close()" \
+            "${MQTT_PORT}" 2>/dev/null; then
+        bashio::log.info "Local broker reached on loopback port ${MQTT_PORT}"
+        MQTT_HOST=127.0.0.1
+    else
+        bashio::exit.nok "the local broker does not publish port ${MQTT_PORT} on the host; enable it under the Mosquitto add-on's Network settings"
+    fi
+fi
 export AIRNANNY_MQTT_USERNAME AIRNANNY_MQTT_PASSWORD
 AIRNANNY_MQTT_USERNAME="$(bashio::services 'mqtt' 'username')"
 AIRNANNY_MQTT_PASSWORD="$(bashio::services 'mqtt' 'password')"
