@@ -5,10 +5,18 @@ write to, so the stores are copied to a staging directory first and brought
 in from there on startup.
 
 Create-only, by construction. A context that already has a store is never
-touched, never merged into and never overwritten, so this cannot be the thing
-that loses counters: the worst it can do is decline to act. A store that is
-absent from both places is left absent, because the service's own startup
-check reports that more precisely than this can.
+touched, never merged into and never overwritten. A store absent from both
+places is left absent, because the service's own startup check reports that
+more precisely than this can.
+
+What that does not protect against is a stale staging copy meeting an empty
+volume: a reinstall wipes the stores and the record of how far their counters
+had got, and importing a month-old copy then puts the counters back where
+they were that day with nothing left to notice. Create-only cannot see that,
+because the volume it checks was just emptied. The guard is outside this
+tool -- the caller enables staged import deliberately, from a switch the
+platform keeps outside that volume -- and the staging copy is meant to be
+deleted once the first import is confirmed.
 
 The protected secrets beside a store are deliberately not carried across.
 They are DPAPI-wrapped and cannot be unwrapped on Linux, the keys arrive as

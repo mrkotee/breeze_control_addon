@@ -32,9 +32,24 @@ anything. It refuses to start rather than recreate state it cannot find.
 | `ctx1_key_sha256` | Verification digest for the context 1 key. |
 | `log_level` | `debug`, `info`, `warning` or `error`. |
 
-Both keys are masked in the user interface and are passed to the runtime in
-memory. The add-on never writes a key to its data volume, never logs one, and
-never includes one in diagnostics or discovery messages.
+The keys are **not** masked in the form, and they are **not** private to this
+add-on. Both facts are the platform's, not this add-on's, and you should know
+them before typing a key in:
+
+- Masking is only applied to options declared as passwords, and these are
+  declared as hex strings instead. Supervisor sends a password-typed option to
+  an online breach-check service before saving it, and where that service
+  cannot be reached the save fails with an unexplained error. A hex pattern
+  also rejects a truncated paste, which the password type never did.
+- Supervisor stores every add-on option as plain text on the data partition,
+  and that file is included in Home Assistant backups. Your network keys are
+  therefore in every backup you take, and readable by anyone holding the SD
+  card. Treat backups of this system as key material.
+
+What the add-on itself does with them is narrower: the keys are read into
+memory at startup, verified against their digests, and used to construct the
+context ledgers. The add-on never writes a key to its own data volume, never
+logs one, and never puts one in a diagnostics or discovery message.
 
 Each key is checked against its digest before the radio transmits anything. A
 mismatch stops startup; it does not fall back to any other key.
@@ -48,12 +63,32 @@ close the terminal. The tool prints each value once and writes nothing to disk.
 
 ### Security note
 
-Add-on options are stored by the Supervisor as plain text on the Home
-Assistant data partition. Anyone with physical access to the SD card can read
-the keys from it. This is the deliberate trade for unattended restart after a
-power cut: a machine that can start by itself must hold whatever it needs to
-start. If that trade is wrong for your installation, the alternative is a
-passphrase typed at every start, which gives up automatic recovery.
+This is the deliberate trade for unattended restart after a power cut: a
+machine that can start by itself must hold whatever it needs to start. If
+that trade is wrong for your installation, the alternative is a passphrase
+typed at every start, which gives up automatic recovery.
+
+## Clearing a latched fault
+
+Some faults stop the service and are **not** cleared by restarting it. That
+is deliberate: a latch means something happened that needs a person, and
+restarting into the same radio state could spend counters on a run that
+cannot finish.
+
+When the service is latched it prints the reason, a summary of what the
+failed attempt actually did, and whether acknowledging it can clear it. To
+clear one, write its reason into **Acknowledge a latched fault** exactly as
+printed, then start the add-on.
+
+**Empty that field again afterwards.** An acknowledgement is spent on the run
+it is used for, so leaving it in place does not silently clear every future
+latch — but a field left populated is a standing instruction, and the point
+of a latch is that a returning fault stops for a person.
+
+Faults that need judgement rather than acknowledgement — a durable store that
+moved backwards, a device that left the network, an interrupted secured
+exchange — stay latched however exactly they are named. Read the operations
+runbook in the main repository before going further with those.
 
 ## Durable stores
 
@@ -70,10 +105,17 @@ Frame counters only ever move forward: a store that goes backwards is treated
 as a rollback and the service fails closed rather than transmitting with a
 counter that may already have been used.
 
-For the same reason the stores are excluded from Home Assistant backups.
-Restoring a backup taken days ago would otherwise reinstate old counters. Keep
-your own copy of the stores if you want a recovery path, and understand that
-restoring one is a deliberate act with protocol consequences.
+For the same reason the stores are excluded from Home Assistant backups, and
+so is the record of how far their counters had got. Restoring a backup taken
+days ago would otherwise reinstate old counters, and reinstating the record
+alongside them would hide that it had happened.
+
+**Delete the staging directory once the import is confirmed.** A copy left in
+`/share/airnanny_stores` is a snapshot of the counters as they were on the day
+you made it. If this add-on's data volume is ever emptied — a reinstall, a
+replaced card — that stale copy is what the next start will import, putting
+the counters back to that day with nothing left to notice it. The copy is of
+no further use once the first start has reported `imported`.
 
 ## Restart behaviour
 

@@ -29,10 +29,14 @@ mkdir -p /data/state
 # reachable from the shares an operator can write to. The import is
 # create-only: a context that already has a store is never touched, so this
 # step cannot be the thing that loses counters.
-if [ -d /share/airnanny_stores ]; then
+if bashio::config.true 'import_staged_stores' && [ -d /share/airnanny_stores ]; then
     python3 "${HOST}/tools/import_stores.py" \
         --staging /share/airnanny_stores --target /data/stores \
         || bashio::exit.nok "staged store import failed; see the message above"
+    bashio::log.warning "Staged import is enabled; turn it off once the import is confirmed"
+elif [ -d /share/airnanny_stores ] && [ ! -d /data/stores/ctx0 ]; then
+    bashio::log.warning "Stores are staged in /share but importing them is turned off."
+    bashio::log.warning "If this is the migration, enable import_staged_stores once."
 fi
 
 link_store "hardware_commissioning_v7" "/data/stores/ctx0"
@@ -121,6 +125,11 @@ cd "${HOST}"
 # run between attempts without leaving anything behind. The add-on stops
 # afterwards; set this back to 0 to run the bridge again.
 SURVEY_SECONDS="$(bashio::config 'survey_seconds')"
+if [ "${SURVEY_SECONDS}" -gt 0 ] 2>/dev/null && [ "${SURVEY_SECONDS}" -lt 5 ] 2>/dev/null; then
+    # The schema cannot express "0, or at least 5", so the shortfall is
+    # explained here rather than left to argparse exiting 2 on every start.
+    bashio::exit.nok "survey_seconds must be 0 to run the bridge, or at least 5 to measure"
+fi
 if [ "${SURVEY_SECONDS}" -gt 0 ] 2>/dev/null; then
     bashio::log.warning "Survey mode: listening for ${SURVEY_SECONDS}s, the bridge will not start"
     exec python3 tools/survey_radio.py --seconds "${SURVEY_SECONDS}"

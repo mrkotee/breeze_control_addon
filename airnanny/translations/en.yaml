@@ -45,3 +45,9 @@ configuration:
       Leave at 0 to run the bridge. Any other value listens for that long and
       reports what each unit sounds like from here, transmitting nothing and
       changing nothing, then stops.
+  import_staged_stores:
+    name: Import staged stores (migration only)
+    description: >-
+      Off in normal operation. Turn it on once to bring durable stores in from
+      /share/airnanny_stores, then turn it off again. Left on, a stale staged
+      copy could reinstate old frame counters after the data volume is emptied.

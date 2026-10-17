@@ -494,12 +494,19 @@ class ServiceState:
                            review={'reason': 'ctx%s durable store moved backwards' % slot,
                                    'context': slot, 'seen': previous, 'found': now})
                 raise ServiceBlocked('store_rollback:ctx%s' % slot)
-        self.write(record['state'], stores=current)
+        # Merged, not replaced: a call with one slot would otherwise erase
+        # the other's baseline, and a later rollback there would find nothing
+        # to compare against and be accepted.
+        self.write(record['state'], stores={**seen, **current})
         return current
 
     def begin(self, boot, guard):
         r = self.read()
-        self.write('RECOVERING', cycles=r['cycles'] + 1, boot=boot, guard=guard, reason=None,late_join=None)
+        # A new run spends the previous acknowledgement, so the same reason
+        # can be acknowledged again later as a deliberate act rather than
+        # being re-applied by every restart in between.
+        self.write('RECOVERING', cycles=r['cycles'] + 1, boot=boot, guard=guard, reason=None,
+                   late_join=None, consumed_acknowledgement=None)
 
     def disconnected(self, reason):
         if reason not in RECOVERABLE:
@@ -539,9 +546,25 @@ class ServiceState:
         cleared = dict(record.get('cleared') or {})
         cleared[latched] = cleared.get(latched, 0) + 1
         self.write('WAITING', reason=None, cleared=cleared,
+                   consumed_acknowledgement={'reason': latched, 'cycles': record.get('cycles', 0)},
                    last_cleared={'reason': latched, 'review': record.get('review'),
                                  'basis': 'reason' if by_name else 'trace_spent_nothing'})
         return 'cleared'
+
+    def acknowledgement_spent(self, reason):
+        """Has this acknowledgement already been used?
+
+        The operator writes the reason into a field that stays where they put
+        it, and the service restarts on its own. Without this, a fault that
+        keeps returning is cleared again on every restart for as long as the
+        field is populated -- a restart clearing a fault, which is the one
+        thing the latch exists to prevent.
+
+        Tied to the run it was used on, so the same reason can be
+        acknowledged again deliberately after the service has moved on.
+        """
+        spent = self.read().get('consumed_acknowledgement') or {}
+        return spent.get('reason') == reason
 
 
 class BoundedLedger:

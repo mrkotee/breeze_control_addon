@@ -127,6 +127,9 @@ class Readings:
                 self.reasons[fields['reason']] += 1
         try:
             self.rssi.append(signed_rssi(fields['rssi']))
+        except (KeyError, ValueError):
+            pass
+        try:
             self.lqi.append(int(fields['lqi']))
         except (KeyError, ValueError):
             pass
@@ -138,6 +141,9 @@ class Readings:
             out['rssi_mean'] = round(statistics.fmean(self.rssi), 1)
             out['rssi_best'] = max(self.rssi)
             out['rssi_worst'] = min(self.rssi)
+        # Guarded separately: a frame can report one without the other, and
+        # one odd record must not discard a whole measurement.
+        if self.lqi:
             out['lqi_mean'] = round(statistics.fmean(self.lqi), 1)
             out['lqi_worst'] = min(self.lqi)
         if self.reasons:

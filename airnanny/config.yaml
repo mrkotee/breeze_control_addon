@@ -1,5 +1,5 @@
 name: AirNanny Dual-PAN Bridge
-version: "0.10.0"
+version: "0.11.0"
 slug: airnanny
 description: Two AirNanny A7 units on separate Zigbee PANs, bridged to Home Assistant over MQTT
 url: https://github.com/mrkotee/breeze_control_addon
@@ -48,7 +48,15 @@ map:
 # rollback, so this exclusion is the first of two barriers, not the only one.
 backup: hot
 backup_exclude:
-  - "stores/**"
+  # The stores themselves, and the record of how far their counters had got.
+  # Excluding only the stores would leave the detector's baseline inside the
+  # same backup, so a restore would reinstate both in step and the check
+  # would pass on counters the devices have already seen. Two barriers only
+  # count as two if one of them is not in the box with the other.
+  - "stores/*"
+  - "stores/**/*"
+  - "state/state.json"
+  - "state/*.private.json"
   - "state/**/*.private.json"
 
 options:
@@ -60,6 +68,7 @@ options:
   log_level: info
   acknowledge_fault: ""
   survey_seconds: 0
+  import_staged_stores: false
 
 schema:
   firmware_version: "int(33,33)"
@@ -83,3 +92,11 @@ schema:
   # that many seconds, reports signal strength and link quality per context,
   # and transmits nothing. Set it back to 0 to run the bridge.
   survey_seconds: "int(0,3600)"
+  # Off except during a migration. Supervisor keeps add-on options outside
+  # this add-on's data volume, so this switch survives the volume being
+  # emptied -- which is the whole point. A reinstall with a stale copy still
+  # sitting in /share would otherwise reimport counters as they were on the
+  # day that copy was made, with nothing left on the volume to notice it.
+  # Off, a missing store stops the service instead, which is a question
+  # rather than a silent reversal.
+  import_staged_stores: bool

@@ -29,7 +29,8 @@ from airnanny.real_radio import RealRadioTransport, bootstrap_port_factory, seri
 from airnanny.recovery_guard import guard_recovery_reads
 from airnanny.recovery_application import handoff_recovery_stock
 from airnanny.service_profile import service_profile
-from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, ServiceBlocked, OPERATOR_CLEARABLE,
+from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, ServiceBlocked,
+                                   OPERATOR_CLEARABLE, EVIDENCE_CLEARABLE,
                                    PersistentRadioService, StartupUnavailable, ReadinessPolls,
                                    ServiceDaemon, RadioServiceSession,
                                    discovery_retry_safe, RecoveryDiscoveryUnavailable,
@@ -317,7 +318,13 @@ def main():
             reason=latched.get('reason') or 'unknown'
             print('LATCHED FAULT: '+reason,flush=True)
             if latched.get('review'): print('  review: '+json.dumps(latched['review'],ensure_ascii=False),flush=True)
-            permitted=reason in OPERATOR_CLEARABLE or explain_fault.evidence_permits_clearing(LOCAL)
+            # Same test acknowledge() will apply. Without the membership
+            # check this advertised "clear it by acknowledging" for a rolled
+            # back store whenever some unrelated recent trace looked clean --
+            # the one fault the runbook tells the operator not to touch.
+            permitted=(reason in OPERATOR_CLEARABLE
+                       or (reason in EVIDENCE_CLEARABLE
+                           and explain_fault.evidence_permits_clearing(LOCAL)))
             print('  '+('clear it by acknowledging exactly this reason' if permitted
                         else 'this one needs review; acknowledging it will not clear it'),flush=True)
             # The review this fault asks for needs the trace, and on an
@@ -327,7 +334,10 @@ def main():
             except Exception as exc:
                 print('  the retained trace could not be summarised: %r'%(exc,),flush=True)
         acknowledged=(os.environ.get('AIRNANNY_ACKNOWLEDGE_FAULT') or '').strip()
-        if acknowledged:
+        if acknowledged and state.acknowledgement_spent(acknowledged):
+            print('acknowledgement for '+acknowledged+' was already used on this run;',flush=True)
+            print('  clear the field so a returning fault still stops for a person',flush=True)
+        elif acknowledged:
             outcome=state.acknowledge(acknowledged,
                 evidence_permits=explain_fault.evidence_permits_clearing(LOCAL))
             print({'cleared':'fault cleared by operator: '+acknowledged,

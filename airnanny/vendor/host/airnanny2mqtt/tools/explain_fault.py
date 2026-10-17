@@ -40,6 +40,16 @@ RECOVERY_CLASSES = frozenset(('MANAGEMENT_POLL', 'ACTIVE_DISCOVERY_BEACON_REQUES
                               'REJOIN_REQUEST', 'DEVICE_ANNOUNCE', 'END_DEVICE_TIMEOUT'))
 
 
+def transmission_key(kind, fields):
+    """Identify one transmission across its acceptance and its completion.
+
+    Commanded and automatic transmissions number themselves separately, and
+    an automatic one is further distinguished by the poll it belongs to.
+    """
+    family = 'AUTO' if str(kind).startswith('AUTO') else 'TX'
+    return family, fields.get('id'), fields.get('poll')
+
+
 def latest_trace(state_dir):
     traces = sorted(Path(state_dir).glob(TRACE_GLOB), key=os.path.getmtime)
     return traces[-1] if traces else None
@@ -51,19 +61,27 @@ def summarise(trace):
     records = data.get('records') or []
     kinds = Counter(r.get('kind') for r in records)
 
-    purposes = {}
+    # Commanded and automatic transmissions number themselves separately, and
+    # an automatic one is only distinguished by which poll it belongs to, so
+    # the key carries all three. Keyed by id alone, a later commanded frame
+    # silently renames an earlier automatic one -- which can relabel a secured
+    # management poll as a plaintext beacon.
+    accepted = {}
     for record in records:
-        if record.get('kind') in ('TXACCEPT', 'AUTO_ACCEPT'):
+        kind = record.get('kind')
+        if kind in ('TXACCEPT', 'AUTO_ACCEPT'):
             fields = record.get('fields') or {}
-            if fields.get('id') is not None:
-                purposes[fields['id']] = fields.get('class')
+            accepted[transmission_key(kind, fields)] = fields.get('class')
 
-    transmissions, application, cleanup = [], 0, Counter()
+    transmissions, application, cleanup, completed = [], 0, Counter(), set()
     for record in records:
-        if record.get('kind') not in ('TXDONE', 'AUTO_DONE'):
+        kind = record.get('kind')
+        if kind not in ('TXDONE', 'AUTO_DONE'):
             continue
         fields = record.get('fields') or {}
-        purpose = purposes.get(fields.get('id'))
+        key = transmission_key(kind, fields)
+        completed.add(key)
+        purpose = accepted.get(key)
         is_application = purpose in APPLICATION_CLASSES
         transmissions.append({'ctx': fields.get('ctx'), 'result': fields.get('result'),
                               'cleanup': fields.get('cleanup'), 'purpose': purpose,
@@ -73,6 +91,13 @@ def summarise(trace):
         if fields.get('cleanup'):
             cleanup[fields['cleanup']] += 1
 
+    # A frame the firmware accepted has already had its counter block
+    # reserved. If no completion ever arrived, what the device did with it is
+    # exactly the thing nobody can determine -- and it contributes no
+    # transmission above, so without this it would be invisible.
+    unmatched = sorted(purpose or 'unknown' for key, purpose in accepted.items()
+                       if key not in completed)
+
     status = {}
     for record in records:
         if record.get('kind') != 'STATUS':
@@ -81,10 +106,13 @@ def summarise(trace):
         if fields.get('ctx') is not None:
             status[fields['ctx']] = {k: fields.get(k) for k in
                                      ('state', 'recovery', 'association_state', 'key_state',
-                                      'generation', 'rx_drop', 'out_drop', 'quarantine')}
+                                      'generation', 'rx_drop', 'out_drop', 'quarantine',
+                                      'reboot_required')}
 
     return {'error': data.get('error'), 'error_type': data.get('error_type'),
             'records': dict(kinds), 'transmissions': transmissions,
+            'accepted_without_completion': unmatched,
+            'errors_reported': kinds.get('ERROR', 0),
             'application_transmissions': application,
             'unrecognised_purposes': sorted(
                 {t['purpose'] for t in transmissions
@@ -113,6 +141,13 @@ def spent_nothing(summary):
         return False
     if summary.get('unrecognised_purposes'):
         return False
+    # Accepted but never completed: the counter block is gone and the outcome
+    # is unknowable. This is the case the latch exists for, so it is checked
+    # before anything else that could look reassuring.
+    if summary.get('accepted_without_completion'):
+        return False
+    if summary.get('errors_reported'):
+        return False
     for transmission in transmissions:
         if transmission.get('purpose') not in PLAINTEXT_CLASSES:
             return False
@@ -120,6 +155,15 @@ def spent_nothing(summary):
             return False
         if transmission.get('result') not in TERMINAL_RESULTS:
             return False
+    # The same signals the existing classifiers refuse on: a dropped receive,
+    # a dropped output, a quarantined transfer or a firmware asking to
+    # reboot all mean the session lost records, and a trace with holes in it
+    # cannot prove anything about what is missing.
+    for fields in (summary.get('last_status') or {}).values():
+        for name in ('rx_drop', 'out_drop', 'quarantine', 'reboot_required'):
+            value = fields.get(name)
+            if value not in (None, '0', 0):
+                return False
     return True
 
 
@@ -130,7 +174,11 @@ def evidence_permits_clearing(state_dir):
         return False
     try:
         return spent_nothing(summarise(trace))
-    except (ValueError, OSError):
+    except Exception:
+        # A trace that cannot be read cannot prove anything, and a safety
+        # gate must not be the thing that crashes the recovery it guards:
+        # both call sites run while the operator is already trying to get
+        # back from a latch.
         return False
 
 
@@ -153,6 +201,12 @@ def lines(state_dir, limit=8):
         out.append('  Whether the device acted on it is unknown. Do not assume either way.')
     else:
         out.append('  no application command was in flight; recovery traffic only')
+    if summary.get('accepted_without_completion'):
+        out.append('  ACCEPTED WITH NO COMPLETION: %s'
+                   % ', '.join(summary['accepted_without_completion']))
+        out.append('  Their counter blocks are spent and their outcome is unknowable.')
+    if summary.get('errors_reported'):
+        out.append('  the firmware reported %d error record(s)' % summary['errors_reported'])
     if summary['unrecognised_purposes']:
         # Neither claimed nor dismissed: the firmware's vocabulary is its own,
         # and a class this does not know is a reason to look, not to assume.
