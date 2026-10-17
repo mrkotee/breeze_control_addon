@@ -24,6 +24,17 @@ link_store() {
 }
 
 mkdir -p /data/state
+
+# Durable stores are staged in /share because an add-on's data volume is not
+# reachable from the shares an operator can write to. The import is
+# create-only: a context that already has a store is never touched, so this
+# step cannot be the thing that loses counters.
+if [ -d /share/airnanny_stores ]; then
+    python3 "${HOST}/tools/import_stores.py" \
+        --staging /share/airnanny_stores --target /data/stores \
+        || bashio::exit.nok "staged store import failed; see the message above"
+fi
+
 link_store "hardware_commissioning_v7" "/data/stores/ctx0"
 link_store "second_a7_provisioning_v1" "/data/stores/ctx1"
 
