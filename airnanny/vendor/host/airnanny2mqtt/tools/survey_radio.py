@@ -36,6 +36,13 @@ from run_radio_daemon import firmware_modules                    # noqa: E402
 PAN_LABELS = {'ctx0': 'ctx0 - second bedroom, PAN FA9B',
               'ctx1': 'ctx1 - bedroom, PAN 0B7A'}
 CONTEXT_PANS = {0xFA9B: 'ctx0', 0x0B7A: 'ctx1'}
+# An 802.15.4 acknowledgement carries no addressing at all -- type, sequence
+# number and checksum, nothing more -- so it cannot be attributed to a
+# network. Counting these as foreign traffic would overstate how busy the
+# channel is by exactly the amount our own units are talking.
+LABELS = {'unaddressed': 'acknowledgements',
+          'broadcast': 'broadcasts',
+          'unreadable': 'undecodable headers'}
 BROADCAST_PAN = 0xFFFF
 
 
@@ -261,13 +268,18 @@ def main(argv=None):
         # Frames on the channel that belong to neither context are the other
         # half of the question: a busy channel is why a transmission cannot
         # start, however well we hear the devices.
-        print('Other traffic on channel 21, by network:')
+        print('Everything else on channel 21:')
         for key, summary in sorted(other.items(), key=lambda kv: -kv[1]['frames']):
             print('  %-16s %4d frames, RSSI mean %s dBm'
-                  % (key, summary['frames'], summary.get('rssi_mean', 'n/a')))
+                  % (LABELS.get(key, key), summary['frames'], summary.get('rssi_mean', 'n/a')))
         print('')
-        print('A busy channel is why a transmission cannot start, however')
-        print('well the devices themselves are heard.')
+        if any(key.startswith('other:') for key in other):
+            print('A network listed by its own PAN is somebody else using this')
+            print('channel, which is why a transmission may fail to start even')
+            print('where the units themselves are heard clearly.')
+        else:
+            print('No foreign network is using this channel: every frame above')
+            print('belongs to the two units or acknowledges one of them.')
     return 0
 
 

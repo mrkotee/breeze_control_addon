@@ -964,7 +964,7 @@
     "host/airnanny2mqtt/src/airnanny/radio_requests.py": "4f10ad286cb98fbac458253697af70ec20a1892a693da211da985917a552e00b",
     "host/airnanny2mqtt/src/airnanny/radio_retry.py": "843a2a2820b7016a0f1547f5071f9e4a77ad7494b5b5703b9fc30ed6e8172e91",
     "host/airnanny2mqtt/src/airnanny/radio_runtime.py": "ccd422ba7010f885846694e0b289e032fc45e064615ef5953bb15204c89e4c50",
-    "host/airnanny2mqtt/src/airnanny/radio_service.py": "cc89b738d1a2b015bdb141cc4974128124b0ab09d013d398da8cf9e3288009b2",
+    "host/airnanny2mqtt/src/airnanny/radio_service.py": "f70dddff941177961331bf7a9f9acf9373dd0af65405ff4a8d45d25bf82cb3fc",
     "host/airnanny2mqtt/src/airnanny/radio_surface.py": "890dbb0395392d5b0b532b5251a06842ea207afa86f708928f890886b0e88c42",
     "host/airnanny2mqtt/src/airnanny/radio_wire.py": "f8626634ad29aacb80b27aec499a609aa674f55349c45c8c64eba3a95b7ddfa3",
     "host/airnanny2mqtt/src/airnanny/real_radio.py": "544428e9cbc4e493127fc552cecf07fc3e20b3f79c759ec67717cd4af1731fb7",
@@ -999,12 +999,12 @@
     "host/airnanny2mqtt/tools/report_real_mqtt.py": "48be203bd93c0ebf96dccbfa166f43668351a4b95c25e906ab885ea9eb0b9fd3",
     "host/airnanny2mqtt/tools/run_late_join_hardware_proof.py": "76016d1fdfb4059c317885398e0e2e5c3c0131c16039c9bc2b28dc0d52e344b5",
     "host/airnanny2mqtt/tools/run_radio_daemon.py": "b1aee20e04817406080d68d8f35056ee3b90af1d619085ff9ce028d3a8cbd65c",
-    "host/airnanny2mqtt/tools/run_radio_service.py": "84a64eb2b5a1e9c75b01fea139811645c337e14f68fe6e000bc3f488ab99181b",
+    "host/airnanny2mqtt/tools/run_radio_service.py": "50eae53a29cb79eaac3117ceb32b67a229ab3317b17821e3e4a5707d50feeee8",
     "host/airnanny2mqtt/tools/run_radio_service_proof.py": "254349f2e8148d350bd3d4bb721f2f5b354f85838e3bedeed4bd47f3303e02c0",
     "host/airnanny2mqtt/tools/service_proof_commands.py": "f896f451d9a977d8d3bcd60b64d061cff6364675ad7be33d248c36bc6dc47e47",
-    "host/airnanny2mqtt/tools/survey_radio.py": "fd151fe03ec20763df7b26e16615866267f1c3a35d29c9358f773e2a31cefde6",
+    "host/airnanny2mqtt/tools/survey_radio.py": "65e7ab5e42053567d12c8936c56c4ce93917bd4488ec7801f577c00dd8ffaf76",
     "host/airnanny2mqtt/tools/test_late_join_offline.py": "67744b4d0c3c0231ac67db8de1e91afd23a437b01a70cf6c0b8fceb8d2879f14"
   },
-  "source_revision": "e093b2908761ed73b3d6e89f71482eb57fa0ff2c",
+  "source_revision": "0e81e9817032c0eb6c556ffe4a8a7aea29832050",
   "source_tree_dirty": false
 }

@@ -343,8 +343,13 @@ class PersistentRadioService:
             if self.clock.now_ms() < self.next_open:
                 return
             try:
-                if self.state.read()['state'] == 'BLOCKED':
-                    raise ServiceBlocked('service_fault_latched')
+                latched = self.state.read()
+                if latched['state'] == 'BLOCKED':
+                    # Name it. The operator clears a latch by writing its
+                    # reason back, and on an appliance there is nowhere else
+                    # to read it from.
+                    raise ServiceBlocked('service_fault_latched:'
+                                         + (latched.get('reason') or 'unknown'))
                 self.session = self.establish(self.state)
                 self.active_recorded = False
             except StartupUnavailable:

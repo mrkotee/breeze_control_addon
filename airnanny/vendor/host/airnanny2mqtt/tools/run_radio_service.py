@@ -28,7 +28,7 @@ from airnanny.real_radio import RealRadioTransport, bootstrap_port_factory, seri
 from airnanny.recovery_guard import guard_recovery_reads
 from airnanny.recovery_application import handoff_recovery_stock
 from airnanny.service_profile import service_profile
-from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, ServiceBlocked,
+from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, ServiceBlocked, OPERATOR_CLEARABLE,
                                    PersistentRadioService, StartupUnavailable, ReadinessPolls,
                                    ServiceDaemon, RadioServiceSession,
                                    discovery_retry_safe, RecoveryDiscoveryUnavailable,
@@ -308,11 +308,21 @@ def main():
     options=MqttRuntimeConfig(mqtt,tls=TlsConfig(enabled=args.mqtt_tls,ca_file=args.mqtt_ca),allow_non_loopback=args.mqtt_tls)
     with ServiceLock(LOCAL/'owner.lock'):
         state=ServiceState(LOCAL/'state.json')
+        latched=state.read()
+        if latched['state']=='BLOCKED':
+            # Printed before anything is attempted, because an appliance gives
+            # the operator nowhere else to read it, and the reason is the one
+            # thing they need in order to act on it.
+            reason=latched.get('reason') or 'unknown'
+            print('LATCHED FAULT: '+reason,flush=True)
+            if latched.get('review'): print('  review: '+json.dumps(latched['review'],ensure_ascii=False),flush=True)
+            print('  '+('clear it by acknowledging exactly this reason' if reason in OPERATOR_CLEARABLE
+                        else 'this one needs review; acknowledging it will not clear it'),flush=True)
         acknowledged=(os.environ.get('AIRNANNY_ACKNOWLEDGE_FAULT') or '').strip()
         if acknowledged:
             outcome=state.acknowledge(acknowledged)
             print({'cleared':'fault cleared by operator: '+acknowledged,
-                   'mismatch':'not cleared: the latched fault is not '+acknowledged,
+                   'mismatch':'not cleared: the latched fault is '+(latched.get('reason') or 'unknown')+', not '+acknowledged,
                    'not_clearable':'not cleared: '+acknowledged+' needs review, not acknowledgement',
                    'not_blocked':'nothing to clear; the service is not latched'}[outcome],flush=True)
         service=PersistentRadioService(state,Clock(),lambda s:establish(args,options,s))
