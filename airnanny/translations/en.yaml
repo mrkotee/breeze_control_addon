@@ -51,3 +51,10 @@ configuration:
       Off in normal operation. Turn it on once to bring durable stores in from
       /share/airnanny_stores, then turn it off again. Left on, a stale staged
       copy could reinstate old frame counters after the data volume is emptied.
+  discovery_listen_seconds:
+    name: Listen for a beacon (seconds)
+    description: >-
+      0 uses the standard scan, which waits a fraction of a second for the
+      unit to answer. Raise it where a unit is heard clearly but never
+      answers: these networks also beacon on their own every twenty seconds
+      or so, and a longer listen catches one. Costs nothing but time.

@@ -18,7 +18,7 @@ sys.path[:0]=[str(ROOT/'.deps'),str(ROOT/'src'),str(ROOT/'.tmp/mqtt-python')]
 sys.dont_write_bytecode=True
 from run_radio_daemon import firmware_modules, preflight as prior_preflight, Clock
 import explain_fault
-from airnanny import addon_keys
+from airnanny import addon_keys, discovery_patience
 from airnanny.config_loader import MqttConfig
 from airnanny.daemon import AirNannyDaemon
 from airnanny.mqtt_runtime import MqttRuntimeConfig, TlsConfig
@@ -141,6 +141,12 @@ def establish(args, mqtt_options, state):
     guard=None
     records=deque(maxlen=4096)
     try:
+        import gate_b_runner
+        patience=os.environ.get('AIRNANNY_DISCOVERY_LISTEN_S')
+        if patience:
+            settle,scans=discovery_patience.apply(gate_b_runner,float(patience))
+            print('discovery patience: %g s per scan, %d scans (%g s of listening)'
+                  %(settle,scans,settle*scans),flush=True)
         from gate_b_runner import GateBRunner
         class Recovery(GateBRunner):
             def __init__(self,*args,**kwargs):

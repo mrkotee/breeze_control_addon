@@ -135,6 +135,14 @@ if [ "${SURVEY_SECONDS}" -gt 0 ] 2>/dev/null; then
     exec python3 tools/survey_radio.py --seconds "${SURVEY_SECONDS}"
 fi
 
+export AIRNANNY_DISCOVERY_LISTEN_S
+AIRNANNY_DISCOVERY_LISTEN_S="$(bashio::config 'discovery_listen_seconds')"
+if [ "${AIRNANNY_DISCOVERY_LISTEN_S}" -gt 0 ] 2>/dev/null; then
+    bashio::log.info "Discovery will listen up to ${AIRNANNY_DISCOVERY_LISTEN_S}s for a beacon"
+else
+    AIRNANNY_DISCOVERY_LISTEN_S=""
+fi
+
 bashio::log.info "Starting AirNanny dual-PAN bridge (V${FIRMWARE_VERSION}) against ${MQTT_HOST}:${MQTT_PORT}"
 exec python3 tools/run_radio_service.py \
     --firmware-version "${FIRMWARE_VERSION}" \
