@@ -1,5 +1,5 @@
 name: AirNanny Dual-PAN Bridge
-version: "0.15.0"
+version: "0.16.0"
 slug: airnanny
 description: Two AirNanny A7 units on separate Zigbee PANs, bridged to Home Assistant over MQTT
 url: https://github.com/mrkotee/breeze_control_addon
@@ -99,7 +99,7 @@ schema:
   # us -- these networks still beacon on their own, roughly every twenty
   # seconds, and listening that long catches one. Listening spends no counter
   # and moves no secured state.
-  discovery_listen_seconds: "int(0,128)"
+  discovery_listen_seconds: "int(0,64)"
   # Off except during a migration. Supervisor keeps add-on options outside
   # this add-on's data volume, so this switch survives the volume being
   # emptied -- which is the whole point. A reinstall with a stale copy still

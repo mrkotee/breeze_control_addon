@@ -12,17 +12,26 @@ one beacon every twenty seconds. Against 0.84 s of listening that is roughly
 a one-in-twenty-five chance per recovery cycle, which reads as a unit that
 is simply absent.
 
-Listening longer costs nothing. It spends no counter, moves no secured
-state, and the firmware still decides which beacon counts -- the host only
-waits. So the patience is configurable, the reviewed values stay the
-default, and a deployment that needs more says so explicitly.
+What cannot change is the window itself. The host-side validator binds a
+beacon to the request that asked for it: 261 ms, the standard active-scan
+duration, with a separate two-second freshness bound. A beacon arriving later
+is not an answer to our request, and widening the wait only collects beacons
+the validator then refuses as stale -- which is what a first attempt at this
+did, turning "no beacon" into "a beacon outside the scan".
+
+So patience buys more scans, not longer ones. Each scan is another request,
+and a unit that missed the last one may hear the next. Requests are plaintext:
+they spend no counter and move no secured state. If a unit answers none of
+them, no amount of patience helps, and that is a finding rather than a
+failure -- it means the link carries one way only.
 """
 import math
 
 SETTLE_SECONDS = 0.28
 SCANS = 3
-PATIENT_SETTLE_SECONDS = 2.0
-MAX_SCANS = 64
+# The validator's own bound, which the wait must stay inside: 261 ms of
+# active scan, and never near the two-second freshness limit.
+MAX_SCANS = 256
 
 
 class PatienceError(ValueError):
@@ -35,23 +44,23 @@ def scan_plan(listen_seconds):
     Returns the reviewed values unchanged for 0, which is the default and
     means "behave exactly as before".
 
-    More scans rather than one long wait: each scan sends another beacon
-    request, so a unit that misses one may hear the next, and a unit that
-    answers none is still caught by a beacon of its own arriving inside any
-    of the windows.
+    The window stays at the reviewed value whatever the patience, because
+    the validator refuses a beacon that arrived outside it. What grows is
+    the number of requests: a unit that missed the last one may hear the
+    next.
     """
     if listen_seconds in (None, 0, 0.0):
         return SETTLE_SECONDS, SCANS
     if not isinstance(listen_seconds, (int, float)) or isinstance(listen_seconds, bool):
         raise PatienceError('listening time must be a number of seconds')
-    if listen_seconds < PATIENT_SETTLE_SECONDS:
-        raise PatienceError('listening for less than %g s is the default scan, not patience'
-                            % PATIENT_SETTLE_SECONDS)
-    scans = math.ceil(listen_seconds / PATIENT_SETTLE_SECONDS)
+    if listen_seconds < SETTLE_SECONDS * (SCANS + 1):
+        raise PatienceError('less than %g s is the default scan, not patience'
+                            % (SETTLE_SECONDS * (SCANS + 1)))
+    scans = math.ceil(listen_seconds / SETTLE_SECONDS)
     if scans > MAX_SCANS:
-        raise PatienceError('listening longer than %g s would exceed %d scans'
-                            % (MAX_SCANS * PATIENT_SETTLE_SECONDS, MAX_SCANS))
-    return PATIENT_SETTLE_SECONDS, scans
+        raise PatienceError('longer than %g s would exceed %d scans'
+                            % (MAX_SCANS * SETTLE_SECONDS, MAX_SCANS))
+    return SETTLE_SECONDS, scans
 
 
 def apply(module, listen_seconds):
