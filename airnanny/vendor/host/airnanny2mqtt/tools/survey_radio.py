@@ -45,6 +45,11 @@ CONTEXT_PANS = {0xFA9B: 'ctx0', 0x0B7A: 'ctx1'}
 # hearing the unit, and only the unit answers a discovery beacon request --
 # so a survey that stops at the PAN can report a strong signal from a remote
 # while the thing we need to reach is inaudible.
+# The three low bits of the frame control field. A discovery request is a
+# MAC command and the answer to it is a beacon, so which types are in the air
+# separates "the unit never hears our request" from "it answers and something
+# here does not accept the answer".
+FRAME_TYPES = {0: 'beacon', 1: 'data', 2: 'ack', 3: 'mac-command'}
 SOURCES = {0x0000: 'the AirNanny itself', 0xC9B7: 'stock remote (second bedroom)',
            0xF59F: 'stock remote (bedroom)', 0xA326: 'this dongle (ctx0)',
            0x6C55: 'this dongle (ctx1)'}
@@ -64,10 +69,11 @@ def mac_header(data):
     Any field may be None when the frame does not carry it.
     """
     out = {'destination_pan': None, 'destination': None,
-           'source_pan': None, 'source': None}
+           'source_pan': None, 'source': None, 'type': None}
     if len(data) < 3:
         return out
     fcf = int.from_bytes(data[0:2], 'little')
+    out['type'] = FRAME_TYPES.get(fcf & 0x07, 'reserved-%d' % (fcf & 0x07))
     destination_mode, source_mode = (fcf >> 10) & 3, (fcf >> 14) & 3
     compressed = bool(fcf & 0x40)
     offset = 3
@@ -137,10 +143,12 @@ class Readings:
         self.unmatched = 0
         self.reasons = Counter()
         self.sources = Counter()
+        self.types = Counter()
 
-    def add(self, fields, source=None):
+    def add(self, fields, source=None, frame_type=None):
         self.frames += 1
         self.sources[source] += 1
+        self.types[frame_type] += 1
         if fields.get('fcs_ok') == '0':
             self.fcs_bad += 1
         if fields.get('match') == '0':
@@ -172,6 +180,7 @@ class Readings:
             out['unmatched_reasons'] = dict(self.reasons)
         out['sources'] = {('%04x' % k if k is not None else 'unknown'): v
                           for k, v in self.sources.most_common()}
+        out['types'] = {k or 'unknown': v for k, v in self.types.most_common()}
         return out
 
 
@@ -238,10 +247,11 @@ def listen(port, seconds):
         kinds[kind] += 1
         if kind == 'RX':
             try:
-                source = mac_header(bytes.fromhex(fields.get('mac', '')))['source']
+                header = mac_header(bytes.fromhex(fields.get('mac', '')))
             except (ValueError, TypeError):
-                source = None
-            contexts[classify(fields.get('mac', ''))].add(fields, source)
+                header = {'source': None, 'type': None}
+            contexts[classify(fields.get('mac', ''))].add(
+                fields, header['source'], header['type'])
     return contexts, kinds, malformed, fault
 
 
@@ -296,6 +306,14 @@ def main(argv=None):
             if summary.get('fcs_bad'):
                 print('  %d frames failed their checksum - interference, not distance'
                       % summary['fcs_bad'])
+            if summary.get('types'):
+                print('    frame types: %s'
+                      % ', '.join('%s=%d' % kv for kv in summary['types'].items()))
+            if not summary.get('types', {}).get('beacon'):
+                # Discovery asks and the unit answers with a beacon. None in
+                # the air means either it only beacons on request -- so our
+                # request is not reaching it -- or it does not beacon at all.
+                print('    no beacon heard from this network.')
             for address, count in (summary.get('sources') or {}).items():
                 known = SOURCES.get(int(address, 16)) if address != 'unknown' else None
                 print('    from %s: %d frames%s'
