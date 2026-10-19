@@ -1,5 +1,5 @@
 name: AirNanny Dual-PAN Bridge
-version: "0.16.0"
+version: "0.17.0"
 slug: airnanny
 description: Two AirNanny A7 units on separate Zigbee PANs, bridged to Home Assistant over MQTT
 url: https://github.com/mrkotee/breeze_control_addon
@@ -70,6 +70,7 @@ options:
   survey_seconds: 0
   discovery_listen_seconds: 0
   import_staged_stores: false
+  poll_interval_ms: 20
 
 schema:
   firmware_version: "int(33,33)"
@@ -108,3 +109,12 @@ schema:
   # Off, a missing store stops the service instead, which is a question
   # rather than a silent reversal.
   import_staged_stores: bool
+  # How often the service loop runs. Each pass drains the serial port, pumps
+  # MQTT and ticks the daemon, and the tick decides what to publish by
+  # serialising each device's state and comparing the bytes -- so a pass
+  # costs real work whether or not anything changed. The original 5 ms
+  # measured as a fifth of a Raspberry Pi core at idle. 20 ms is the default
+  # and sits far inside the deadlines that matter: a transmission is given
+  # 3000 ms to be answered. Raise it to trade a little publication latency
+  # for less CPU; 50 ms is still imperceptible in Home Assistant.
+  poll_interval_ms: "int(1,200)"

@@ -32,6 +32,41 @@ EVIDENCE_CLEARABLE = frozenset(('retained_recovery_failed_or_unknown',))
 HISTORY_LIMIT = 64
 RESULT_LIMIT = 256
 
+# How often the service loop runs. Every pass drains the serial port, pumps
+# MQTT and ticks the daemon, and the tick is not cheap: the reviewed adapter
+# decides what to publish by serialising each device's state and diagnostics
+# and comparing the bytes, so a pass costs two JSON encodings per device
+# whether or not anything changed. At the original 5 ms that is sixteen
+# hundred encodings a second, which measured as a fifth of a Raspberry Pi
+# core doing nothing.
+#
+# The two deadlines this must stay well inside are both far away: a pending
+# transmission is given 3000 ms to be answered, and a dropped transport
+# reopens after 2000 ms. The firmware's own output queue is not a constraint
+# here -- it drains into USB independently of when this process reads, and
+# the bytes wait in the kernel buffer, not in its 32-line ring.
+POLL_INTERVAL_MS = 20
+POLL_INTERVAL_BOUNDS = (1, 200)
+
+
+def poll_interval_ms(value, default=POLL_INTERVAL_MS):
+    """The loop interval, from an operator-supplied value or the default.
+
+    Refused rather than clamped: a value outside the bounds means someone
+    expected something this service will not do, and silently substituting
+    a different number would hide that.
+    """
+    if value in (None, ''):
+        return default
+    try:
+        interval = int(str(value).strip())
+    except (TypeError, ValueError):
+        raise ValueError('poll interval must be whole milliseconds') from None
+    low, high = POLL_INTERVAL_BOUNDS
+    if not low <= interval <= high:
+        raise ValueError('poll interval must be %d-%d ms' % (low, high))
+    return interval
+
 
 def prune_consumed_events(daemon):
     """Prune only events already consumed by the existing MQTT adapters."""
@@ -65,15 +100,27 @@ class ServiceDaemon(AirNannyDaemon):
                 self.collection.by_context[device.config.context.identity] = device
                 self.adapters[name].device = device
         self.result_delivery_drops = 0
+        # Attached after construction, because the document needs the durable
+        # stores and the service state that only the launcher holds.
+        self.diagnostics = None
 
     def transient(self, topic, payload):
         bounded_transient(self, topic, payload)
+
+    def _connection(self, connected):
+        # The reviewed handler re-establishes the retained device documents
+        # and the discovery messages it owns; the service document is
+        # re-established after it, never instead of it.
+        super()._connection(connected)
+        if connected and self.running and self.diagnostics is not None:
+            self.diagnostics.announce()
 
 
 class RadioServiceSession(RadioDaemonLoop):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.mqtt_due = 0
+        self.diagnostics = None
 
     def pump(self):
         super().pump()
@@ -85,6 +132,15 @@ class RadioServiceSession(RadioDaemonLoop):
         if not self.daemon.mqtt.connected and now >= self.mqtt_due:
             self.mqtt_due = now + 5000
             self.daemon.reconnect()
+        if self.diagnostics is not None:
+            self.diagnostics.pump()
+
+    def close(self):
+        # Published while the broker is still reachable: a retained document
+        # left saying ACTIVE after a deliberate stop reads as a crash.
+        if self.diagnostics is not None:
+            self.diagnostics.stopping()
+        super().close()
 
 
 class ServiceBlocked(RuntimeError):

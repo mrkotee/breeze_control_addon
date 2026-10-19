@@ -6,7 +6,7 @@ needs: a broker outage, a dongle someone unplugged, a durable store that will
 not load, and an A7 that simply stopped talking all look identical from a
 device topic.
 
-This derives one reason for the service and carries a bounded set of counters
+This derives one reason for the service and carries a bounded set of readings
 beside it. It reads nothing and re-derives nothing -- callers pass what the
 service already knows -- so it stays a pure function that can be reasoned
 about and tested without a radio.
@@ -15,6 +15,14 @@ A command that failed is deliberately not an input. One refused or unanswered
 command says nothing about whether the device is reachable, and marking it
 unavailable while its state messages keep arriving would be a lie that
 Home Assistant would then act on.
+
+Nor are the firmware's own rx_drop/out_drop counters carried here. The
+transport raises radio_capture_loss the moment either leaves zero, so a
+running service can only ever report zero for them -- a field whose value is
+fixed by construction reads as a measurement without being one. What is
+carried instead is what actually moves: the age of the last reception,
+whether a command is awaiting confirmation, how far the durable counters have
+advanced, and how much undelivered result traffic has banked up.
 """
 from dataclasses import dataclass, field
 
@@ -38,31 +46,28 @@ class ContextHealth:
     """One context's share of the picture.
 
     `rx_age_ms` is None when nothing has been received yet in this session,
-    which is not the same as a large age and must not be reported as one.
+    which is not the same as a large age and must not be reported as one. The
+    same holds for the durable counter positions, which are None when the
+    store behind this context could not be read.
     """
     context: int
     available: bool = False
     stale: bool = False
     rx_age_ms: int = None
-    rx_drop: int = 0
-    out_drop: int = 0
-    ack_deadline_misses: int = 0
-    replay_rejects: int = 0
+    command_pending: bool = False
     outgoing_fc_high_water: int = None
-    queue_depth: int = 0
+    generation: int = None
     last_confirmed_state: dict = field(default_factory=dict)
 
     def as_document(self):
         return {'available': self.available, 'stale': self.stale,
-                'rx_age_ms': self.rx_age_ms, 'rx_drop': self.rx_drop,
-                'out_drop': self.out_drop,
-                'ack_deadline_misses': self.ack_deadline_misses,
-                'replay_rejects': self.replay_rejects,
-                # A counter position, not key material: it says how far the
-                # outgoing sequence has advanced, which is what makes an
-                # unexpected jump or stall visible.
+                'rx_age_ms': self.rx_age_ms,
+                'command_pending': self.command_pending,
+                # Counter positions, not key material: they say how far the
+                # outgoing sequence and the rejoin generation have advanced,
+                # which is what makes an unexpected jump or stall visible.
                 'outgoing_fc_high_water': self.outgoing_fc_high_water,
-                'queue_depth': self.queue_depth,
+                'generation': self.generation,
                 'last_confirmed_state': dict(self.last_confirmed_state)}
 
 
@@ -86,11 +91,12 @@ def degraded_reason(contexts, *, store_error=None, radio_connected=True,
 def service_diagnostics(contexts, *, service_state, firmware_identity=None,
                         firmware_version=None, store_error=None,
                         radio_connected=True, mqtt_connected=True,
-                        last_reconnect_reason=None, reconnects=0):
+                        last_reconnect_reason=None, reconnects=0,
+                        result_backlog=0, result_delivery_drops=0):
     """The bounded document published on the service's diagnostics topic.
 
     Bounded on purpose: this is published retained and read by a person, so it
-    carries current counters and one reason rather than an unbroken history
+    carries current readings and one reason rather than an unbroken history
     that would grow without limit and tell them less.
     """
     contexts = sorted(contexts, key=lambda c: c.context)
@@ -109,4 +115,6 @@ def service_diagnostics(contexts, *, service_state, firmware_identity=None,
             'store_error': store_error,
             'reconnects': reconnects,
             'last_reconnect_reason': last_reconnect_reason,
+            'result_backlog': result_backlog,
+            'result_delivery_drops': result_delivery_drops,
             'contexts': {str(c.context): c.as_document() for c in contexts}}

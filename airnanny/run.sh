@@ -143,6 +143,9 @@ else
     AIRNANNY_DISCOVERY_LISTEN_S=""
 fi
 
+export AIRNANNY_POLL_INTERVAL_MS
+AIRNANNY_POLL_INTERVAL_MS="$(bashio::config 'poll_interval_ms')"
+
 bashio::log.info "Starting AirNanny dual-PAN bridge (V${FIRMWARE_VERSION}) against ${MQTT_HOST}:${MQTT_PORT}"
 exec python3 tools/run_radio_service.py \
     --firmware-version "${FIRMWARE_VERSION}" \

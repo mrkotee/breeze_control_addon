@@ -58,3 +58,10 @@ configuration:
       unit to answer. Raise it where a unit is heard clearly but never
       answers: these networks also beacon on their own every twenty seconds
       or so, and a longer listen catches one. Costs nothing but time.
+  poll_interval_ms:
+    name: Service loop interval (ms)
+    description: >-
+      How often the bridge checks the dongle and the broker. 20 ms is the
+      default. Each pass does real work whether or not anything changed, so a
+      shorter interval costs CPU for latency nobody can perceive; raise it to
+      50 ms to halve the cost again. Values outside 1-200 ms are refused.

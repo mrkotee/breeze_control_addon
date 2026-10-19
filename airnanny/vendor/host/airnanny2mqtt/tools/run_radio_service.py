@@ -35,7 +35,8 @@ from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, Se
                                    ServiceDaemon, RadioServiceSession,
                                    discovery_retry_safe, RecoveryDiscoveryUnavailable,
                                    clean_recovery_loss_safe, RecoveryCleanTxLoss, response_timeout_retry_safe,
-                                   discovery_slot_absent_safe, settle_recovery_poll)
+                                   discovery_slot_absent_safe, settle_recovery_poll,
+                                   poll_interval_ms, POLL_INTERVAL_MS)
 
 # The add-on keeps service state on its own persistent volume, which is not
 # inside this tree. Absent that variable the path is unchanged, so existing
@@ -241,6 +242,12 @@ def establish(args, mqtt_options, state):
         by_context={f'dual-ctx{slot}':ledger for slot,ledger in ledgers.items()}
         loop=RadioServiceSession(daemon,radio,DurableApplicationIngress(daemon,by_context,remotes),verdict_hook=counters.application_result)
         loop.records=records
+        # Why the bridge is degraded, which no per-device topic can say.
+        # Attached before start, so the first broker connection announces it
+        # alongside the documents the reviewed daemon re-establishes.
+        from airnanny.service_report import ServiceDiagnostics
+        daemon.diagnostics=loop.diagnostics=ServiceDiagnostics(daemon,radio,ledgers,state,
+            firmware_identity=runner.info.get('identity'),firmware_version=firmware_version)
         if stock_handoff:
             loop.recovery_stock_handoff=handoff_recovery_stock(
                 radio.receiver, runner.records, boot=runner.info['boot'],
@@ -352,10 +359,13 @@ def main():
                    'not_blocked':'nothing to clear; the service is not latched'}[outcome],flush=True)
         service=PersistentRadioService(state,Clock(),lambda s:establish(args,options,s))
         deadline=time.monotonic()+args.duration if args.duration else None
+        interval=poll_interval_ms(os.environ.get('AIRNANNY_POLL_INTERVAL_MS'))
+        if interval!=POLL_INTERVAL_MS:
+            print('poll interval: %d ms (default %d)'%(interval,POLL_INTERVAL_MS),flush=True)
         try:
             while deadline is None or time.monotonic()<deadline:
                 service.pump()
-                time.sleep(.005)
+                time.sleep(interval/1000)
         except KeyboardInterrupt:
             pass
         finally:

@@ -31,6 +31,7 @@ anything. It refuses to start rather than recreate state it cannot find.
 | `ctx0_key_sha256` | Verification digest for the context 0 key. |
 | `ctx1_key_sha256` | Verification digest for the context 1 key. |
 | `log_level` | `debug`, `info`, `warning` or `error`. |
+| `poll_interval_ms` | How often the service loop runs. Default `20`. See *CPU use* below. |
 
 The keys are **not** masked in the form, and they are **not** private to this
 add-on. Both facts are the platform's, not this add-on's, and you should know
@@ -116,6 +117,50 @@ you made it. If this add-on's data volume is ever emptied — a reinstall, a
 replaced card — that stale copy is what the next start will import, putting
 the counters back to that day with nothing left to notice it. The copy is of
 no further use once the first start has reported `imported`.
+
+## What the bridge reports about itself
+
+Each A7 appears as its own device, and its entities say whether that unit is
+online, stale or unavailable. They cannot say *why* the bridge as a whole is
+not working: a broker outage, an unplugged dongle, a durable store that will
+not load and a unit that has stopped talking all leave the same silence on a
+device topic.
+
+A separate **AirNanny Bridge** device answers that. It carries two diagnostic
+sensors:
+
+- **Degraded Reason** - `none` when everything is working, otherwise exactly
+  one of `context_store_error`, `radio_unavailable`, `mqtt_unavailable`,
+  `device_unavailable` or `device_stale`, worst first. A store that will not
+  load outranks a missing dongle, which outranks a broker outage, which
+  outranks anything the devices are doing.
+- **Service State** - where the service itself is: `ACTIVE`, `RECOVERING`,
+  `WAITING`, `BLOCKED` or `STOPPING`.
+
+A command that failed is deliberately not an input to either. One refused or
+unanswered command says nothing about whether a unit is reachable, and
+marking it unavailable while its status messages keep arriving would be a lie
+that Home Assistant would then act on.
+
+Neither sensor ever carries key material. The full document behind them is
+published retained on `airnanny/daemon/diagnostics/state` and additionally
+reports the durable counter positions, which is what makes an unexpected
+jump or a stalled counter visible.
+
+## CPU use
+
+The service loop drains the dongle, pumps MQTT and ticks the daemon on every
+pass, and the tick decides what to publish by serialising each device's state
+and comparing the bytes, so a pass costs real work whether or not anything
+changed. At the original 5 ms that measured as about a fifth of a Raspberry
+Pi 4 core while idle.
+
+The default is now 20 ms, roughly a quarter of that. The deadlines this has
+to stay inside are far away: a transmission is given 3000 ms to be answered
+and a dropped dongle reopens after 2000 ms. Raising `poll_interval_ms` to 50
+halves the cost again and delays a state update by at most another 30 ms,
+which is not perceptible in Home Assistant. Values outside 1-200 ms are
+refused rather than quietly clamped.
 
 ## Restart behaviour
 
