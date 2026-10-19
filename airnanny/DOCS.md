@@ -118,6 +118,49 @@ replaced card — that stale copy is what the next start will import, putting
 the counters back to that day with nothing left to notice it. The copy is of
 no further use once the first start has reported `imported`.
 
+## Cards
+
+Each unit publishes two entities that Home Assistant draws as proper cards,
+instead of leaving you with eight unrelated tiles.
+
+**Fan** is the ventilation: on or off, a speed dial over the seven steps the
+unit actually has, and the air source as a preset.
+
+**Thermostat** is the heater: a target temperature between 10 and 30 degrees
+in half-degree steps.
+
+| Control | Card | Values |
+| --- | --- | --- |
+| Power | both | on, off |
+| Speed | fan | 1-7, shown as a dial |
+| Air source | fan, thermostat | `intake`, `mixed`, `recirc` |
+| Mode | thermostat | `off`, `heat` |
+| Target temperature | thermostat | 10-30, in halves |
+
+They overlap on power and air source on purpose: the appliance has one
+switch, and either card should be usable on its own. The individual
+entities all remain as well -- hide the ones you do not want from the
+device page.
+
+Three things behave the way the rest of this bridge does rather than the way
+these cards usually do.
+
+Nothing moves until the unit confirms it. Set a speed and the dial stays
+where it was until the unit reports the new one. That is deliberate: a card
+here shows what the appliance is doing, never what it was asked to do.
+
+There is no `fan_only` mode on the thermostat. Home Assistant sends the mode
+to one topic, and on this protocol turning the heater off is a different
+command from powering the unit on, so a `fan_only` selection would have had
+to silently do nothing. Turn the heater off with the **Temperature Off**
+button instead; the unit then reports no target and the dial shows none,
+while the fan keeps running.
+
+There is no current temperature, because decoding an ambient reading from
+this protocol has not been done. The thermostat shows a target without a
+measured value, which is what Home Assistant does for any thermostat that
+reports no sensor.
+
 ## What the bridge reports about itself
 
 Each A7 appears as its own device, and its entities say whether that unit is

@@ -109,10 +109,16 @@ class ServiceDaemon(AirNannyDaemon):
 
     def _connection(self, connected):
         # The reviewed handler re-establishes the retained device documents
-        # and the discovery messages it owns; the service document is
-        # re-established after it, never instead of it.
+        # and the discovery messages it owns; everything added here follows
+        # it, never instead of it.
         super()._connection(connected)
-        if connected and self.running and self.diagnostics is not None:
+        if not (connected and self.running):
+            return
+        from .appliance_discovery import entities
+        from .mqtt_schema import encode
+        for topic, payload in entities(self.config).items():
+            self.publish(topic, encode(payload), True)
+        if self.diagnostics is not None:
             self.diagnostics.announce()
 
 
