@@ -106,17 +106,38 @@ def context_ledgers(frozen):
 def in_bootloader(port):
     """Is this CDC the DFU bootloader rather than the runtime?
 
-    The nRF52840's bootloader and its USB application share a vendor and
-    product id, and on this chip they report the same serial, so the pinned
-    USB identity matches either one. A dongle sitting in DFU therefore opens
-    cleanly, answers nothing resembling the protocol, and used to surface as
-    UNEXPECTED_SERIAL_PROTOCOL -- a wire fault for a dongle whose firmware
-    simply was not running. The descriptor strings are the one place the two
-    differ, so they are what this reads.
+    The two share a vendor id and a serial -- the serial comes from the chip
+    -- but not a product id: the runtime answers to the pinned 0x1337 and
+    the bootloader does not. So a dongle sitting in DFU never matches the
+    pin, and without this it is indistinguishable from no dongle at all,
+    which sends an operator looking for a cable instead of a flash.
+
+    Matched on the descriptor strings rather than on a second product id,
+    because which id a bootloader claims is the bootloader's business and
+    differs between the stock Nordic one and anything built in its place.
     """
     text = ' '.join(str(getattr(port, name, '') or '')
                     for name in ('product', 'description', 'manufacturer')).lower()
     return 'bootloader' in text or 'dfu' in text
+
+
+def pinned_port(ports, pin):
+    """The port to use, or the reason there is none.
+
+    Returns the matching ports, or raises with the reason. A dongle sitting
+    in DFU keeps the chip's serial and the vendor but not the product id, so
+    the pin cannot see it, and without naming it the operator is told the
+    dongle is absent and goes looking for a cable instead of a flash.
+    """
+    matches=[p for p in ports
+             if (p.vid,p.pid,p.serial_number)==(pin['vid'],pin['pid'],pin['serial'])]
+    if not matches:
+        if any(p.serial_number==pin['serial'] and in_bootloader(p) for p in ports):
+            raise StartupUnavailable('dongle_in_bootloader')
+        raise StartupUnavailable('dongle_absent')
+    if all(in_bootloader(p) for p in matches):
+        raise StartupUnavailable('dongle_in_bootloader')
+    return matches
 
 
 def apply_dongle_override(frozen):
@@ -163,11 +184,7 @@ def establish(args, mqtt_options, state):
     def selected_port():
         ports=list(list_ports.comports())
         pin=frozen.authority.DONGLE
-        matches=[p for p in ports if (p.vid,p.pid,p.serial_number)==(pin['vid'],pin['pid'],pin['serial'])]
-        if not matches:
-            raise StartupUnavailable('dongle_absent')
-        if all(in_bootloader(p) for p in matches):
-            raise StartupUnavailable('dongle_in_bootloader')
+        pinned_port(ports,pin)
         selected=frozen.authority.select_device(ports)
         if args.port and selected['port']!=args.port:
             raise RuntimeError('requested_port_does_not_match_pinned_dongle')
