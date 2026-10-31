@@ -53,6 +53,18 @@ RESULT_LIMIT = 256
 # What a retry reason means and what to do about it. An appliance has no
 # shell, so a reason nobody can act on is only slightly better than silence.
 # Reasons absent from here are still reported; they just carry no remedy.
+# Reasons whose own evidence showed the cycle spent no counter and moved no
+# secured state. Waiting longer is no answer to them: the channel was busy
+# for forty milliseconds, or one frame went unanswered. A prompt retry costs
+# a counter block out of four billion and a few seconds; the exponential
+# schedule costs minutes of a device sitting unavailable in Home Assistant
+# over a collision. Bounded, so a parent that is genuinely gone still
+# reaches the slow schedule rather than being polled forever.
+TRANSIENT_REASONS = frozenset(('clean_recovery_RF_loss_new_cycle_required',
+                               'recovery_response_timeout_new_cycle_required',
+                               'target_beacon_unavailable'))
+PROMPT_RETRIES = 6
+
 REMEDIES = {
     'dongle_in_bootloader':
         'the dongle is in its DFU bootloader: the runtime firmware is not'
@@ -429,10 +441,18 @@ class PersistentRadioService:
         self.stopped = False
         self.active_recorded = False
         self.retry_attempt = 0
+        self.prompt_retries = 0
 
     def _retry(self, reason):
-        delay = min(300000, self.retry_ms * (2 ** min(self.retry_attempt, 6)))
-        self.retry_attempt += 1
+        if reason in TRANSIENT_REASONS and self.prompt_retries < PROMPT_RETRIES:
+            # Spends the prompt budget without advancing the slow schedule,
+            # so a run of collisions does not leave a later real absence
+            # already backed off to five minutes.
+            self.prompt_retries += 1
+            delay = self.retry_ms
+        else:
+            delay = min(300000, self.retry_ms * (2 ** min(self.retry_attempt, 6)))
+            self.retry_attempt += 1
         self.state.write('WAITING', reason=reason, retry_delay_ms=delay)
         self.next_open = self.clock.now_ms() + delay
         # Once per distinct reason: the backoff reaches five minutes, and a
@@ -492,6 +512,7 @@ class PersistentRadioService:
                 self.state.write('ACTIVE', reason=None)
                 self.active_recorded = True
                 self.retry_attempt = 0
+                self.prompt_retries = 0
                 self.announced = None
         except ServiceBlocked:
             if self.session:
