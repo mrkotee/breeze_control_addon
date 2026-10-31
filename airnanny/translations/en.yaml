@@ -2,8 +2,17 @@ configuration:
   firmware_version:
     name: Firmware version
     description: >-
-      Dual-PAN runtime version on the dongle. Only 33 is accepted; the add-on
-      verifies the image hash before it opens the radio.
+      Dual-PAN runtime version on the dongle. 35 for the amplified Holyiot
+      board, 33 for the original one. The add-on verifies the image hash
+      before it opens the radio, so a version the dongle is not running
+      stops startup rather than talking to it.
+  dongle_serial:
+    name: Dongle USB serial
+    description: >-
+      Leave empty to use the dongle pinned when the system was commissioned.
+      Set it to the 12 hex characters of a replacement dongle's USB serial,
+      which the chip supplies and which therefore changes with the board.
+      Clearing it again goes back to the original dongle.
   ctx0_network_key:
     name: Network key — second bedroom (PAN FA9B)
     description: >-

@@ -39,6 +39,7 @@ VENDOR_PATHS = (
     'firmware/airnanny_dual_pan/dual_pan_runtime_v29',
     'firmware/airnanny_dual_pan/dual_pan_runtime_v33',
     'firmware/airnanny_dual_pan/dual_pan_runtime_v34',
+    'firmware/airnanny_dual_pan/dual_pan_runtime_v35',
     'firmware/airnanny_dual_pan/hardware_commissioning_v7',
     'firmware/airnanny_dual_pan/second_a7_provisioning_v1',
     # key_announce loads the frozen v5 codec and durability layer from these

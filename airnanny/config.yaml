@@ -1,5 +1,5 @@
 name: AirNanny Dual-PAN Bridge
-version: "0.20.3"
+version: "0.21.0"
 slug: airnanny
 description: Two AirNanny A7 units on separate Zigbee PANs, bridged to Home Assistant over MQTT
 url: https://github.com/mrkotee/breeze_control_addon
@@ -60,7 +60,7 @@ backup_exclude:
   - "state/**/*.private.json"
 
 options:
-  firmware_version: 34
+  firmware_version: 35
   dongle_serial: ""
   ctx0_network_key: ""
   ctx1_network_key: ""
@@ -74,10 +74,13 @@ options:
   poll_interval_ms: 20
 
 schema:
-  # 33 is the PCA10059 dongle, 34 the Holyiot one with the amplifier.
-  # Both stay selectable so the old dongle remains a rollback; the two
-  # images differ only in driving that amplifier, not on the wire.
-  firmware_version: "int(33,34)"
+  # 33 is the PCA10059 dongle; 34 and 35 the Holyiot one with the
+  # amplifier. All stay selectable so the old dongle remains a rollback and
+  # 34 remains a comparison. 35 is the one to run: it is 34 with the
+  # clear-channel threshold shifted by the amplifier's receive gain, without
+  # which an idle channel can read as occupied and a frame fails before it
+  # goes on air. The wire protocol is the same in all three.
+  firmware_version: "int(33,35)"
   # Empty keeps the dongle pinned in the frozen milestone -- the original
   # PCA10059. The USB serial comes from the chip, so a replacement board has
   # a different one and the service would report dongle_absent; naming it

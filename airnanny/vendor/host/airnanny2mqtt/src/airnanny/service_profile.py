@@ -5,7 +5,7 @@ from dataclasses import dataclass
 # four chances to add a version to some of them. V34 did exactly that: the
 # service started, announced itself, and died on an argparse choices list that
 # no test had reason to exercise. Importers take it from here.
-CONTINUOUS_VERSIONS = (30, 31, 32, 33, 34)
+CONTINUOUS_VERSIONS = (30, 31, 32, 33, 34, 35)
 
 
 @dataclass(frozen=True)

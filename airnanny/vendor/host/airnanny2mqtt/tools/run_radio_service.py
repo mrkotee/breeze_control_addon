@@ -344,14 +344,22 @@ def establish(args, mqtt_options, state):
                         record_count=len(records),record_limit=records.maxlen,
                         state=state.read())
         LOCAL.mkdir(parents=True,exist_ok=True)
-        (LOCAL/('recovery_failure_'+uuid4().hex+'.private.json')).write_text(json.dumps(diagnostic,indent=2)+'\n')
+        trace_name='recovery_failure_'+uuid4().hex+'.private.json'
+        (LOCAL/trace_name).write_text(json.dumps(diagnostic,indent=2)+'\n')
+        # Named in the service state so a latch raised later, while the
+        # service was already running, can say whether the newest trace is
+        # its own or an earlier failure's leftovers.
+        try:
+            state.write(state.read()['state'],trace=trace_name)
+        except Exception:
+            pass
         # A retryable failure used to write this trace and nothing ever read
         # it: the operator saw a reason and no detail, while the one fact that
         # separates a busy channel from an unanswered frame sat in a file with
         # no shell to open it. Printed here, where the trace just written is
         # known to be the newest one.
         try:
-            for line in explain_fault.lines(LOCAL):
+            for line in explain_fault.lines(LOCAL,expected_trace=trace_name):
                 print(line,flush=True)
         except Exception as report_error:
             print('  the retained trace could not be summarised: %r'%(report_error,),flush=True)
@@ -424,7 +432,8 @@ def main():
             # The review this fault asks for needs the trace, and on an
             # appliance the trace is unreachable. Summarise it here.
             try:
-                for line in explain_fault.lines(LOCAL): print(line,flush=True)
+                for line in explain_fault.lines(LOCAL,expected_trace=latched.get('trace')):
+                    print(line,flush=True)
             except Exception as exc:
                 print('  the retained trace could not be summarised: %r'%(exc,),flush=True)
         acknowledged=(os.environ.get('AIRNANNY_ACKNOWLEDGE_FAULT') or '').strip()

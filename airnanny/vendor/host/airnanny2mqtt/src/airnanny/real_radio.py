@@ -27,6 +27,10 @@ FIRMWARE_PROFILES = {
     # tx_power_dbm now reports the SoC's figure, which is no longer what
     # leaves the antenna -- the host reads it but asserts nothing about it.
     34: ('airnanny_dual_pan_runtime_v34', 'typed_type07_repeat_late_join', True),
+    # V35 is V34 plus the clear-channel threshold moved by the amplifier's
+    # receive gain. Radio behaviour on the wire is identical, so the profile
+    # is V34's, which is V33's.
+    35: ('airnanny_dual_pan_runtime_v35', 'typed_type07_repeat_late_join', True),
 }
 
 

@@ -270,7 +270,7 @@ def evidence_permits_clearing(state_dir):
         return False
 
 
-def lines(state_dir, limit=8):
+def lines(state_dir, limit=8, expected_trace=None):
     """Readable summary of the newest trace, bounded for a log."""
     trace = latest_trace(state_dir)
     if trace is None:
@@ -282,6 +282,13 @@ def lines(state_dir, limit=8):
 
     out = ['  trace: %s' % Path(trace).name,
            '  failed with: %s (%s)' % (summary['error'], summary['error_type'])]
+    # Not every latch writes a trace: one raised while the service was
+    # already running leaves the newest file belonging to some earlier
+    # failure. Summarising it silently invites a reader to treat the two as
+    # one event, which is how the wrong thing gets fixed.
+    if expected_trace and Path(trace).name != expected_trace:
+        out.append('  NOTE: this is not the trace this fault recorded (%s);' % expected_trace)
+        out.append('  it is the newest one on the box, from an earlier failure.')
 
     if summary['application_transmissions']:
         out.append('  AN APPLICATION COMMAND WAS IN FLIGHT: %d transmission(s).'

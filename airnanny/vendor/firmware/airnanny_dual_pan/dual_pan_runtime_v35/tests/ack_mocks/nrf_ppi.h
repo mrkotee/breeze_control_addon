@@ -1,0 +1,1 @@
+/* Public radio header does not use PPI types in this pinned configuration. */
