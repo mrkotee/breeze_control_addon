@@ -1416,6 +1416,6 @@
     "host/airnanny2mqtt/tools/survey_radio.py": "43b6c3fd03c6c4df6a1fdf8456bd75ba6f6a8efc717bce219fa7e47afa8b7c3e",
     "host/airnanny2mqtt/tools/test_late_join_offline.py": "67744b4d0c3c0231ac67db8de1e91afd23a437b01a70cf6c0b8fceb8d2879f14"
   },
-  "source_revision": "41516436c41acbba4b58389849627cd80ab71b16",
+  "source_revision": "ae10d7fb454925341c33c6ab4e83b920f811f4e3",
   "source_tree_dirty": false
 }

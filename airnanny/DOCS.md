@@ -25,7 +25,7 @@ anything. It refuses to start rather than recreate state it cannot find.
 
 | Option | Meaning |
 | --- | --- |
-| `firmware_version` | Dual-PAN runtime version on the dongle. `34` for the Holyiot dongle with the amplifier, `33` for the original PCA10059. Must match the image actually flashed. |
+| `firmware_version` | Dual-PAN runtime version on the dongle. `35` for the Holyiot dongle with the amplifier, `33` for the original PCA10059. Must match the image actually flashed — a mismatch stops the service rather than running against the wrong firmware. |
 | `dongle_serial` | USB serial of the dongle, 12 uppercase hex characters. Empty uses the originally pinned one. Read it from `ls -l /dev/serial/by-id/` — the part before `-if00`. |
 | `ctx0_network_key` | Network key for context 0 — second bedroom, PAN `FA9B`. 32 hex characters. |
 | `ctx1_network_key` | Network key for context 1 — bedroom, PAN `0B7A`. 32 hex characters. |
