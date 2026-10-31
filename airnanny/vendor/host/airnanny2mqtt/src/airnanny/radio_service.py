@@ -3,6 +3,7 @@
 Security/protocol faults latch durably and cannot trigger an automatic rejoin.
 No queued command, baseline or TX bytes survive a service cycle.
 """
+import ast
 import copy
 import hashlib
 import json
@@ -62,6 +63,7 @@ RESULT_LIMIT = 256
 # reaches the slow schedule rather than being polled forever.
 TRANSIENT_REASONS = frozenset(('clean_recovery_RF_loss_new_cycle_required',
                                'recovery_response_timeout_new_cycle_required',
+                               'recovery_answer_unacknowledged_new_cycle_required',
                                'target_beacon_unavailable'))
 PROMPT_RETRIES = 6
 
@@ -73,6 +75,9 @@ REMEDIES = {
         'no dongle with the pinned USB identity is present.',
     'serial_open_failed':
         'the dongle is present but its serial port could not be opened.',
+    'recovery_answer_unacknowledged_new_cycle_required':
+        'the unit answered and the acknowledgement did not get back to it.'
+        ' Ordinary radio loss; the next cycle asks again.',
 }
 
 POLL_INTERVAL_MS = 20
@@ -218,6 +223,44 @@ def settle_recovery_poll(runner, slot):
     # observed in-flight TX remains; the firmware still validates the commit.
 
 
+RECOVERY_FRAMES = {'REJOIN': ('REJOIN_REQUEST', 34), 'ANNOUNCE': ('DEVICE_ANNOUNCE', 18),
+                   'TIMEOUT': ('END_DEVICE_TIMEOUT', 34)}
+
+
+def sent_frame_proven(records, record, slot, name, intent):
+    """One recovery intent whose frame the firmware accepted and finished.
+
+    The durable intent and the serial record have to agree about the same
+    single frame: one acceptance, one terminal result, the same radio clock,
+    the same bytes and the same frame counter, over a block already spent.
+    Anything less is not a known lifecycle, and an unknown one is never the
+    evidence for retrying.
+    """
+    if (intent.get('phase') != 'SENT' or intent.get('result') != 'local_tx_ok'
+            or intent.get('block_end', record['next_fc']) >= record['next_fc']):
+        return False
+    verb, offset = RECOVERY_FRAMES[name]
+    accepts = [r['fields'] for r in records if r.get('kind') == 'TXACCEPT'
+               and r['fields'].get('ctx') == str(slot) and r['fields'].get('class') == verb]
+    if len(accepts) != 1:
+        return False
+    accepted = accepts[0]
+    done = [r['fields'] for r in records if r.get('kind') == 'TXDONE'
+            and r['fields'].get('ctx') == str(slot) and r['fields'].get('id') == accepted.get('id')]
+    if len(done) != 1:
+        return False
+    terminal = done[0]
+    try:
+        raw = bytes.fromhex(accepted['mac'])
+        return not (terminal.get('result') != 'local_tx_ok' or terminal.get('cleanup') != 'safe'
+                    or terminal.get('reboot_required') != '0'
+                    or intent.get('radio_end_us') != int(terminal['time_us'])
+                    or intent.get('sha256') != hashlib.sha256(raw).hexdigest()
+                    or intent.get('fc') != int.from_bytes(raw[offset:offset+4], 'little'))
+    except (KeyError, ValueError):
+        return False
+
+
 def response_timeout_retry_safe(error, ledgers, guard, records):
     """An absent reply is ordinary loss ONLY with a fully known TX lifecycle."""
     choices = {f'no_authenticated_{kind}_response:ctx={slot}': (kind, slot)
@@ -229,8 +272,6 @@ def response_timeout_retry_safe(error, ledgers, guard, records):
            any(r.get('fields', {}).get(k, '0') != '0' for k in ('rx_drop','out_drop','reboot_required'))
            or r.get('fields', {}).get('cleanup') == 'unproven' for r in records):
         return False
-    offsets = {'REJOIN': ('REJOIN_REQUEST',34), 'ANNOUNCE': ('DEVICE_ANNOUNCE',18),
-               'TIMEOUT': ('END_DEVICE_TIMEOUT',34)}
     for slot, ledger in ledgers.items():
         record = ledger.read(); q = record.get('recovery') or {}
         # Match ServiceState's guard-scoped Leave check. The immutable stores
@@ -242,33 +283,97 @@ def response_timeout_retry_safe(error, ledgers, guard, records):
             if slot == missing:return False
             continue
         intents = q.get('intents') or {}
+        if slot != missing and q.get('state') == 'DISCOVERING':
+            # Partial startup: a slot inside this cycle that has declared
+            # nothing and submitted nothing has nothing to prove. Demanding a
+            # settled peer chain here latched an unanswered request over a
+            # cycle in which the other context never got as far as asking.
+            if intents:
+                return False
+            continue
         expected = {'REJOIN'} if kind == 'REJOIN' else {'REJOIN','ANNOUNCE','TIMEOUT'}
         if slot != missing:expected = {'REJOIN','ANNOUNCE','TIMEOUT'}
         state = ('DISCOVERING' if kind == 'REJOIN' else 'REJOINED') if slot == missing else 'PARENT_LINK_ACTIVE'
         if q.get('state') != state or set(intents) != expected:
             return False
         for name, intent in intents.items():
-            if (intent.get('phase') != 'SENT' or intent.get('result') != 'local_tx_ok'
-                    or intent.get('block_end', record['next_fc']) >= record['next_fc']):
+            if not sent_frame_proven(records, record, slot, name, intent):
                 return False
-            verb, offset = offsets[name]
-            accepts = [r['fields'] for r in records if r.get('kind') == 'TXACCEPT'
-                       and r['fields'].get('ctx') == str(slot) and r['fields'].get('class') == verb]
-            if len(accepts) != 1:return False
-            accepted = accepts[0]
-            done = [r['fields'] for r in records if r.get('kind') == 'TXDONE'
-                    and r['fields'].get('ctx') == str(slot) and r['fields'].get('id') == accepted.get('id')]
-            if len(done) != 1:return False
-            terminal = done[0]
-            try:
-                raw = bytes.fromhex(accepted['mac'])
-                if (terminal.get('result') != 'local_tx_ok' or terminal.get('cleanup') != 'safe'
-                        or terminal.get('reboot_required') != '0'
-                        or intent.get('radio_end_us') != int(terminal['time_us'])
-                        or intent.get('sha256') != hashlib.sha256(raw).hexdigest()
-                        or intent.get('fc') != int.from_bytes(raw[offset:offset+4], 'little')):
-                    return False
-            except (KeyError,ValueError):return False
+    return True
+
+
+def unacknowledged_answer_safe(error, ledgers, guard, records):
+    """The parent answered, and this host did not acknowledge it on the MAC.
+
+    Every other parent_answer result is the parent saying something about
+    us -- rejected, a short we do not own, a keepalive method we do not
+    implement -- and each of those is a decision a person has to see. This
+    one says nothing about us. It says the answer arrived intact and our own
+    radio did not get an acknowledgement back out, which is ordinary loss in
+    the inbound direction.
+
+    Nothing of ours moved. The ledger spends that response's replay floor,
+    which is monotonic and is exactly what a floor is for, and leaves the
+    recovery state and the generation alone, because only an accepted answer
+    advances them. The parent's own MAC retransmission cannot rescue this
+    cycle either -- the floor has passed that frame's counter -- so a new
+    cycle is the only thing that can finish the join, and stopping the
+    service instead stops whichever context is already serving.
+    """
+    prefix = 'parent_answer:MAC_ACK_NOT_CLEAN ctx='
+    text = str(error)
+    if not text.startswith(prefix) or not records:
+        return False
+    named, _, detail_text = text[len(prefix):].partition(' ')
+    try:
+        named = int(named)
+        detail = ast.literal_eval(detail_text)
+    except (SyntaxError, ValueError):
+        return False
+    if named not in (0, 1) or type(detail) is not dict:
+        return False
+    if any(r.get('kind') == 'ERROR' or
+           any(r.get('fields', {}).get(k, '0') != '0' for k in ('rx_drop', 'out_drop', 'reboot_required'))
+           or r.get('fields', {}).get('cleanup') == 'unproven' for r in records):
+        return False
+    # The fault's own premise, read from the record rather than believed:
+    # one reception, on this context, intact, whose acknowledgement was not
+    # the clean triple. A record that does not show that is a different
+    # failure wearing this name.
+    answers = [r['fields'] for r in records if r.get('kind') == 'RX'
+               and r['fields'].get('ctx') == str(named)
+               and r['fields'].get('revision') == str(detail.get('revision'))]
+    if len(answers) != 1 or answers[0].get('fcs_ok') != '1':
+        return False
+    acknowledgement = tuple(answers[0].get(k) for k in ('ack_started', 'ack_completed', 'deadline_miss'))
+    if None in acknowledgement or acknowledgement == ('1', '1', '0'):
+        return False
+    for context, ledger in ledgers.items():
+        record = ledger.read();q = record.get('recovery') or {}
+        if q.get('leave') or q.get('state') == 'DEGRADED_LEAVE':
+            return False
+        if q.get('gate') != guard:
+            if context == named:return False
+            continue
+        intents = q.get('intents') or {}
+        if context == named:
+            # An unaccepted answer does not move the stage, so the slot must
+            # still be standing where it asked the question.
+            expected = {'DISCOVERING': {'REJOIN'},
+                        'REJOINED': {'REJOIN', 'ANNOUNCE', 'TIMEOUT'}}.get(q.get('state'))
+            if expected is None or set(intents) != expected:
+                return False
+        elif q.get('state') == 'DISCOVERING':
+            # Partial startup: a slot that has declared nothing and submitted
+            # nothing under this guard has nothing to prove.
+            if intents:
+                return False
+            continue
+        elif q.get('state') != 'PARENT_LINK_ACTIVE' or set(intents) != {'REJOIN', 'ANNOUNCE', 'TIMEOUT'}:
+            return False
+        for name, intent in intents.items():
+            if not sent_frame_proven(records, record, context, name, intent):
+                return False
     return True
 
 
