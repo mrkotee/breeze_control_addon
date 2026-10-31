@@ -1342,7 +1342,7 @@
     "host/airnanny2mqtt/src/airnanny/application.py": "c7a3c134b1ed82e2f32a42dd0a582337736908761a6e7a3bf409150d190e05a9",
     "host/airnanny2mqtt/src/airnanny/application_store.py": "fbbf85be5bfb00745fd68e33aa5fc01f43786fae4778d06564768657bbfaa0fc",
     "host/airnanny2mqtt/src/airnanny/aps.py": "2aa671efb37502205d1fdc5ceead425ff8a9dfba253a2598087ce47b554f704f",
-    "host/airnanny2mqtt/src/airnanny/availability.py": "dbd1a920872e97bce0debc48dc4599b7a3a05f7f5c3889fc70eae1d23a305f21",
+    "host/airnanny2mqtt/src/airnanny/availability.py": "a87b9295ef59245de950bfff5a12eb858f285de5c58c70b0934e8be4954852ef",
     "host/airnanny2mqtt/src/airnanny/baseline.py": "e9828b28b61068f8a3fa6cce1c9ad35f2814c4cf3025c4c011f6f1acd3ff7c9e",
     "host/airnanny2mqtt/src/airnanny/binary.py": "fce456eae9f6cc485248d909af9144dc2f39da935513e10a72947e740bf5a9a5",
     "host/airnanny2mqtt/src/airnanny/commands.py": "f2971dee138a76ffd4f53cbcb5fcc61098ee8a1e5acd552b29de1b13bf8b9d26",
@@ -1416,6 +1416,6 @@
     "host/airnanny2mqtt/tools/survey_radio.py": "43b6c3fd03c6c4df6a1fdf8456bd75ba6f6a8efc717bce219fa7e47afa8b7c3e",
     "host/airnanny2mqtt/tools/test_late_join_offline.py": "67744b4d0c3c0231ac67db8de1e91afd23a437b01a70cf6c0b8fceb8d2879f14"
   },
-  "source_revision": "5cceb4054ccdfdc31635ba9a2724046c8a176a86",
+  "source_revision": "34c2198bb1c054a63e479bea3d05593d583e551d",
   "source_tree_dirty": false
 }
