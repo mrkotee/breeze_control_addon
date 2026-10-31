@@ -45,6 +45,19 @@ RESULT_LIMIT = 256
 # reopens after 2000 ms. The firmware's own output queue is not a constraint
 # here -- it drains into USB independently of when this process reads, and
 # the bytes wait in the kernel buffer, not in its 32-line ring.
+# What a retry reason means and what to do about it. An appliance has no
+# shell, so a reason nobody can act on is only slightly better than silence.
+# Reasons absent from here are still reported; they just carry no remedy.
+REMEDIES = {
+    'dongle_in_bootloader':
+        'the dongle is in its DFU bootloader: the runtime firmware is not'
+        ' running. Flash it and replug.',
+    'dongle_absent':
+        'no dongle with the pinned USB identity is present.',
+    'serial_open_failed':
+        'the dongle is present but its serial port could not be opened.',
+}
+
 POLL_INTERVAL_MS = 20
 POLL_INTERVAL_BOUNDS = (1, 200)
 
@@ -390,10 +403,15 @@ class ReadinessPolls:
 
 
 class PersistentRadioService:
-    def __init__(self, state, clock, establish, *, retry_ms=5000):
+    def __init__(self, state, clock, establish, *, retry_ms=5000, announce=None):
         if type(retry_ms) is not int or retry_ms < 2000:
             raise ValueError('bounded reconnect backoff required')
         self.state, self.clock, self.establish = state, clock, establish
+        # The operator's only window onto an appliance is its log, so a
+        # changed reason is announced once. Injected rather than printed
+        # here, so this stays testable and silent by default.
+        self.announce = announce
+        self.announced = None
         self.retry_ms, self.next_open = retry_ms, 0
         self.session = None
         self.stopped = False
@@ -405,6 +423,12 @@ class PersistentRadioService:
         self.retry_attempt += 1
         self.state.write('WAITING', reason=reason, retry_delay_ms=delay)
         self.next_open = self.clock.now_ms() + delay
+        # Once per distinct reason: the backoff reaches five minutes, and a
+        # line every cycle would bury the one that changed.
+        if self.announce is not None and reason != self.announced:
+            self.announced = reason
+            remedy = REMEDIES.get(reason)
+            self.announce('WAITING: ' + reason + ('' if remedy is None else ' -- ' + remedy))
 
     def pump(self):
         if self.stopped:
@@ -422,8 +446,11 @@ class PersistentRadioService:
                                          + (latched.get('reason') or 'unknown'))
                 self.session = self.establish(self.state)
                 self.active_recorded = False
-            except StartupUnavailable:
-                self._retry('serial_open_failed')
+            except StartupUnavailable as exc:
+                # The exception names which of several conditions it was;
+                # flattening them all to one reason threw that away exactly
+                # where an operator needed it.
+                self._retry(str(exc) or 'serial_open_failed')
                 return
             except RecoveryParentLost:
                 self._retry('radio_parent_link_lost_during_readiness')
@@ -453,6 +480,7 @@ class PersistentRadioService:
                 self.state.write('ACTIVE', reason=None)
                 self.active_recorded = True
                 self.retry_attempt = 0
+                self.announced = None
         except ServiceBlocked:
             if self.session:
                 session, self.session = self.session, None
