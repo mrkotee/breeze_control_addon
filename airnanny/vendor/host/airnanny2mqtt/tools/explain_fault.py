@@ -76,6 +76,14 @@ def latest_trace(state_dir):
     return traces[-1] if traces else None
 
 
+def token_pair(raw):
+    """The ` id=N` of a command line, or '' when it carries none."""
+    for token in raw.split():
+        if token.startswith('id='):
+            return ' ' + token
+    return ''
+
+
 def summarise(trace):
     """The facts a review turns on, from one retained trace."""
     data = json.loads(Path(trace).read_text(encoding='utf-8'))
@@ -122,13 +130,19 @@ def summarise(trace):
     # Which commands the host issued, and whether the trace can be trusted to
     # hold all of them. A bounded deque that filled would have dropped the
     # oldest records, and an absence inside a truncated record proves nothing.
-    host_commands = sorted({r['raw'].split()[1] for r in records
-                            if r.get('kind') == 'HOST_COMMAND'
-                            and len(r.get('raw', '').split()) > 1})
+    commands = [r for r in records if r.get('kind') == 'HOST_COMMAND'
+                and len(r.get('raw', '').split()) > 1]
+    host_commands = sorted({r['raw'].split()[1] for r in commands})
     limit = data.get('record_limit')
     complete = (isinstance(limit, int) and limit > 0
                 and isinstance(data.get('record_count'), int)
                 and data['record_count'] < limit)
+    # A second, older proof of the same thing, for traces written before the
+    # count was recorded. Command ids start at one and a command is recorded
+    # before anything is read, so the record carrying id=1 is the first entry
+    # the wire ever appended. A bounded buffer evicts its oldest first, so
+    # that entry still being here means nothing was evicted at all.
+    complete = complete or any(' id=1' == token_pair(r['raw']) for r in commands)
 
     status = {}
     for record in records:
@@ -143,8 +157,14 @@ def summarise(trace):
 
     return {'error': data.get('error'), 'error_type': data.get('error_type'),
             'records': dict(kinds), 'transmissions': transmissions,
-            'last_lines': [r['raw'] for r in records[-LAST_LINES:] if r.get('raw')],
+            'last_firmware_lines': [r['raw'] for r in records[-LAST_LINES:]
+                                    if r.get('raw') and r.get('kind') != 'HOST_COMMAND'],
+            'last_host_commands': [r['raw'] for r in commands[-LAST_LINES:]],
             'recent_serial': data.get('recent_serial'),
+            # Absent key and null value mean different things: one trace was
+            # written before the port was watched, the other watched it and
+            # read nothing.
+            'port_was_watched': 'recent_serial' in data,
             'host_commands': host_commands,
             'complete_record': complete,
             'accepted_without_completion': unmatched,
@@ -280,18 +300,26 @@ def lines(state_dir, limit=8):
 
     # A wire-level failure is about bytes, not transmissions: what the
     # firmware last said, and what arrived that could not be read at all.
-    if summary.get('last_lines'):
-        out.append('  last lines the firmware sent (newest last):')
-        for raw in summary['last_lines']:
+    if summary.get('last_host_commands'):
+        out.append('  last commands this host sent (newest last):')
+        for raw in summary['last_host_commands']:
             out.append('    ' + raw[:SERIAL_TAIL_WIDTH * 2])
+    if summary.get('last_firmware_lines'):
+        out.append('  last lines the firmware sent (newest last):')
+        for raw in summary['last_firmware_lines']:
+            out.append('    ' + raw[:SERIAL_TAIL_WIDTH * 2])
+    elif summary.get('last_host_commands'):
+        out.append('  the firmware sent nothing this host could read')
     tail = summary.get('recent_serial')
     if tail:
         out.append('  last bytes read from the dongle:')
         rows = [tail[i:i + SERIAL_TAIL_WIDTH] for i in range(0, len(tail), SERIAL_TAIL_WIDTH)]
         for row in rows[-SERIAL_TAIL_ROWS:]:
             out.append('    ' + row)
-    elif 'recent_serial' in summary and summary['recent_serial'] is None and summary.get('last_lines') == []:
-        out.append('  nothing readable arrived from the dongle at all')
+    elif not summary.get('last_firmware_lines'):
+        out.append('  nothing readable arrived from the dongle at all'
+                   if summary.get('port_was_watched') else
+                   '  what did arrive was not kept: this trace predates the port watcher')
 
     terminal = [t for t in summary['transmissions'] if t['result']]
     if terminal:
@@ -305,8 +333,14 @@ def lines(state_dir, limit=8):
             out.append('    %d transmission(s) ended with an unrecognised result' % len(unknown))
 
     if spent_nothing(summary):
-        out.append('  every transmission here was a plaintext beacon that cleaned up')
-        out.append('  safely: this failure spent no counter and moved no secured state')
+        if summary.get('transmissions'):
+            out.append('  every transmission here was a plaintext beacon that cleaned up')
+            out.append('  safely: this failure spent no counter and moved no secured state')
+        else:
+            # Saying "every transmission" of none reads as a claim about
+            # transmissions that were never made.
+            out.append('  nothing was transmitted at all: this failure stopped before')
+            out.append('  the radio, so it spent no counter and moved no secured state')
     for ctx, fields in sorted(summary['last_status'].items()):
         out.append('  ctx%s last status: %s' % (ctx, ', '.join(
             '%s=%s' % (k, v) for k, v in fields.items() if v is not None)))
