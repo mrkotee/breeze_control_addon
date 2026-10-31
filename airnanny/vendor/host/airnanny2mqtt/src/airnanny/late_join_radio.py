@@ -6,7 +6,11 @@ from .serial_support import SerialFault
 
 class LateJoinRadioTransport(RealRadioTransport):
     def __init__(self, *args, **kwargs):
-        if kwargs.get('firmware_version') != 33:
+        # V34 carries V33's recovery surface unchanged; it differs only in the
+        # dongle's amplifier. A lower bound, not equality, so a board change does
+        # not read as a lost capability.
+        version = kwargs.get('firmware_version')
+        if type(version) is not int or version < 33:
             raise ValueError('explicit V33 late-join capability required')
         super().__init__(*args, **kwargs)
         self.recovery_ids = {}

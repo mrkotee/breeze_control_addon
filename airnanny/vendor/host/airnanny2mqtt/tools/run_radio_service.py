@@ -45,7 +45,7 @@ LOCAL=Path(os.environ.get('AIRNANNY_STATE_DIR') or ROOT/'.local/radio_service')
 
 
 def preflight(firmware_version=32):
-    if firmware_version not in (30,31,32,33):
+    if firmware_version not in (30,31,32,33,34):
         raise ValueError('continuous firmware profile required')
     image_root=ROOT.parents[1]/f'firmware/airnanny_dual_pan/dual_pan_runtime_v{firmware_version}'
     prior=prior_preflight(29)
@@ -102,6 +102,32 @@ def context_ledgers(frozen):
     return out
 
 
+def apply_dongle_override(frozen):
+    """Lets the operator name a different dongle than the pinned one.
+
+    gate_a_authority pins vid/pid/serial, and the serial comes from the chip --
+    so replacing the physical dongle, as the move to the amplified Holyiot board
+    does, makes the pin stop matching and the service report dongle_absent. The
+    pin itself lives in a frozen milestone whose review evidence records its
+    hash, so it is not edited; the override is applied here, in the live host,
+    where it is visible and where rollback to the original dongle is a matter of
+    clearing one option rather than editing anything.
+
+    The module global is reassigned because select_device() reads it directly,
+    so overriding only this caller's copy would leave the two disagreeing about
+    which device was chosen -- the one way this could pick the wrong dongle.
+
+    Empty means keep the pin, which is the existing behaviour exactly.
+    """
+    serial=os.environ.get('AIRNANNY_DONGLE_SERIAL','').strip()
+    if not serial:
+        return frozen.authority.DONGLE
+    if len(serial)!=12 or any(c not in '0123456789ABCDEF' for c in serial):
+        raise RuntimeError('AIRNANNY_DONGLE_SERIAL must be 12 uppercase hex characters')
+    frozen.authority.DONGLE=dict(frozen.authority.DONGLE,serial=serial)
+    return frozen.authority.DONGLE
+
+
 def establish(args, mqtt_options, state):
     firmware_version=getattr(args,'firmware_version',32)
     profile=service_profile(firmware_version,
@@ -112,6 +138,7 @@ def establish(args, mqtt_options, state):
     stock_handoff=profile.recovery_stock_handoff
     rollover_successor=profile.rollover_successor
     frozen=firmware_modules()
+    apply_dongle_override(frozen)
     ledgers={slot:BoundedLedger.install(ledger) for slot,ledger in context_ledgers(frozen).items()}
     state.require_recovery(ledgers)
     state.require_monotonic_stores(ledgers)

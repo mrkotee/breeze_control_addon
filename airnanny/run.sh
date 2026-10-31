@@ -103,6 +103,19 @@ AIRNANNY_MQTT_USERNAME="$(bashio::services 'mqtt' 'username')"
 AIRNANNY_MQTT_PASSWORD="$(bashio::services 'mqtt' 'password')"
 
 FIRMWARE_VERSION="$(bashio::config 'firmware_version')"
+
+# Empty keeps the dongle pinned in the frozen milestone. Set, it names a
+# different physical dongle by USB serial -- which is what a board swap needs,
+# because the serial comes from the chip. The host validates the shape and
+# refuses anything that is not 12 uppercase hex characters.
+export AIRNANNY_DONGLE_SERIAL
+if bashio::config.has_value 'dongle_serial'; then
+    AIRNANNY_DONGLE_SERIAL="$(bashio::config 'dongle_serial')"
+    bashio::log.info "Dongle pinned by operator to serial ${AIRNANNY_DONGLE_SERIAL}"
+else
+    AIRNANNY_DONGLE_SERIAL=""
+fi
+
 export AIRNANNY_LOG_LEVEL
 AIRNANNY_LOG_LEVEL="$(bashio::config 'log_level')"
 

@@ -32,6 +32,7 @@ from airnanny.radio_wire import parse_record                     # noqa: E402
 from airnanny.serial_support import SerialChannel, SerialFault   # noqa: E402
 from airnanny.real_radio import serial_port_factory              # noqa: E402
 from run_radio_daemon import firmware_modules                    # noqa: E402
+from run_radio_service import apply_dongle_override             # noqa: E402
 
 PAN_LABELS = {'ctx0': 'ctx0 - second bedroom, PAN FA9B',
               'ctx1': 'ctx1 - bedroom, PAN 0B7A'}
@@ -209,7 +210,10 @@ def verdict(summary):
 def select_port(frozen, requested=None):
     _, list_ports = frozen.serial_modules()
     ports = list(list_ports.comports())
-    pin = frozen.authority.DONGLE
+    # The same override the service applies, so a survey and a run always look
+    # for the same device. A survey that could not find the dongle the bridge
+    # uses would be measuring nothing, or the wrong thing.
+    pin = apply_dongle_override(frozen)
     if not [p for p in ports if (p.vid, p.pid, p.serial_number)
             == (pin['vid'], pin['pid'], pin['serial'])]:
         raise SystemExit('dongle_absent: no port matches the pinned USB serial')

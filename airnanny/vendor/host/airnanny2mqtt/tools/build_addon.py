@@ -26,8 +26,11 @@ ROOT = Path(__file__).resolve().parents[1]
 REPO = ROOT.parents[1]
 
 # v28 carries the frozen host modules the service imports; v29 is read by the
-# inherited preflight; v33 is the firmware actually running. The two milestone
-# directories hold the durable stores' pinned parents and key_announce.
+# inherited preflight; v33 and v34 are the two the add-on can be pointed at.
+# v33 stays vendored because it is the rollback: it is the only image with
+# hardware proof, and it is what the original PCA10059 dongle still carries.
+# The two milestone directories hold the durable stores' pinned parents and
+# key_announce.
 VENDOR_PATHS = (
     'host/airnanny2mqtt/src',
     'host/airnanny2mqtt/tools',
@@ -35,6 +38,7 @@ VENDOR_PATHS = (
     'firmware/airnanny_dual_pan/dual_pan_runtime_v28',
     'firmware/airnanny_dual_pan/dual_pan_runtime_v29',
     'firmware/airnanny_dual_pan/dual_pan_runtime_v33',
+    'firmware/airnanny_dual_pan/dual_pan_runtime_v34',
     'firmware/airnanny_dual_pan/hardware_commissioning_v7',
     'firmware/airnanny_dual_pan/second_a7_provisioning_v1',
     # key_announce loads the frozen v5 codec and durability layer from these

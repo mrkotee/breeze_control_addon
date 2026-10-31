@@ -16,7 +16,7 @@ from .serial_support import SerialFault
 class LateJoinRecovery:
     def __init__(self,session,ledgers,state,*,validate_beacon,bind_fields,leave_check):
         self.session,self.radio,self.ledgers,self.state=session,session.radio,ledgers,state
-        if self.radio.firmware_version!=33:
+        if self.radio.firmware_version<33:
             raise ValueError('V33 late-join capability required')
         self.validate_beacon,self.bind_fields,self.leave_check=validate_beacon,bind_fields,leave_check
         self.phase='BACKOFF';self.due=self.now()+5000;self.slot=None

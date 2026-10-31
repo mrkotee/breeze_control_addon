@@ -1,0 +1,1 @@
+#define NRF_802154_TIMERS_USED_MASK 0u

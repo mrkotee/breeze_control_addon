@@ -21,6 +21,12 @@ FIRMWARE_PROFILES = {
     31: ('airnanny_dual_pan_runtime_v31', 'typed_type07_repeat', True),
     32: ('airnanny_dual_pan_runtime_v32', 'typed_type07_repeat', True),
     33: ('airnanny_dual_pan_runtime_v33', 'typed_type07_repeat_late_join', True),
+    # V34 is V33's protocol on the Holyiot nRF52840+PA dongle: the firmware
+    # keys the board's amplifier and asks the SoC for a lower drive level to
+    # suit it. Nothing on the wire moves, so the profile is V33's. INFO
+    # tx_power_dbm now reports the SoC's figure, which is no longer what
+    # leaves the antenna -- the host reads it but asserts nothing about it.
+    34: ('airnanny_dual_pan_runtime_v34', 'typed_type07_repeat_late_join', True),
 }
 
 

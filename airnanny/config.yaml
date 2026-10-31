@@ -1,5 +1,5 @@
 name: AirNanny Dual-PAN Bridge
-version: "0.18.0"
+version: "0.19.0"
 slug: airnanny
 description: Two AirNanny A7 units on separate Zigbee PANs, bridged to Home Assistant over MQTT
 url: https://github.com/mrkotee/breeze_control_addon
@@ -60,7 +60,8 @@ backup_exclude:
   - "state/**/*.private.json"
 
 options:
-  firmware_version: 33
+  firmware_version: 34
+  dongle_serial: ""
   ctx0_network_key: ""
   ctx1_network_key: ""
   ctx0_key_sha256: ""
@@ -73,7 +74,16 @@ options:
   poll_interval_ms: 20
 
 schema:
-  firmware_version: "int(33,33)"
+  # 33 is the PCA10059 dongle, 34 the Holyiot one with the amplifier.
+  # Both stay selectable so the old dongle remains a rollback; the two
+  # images differ only in driving that amplifier, not on the wire.
+  firmware_version: "int(33,34)"
+  # Empty keeps the dongle pinned in the frozen milestone -- the original
+  # PCA10059. The USB serial comes from the chip, so a replacement board has
+  # a different one and the service would report dongle_absent; naming it
+  # here is what moves the bridge to it, and clearing it moves it back.
+  # 12 uppercase hex characters, as /dev/serial/by-id/ prints them.
+  dongle_serial: "match(^$|^[0-9A-F]{12}$)"
   # Not `password`, although these are secret. Supervisor sends a password
   # option to Have I Been Pwned before saving it, and where that service is
   # unreachable the save fails with an unexplained error rather than a

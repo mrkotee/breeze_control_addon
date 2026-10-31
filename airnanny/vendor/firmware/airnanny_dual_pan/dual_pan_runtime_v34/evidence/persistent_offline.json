@@ -1,0 +1,51 @@
+{
+  "status": "OFFLINE_NATIVE_PASS",
+  "hardware_performed": false,
+  "tests": [
+    {
+      "name": "test_application_repeat",
+      "summary": "application_repeat: 50 checks, 0 failures",
+      "binary_sha256": "49e4bd5ea6e29228aa592ee5eda3f8423b5c559180d10d683521fd86b63323dc"
+    },
+    {
+      "name": "test_mac_retry",
+      "summary": "20 checks, 0 failures",
+      "binary_sha256": "4cbb89c47e959bf412ddeb4f2a37d730c64f7c862fc0fabe771244b4bce3eb8d"
+    },
+    {
+      "name": "test_id_handoff",
+      "summary": "id_handoff: 6 checks, 0 failures",
+      "binary_sha256": "997ce991bb5b7a6fa4c741118d97566677d9e64b9a05c817bf1869ff88207432"
+    },
+    {
+      "name": "test_persistent",
+      "summary": "persistent: 23 checks, 0 failures",
+      "binary_sha256": "0f7379b44020aacc58db2002d9a3cadf8be8bd93fbb21300dc2db1d124ee623a"
+    },
+    {
+      "name": "test_poll_reset",
+      "summary": "poll_reset_v31: 21 checks, 0 failures",
+      "binary_sha256": "1a2a6f548456994f50093d472287d5a3a456101b36ca524406941d0731e96f95"
+    },
+    {
+      "name": "test_radio_loss",
+      "summary": "radio_loss_v32: 2005 checks, 0 failures",
+      "binary_sha256": "a894a12a61ade5fd2703d32b34784301ae37eaca769d65e0c26e56dda8a7f825"
+    },
+    {
+      "name": "test_late_join",
+      "summary": "late_join_v33: 50 checks, 0 failures",
+      "binary_sha256": "702bf58d2239c9da95443fcebef3dcf29563026ac429ed9138a618acbfbc00f7"
+    }
+  ],
+  "v30_bug_reproduced": {
+    "summary": "poll_reset_v30_reproduction: 15 checks, 0 failures",
+    "binary_sha256": "3ecfe1d79919b516d8f283406097d82187978f85c077e2427c8ee157fbbc5ca1"
+  },
+  "firmware_delta": [
+    "include/board_fem.h",
+    "include/gate_radio_config.h",
+    "src/main.c"
+  ],
+  "unchanged_radio_driver": true
+}
