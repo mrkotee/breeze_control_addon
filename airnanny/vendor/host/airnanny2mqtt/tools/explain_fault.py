@@ -23,6 +23,13 @@ import sys
 TRACE_GLOB = 'recovery_failure_*.private.json'
 TERMINAL_RESULTS = ('local_tx_ok', 'no_ack', 'invalid_ack', 'cca_fail', 'aborted')
 
+# How much of the conversation to show when it stopped making sense. Bounded
+# because this goes to a log on an appliance, and shown at all because the
+# reviewed reader refuses an unparsable line without recording it.
+LAST_LINES = 4
+SERIAL_TAIL_WIDTH = 96
+SERIAL_TAIL_ROWS = 3
+
 # What a transmission was for is carried by its acceptance record, not by its
 # completion: TXDONE's `application_tx` names the session's application-TX
 # mode, not this frame's purpose. Reading it as a per-frame flag reports an
@@ -38,6 +45,13 @@ APPLICATION_CLASSES = frozenset(('TYPE07_FAN',))
 PLAINTEXT_CLASSES = frozenset(('ACTIVE_DISCOVERY_BEACON_REQUEST',))
 RECOVERY_CLASSES = frozenset(('MANAGEMENT_POLL', 'ACTIVE_DISCOVERY_BEACON_REQUEST',
                               'REJOIN_REQUEST', 'DEVICE_ANNOUNCE', 'END_DEVICE_TIMEOUT'))
+
+# Host commands that ask the dongle something and change nothing: no frame
+# leaves the radio and no durable state moves. Named positively and kept
+# short on purpose -- an unknown verb has to mean "cannot say", because the
+# firmware's vocabulary is its own and a new command would otherwise be
+# assumed harmless the day it is added.
+INERT_COMMANDS = frozenset(('INFO', 'STATUS', 'STATS'))
 
 
 def transmission_key(kind, fields):
@@ -105,6 +119,17 @@ def summarise(trace):
     unmatched = sorted(purpose or 'unknown' for key, purpose in accepted.items()
                        if key not in completed)
 
+    # Which commands the host issued, and whether the trace can be trusted to
+    # hold all of them. A bounded deque that filled would have dropped the
+    # oldest records, and an absence inside a truncated record proves nothing.
+    host_commands = sorted({r['raw'].split()[1] for r in records
+                            if r.get('kind') == 'HOST_COMMAND'
+                            and len(r.get('raw', '').split()) > 1})
+    limit = data.get('record_limit')
+    complete = (isinstance(limit, int) and limit > 0
+                and isinstance(data.get('record_count'), int)
+                and data['record_count'] < limit)
+
     status = {}
     for record in records:
         if record.get('kind') != 'STATUS':
@@ -118,6 +143,10 @@ def summarise(trace):
 
     return {'error': data.get('error'), 'error_type': data.get('error_type'),
             'records': dict(kinds), 'transmissions': transmissions,
+            'last_lines': [r['raw'] for r in records[-LAST_LINES:] if r.get('raw')],
+            'recent_serial': data.get('recent_serial'),
+            'host_commands': host_commands,
+            'complete_record': complete,
             'accepted_without_completion': unmatched,
             'errors_reported': kinds.get('ERROR', 0),
             'application_transmissions': application,
@@ -128,6 +157,30 @@ def summarise(trace):
             'cleanup': dict(cleanup), 'last_status': status,
             'state_at_failure': {k: v for k, v in (data.get('state') or {}).items()
                                  if not isinstance(v, (list, dict))}}
+
+
+def nothing_was_attempted(summary):
+    """Does this trace show a failure that got nowhere near the radio?
+
+    An empty transmission list means one of two opposite things: nothing was
+    ever sent, or the trace cannot show what was. They are told apart by
+    whether the record is complete -- a bounded buffer that filled dropped
+    its oldest entries first, which is exactly where a transmission would be
+    -- and by what the host actually asked the dongle to do.
+
+    A failure that could not read the dongle's first line is the case this
+    exists for. Nothing was commanded but a query, no frame was accepted, no
+    counter was reserved, and latching it forever teaches an operator only
+    that the latch is noise.
+    """
+    if not summary.get('complete_record'):
+        return False
+    if summary.get('accepted_without_completion') or summary.get('errors_reported'):
+        return False
+    commands = summary.get('host_commands')
+    if not isinstance(commands, list):
+        return False  # a trace written before this was recorded cannot say
+    return all(command in INERT_COMMANDS for command in commands)
 
 
 def spent_nothing(summary):
@@ -144,10 +197,12 @@ def spent_nothing(summary):
     than safe all mean no.
     """
     transmissions = summary.get('transmissions') or []
-    if not transmissions or summary.get('application_transmissions'):
+    if summary.get('application_transmissions'):
         return False
     if summary.get('unrecognised_purposes'):
         return False
+    if not transmissions:
+        return nothing_was_attempted(summary)
     # Accepted but never completed: the counter block is gone and the outcome
     # is unknowable. This is the case the latch exists for, so it is checked
     # before anything else that could look reassuring.
@@ -222,6 +277,21 @@ def lines(state_dir, limit=8):
 
     if summary['cleanup']:
         out.append('  cleanup: %s' % ', '.join('%s=%d' % kv for kv in sorted(summary['cleanup'].items())))
+
+    # A wire-level failure is about bytes, not transmissions: what the
+    # firmware last said, and what arrived that could not be read at all.
+    if summary.get('last_lines'):
+        out.append('  last lines the firmware sent (newest last):')
+        for raw in summary['last_lines']:
+            out.append('    ' + raw[:SERIAL_TAIL_WIDTH * 2])
+    tail = summary.get('recent_serial')
+    if tail:
+        out.append('  last bytes read from the dongle:')
+        rows = [tail[i:i + SERIAL_TAIL_WIDTH] for i in range(0, len(tail), SERIAL_TAIL_WIDTH)]
+        for row in rows[-SERIAL_TAIL_ROWS:]:
+            out.append('    ' + row)
+    elif 'recent_serial' in summary and summary['recent_serial'] is None and summary.get('last_lines') == []:
+        out.append('  nothing readable arrived from the dongle at all')
 
     terminal = [t for t in summary['transmissions'] if t['result']]
     if terminal:

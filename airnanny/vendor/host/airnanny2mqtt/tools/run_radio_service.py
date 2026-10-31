@@ -26,6 +26,7 @@ from airnanny.paho_mqtt import PahoMqttTransport
 from airnanny.radio_daemon import DurableApplicationIngress, RadioDaemonLoop
 from airnanny.radio_runtime import restore_devices
 from airnanny.real_radio import RealRadioTransport, bootstrap_port_factory, serial_port_factory
+from airnanny.serial_trace import WatchedPort
 from airnanny.recovery_guard import guard_recovery_reads
 from airnanny.recovery_application import handoff_recovery_stock
 from airnanny.service_profile import service_profile, CONTINUOUS_VERSIONS
@@ -161,7 +162,11 @@ def establish(args, mqtt_options, state):
         port.close()
         time.sleep(2)
         name=selected_port()
-        port=serial_port_factory(name)
+        # Wrapped so a line the reviewed reader cannot parse still leaves
+        # evidence of itself. It refuses such a line without recording it,
+        # which on an appliance means the failure arrives with nothing to
+        # look at and no shell to look with.
+        port=WatchedPort(serial_port_factory(name))
     except (serial.SerialException, OSError):
         raise StartupUnavailable('serial_open_failed') from None
     loop=None
@@ -298,6 +303,10 @@ def establish(args, mqtt_options, state):
     except BaseException as exc:
         diagnostic=dict(error_type=type(exc).__name__,error=str(exc),
                         records=runner.records if runner else [],
+                        recent_serial=port.tail() if isinstance(port,WatchedPort) else None,
+                        # An absence inside a truncated record proves nothing,
+                        # so whether the buffer filled is part of the evidence.
+                        record_count=len(records),record_limit=records.maxlen,
                         state=state.read())
         LOCAL.mkdir(parents=True,exist_ok=True)
         (LOCAL/('recovery_failure_'+uuid4().hex+'.private.json')).write_text(json.dumps(diagnostic,indent=2)+'\n')
