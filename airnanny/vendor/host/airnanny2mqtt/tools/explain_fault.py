@@ -243,10 +243,16 @@ def spent_nothing(summary):
             return False
         if transmission.get('result') not in TERMINAL_RESULTS:
             return False
-    # The same signals the existing classifiers refuse on: a dropped receive,
-    # a dropped output, a quarantined transfer or a firmware asking to
-    # reboot all mean the session lost records, and a trace with holes in it
-    # cannot prove anything about what is missing.
+    return session_lost_nothing(summary)
+
+
+def session_lost_nothing(summary):
+    """The signals the existing classifiers refuse on.
+
+    A dropped receive, a dropped output, a quarantined transfer or a firmware
+    asking to reboot all mean the session lost records, and a trace with
+    holes in it cannot prove anything about what is missing.
+    """
     for fields in (summary.get('last_status') or {}).values():
         for name in ('rx_drop', 'out_drop', 'quarantine', 'reboot_required'):
             value = fields.get(name)
@@ -255,8 +261,44 @@ def spent_nothing(summary):
     return True
 
 
+def answer_unacknowledged(summary):
+    """Does this trace show a cycle that ended on an acknowledgement we lost?
+
+    Secured frames did go out, so spent_nothing says no -- correctly, because
+    it asks a different question. Spending a counter is not what a review is
+    for: these counters are monotonic, and spending one is how they stay that
+    way. A review is for an outcome nobody can determine, and this trace has
+    none: every frame reached a terminal result, and what ended the cycle was
+    the unit answering while this host's own radio failed to acknowledge it.
+    The unit said nothing about us. Our radio did.
+
+    The running service now treats that as a new cycle rather than a latch.
+    A box already latched on it from an earlier version cannot benefit from
+    that -- the latch is on disk and there is no shell to reach it -- so the
+    same proof is read back from the retained trace and the fault becomes one
+    an operator may acknowledge. It still takes a person.
+    """
+    if not (summary.get('error') or '').startswith('parent_answer:MAC_ACK_NOT_CLEAN ctx='):
+        return False
+    if summary.get('application_transmissions') or summary.get('unrecognised_purposes'):
+        return False
+    if summary.get('accepted_without_completion') or summary.get('errors_reported'):
+        return False
+    transmissions = summary.get('transmissions') or []
+    if not transmissions:
+        return False  # the one thing this error cannot be is nothing attempted
+    for transmission in transmissions:
+        if (transmission.get('purpose') not in RECOVERY_CLASSES
+                or transmission.get('cleanup') != 'safe'
+                or transmission.get('result') not in TERMINAL_RESULTS):
+            return False
+    return session_lost_nothing(summary)
+
+
 def evidence_permits_clearing(state_dir, expected_trace=None):
-    """True when this fault's own trace shows a failure that spent nothing.
+    """True when this fault's own trace shows a failure a person need not
+    adjudicate: one that spent nothing, or one that ended on an
+    acknowledgement this host lost.
 
     `expected_trace` is the file the fault recorded. Without it this reads
     whatever trace is newest, which for a latch raised while the service was
@@ -270,7 +312,8 @@ def evidence_permits_clearing(state_dir, expected_trace=None):
     if expected_trace is not None and Path(trace).name != expected_trace:
         return False
     try:
-        return spent_nothing(summarise(trace))
+        summary = summarise(trace)
+        return spent_nothing(summary) or answer_unacknowledged(summary)
     except Exception:
         # A trace that cannot be read cannot prove anything, and a safety
         # gate must not be the thing that crashes the recovery it guards:
