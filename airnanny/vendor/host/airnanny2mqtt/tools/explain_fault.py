@@ -153,7 +153,13 @@ def summarise(trace):
             status[fields['ctx']] = {k: fields.get(k) for k in
                                      ('state', 'recovery', 'association_state', 'key_state',
                                       'generation', 'rx_drop', 'out_drop', 'quarantine',
-                                      'reboot_required')}
+                                      'reboot_required',
+                                      # A clean transmission loss is either an
+                                      # unanswered frame or a channel that never
+                                      # looked free. These separate the two, and
+                                      # an amplified receiver can make an idle
+                                      # channel read as busy.
+                                      'cca_attempts', 'cca_busy', 'cca_preair')}
 
     return {'error': data.get('error'), 'error_type': data.get('error_type'),
             'records': dict(kinds), 'transmissions': transmissions,

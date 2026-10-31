@@ -345,6 +345,16 @@ def establish(args, mqtt_options, state):
                         state=state.read())
         LOCAL.mkdir(parents=True,exist_ok=True)
         (LOCAL/('recovery_failure_'+uuid4().hex+'.private.json')).write_text(json.dumps(diagnostic,indent=2)+'\n')
+        # A retryable failure used to write this trace and nothing ever read
+        # it: the operator saw a reason and no detail, while the one fact that
+        # separates a busy channel from an unanswered frame sat in a file with
+        # no shell to open it. Printed here, where the trace just written is
+        # known to be the newest one.
+        try:
+            for line in explain_fault.lines(LOCAL):
+                print(line,flush=True)
+        except Exception as report_error:
+            print('  the retained trace could not be summarised: %r'%(report_error,),flush=True)
         if loop:loop.close()
         else:port.close()
         if guard and discovery_retry_safe(exc,ledgers,guard):
