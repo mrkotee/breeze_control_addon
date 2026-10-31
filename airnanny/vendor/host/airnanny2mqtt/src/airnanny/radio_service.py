@@ -534,14 +534,54 @@ class ServiceState:
             raise ServiceBlocked('service_state_readback_failed')
         return record
 
+    def interrupted_recovery_spent_nothing(self, ledgers, record):
+        """Did an interrupted recovery cycle get as far as a secured frame?
+
+        ContextLedger.reserve leases the counter block and records the intent
+        BEFORE the frame exists -- deliberately, because a crash between the
+        two loses a block, which costs nothing anyone can observe, while the
+        opposite order risks a counter used twice. This reads the
+        contrapositive: no intent recorded under this cycle's guard means no
+        secured frame was ever built, so none was transmitted and none could
+        have been acted on.
+
+        Matched on the guard, not merely on the presence of intents. A store
+        that has been commissioned carries the intents of the cycle that
+        commissioned it, and begin_cycle archives those and opens a fresh
+        record; intents under an older guard belong to a cycle that was
+        already concluded. A guard this cycle never opened on a ledger is a
+        cycle that never touched it.
+
+        Everything that runs before the first reserve is discovery, which is
+        a plaintext beacon request: it spends no counter and moves no secured
+        state. Being interrupted there is the ordinary case -- an add-on
+        restart lands in it -- and refusing to continue afterwards stopped
+        the service until someone edited durable state by hand.
+        """
+        guard = record.get('guard')
+        if not isinstance(guard, str) or not guard:
+            return False  # no guard recorded: nothing to match, so no proof
+        for ledger in ledgers.values():
+            recovery = ledger.read().get('recovery') or {}
+            if recovery.get('gate') == guard and recovery.get('intents'):
+                return False
+        return True
+
     def require_recovery(self, ledgers):
         record = self.read()
         if record['state'] == 'BLOCKED':
             raise ServiceBlocked('service_fault_latched:' + record.get('reason', 'unknown'))
         # A process killed while recovery was moving secured state cannot
-        # automatically run another recovery chain. Inspect it explicitly.
+        # automatically run another recovery chain. Inspect it explicitly --
+        # unless the stores show it never got that far, which is the common
+        # case and used to stop the service dead anyway.
         if record['state'] == 'RECOVERING':
-            raise ServiceBlocked('interrupted_recovery_requires_review')
+            if not self.interrupted_recovery_spent_nothing(ledgers, record):
+                raise ServiceBlocked('interrupted_recovery_requires_review')
+            # Recorded rather than passed over in silence: the run was
+            # interrupted, and that it was safe to continue is a finding.
+            self.write('WAITING', reason='interrupted_recovery_resumed_nothing_spent')
+            record = self.read()
         late=record.get('late_join') or {}
         if late and (late.get('secured') or any(
                 (ledger.read().get('recovery') or {}).get('gate')==late.get('guard')
