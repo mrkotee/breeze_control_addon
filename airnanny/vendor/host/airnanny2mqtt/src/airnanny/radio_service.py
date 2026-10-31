@@ -325,7 +325,14 @@ def discovery_retry_safe(error, ledgers, guard):
                 return False
             continue  # untouched slot; no frame of this cycle was submitted
         intents = q.get('intents') or {}
-        if slot == missing:
+        if slot == missing or q.get('state') == 'DISCOVERING':
+            # The slot the error names, or -- under partial startup -- one
+            # already declared offline in this same cycle. Both carry the
+            # same proof: discovery submits no secured frame, so an empty
+            # intent set under this guard is nothing spent. Demanding a
+            # settled peer chain here latched a review-only fault over a
+            # cycle that provably moved nothing, because both parents were
+            # silent and neither had a chain to settle.
             if q.get('state') != 'DISCOVERING' or intents:
                 return False
         elif (q.get('state') != 'PARENT_LINK_ACTIVE'
