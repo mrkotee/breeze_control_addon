@@ -28,7 +28,7 @@ from airnanny.radio_runtime import restore_devices
 from airnanny.real_radio import RealRadioTransport, bootstrap_port_factory, serial_port_factory
 from airnanny.recovery_guard import guard_recovery_reads
 from airnanny.recovery_application import handoff_recovery_stock
-from airnanny.service_profile import service_profile
+from airnanny.service_profile import service_profile, CONTINUOUS_VERSIONS
 from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, ServiceBlocked,
                                    OPERATOR_CLEARABLE, EVIDENCE_CLEARABLE,
                                    PersistentRadioService, StartupUnavailable, ReadinessPolls,
@@ -45,7 +45,7 @@ LOCAL=Path(os.environ.get('AIRNANNY_STATE_DIR') or ROOT/'.local/radio_service')
 
 
 def preflight(firmware_version=32):
-    if firmware_version not in (30,31,32,33,34):
+    if firmware_version not in CONTINUOUS_VERSIONS:
         raise ValueError('continuous firmware profile required')
     image_root=ROOT.parents[1]/f'firmware/airnanny_dual_pan/dual_pan_runtime_v{firmware_version}'
     prior=prior_preflight(29)
@@ -315,7 +315,7 @@ def establish(args, mqtt_options, state):
 def argument_parser():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--preflight',action='store_true')
-    p.add_argument('--firmware-version',type=int,choices=(30,31,32,33),default=32)
+    p.add_argument('--firmware-version',type=int,choices=CONTINUOUS_VERSIONS,default=32)
     p.add_argument('--port',help='optional fixed COM; otherwise identify by pinned USB serial')
     p.add_argument('--partial-startup',action=argparse.BooleanOptionalAction,default=None,help='serve recovered slots when another has no beacon; default on for V33 with automatic late join')
     p.add_argument('--recovery-stock-handoff',action=argparse.BooleanOptionalAction,default=None,help='retain current-session recovery stock templates; default on for V32; new live status still required')

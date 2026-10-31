@@ -1,6 +1,12 @@
 """Host defaults for continuous firmware profiles; no hardware or store access."""
 from dataclasses import dataclass
 
+# The continuous profiles, in one place because four copies of this tuple were
+# four chances to add a version to some of them. V34 did exactly that: the
+# service started, announced itself, and died on an argparse choices list that
+# no test had reason to exercise. Importers take it from here.
+CONTINUOUS_VERSIONS = (30, 31, 32, 33, 34)
+
 
 @dataclass(frozen=True)
 class ServiceProfile:
@@ -12,7 +18,7 @@ class ServiceProfile:
 
 def service_profile(firmware_version=32, *, rollover_successor=None,
                     recovery_stock_handoff=None, partial_startup=None):
-    if type(firmware_version) is not int or firmware_version not in (30, 31, 32, 33):
+    if type(firmware_version) is not int or firmware_version not in CONTINUOUS_VERSIONS:
         raise ValueError('continuous firmware profile required')
     if rollover_successor is None:
         rollover_successor = 2 if firmware_version >= 32 else 0

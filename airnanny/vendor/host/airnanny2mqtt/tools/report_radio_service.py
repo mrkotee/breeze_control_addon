@@ -7,7 +7,7 @@ import sys
 import xml.etree.ElementTree as ET
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
-from airnanny.service_profile import service_profile
+from airnanny.service_profile import service_profile, CONTINUOUS_VERSIONS
 
 
 def suite(path):
@@ -112,7 +112,7 @@ def physical(run, statement, firmware_version):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
-    p.add_argument('--firmware-version',type=int,choices=(30,31,32,33),default=32)
+    p.add_argument('--firmware-version',type=int,choices=CONTINUOUS_VERSIONS,default=32)
     p.add_argument('--run');p.add_argument('--operator-healthy',action='store_true');p.add_argument('--statement')
     args=p.parse_args()
     image=ROOT.parents[1]/f'firmware/airnanny_dual_pan/dual_pan_runtime_v{args.firmware_version}'

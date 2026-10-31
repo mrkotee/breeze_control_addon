@@ -16,7 +16,7 @@ from service_proof_commands import hardware_proof
 from proof_power import SystemAwake
 from proof_capture_checkpoint import install_confirmed_fan_checkpoint
 from run_radio_service import preflight, establish, LOCAL, ROOT
-from airnanny.service_profile import service_profile
+from airnanny.service_profile import service_profile, CONTINUOUS_VERSIONS
 from airnanny.config_loader import MqttConfig
 from airnanny.mqtt_runtime import MqttRuntimeConfig
 from airnanny.radio_service import ServiceState, ServiceLock, PersistentRadioService
@@ -59,7 +59,7 @@ def wait(service,predicate,seconds=90):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--mqtt-port',type=int,required=True)
-    p.add_argument('--firmware-version',type=int,choices=(30,31,32,33),default=32)
+    p.add_argument('--firmware-version',type=int,choices=CONTINUOUS_VERSIONS,default=32)
     p.add_argument('--soak-seconds',type=int,default=4800)
     p.add_argument('--startup-seconds',type=int,default=1800)
     p.add_argument('--operator-statement',required=True)
