@@ -127,11 +127,24 @@ class DurableApplicationIngress:
         return result
 
 
+# How long an idle service may go without a tick. A tick that no command is
+# waiting on can only republish time-derived display state -- availability and
+# status age -- and those move on the appliance's own reporting cadence, tens
+# of seconds apart. Running the full adapter drain for both devices fifty
+# times a second spent a Raspberry Pi's CPU recomputing an answer that could
+# not have changed. Every event-driven path still ticks immediately: reception
+# ticks from the ingress, transport health ticks from the handler, and an
+# outstanding command ticks every pump exactly as before.
+IDLE_TICK_MS = 250
+
+
 class RadioDaemonLoop:
     """All MQTT/radio/control mutations execute on the constructing owner thread."""
     def __init__(self, daemon, radio, ingress, *, verdict_hook=None):
         self.daemon, self.radio = daemon, radio
         self.verdict_hook = verdict_hook or (lambda device: None)
+        self._idle_due = 0
+        self._recorded = {}
         radio.set_receiver(ingress)
         radio.set_health_handler(self.health)
         for adapter in daemon.adapters.values():
@@ -156,16 +169,50 @@ class RadioDaemonLoop:
 
     def pump(self):
         self.radio.pump()  # transport faults disable command handling first
-        self.daemon.tick()
+        # One heartbeat decision per pump, so an idle service still ticks on
+        # both sides of the MQTT drain and keeps the shape of the ordering.
+        beat = self._heartbeat()
+        if beat or self._outstanding():
+            self.daemon.tick()
+        # Recording stays on every pump: the ordering it guarantees is what
+        # makes a verdict durable before the next command, and after the memo
+        # below a pump with nothing new to record costs a dictionary lookup.
         self._record_verdicts()  # durable verdict before another MQTT command
         self.daemon.mqtt.pump()
-        self.daemon.tick()
+        if beat or self._outstanding():
+            self.daemon.tick()
         self._record_verdicts()
 
+    def _outstanding(self):
+        """Is any device still waiting on something a tick could resolve?
+
+        Nothing outstanding means no tick can produce a verdict: the frozen
+        device tick returns at once without an intent or a live confirmation.
+        """
+        return any(d.busy for d in self.daemon.collection.devices.values())
+
+    def _heartbeat(self):
+        now = self.daemon.clock.now_ms()
+        if now < self._idle_due:
+            return False
+        self._idle_due = now + IDLE_TICK_MS
+        return True
+
     def _record_verdicts(self):
-        for device in self.daemon.collection.devices.values():
-            if device.result is not None:
-                self.verdict_hook(device)
+        # The hook reads a durable store, and `result` stays set until the next
+        # command is queued -- so calling it every pump re-read and re-parsed
+        # both ledgers for the rest of the session over a verdict that was
+        # concluded once. A verdict already recorded cannot change by being
+        # read again; a new attempt carries a new token and is recorded again.
+        for name, device in self.daemon.collection.devices.items():
+            verdict = device.result
+            if verdict is None:
+                continue
+            token = (verdict, getattr(device, 'attempt_tx_id', device.tx_id))
+            if self._recorded.get(name) == token:
+                continue
+            self.verdict_hook(device)
+            self._recorded[name] = token
 
     def close(self):
         self.radio.close()
