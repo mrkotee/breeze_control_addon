@@ -12,6 +12,12 @@ from .radio_retry import RetryingCommandDevice
 from .radio_service import ServiceBlocked, clean_recovery_loss_safe, response_timeout_retry_safe
 from .serial_support import SerialFault
 
+# Terminal results of a plaintext scan that put nothing on air and left no
+# durable trace behind, and how many of them in one late-join attempt are
+# answered by sending the scan again rather than by stopping the service.
+SAFE_SCAN_LOSSES = frozenset(('cca_fail', 'no_ack', 'invalid_ack'))
+SCAN_LOSS_BUDGET = 3
+
 
 class LateJoinRecovery:
     def __init__(self,session,ledgers,state,*,validate_beacon,bind_fields,leave_check):
@@ -24,6 +30,7 @@ class LateJoinRecovery:
         self.records=deque(maxlen=4096);self.rx=deque(maxlen=256)
         self.authenticated=set();self.response_revision=None;self.tx_end=None
         self.failure=None;self.failure_records=None;self.secured=False
+        self.scans=0;self.scan_losses=0
         self.poll_cursor=0
         original=self.radio.record_observer
         def observed(kind,fields):
@@ -84,7 +91,7 @@ class LateJoinRecovery:
             elif verb=='BIND':
                 if f['recovery']!='BOUND' or f['state']!='RECOVERY':
                     raise ServiceBlocked('late_join_bind_not_bound')
-                self.bound_at=self.now();self.scans=0
+                self.bound_at=self.now();self.scans=0;self.scan_losses=0
             elif self.phase=='SCAN_STATUS':
                 if f['recovery']=='BOUND' and self.scans<3:
                     self.phase='SCAN';return
@@ -124,7 +131,20 @@ class LateJoinRecovery:
                 self._activate();return
         else:
             if verb=='ACTIVE_DISCOVERY_BEACON_REQUEST':
-                if f['result']!='local_tx_ok':raise ServiceBlocked('late_join_discovery_tx_failed')
+                if f['result']!='local_tx_ok':
+                    # A beacon request carries no security: nothing was
+                    # reserved, nothing went on air, and the firmware is
+                    # still BOUND. A scan that never happened is no evidence
+                    # about the parent -- and stopping the service over it
+                    # also stops whichever context is already serving, which
+                    # is far the worse outcome. Give the scan back and send
+                    # it again; a run of losses still stops for a person.
+                    if (f.get('cleanup')!='safe'
+                            or f['result'] not in SAFE_SCAN_LOSSES
+                            or self.scan_losses>=SCAN_LOSS_BUDGET):
+                        raise ServiceBlocked('late_join_discovery_tx_failed')
+                    self.scan_losses+=1;self.scans-=1
+                    self.phase='SCAN';return
                 self.tx_end=int(f['time_us']);self.due=self.now()+280
             else:
                 kind={'REJOIN_REQUEST':'REJOIN','DEVICE_ANNOUNCE':'ANNOUNCE','END_DEVICE_TIMEOUT':'TIMEOUT'}[verb]

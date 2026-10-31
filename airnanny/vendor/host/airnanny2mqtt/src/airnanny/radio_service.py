@@ -520,7 +520,7 @@ class PersistentRadioService:
                 session.close()
             raise
         except Exception:
-            self.state.write('BLOCKED', reason='service_runtime_fault')
+            self.state.write('BLOCKED', reason='service_runtime_fault', trace=None)
             if self.session:
                 session, self.session = self.session, None
                 session.close()
@@ -677,7 +677,12 @@ class ServiceState:
 
     def disconnected(self, reason):
         if reason not in RECOVERABLE:
-            self.write('BLOCKED', reason=reason)
+            # A fault raised while the service was already running wrote no
+            # trace of its own. Leaving the previous failure's name in place
+            # made the next start print that failure's summary under this
+            # fault's heading, and offered its evidence to the gate that
+            # decides whether this one may be cleared.
+            self.write('BLOCKED', reason=reason, trace=None)
             raise ServiceBlocked(reason)
         self.write('WAITING', reason=reason)
 
