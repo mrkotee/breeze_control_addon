@@ -255,10 +255,19 @@ def spent_nothing(summary):
     return True
 
 
-def evidence_permits_clearing(state_dir):
-    """True when the newest trace shows a failure that spent nothing."""
+def evidence_permits_clearing(state_dir, expected_trace=None):
+    """True when this fault's own trace shows a failure that spent nothing.
+
+    `expected_trace` is the file the fault recorded. Without it this reads
+    whatever trace is newest, which for a latch raised while the service was
+    already running belongs to some earlier failure -- and clearing one
+    fault on another's evidence is exactly the mistake the gate exists to
+    prevent. A fault that recorded no trace name proves nothing.
+    """
     trace = latest_trace(state_dir)
     if trace is None:
+        return False
+    if expected_trace is not None and Path(trace).name != expected_trace:
         return False
     try:
         return spent_nothing(summarise(trace))

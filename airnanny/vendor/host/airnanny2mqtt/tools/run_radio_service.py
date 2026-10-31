@@ -426,7 +426,8 @@ def main():
             # the one fault the runbook tells the operator not to touch.
             permitted=(reason in OPERATOR_CLEARABLE
                        or (reason in EVIDENCE_CLEARABLE
-                           and explain_fault.evidence_permits_clearing(LOCAL)))
+                           and explain_fault.evidence_permits_clearing(
+                               LOCAL,expected_trace=latched.get('trace'))))
             print('  '+('clear it by acknowledging exactly this reason' if permitted
                         else 'this one needs review; acknowledging it will not clear it'),flush=True)
             # The review this fault asks for needs the trace, and on an
@@ -442,7 +443,8 @@ def main():
             print('  clear the field so a returning fault still stops for a person',flush=True)
         elif acknowledged:
             outcome=state.acknowledge(acknowledged,
-                evidence_permits=explain_fault.evidence_permits_clearing(LOCAL))
+                evidence_permits=explain_fault.evidence_permits_clearing(
+                    LOCAL,expected_trace=latched.get('trace')))
             print({'cleared':'fault cleared by operator: '+acknowledged,
                    'mismatch':'not cleared: the latched fault is '+(latched.get('reason') or 'unknown')+', not '+acknowledged,
                    'not_clearable':'not cleared: '+acknowledged+' needs review, not acknowledgement',

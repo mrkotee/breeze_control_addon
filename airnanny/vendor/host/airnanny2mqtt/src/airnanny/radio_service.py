@@ -28,7 +28,12 @@ OPERATOR_CLEARABLE = frozenset(('late_join_discovery_tx_failed',))
 # nothing else. Named positively: a rolled-back store is not about what a
 # transmission spent but about which history is real, and no trace answers
 # that, so no amount of evidence may reach it.
-EVIDENCE_CLEARABLE = frozenset(('retained_recovery_failed_or_unknown',))
+# A recovery interrupted after a secured frame was built latches under the
+# second name. Both ask the same question -- did anything secured move? --
+# and both are answered by the trace rather than by the name, so both are
+# here and neither is clearable without one.
+EVIDENCE_CLEARABLE = frozenset(('retained_recovery_failed_or_unknown',
+                                'interrupted_recovery_requires_review'))
 HISTORY_LIMIT = 64
 RESULT_LIMIT = 256
 
@@ -635,8 +640,12 @@ class ServiceState:
         # A new run spends the previous acknowledgement, so the same reason
         # can be acknowledged again later as a deliberate act rather than
         # being re-applied by every restart in between.
+        # `trace` is cleared with the rest: it names the failure this cycle
+        # recorded, and a name left over from an earlier one would let a
+        # cycle that was killed outright -- writing no trace at all -- be
+        # cleared on evidence belonging to something else.
         self.write('RECOVERING', cycles=r['cycles'] + 1, boot=boot, guard=guard, reason=None,
-                   late_join=None, consumed_acknowledgement=None)
+                   late_join=None, consumed_acknowledgement=None, trace=None)
 
     def disconnected(self, reason):
         if reason not in RECOVERABLE:
