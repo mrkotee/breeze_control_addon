@@ -37,7 +37,7 @@ from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, Se
                                    discovery_retry_safe, RecoveryDiscoveryUnavailable,
                                    clean_recovery_loss_safe, RecoveryCleanTxLoss, response_timeout_retry_safe,
                                    discovery_slot_absent_safe, settle_recovery_poll,
-                                   unacknowledged_answer_safe,
+                                   unacknowledged_answer_safe, AnnouncingEventLog,
                                    poll_interval_ms, POLL_INTERVAL_MS)
 
 # The add-on keeps service state on its own persistent volume, which is not
@@ -305,10 +305,12 @@ def establish(args, mqtt_options, state):
                 raise ValueError('unsupported credential reference')
             return os.environ[ref[4:]]
         mqtt=PahoMqttTransport(mqtt_options,credential_resolver=credentials)
+        announce=lambda line:print(line,flush=True)
         daemon=ServiceDaemon(config,radio.clock,radio,mqtt,counters,command_retries=firmware_version>=32,
-                             rollover_successor=rollover_successor)
+                             rollover_successor=rollover_successor,log=AnnouncingEventLog(announce))
         by_context={f'dual-ctx{slot}':ledger for slot,ledger in ledgers.items()}
-        loop=RadioServiceSession(daemon,radio,DurableApplicationIngress(daemon,by_context,remotes),verdict_hook=counters.application_result)
+        loop=RadioServiceSession(daemon,radio,DurableApplicationIngress(daemon,by_context,remotes),
+                                 verdict_hook=counters.application_result,announce=announce)
         loop.records=records
         # Why the bridge is degraded, which no per-device topic can say.
         # Attached before start, so the first broker connection announces it
@@ -319,7 +321,7 @@ def establish(args, mqtt_options, state):
         # a transition nobody can see is a transition nobody can diagnose.
         daemon.diagnostics=loop.diagnostics=ServiceDiagnostics(daemon,radio,ledgers,state,
             firmware_identity=runner.info.get('identity'),firmware_version=firmware_version,
-            health_observer=lambda line:print(line,flush=True))
+            health_observer=announce)
         if stock_handoff:
             loop.recovery_stock_handoff=handoff_recovery_stock(
                 radio.receiver, runner.records, boot=runner.info['boot'],

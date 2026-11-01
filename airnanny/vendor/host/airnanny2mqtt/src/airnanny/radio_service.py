@@ -10,6 +10,7 @@ import json
 import os
 from pathlib import Path
 from .daemon import AirNannyDaemon
+from .lifecycle import EventLog
 from .radio_daemon import RadioDaemonLoop
 
 RECOVERABLE = frozenset(('serial_io_error', 'serial_disconnected', 'serial_open_failed', 'radio_parent_link_lost'))
@@ -120,6 +121,47 @@ def bounded_transient(daemon, topic, payload):
         daemon.log.emit('mqtt_result_dropped', reason='result_buffer_full_delivery_unknown')
         return
     daemon.outbox.append((topic, payload))
+
+
+# What an operator needs to see happen, out of everything the daemon records.
+# state_changed and availability_changed are left out on purpose: the first
+# fires on every reception and the second on every ordinary gap between two
+# of them, and the HEALTH line already carries the transitions that matter.
+ANNOUNCED_EVENTS = ('command_received', 'command_accepted', 'command_failed',
+                    'mqtt_connect', 'mqtt_disconnect', 'daemon_start', 'daemon_stop')
+
+
+class AnnouncingEventLog(EventLog):
+    """The daemon's own event log, with the operator-visible events printed.
+
+    Keeping every event in a bounded deque is right for a process somebody
+    can attach to. Nobody can attach to this one: there is no shell on the
+    appliance, so a command that failed and a broker that went away were
+    being recorded exactly where no one could read them.
+    """
+
+    def __init__(self, announce, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.announce = announce
+
+    def emit(self, category, **fields):
+        super().emit(category, **fields)  # validates the fields first
+        if category not in ANNOUNCED_EVENTS or self.announce is None:
+            return
+        try:
+            self.announce(event_line(category, fields))
+        except Exception:
+            pass  # An instrument must not be the thing that stops the service.
+
+
+def event_line(category, fields):
+    device, command = fields.get('device'), fields.get('command')
+    reason = fields.get('reason')
+    if category.startswith('command_'):
+        line = 'COMMAND %s %s %s' % (device, command, category[len('command_'):])
+    else:
+        line = category.replace('_', ' ').upper()
+    return line if not reason else line + ': ' + reason
 
 
 class ServiceDaemon(AirNannyDaemon):

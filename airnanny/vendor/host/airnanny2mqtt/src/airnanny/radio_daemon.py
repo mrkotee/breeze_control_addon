@@ -4,6 +4,7 @@ from collections import OrderedDict
 from .application import Type06, Type07
 from .aps import APS
 from .binary import CodecError
+from .events import CommandCompleted
 from .frames import ApplicationFrame
 from .mac import MAC
 from .nwk import NWK
@@ -140,9 +141,13 @@ IDLE_TICK_MS = 250
 
 class RadioDaemonLoop:
     """All MQTT/radio/control mutations execute on the constructing owner thread."""
-    def __init__(self, daemon, radio, ingress, *, verdict_hook=None):
+    def __init__(self, daemon, radio, ingress, *, verdict_hook=None, announce=None):
         self.daemon, self.radio = daemon, radio
         self.verdict_hook = verdict_hook or (lambda device: None)
+        # Confirmation is the one outcome the daemon's own log has no category
+        # for, and under a non-optimistic model it is the one that means the
+        # appliance actually did it. A failure is already announced from there.
+        self.announce = announce
         self._idle_due = 0
         self._recorded = {}
         radio.set_receiver(ingress)
@@ -213,6 +218,10 @@ class RadioDaemonLoop:
                 continue
             self.verdict_hook(device)
             self._recorded[name] = token
+            if self.announce is not None and isinstance(verdict, CommandCompleted):
+                confirmation = device.confirmation
+                self.announce('COMMAND %s %s confirmed' % (
+                    name, confirmation.request.kind if confirmation else 'unknown'))
 
     def close(self):
         self.radio.close()
