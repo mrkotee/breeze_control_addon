@@ -65,6 +65,7 @@ RESULT_LIMIT = 256
 TRANSIENT_REASONS = frozenset(('clean_recovery_RF_loss_new_cycle_required',
                                'recovery_response_timeout_new_cycle_required',
                                'recovery_answer_unacknowledged_new_cycle_required',
+                               'recovery_handshake_interrupted_new_cycle_required',
                                'target_beacon_unavailable'))
 PROMPT_RETRIES = 6
 
@@ -79,6 +80,10 @@ REMEDIES = {
     'recovery_answer_unacknowledged_new_cycle_required':
         'the unit answered and the acknowledgement did not get back to it.'
         ' Ordinary radio loss; the next cycle asks again.',
+    'recovery_handshake_interrupted_new_cycle_required':
+        'a frame arrived on the air before the dongle answered the opening'
+        ' query. Nothing was commanded but that query; the next cycle starts'
+        ' the handshake again.',
 }
 
 POLL_INTERVAL_MS = 20
@@ -419,6 +424,46 @@ def unacknowledged_answer_safe(error, ledgers, guard, records):
     return True
 
 
+# Faults the opening handshake raises before anything is commissioned.
+HANDSHAKE_FAULTS = frozenset(('INFO_FIRST',))
+# A record whose presence means the radio was engaged on our behalf.
+SPENDING_RECORDS = frozenset(('TXACCEPT', 'TXDONE', 'AUTO_ACCEPT', 'AUTO_DONE', 'ERROR'))
+# Host commands that ask the dongle something and change nothing. Named
+# positively, so a verb this host has not heard of means `cannot say` rather
+# than `harmless`. explain_fault keeps the same list for the same reason; a
+# change to one belongs in both.
+QUERY_COMMANDS = frozenset(('INFO', 'STATUS', 'STATS'))
+
+
+def handshake_retry_safe(error, ledgers, guard, records):
+    """A failure in the opening handshake, before the radio was ever used.
+
+    The dongle listens from the moment it boots, so an ambient frame can
+    reach the host in the window between opening the port and the reply to
+    the opening query -- and the wire refuses it, because the first line it
+    reads is what establishes the boot identity every later line is checked
+    against. Refusing is right. Latching is not: the only thing commanded
+    was a query, nothing was accepted for transmission, and no recovery
+    cycle was opened at all -- this guard appears in neither store, which is
+    the proof that none was.
+    """
+    if str(error) not in HANDSHAKE_FAULTS or not records:
+        return False
+    if any(r.get('kind') in SPENDING_RECORDS for r in records):
+        return False
+    for record in records:
+        if record.get('kind') != 'HOST_COMMAND':
+            continue
+        parts = (record.get('raw') or '').split()
+        if len(parts) < 2 or parts[1] not in QUERY_COMMANDS:
+            return False
+    for ledger in ledgers.values():
+        q = ledger.read().get('recovery') or {}
+        if q.get('leave') or q.get('state') == 'DEGRADED_LEAVE' or q.get('gate') == guard:
+            return False
+    return True
+
+
 def clean_recovery_loss_safe(error, ledgers, guard, records):
     result = str(error).removeprefix('unknown_or_failed_TX_burned:')
     if str(error) == result or result not in ('no_ack', 'invalid_ack', 'cca_fail'):
@@ -637,8 +682,14 @@ class PersistentRadioService:
             except RecoveryDiscoveryUnavailable:
                 self._retry('target_beacon_unavailable')
                 return
-            except RecoveryCleanTxLoss:
-                self._retry('clean_recovery_RF_loss_new_cycle_required')
+            except RecoveryCleanTxLoss as exc:
+                # Carried for the same reason StartupUnavailable carries its
+                # own. These are different losses -- a frame that never went
+                # on air, a reply that never came, an answer this host did
+                # not acknowledge, a handshake a passing frame interrupted --
+                # and flattening them to one name threw away the only thing
+                # that tells an operator which of them is happening.
+                self._retry(str(exc) or 'clean_recovery_RF_loss_new_cycle_required')
                 return
             except ServiceBlocked as exc:
                 if self.state.read()['state'] != 'BLOCKED':

@@ -38,6 +38,7 @@ from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, Se
                                    clean_recovery_loss_safe, RecoveryCleanTxLoss, response_timeout_retry_safe,
                                    discovery_slot_absent_safe, settle_recovery_poll,
                                    unacknowledged_answer_safe, AnnouncingEventLog,
+                                   handshake_retry_safe,
                                    poll_interval_ms, POLL_INTERVAL_MS)
 
 # The add-on keeps service state on its own persistent volume, which is not
@@ -380,6 +381,8 @@ def establish(args, mqtt_options, state):
             raise RecoveryCleanTxLoss('recovery_response_timeout_new_cycle_required') from None
         if guard and runner and unacknowledged_answer_safe(exc,ledgers,guard,runner.records):
             raise RecoveryCleanTxLoss('recovery_answer_unacknowledged_new_cycle_required') from None
+        if guard and runner and handshake_retry_safe(exc,ledgers,guard,runner.records):
+            raise RecoveryCleanTxLoss('recovery_handshake_interrupted_new_cycle_required') from None
         raise
 
 

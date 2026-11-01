@@ -1372,7 +1372,7 @@
     "host/airnanny2mqtt/src/airnanny/radio_requests.py": "4f10ad286cb98fbac458253697af70ec20a1892a693da211da985917a552e00b",
     "host/airnanny2mqtt/src/airnanny/radio_retry.py": "843a2a2820b7016a0f1547f5071f9e4a77ad7494b5b5703b9fc30ed6e8172e91",
     "host/airnanny2mqtt/src/airnanny/radio_runtime.py": "ccd422ba7010f885846694e0b289e032fc45e064615ef5953bb15204c89e4c50",
-    "host/airnanny2mqtt/src/airnanny/radio_service.py": "b960f8daf741a38a50158ca13ffa63d3bc70145784bb79c1a9438f608fedc263",
+    "host/airnanny2mqtt/src/airnanny/radio_service.py": "8916200cf2d22f28a889760f4b6c4bb3d9178f64931c3d0b5e5b54c919867791",
     "host/airnanny2mqtt/src/airnanny/radio_surface.py": "890dbb0395392d5b0b532b5251a06842ea207afa86f708928f890886b0e88c42",
     "host/airnanny2mqtt/src/airnanny/radio_wire.py": "f8626634ad29aacb80b27aec499a609aa674f55349c45c8c64eba3a95b7ddfa3",
     "host/airnanny2mqtt/src/airnanny/real_radio.py": "7dce55dda479c0fac3e74d7e54c91882c4c3c477e9fcf5f0f7f88f6ecf781e6a",
@@ -1410,12 +1410,12 @@
     "host/airnanny2mqtt/tools/report_real_mqtt.py": "48be203bd93c0ebf96dccbfa166f43668351a4b95c25e906ab885ea9eb0b9fd3",
     "host/airnanny2mqtt/tools/run_late_join_hardware_proof.py": "76016d1fdfb4059c317885398e0e2e5c3c0131c16039c9bc2b28dc0d52e344b5",
     "host/airnanny2mqtt/tools/run_radio_daemon.py": "b1aee20e04817406080d68d8f35056ee3b90af1d619085ff9ce028d3a8cbd65c",
-    "host/airnanny2mqtt/tools/run_radio_service.py": "247676e7cba14f9c2faf8636f1501add97c1714ad53412147b757a66932a57f8",
+    "host/airnanny2mqtt/tools/run_radio_service.py": "e2cd6bd206119aed5d0376de400c1fe033e926c63bd3b33bc215cc4d82c0644e",
     "host/airnanny2mqtt/tools/run_radio_service_proof.py": "3869be65d3c6c965b2c10dad068a722fb660463bc8f7441184ac9b322613b32a",
     "host/airnanny2mqtt/tools/service_proof_commands.py": "f896f451d9a977d8d3bcd60b64d061cff6364675ad7be33d248c36bc6dc47e47",
     "host/airnanny2mqtt/tools/survey_radio.py": "43b6c3fd03c6c4df6a1fdf8456bd75ba6f6a8efc717bce219fa7e47afa8b7c3e",
     "host/airnanny2mqtt/tools/test_late_join_offline.py": "67744b4d0c3c0231ac67db8de1e91afd23a437b01a70cf6c0b8fceb8d2879f14"
   },
-  "source_revision": "2466605e3bf8580fef50d5a4812cf994648554e2",
+  "source_revision": "2633090d09ebaae84a515f7b51f9e8d0be624da2",
   "source_tree_dirty": false
 }
