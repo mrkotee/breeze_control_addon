@@ -23,7 +23,8 @@ which is the whole point of having one.
 """
 from .availability import availability
 from .mqtt_schema import Topics, encode, state_payload
-from .service_diagnostics import ContextHealth, degraded_reason, service_diagnostics
+from .service_diagnostics import (ContextHealth, DEVICE_STALE, degraded_reason,
+                                  service_diagnostics)
 
 # The id the reviewed daemon already uses for its own process topic.
 SERVICE_ID = 'daemon'
@@ -97,6 +98,44 @@ def context_health(slot, adapter, running, *, generation=None,
                          last_confirmed_state=confirmed_summary(adapter.released))
 
 
+def context_state(fields):
+    """The three-way verdict, from one context's reading in the document."""
+    if not fields.get('available'):
+        return 'unavailable'
+    return 'stale' if fields.get('stale') else 'online'
+
+
+def visible_health(document):
+    """What a person would notice, as a value that can be compared.
+
+    Which contexts are out of Home Assistant, and the service reason unless
+    it is `device_stale`. A gap between two of an appliance's own reports is
+    normal and goes on all day; announcing it would bury the transition that
+    matters under a line every twenty seconds.
+    """
+    contexts = document.get('contexts') or {}
+    reason = document.get('degraded_reason')
+    return (tuple(sorted(slot for slot, fields in contexts.items()
+                         if not fields.get('available'))),
+            None if reason == DEVICE_STALE else reason)
+
+
+def health_line(document):
+    """One line an operator can read in the add-on log.
+
+    Ages and counter positions only: the same material the diagnostics topic
+    already carries, which is why none of it is secret.
+    """
+    parts = []
+    for slot, fields in sorted((document.get('contexts') or {}).items()):
+        age = fields.get('rx_age_ms')
+        parts.append('ctx%s %s rx=%s%s' % (
+            slot, context_state(fields),
+            'never' if not isinstance(age, int) else '%.1fs' % (age / 1000.0),
+            ' cmd=pending' if fields.get('command_pending') else ''))
+    return 'HEALTH %s; %s' % (document.get('degraded_reason') or 'ok', '; '.join(parts))
+
+
 def discovery(prefix, discovery_prefix, device_ids=()):
     """HA discovery for the service diagnostic entities.
 
@@ -130,7 +169,7 @@ class ServiceDiagnostics:
     def __init__(self, daemon, radio, ledgers, state, *, firmware_identity=None,
                  firmware_version=None, store_interval_ms=STORE_INTERVAL_MS,
                  check_interval_ms=CHECK_INTERVAL_MS,
-                 context_identity=CONTEXT_IDENTITY):
+                 context_identity=CONTEXT_IDENTITY, health_observer=None):
         if type(store_interval_ms) is not int or store_interval_ms < 1000:
             raise ValueError('bounded store read interval required')
         # Demanded here rather than read defensively on the hot path: a
@@ -163,6 +202,11 @@ class ServiceDiagnostics:
         self._record_error = None
         self._fingerprint = None
         self._last_reason = UNDERIVED
+        # Deliberately not cleared by reset(): a broker reconnect is not a
+        # change in a device's health, and re-announcing it as one would
+        # teach an operator to stop reading these lines.
+        self._last_visible = UNDERIVED
+        self.health_observer = health_observer
 
     # -- readings ---------------------------------------------------------
 
@@ -268,6 +312,10 @@ class ServiceDiagnostics:
         fingerprint = self._fingerprint_of(document)
         if not force and fingerprint == self._fingerprint:
             return False
+        # Announced before the publish is attempted, not after it succeeds: a
+        # broker that has gone is exactly when the log is the only instrument
+        # left, and that is not the moment to go quiet.
+        self._report_health(document)
         if not self.daemon.publish(self.topics.diagnostics, encode(document), True):
             return False
         self._fingerprint = fingerprint
@@ -300,6 +348,18 @@ class ServiceDiagnostics:
             return
         self._refresh_stores(now)
         self.publish()
+
+    def _report_health(self, document):
+        if self.health_observer is None:
+            return
+        visible = visible_health(document)
+        if visible == self._last_visible:
+            return
+        self._last_visible = visible
+        try:
+            self.health_observer(health_line(document))
+        except Exception:
+            pass  # An instrument must not be the thing that stops the service.
 
     def stopping(self):
         """A final document, so a clean stop does not read as a crash."""

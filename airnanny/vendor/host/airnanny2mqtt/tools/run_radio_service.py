@@ -314,8 +314,12 @@ def establish(args, mqtt_options, state):
         # Attached before start, so the first broker connection announces it
         # alongside the documents the reviewed daemon re-establishes.
         from airnanny.service_report import ServiceDiagnostics
+        # One line whenever a device leaves Home Assistant or comes back,
+        # with the ages that say why. There is no shell on the appliance, so
+        # a transition nobody can see is a transition nobody can diagnose.
         daemon.diagnostics=loop.diagnostics=ServiceDiagnostics(daemon,radio,ledgers,state,
-            firmware_identity=runner.info.get('identity'),firmware_version=firmware_version)
+            firmware_identity=runner.info.get('identity'),firmware_version=firmware_version,
+            health_observer=lambda line:print(line,flush=True))
         if stock_handoff:
             loop.recovery_stock_handoff=handoff_recovery_stock(
                 radio.receiver, runner.records, boot=runner.info['boot'],
