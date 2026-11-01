@@ -9,6 +9,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+from .commands import FRESH_MS
 from .daemon import AirNannyDaemon
 from .lifecycle import EventLog
 from .radio_daemon import RadioDaemonLoop
@@ -132,8 +133,9 @@ def bounded_transient(daemon, topic, payload):
 # state_changed and availability_changed are left out on purpose: the first
 # fires on every reception and the second on every ordinary gap between two
 # of them, and the HEALTH line already carries the transitions that matter.
-ANNOUNCED_EVENTS = ('command_received', 'command_accepted', 'command_failed',
-                    'mqtt_connect', 'mqtt_disconnect', 'daemon_start', 'daemon_stop')
+ANNOUNCED_EVENTS = ('command_received', 'command_held', 'command_accepted',
+                    'command_failed', 'mqtt_connect', 'mqtt_disconnect',
+                    'daemon_start', 'daemon_stop')
 
 
 class AnnouncingEventLog(EventLog):
@@ -169,6 +171,25 @@ def event_line(category, fields):
     return line if not reason else line + ': ' + reason
 
 
+# How long a command may wait for the appliance's next report before it is
+# handed to the core anyway. One full reporting cycle and a little margin:
+# an A7 reports about every twenty seconds, and the point is to ask the
+# question at a moment when it can be answered, not to sit on it.
+COMMAND_HOLD_MS = 25000
+
+
+def status_too_old(device):
+    """Would the reviewed preflight refuse this device for staleness alone?
+
+    The same expression build() opens with, and deliberately only that one:
+    every other thing it refuses for -- an invalid baseline, a pending remote
+    change, a state mismatch -- is a condition waiting will not mend, and
+    delaying those would only delay an answer the operator should have now.
+    """
+    age = device.age_ms
+    return device.status is None or age is None or not 0 <= age <= FRESH_MS
+
+
 class ServiceDaemon(AirNannyDaemon):
     def __init__(self, *args, command_retries=False, rollover_successor=0, **kwargs):
         super().__init__(*args, **kwargs)
@@ -182,12 +203,71 @@ class ServiceDaemon(AirNannyDaemon):
                 self.collection.by_context[device.config.context.identity] = device
                 self.adapters[name].device = device
         self.result_delivery_drops = 0
+        # Commands waiting only for the appliance's next report.
+        self._held_commands = []
         # Attached after construction, because the document needs the durable
         # stores and the service state that only the launcher holds.
         self.diagnostics = None
 
     def transient(self, topic, payload):
         bounded_transient(self, topic, payload)
+
+    def _message(self, message):
+        """Hold a command whose only problem is that we are between reports.
+
+        The reviewed core refuses to build a setter from a snapshot older
+        than the confirmation bound, and it is right to: a setter carries the
+        whole state with one field changed, so an old one would write back
+        something that may already have moved. But the appliance reports on
+        its own schedule, about every twenty seconds, and that bound is
+        fifteen -- so a quarter of all commands met a picture a few seconds
+        too old and were refused outright, with the device sitting there
+        available in Home Assistant.
+
+        Nothing here decides anything about the command. It is handed to the
+        same reviewed path, unchanged, either when a current report makes the
+        answer meaningful or when the wait runs out -- and then it is refused
+        exactly as it is today. This is what the retrying device already does
+        one layer down when a sequence is not yet usable: wait for a real
+        status rather than guess.
+        """
+        pair = self.command_topics.get(message.topic)
+        if (self.running and self.accepting and pair is not None
+                and not message.retained and not message.duplicate
+                and status_too_old(pair[0].device)):
+            self.log.emit('command_held', device=pair[0].device.config.name,
+                          command=pair[1])
+            self._held_commands.append((self.clock.now_ms(), message))
+            return
+        super()._message(message)
+
+    def release_held_commands(self, *, now=None):
+        """Hand over every held command a report, or the clock, has settled."""
+        if not self._held_commands:
+            return
+        now = self.clock.now_ms() if now is None else now
+        waiting, ready = [], []
+        for held_ms, message in self._held_commands:
+            pair = self.command_topics.get(message.topic)
+            if (pair is not None and self.running and self.accepting
+                    and status_too_old(pair[0].device)
+                    and now - held_ms < COMMAND_HOLD_MS):
+                waiting.append((held_ms, message))
+            else:
+                ready.append(message)
+        self._held_commands = waiting
+        for message in ready:
+            super()._message(message)
+
+    def shutdown(self):
+        if not self.stopped:
+            # Answer what is still waiting rather than swallow it. Handed to
+            # the reviewed path while the daemon is still running, it is
+            # refused as shutting_down, which is an answer; dropping it
+            # silently is not.
+            self.accepting = False
+            self.release_held_commands()
+        super().shutdown()
 
     def _connection(self, connected):
         # The reviewed handler re-establishes the retained device documents
@@ -212,6 +292,7 @@ class RadioServiceSession(RadioDaemonLoop):
 
     def pump(self):
         super().pump()
+        self.daemon.release_held_commands()
         late_join=getattr(self,'late_join',None)
         if late_join is not None:
             late_join.pump()
