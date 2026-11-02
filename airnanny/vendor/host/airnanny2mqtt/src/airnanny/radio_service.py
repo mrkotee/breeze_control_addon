@@ -14,7 +14,25 @@ from .daemon import AirNannyDaemon
 from .lifecycle import EventLog
 from .radio_daemon import RadioDaemonLoop
 
-RECOVERABLE = frozenset(('serial_io_error', 'serial_disconnected', 'serial_open_failed', 'radio_parent_link_lost'))
+RECOVERABLE = frozenset(('serial_io_error', 'serial_disconnected', 'serial_open_failed',
+                         'radio_parent_link_lost', 'radio_result_timeout'))
+
+# `radio_result_timeout` is in that set, and the reason it is belongs here.
+# It means the dongle did not answer a host command within three seconds.
+# Arriving at this policy at all means the service was already running: a
+# timeout inside a recovery chain is caught and reclassified where the chain
+# is built, and never reaches here. So what was outstanding was one of the
+# two commands a running service sends on its own -- STATUS every ten
+# seconds, MANAGEMENT_POLL every one and a quarter -- or a single secured
+# setter whose counter was spent in the durable store before it was
+# submitted, recorded as handed over and never retried, and concluded by the
+# daemon as unknown. Neither is a question a person can answer by reading
+# it, and refusing to reopen the port makes neither safer: the counter
+# cannot be reused, appliance state is still published only from the
+# appliance's own reports, and the next cycle re-runs the whole recovery
+# chain including the store monotonicity check. Latching it instead stopped
+# the add-on dead, under a reason no acknowledgement could clear, after an
+# hour of ordinary service.
 
 # Faults an operator may clear by naming them, because they moved no secured
 # state and spent no counter. A failed plaintext discovery beacon is an
@@ -23,7 +41,11 @@ RECOVERABLE = frozenset(('serial_io_error', 'serial_disconnected', 'serial_open_
 # rolled-back store, an authenticated Leave and any interrupted secured
 # exchange all need a person to decide what actually happened, and that
 # decision cannot be expressed as a string.
-OPERATOR_CLEARABLE = frozenset(('late_join_discovery_tx_failed',))
+# `radio_result_timeout` is named here only so a latch an earlier version
+# wrote can be cleared. This version never writes it -- it is recoverable
+# above -- so the entry reaches nothing a running service can produce.
+OPERATOR_CLEARABLE = frozenset(('late_join_discovery_tx_failed',
+                                'radio_result_timeout'))
 
 # Faults whose name cannot decide, but whose retained trace can. A recovery
 # chain is latched under one reason whether or not anything secured went out,
@@ -85,6 +107,12 @@ REMEDIES = {
         'a frame arrived on the air before the dongle answered the opening'
         ' query. Nothing was commanded but that query; the next cycle starts'
         ' the handshake again.',
+    'radio_result_timeout':
+        'the dongle stopped answering the host within three seconds. The'
+        ' port is reopened and the recovery chain run again. If a command'
+        ' was outstanding -- the preceding HEALTH line says cmd=pending --'
+        ' its outcome is unknown and it is not retried; the appliance keeps'
+        ' reporting its own state.',
 }
 
 POLL_INTERVAL_MS = 20
@@ -728,12 +756,21 @@ class PersistentRadioService:
             self.retry_attempt += 1
         self.state.write('WAITING', reason=reason, retry_delay_ms=delay)
         self.next_open = self.clock.now_ms() + delay
-        # Once per distinct reason: the backoff reaches five minutes, and a
-        # line every cycle would bury the one that changed.
-        if self.announce is not None and reason != self.announced:
-            self.announced = reason
-            remedy = REMEDIES.get(reason)
-            self.announce('WAITING: ' + reason + ('' if remedy is None else ' -- ' + remedy))
+        self._announce_once(reason)
+
+    def _announce_once(self, reason):
+        """Say a reason once, to the only window an appliance has.
+
+        Once per distinct reason: the backoff reaches five minutes, and a
+        line every cycle would bury the one that changed. Cleared when the
+        service reaches ACTIVE, so the same reason occurring again is said
+        again.
+        """
+        if self.announce is None or reason == self.announced:
+            return
+        self.announced = reason
+        remedy = REMEDIES.get(reason)
+        self.announce('WAITING: ' + reason + ('' if remedy is None else ' -- ' + remedy))
 
     def pump(self):
         if self.stopped:
@@ -787,6 +824,11 @@ class PersistentRadioService:
                 session, self.session = self.session, None
                 session.close()  # callbacks conclude unknown; old bytes discarded
                 self.next_open = self.clock.now_ms() + self.retry_ms
+                # A transport dropping under a running service wrote WAITING
+                # and printed nothing. The health line said the radio was
+                # unavailable and never said why, which is the one thing an
+                # operator needed from it.
+                self._announce_once(radio.reason)
             elif radio.connected and not self.active_recorded:
                 self.state.write('ACTIVE', reason=None)
                 self.active_recorded = True
