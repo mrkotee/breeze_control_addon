@@ -53,6 +53,14 @@ RECOVERY_CLASSES = frozenset(('MANAGEMENT_POLL', 'ACTIVE_DISCOVERY_BEACON_REQUES
 # assumed harmless the day it is added.
 INERT_COMMANDS = frozenset(('INFO', 'STATUS', 'STATS'))
 
+# Host commands the firmware answers out of its own recovery state machine
+# and nothing else: each one is a state transition inside the dongle, no
+# frame leaves the radio for it and no counter is reserved. Named positively
+# for the same reason as the set above -- a command this does not know has to
+# mean "cannot say", never "assumed harmless".
+CONTROL_COMMANDS = frozenset(('DISCOVERY_COMMIT', 'CURRENT_SHORT_COMMIT',
+                              'PARENT_LINK_ACTIVE'))
+
 
 def transmission_key(kind, fields):
     """Identify one transmission across its acceptance and its completion.
@@ -144,6 +152,22 @@ def summarise(trace):
     # that entry still being here means nothing was evicted at all.
     complete = complete or any(' id=1' == token_pair(r['raw']) for r in commands)
 
+    # Which of the host's own commands each firmware error answered. An
+    # error carrying no id, or one naming a command this trace does not
+    # hold, stays unattributed -- and an unattributed error is evidence for
+    # nothing. Only the first command with a given id counts: ids are issued
+    # in sequence, and a trace that wrapped could hold two.
+    commanded = {}
+    for record in commands:
+        tokens = record['raw'].split()
+        for token in tokens:
+            if token.startswith('id='):
+                commanded.setdefault(token[3:], tokens[1])
+                break
+    errors = [{'reason': (r.get('fields') or {}).get('reason'),
+               'command': commanded.get((r.get('fields') or {}).get('id'))}
+              for r in records if r.get('kind') == 'ERROR']
+
     status = {}
     for record in records:
         if record.get('kind') != 'STATUS':
@@ -174,7 +198,7 @@ def summarise(trace):
             'host_commands': host_commands,
             'complete_record': complete,
             'accepted_without_completion': unmatched,
-            'errors_reported': kinds.get('ERROR', 0),
+            'errors_reported': kinds.get('ERROR', 0), 'errors': errors,
             'application_transmissions': application,
             'unrecognised_purposes': sorted(
                 {t['purpose'] for t in transmissions
@@ -295,10 +319,56 @@ def answer_unacknowledged(summary):
     return session_lost_nothing(summary)
 
 
+def control_command_refused(summary):
+    """Did the firmware end this cycle by refusing a command of this host's?
+
+    Secured frames went out, so spent_nothing says no, and an error record
+    was reported, so it would say no on that alone. Both are right about the
+    questions they ask and neither is the question here.
+
+    A review exists for an outcome nobody can determine: a frame handed to
+    the radio whose fate is unknown. What ended this cycle was not an outcome
+    at all. The firmware refused one of the host's own state-transition
+    commands -- a command that puts no frame on air -- while every frame that
+    did go out reached a terminal result and cleaned up safely, and the
+    session dropped nothing. There is nothing in that for a person to
+    adjudicate.
+
+    The half-established association it leaves behind is not a finding
+    either: it is the ordinary starting condition of every recovery cycle,
+    and the next one re-establishes it from a fresh guard with counters that
+    only ever move forward.
+
+    Conservative in the same way as the rest of this module. Every error must
+    be attributed to one of the commands that transmit nothing, the trace
+    must be whole -- a buffer that evicted its oldest records could have
+    dropped an error about a transmission -- and an error naming no command
+    proves nothing.
+    """
+    errors = summary.get('errors')
+    if not errors or not isinstance(errors, list):
+        return False  # a trace written before this was recorded cannot say
+    if not summary.get('complete_record'):
+        return False
+    if summary.get('application_transmissions') or summary.get('unrecognised_purposes'):
+        return False
+    if summary.get('accepted_without_completion'):
+        return False
+    if any(error.get('command') not in CONTROL_COMMANDS for error in errors):
+        return False
+    for transmission in summary.get('transmissions') or []:
+        if (transmission.get('purpose') not in RECOVERY_CLASSES
+                or transmission.get('cleanup') != 'safe'
+                or transmission.get('result') not in TERMINAL_RESULTS):
+            return False
+    return session_lost_nothing(summary)
+
+
 def evidence_permits_clearing(state_dir, expected_trace=None):
     """True when this fault's own trace shows a failure a person need not
-    adjudicate: one that spent nothing, or one that ended on an
-    acknowledgement this host lost.
+    adjudicate: one that spent nothing, one that ended on an acknowledgement
+    this host lost, or one the firmware ended by refusing a command of this
+    host's.
 
     `expected_trace` is the file the fault recorded. Without it this reads
     whatever trace is newest, which for a latch raised while the service was
@@ -313,7 +383,8 @@ def evidence_permits_clearing(state_dir, expected_trace=None):
         return False
     try:
         summary = summarise(trace)
-        return spent_nothing(summary) or answer_unacknowledged(summary)
+        return (spent_nothing(summary) or answer_unacknowledged(summary)
+                or control_command_refused(summary))
     except Exception:
         # A trace that cannot be read cannot prove anything, and a safety
         # gate must not be the thing that crashes the recovery it guards:
@@ -354,6 +425,12 @@ def lines(state_dir, limit=8, expected_trace=None):
         out.append('  Their counter blocks are spent and their outcome is unknowable.')
     if summary.get('errors_reported'):
         out.append('  the firmware reported %d error record(s)' % summary['errors_reported'])
+        # Which command each one answered is the difference between a refused
+        # state transition and an unknown transmission, and that difference
+        # is the whole review.
+        for error in summary.get('errors') or []:
+            out.append('    refused %s: %s' % (error.get('command') or 'an unattributed command',
+                                               error.get('reason') or 'no reason given'))
     if summary['unrecognised_purposes']:
         # Neither claimed nor dismissed: the firmware's vocabulary is its own,
         # and a class this does not know is a reason to look, not to assume.
@@ -397,6 +474,10 @@ def lines(state_dir, limit=8, expected_trace=None):
         if unknown:
             out.append('    %d transmission(s) ended with an unrecognised result' % len(unknown))
 
+    if control_command_refused(summary):
+        out.append('  what ended this cycle was the firmware refusing a command of this')
+        out.append("  host's, which puts no frame on air. Every frame that did go out")
+        out.append('  reached a terminal result and cleaned up safely.')
     if spent_nothing(summary):
         if summary.get('transmissions'):
             out.append('  every transmission here was a plaintext beacon that cleaned up')
