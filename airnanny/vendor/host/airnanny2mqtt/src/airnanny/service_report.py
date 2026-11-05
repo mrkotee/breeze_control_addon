@@ -65,6 +65,92 @@ CONTEXT_IDENTITY = 'dual-ctx%d'
 UNDERIVED = object()
 
 
+# What a transmission reports in the ordinary course of things: the result
+# that worked, and the three ordinary radio losses. Anything else is the
+# firmware saying something about itself.
+ORDINARY_TX_RESULTS = frozenset(('local_tx_ok', 'no_ack', 'invalid_ack', 'cca_fail'))
+
+
+class NotableRecords:
+    """Print the firmware's own complaints, once per distinct complaint.
+
+    The retained trace holds all of this, but a trace is written only when a
+    recovery attempt fails. A fault that latches an already-running service
+    writes none — which is how an operator came to read
+    `radio_poll_failed_or_unknown` with no way to learn which result caused
+    it, and `internal` with no way to learn what was internal.
+
+    Bounded by distinctness rather than by a rate: the firmware repeats
+    itself, and a line per repetition would bury the next new thing. Nothing
+    here is secret — a result name, a context number and a firmware reason
+    are the same material the diagnostics topic already carries.
+    """
+
+    def __init__(self, observer, limit=64):
+        self.observer, self.limit = observer, limit
+        self.seen = set()
+
+    def __call__(self, kind, fields):
+        token = self.token(kind, fields)
+        if token is None or token in self.seen or len(self.seen) >= self.limit:
+            return
+        self.seen.add(token)
+        try:
+            self.observer('FIRMWARE ' + token)
+        except Exception:
+            pass  # An instrument must not be the thing that stops the service.
+
+    def token(self, kind, fields):
+        if kind == 'ERROR':
+            identifier = fields.get('id')
+            return 'error %s%s' % (fields.get('reason') or 'unstated',
+                                   '' if identifier is None else ' (command id %s)' % identifier)
+        if kind in ('TXDONE', 'AUTO_DONE') and fields.get('result') not in ORDINARY_TX_RESULTS:
+            return 'ctx%s %s ended %s cleanup=%s' % (
+                fields.get('ctx'), kind.lower(), fields.get('result'),
+                fields.get('cleanup'))
+        return None
+
+
+def command_block_reason(ledger):
+    """Why this context can build no further setter, in words, or None.
+
+    The durable authority refuses a reservation and the frozen device turns
+    that refusal into the command failure `internal`, which names nothing.
+    On an appliance that is the whole diagnosis, so the same question is
+    asked again here and answered in a sentence.
+
+    This decides nothing and is not the gate: it reads the ledger the gate
+    reads and reports what it finds. If it finds nothing it says so, rather
+    than inventing a reason for a refusal it cannot explain.
+    """
+    try:
+        record = ledger.read()
+        recovery = record.get('recovery') or {}
+    except Exception as error:
+        return 'the durable store for this context could not be read (%r)' % (error,)
+    if recovery.get('state') != 'PARENT_LINK_ACTIVE':
+        return ('the durable parent link is not active (recovery state %s)'
+                % recovery.get('state'))
+    intent = (recovery.get('intents') or {}).get('TYPE07')
+    if intent is None:
+        return None
+    phase, result = intent.get('phase'), intent.get('result')
+    if phase != 'CONCLUDED':
+        return ('the previous command on this context never reached a durable'
+                ' conclusion (phase %s). No further setter can be built on'
+                ' this recovery cycle; restart the bridge, which reviews the'
+                ' durable record before it starts another one.' % phase)
+    clean = (intent.get('retry_safe') is True
+             and result in ('no_ack', 'invalid_ack', 'cca_fail'))
+    if not (result == 'local_tx_ok' or clean):
+        return ('the previous command on this context ended with an outcome'
+                ' nobody can determine (%s). No further setter can be built'
+                ' on this recovery cycle; restart the bridge, which reviews'
+                ' the durable record before it starts another one.' % result)
+    return None
+
+
 def service_topics(prefix, device_ids=()):
     """The service topics, refusing a device name that would collide."""
     clash = sorted(set(device_ids) & RESERVED_DEVICE_IDS)

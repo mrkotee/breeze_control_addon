@@ -44,8 +44,21 @@ RECOVERABLE = frozenset(('serial_io_error', 'serial_disconnected', 'serial_open_
 # `radio_result_timeout` is named here only so a latch an earlier version
 # wrote can be cleared. This version never writes it -- it is recoverable
 # above -- so the entry reaches nothing a running service can produce.
+#
+# `radio_poll_failed_or_unknown` still latches, and should: it means a
+# management poll ended with a result this host does not model, and an
+# unmodelled firmware condition deserves a person's eyes. What it does not
+# deserve is to be unclearable. A management poll is a plaintext MAC data
+# request: it carries no security and reserves no counter. A transmission
+# whose cleanup was not proven safe is refused earlier and under a different
+# name, so reaching this one means cleanup was safe. The results that land
+# here are the firmware reporting on its own session -- aborted, error,
+# watchdog, end, usb, loss -- and a closed port, a new boot and a fresh
+# recovery cycle are the answer to every one of them. The service also now
+# prints the result itself, so there is something to look at before deciding.
 OPERATOR_CLEARABLE = frozenset(('late_join_discovery_tx_failed',
-                                'radio_result_timeout'))
+                                'radio_result_timeout',
+                                'radio_poll_failed_or_unknown'))
 
 # Faults whose name cannot decide, but whose retained trace can. A recovery
 # chain is latched under one reason whether or not anything secured went out,
@@ -103,6 +116,10 @@ REMEDIES = {
     'recovery_answer_unacknowledged_new_cycle_required':
         'the unit answered and the acknowledgement did not get back to it.'
         ' Ordinary radio loss; the next cycle asks again.',
+    'radio_poll_failed_or_unknown':
+        'a parent poll ended with a result this host does not model. The'
+        ' FIRMWARE line above names it. The poll carries no security and'
+        ' spends no counter; read it, then clear this by acknowledging it.',
     'recovery_handshake_interrupted_new_cycle_required':
         'a frame arrived on the air before the dongle answered the opening'
         ' query. Nothing was commanded but that query; the next cycle starts'

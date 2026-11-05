@@ -300,13 +300,47 @@ def establish(args, mqtt_options, state):
                                  active_slots=runner.active_slots,
                                  initial_poll_misses=runner.readiness_polls.misses,
                                  intent_hook=counters.intent,completion_hook=counters.local_complete)
-        radio.record_observer=lambda kind,fields:records.append(dict(kind=kind,fields=fields))
         def credentials(ref):
             if ref not in ('env:AIRNANNY_MQTT_USERNAME','env:AIRNANNY_MQTT_PASSWORD'):
                 raise ValueError('unsupported credential reference')
             return os.environ[ref[4:]]
         mqtt=PahoMqttTransport(mqtt_options,credential_resolver=credentials)
         announce=lambda line:print(line,flush=True)
+        from airnanny.service_report import NotableRecords,command_block_reason
+        # The trace holds all of this, but a trace is only written when a
+        # recovery attempt fails. A fault that stops an already-running
+        # service writes none, and the firmware's own complaint was the one
+        # thing that would have said which fault it was.
+        notable=NotableRecords(announce)
+        def observe(kind,fields):
+            records.append(dict(kind=kind,fields=fields))
+            notable(kind,fields)
+        radio.record_observer=observe
+        # `internal` is what the frozen device reports when the durable
+        # authority refuses to reserve a counter block, and it names nothing.
+        # The refusal is re-derived from the same ledger and said in words.
+        by_slot_ledger={f'dual-ctx{slot}':ledger for slot,ledger in ledgers.items()}
+        reserve=counters.reserve
+        said_block={}
+        def block_reason(context):
+            try:
+                return command_block_reason(by_slot_ledger[context])
+            except Exception:
+                return None
+        def reporting_reserve(context,epoch,key_sequence,count):
+            try:
+                return reserve(context,epoch,key_sequence,count)
+            except Exception:
+                # Once per distinct reason per context: Home Assistant
+                # retries a failed command, and a line per retry would bury
+                # the one that changed.
+                reason=(block_reason(context)
+                        or 'the durable authority refused to reserve a counter block')
+                if said_block.get(context)!=reason:
+                    said_block[context]=reason
+                    announce('COMMAND BLOCKED on '+context+': '+reason)
+                raise
+        counters.reserve=reporting_reserve
         daemon=ServiceDaemon(config,radio.clock,radio,mqtt,counters,command_retries=firmware_version>=32,
                              rollover_successor=rollover_successor,log=AnnouncingEventLog(announce))
         by_context={f'dual-ctx{slot}':ledger for slot,ledger in ledgers.items()}
