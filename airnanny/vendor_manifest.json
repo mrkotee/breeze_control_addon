@@ -1391,7 +1391,7 @@
     "host/airnanny2mqtt/tools/build_control_oracle.py": "83b5e503c860f38beb872610a9995f9ce70a347945b958a73f9a2bfe78f6ea20",
     "host/airnanny2mqtt/tools/build_fixtures.py": "c1c5f237637063e6a9d8ab81971ce19375cbd9a239b034b5cb4c7cbd088f0f51",
     "host/airnanny2mqtt/tools/control_oracle.c": "4514cb12f6d3726e5f708470e4984d6b0a350319a9ae115f9e4998885491b31f",
-    "host/airnanny2mqtt/tools/explain_fault.py": "1d7453807b678617a90e8e5f8dcebc91f6ff4495904035639663f7a16c9794c9",
+    "host/airnanny2mqtt/tools/explain_fault.py": "d852f71e21bf00a796500c5a60740f97a4297c3487adc5e3ed21e4a581df1b5c",
     "host/airnanny2mqtt/tools/export_context_keys.py": "9a68f24aba125b618ea32961977f976c03ceb9aae2a31903ecf67435e6b425ec",
     "host/airnanny2mqtt/tools/import_local_keys.py": "89ba1b4fcaf32cf867c80663a1ea514f9529bf129d1528334baaef7a1fe18bb2",
     "host/airnanny2mqtt/tools/import_stores.py": "7c00565437fac3c320753f3a343f521bda8675d15df660a74803d620b9ae8ef8",
@@ -1410,12 +1410,12 @@
     "host/airnanny2mqtt/tools/report_real_mqtt.py": "48be203bd93c0ebf96dccbfa166f43668351a4b95c25e906ab885ea9eb0b9fd3",
     "host/airnanny2mqtt/tools/run_late_join_hardware_proof.py": "76016d1fdfb4059c317885398e0e2e5c3c0131c16039c9bc2b28dc0d52e344b5",
     "host/airnanny2mqtt/tools/run_radio_daemon.py": "b1aee20e04817406080d68d8f35056ee3b90af1d619085ff9ce028d3a8cbd65c",
-    "host/airnanny2mqtt/tools/run_radio_service.py": "36a0368662c636ef3f9667e90d1ecb8394e9d80a76cfe9a2ec3368c8f8b0c14c",
+    "host/airnanny2mqtt/tools/run_radio_service.py": "992ed34313b0a922622603381f2bb2eb889c56bd6ac57463f48fc40eb4e12cdf",
     "host/airnanny2mqtt/tools/run_radio_service_proof.py": "3869be65d3c6c965b2c10dad068a722fb660463bc8f7441184ac9b322613b32a",
     "host/airnanny2mqtt/tools/service_proof_commands.py": "f896f451d9a977d8d3bcd60b64d061cff6364675ad7be33d248c36bc6dc47e47",
     "host/airnanny2mqtt/tools/survey_radio.py": "43b6c3fd03c6c4df6a1fdf8456bd75ba6f6a8efc717bce219fa7e47afa8b7c3e",
     "host/airnanny2mqtt/tools/test_late_join_offline.py": "67744b4d0c3c0231ac67db8de1e91afd23a437b01a70cf6c0b8fceb8d2879f14"
   },
-  "source_revision": "2064490050f0248241eb01db96668c5378c3a991",
+  "source_revision": "5f896623e990b3da7795588eb78125cb11dd4190",
   "source_tree_dirty": false
 }

@@ -476,6 +476,14 @@ def main():
                                LOCAL,expected_trace=latched.get('trace'))))
             print('  '+('clear it by acknowledging exactly this reason' if permitted
                         else 'this one needs review; acknowledging it will not clear it'),flush=True)
+            if latched.get('trace') is None:
+                # A latch raised while the service was running records no
+                # trace, so the summary below belongs to something else and
+                # the fact that explains this one was printed live, in the
+                # log of the run that latched. Say where it is: on an
+                # appliance that log is the only place it exists.
+                print('  this fault recorded no trace; what explains it was printed',flush=True)
+                print('  live by the run that latched -- look there for a FIRMWARE line',flush=True)
             # The review this fault asks for needs the trace, and on an
             # appliance the trace is unreachable. Summarise it here.
             try:

@@ -364,22 +364,39 @@ def control_command_refused(summary):
     return session_lost_nothing(summary)
 
 
-def evidence_permits_clearing(state_dir, expected_trace=None):
+# A person running this tool by hand has no fault in hand and wants the
+# newest trace. A fault that recorded no trace is not that: a cycle killed
+# outright, and a transport that dropped under a running service, both
+# write `trace=None` on purpose, and reading some earlier failure's file
+# as such a fault's evidence is the one mistake these two functions exist
+# to prevent. So None means `recorded nothing, proves nothing` and the
+# sentinel means `no fault was supplied`. Collapsing the two is how the
+# gate came to read a stranger's trace and the log came to print one with
+# no word of warning.
+NO_FAULT_IN_HAND = object()
+
+
+def evidence_permits_clearing(state_dir, expected_trace=NO_FAULT_IN_HAND):
     """True when this fault's own trace shows a failure a person need not
     adjudicate: one that spent nothing, one that ended on an acknowledgement
     this host lost, or one the firmware ended by refusing a command of this
     host's.
 
-    `expected_trace` is the file the fault recorded. Without it this reads
-    whatever trace is newest, which for a latch raised while the service was
-    already running belongs to some earlier failure -- and clearing one
-    fault on another's evidence is exactly the mistake the gate exists to
-    prevent. A fault that recorded no trace name proves nothing.
+    `expected_trace` is the file the fault recorded. A latch raised while
+    the service was already running records none, and the newest file on
+    the box then belongs to some earlier failure -- clearing one fault on
+    another's evidence is exactly the mistake this gate exists to prevent.
+    So an explicit None proves nothing and is refused here. Omitting the
+    argument entirely means no fault was supplied, and then the newest
+    trace is read for whatever it says.
     """
+    if expected_trace is None:
+        return False
     trace = latest_trace(state_dir)
     if trace is None:
         return False
-    if expected_trace is not None and Path(trace).name != expected_trace:
+    if (expected_trace is not NO_FAULT_IN_HAND
+            and Path(trace).name != expected_trace):
         return False
     try:
         summary = summarise(trace)
@@ -393,7 +410,7 @@ def evidence_permits_clearing(state_dir, expected_trace=None):
         return False
 
 
-def lines(state_dir, limit=8, expected_trace=None):
+def lines(state_dir, limit=8, expected_trace=NO_FAULT_IN_HAND):
     """Readable summary of the newest trace, bounded for a log."""
     trace = latest_trace(state_dir)
     if trace is None:
@@ -409,7 +426,12 @@ def lines(state_dir, limit=8, expected_trace=None):
     # already running leaves the newest file belonging to some earlier
     # failure. Summarising it silently invites a reader to treat the two as
     # one event, which is how the wrong thing gets fixed.
-    if expected_trace and Path(trace).name != expected_trace:
+    if expected_trace is None:
+        out.append('  NOTE: this fault recorded no trace of its own.')
+        out.append('  What follows is the newest trace on the box, which belongs')
+        out.append('  to an earlier failure. Read it as that, not as this one.')
+    elif (expected_trace is not NO_FAULT_IN_HAND and expected_trace
+            and Path(trace).name != expected_trace):
         out.append('  NOTE: this is not the trace this fault recorded (%s);' % expected_trace)
         out.append('  it is the newest one on the box, from an earlier failure.')
 
