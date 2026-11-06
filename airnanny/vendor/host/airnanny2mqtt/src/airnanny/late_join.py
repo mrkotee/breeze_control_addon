@@ -82,6 +82,22 @@ class LateJoinRecovery:
 
     def _result(self,verb,kind,f,next_phase):
         ledger=self.ledgers[self.slot]
+        if kind=='ERROR':
+            # The firmware refused this command: it answered with a reason
+            # and transmitted nothing. Until now the transport judged that
+            # a wrong result and stopped the service, which also stops the
+            # context that is already serving -- far the worse outcome, and
+            # the same reasoning the scan-loss branch below was written on.
+            #
+            # A refusal after a secured reserve is a different question. A
+            # counter block is spent, and what may be retried is a fact
+            # about the durable record, not about this attempt, so that one
+            # goes back through the review a new cycle performs rather than
+            # being absorbed here. Both halves of the test matter: the flag
+            # is set before the reserve, and the intent outlives the flag.
+            if self.secured or ledger.read()['recovery'].get('intents'):
+                raise ServiceBlocked('late_join_refused_after_secured_intent')
+            self._backoff();return
         if kind=='STATUS':
             self._status_binding(f)
             if self.phase=='VERIFY':

@@ -15,7 +15,41 @@ from .lifecycle import EventLog
 from .radio_daemon import RadioDaemonLoop
 
 RECOVERABLE = frozenset(('serial_io_error', 'serial_disconnected', 'serial_open_failed',
-                         'radio_parent_link_lost', 'radio_result_timeout'))
+                         'radio_parent_link_lost', 'radio_result_timeout',
+                         'late_join_refused_after_secured_intent'))
+
+# Reasons the firmware returns INSTEAD of transmitting. `management_tx` and
+# `management_control` answer with one of these before they touch the radio:
+# no frame goes on air, no pending flag is set, no counter moves. The
+# command did not happen. Every one of them means a command was built
+# against a state the dongle had already left, and the answer to that is a
+# closed port, a new boot and a recovery cycle -- which reviews the durable
+# record before it starts another one, so the fail-closed gate is still the
+# thing that decides, not this list.
+#
+# Named one by one on purpose. A firmware complaint about identity, replay
+# or the bytes the host built -- `id_reused`, `hash`, the `_context` family,
+# `intent_binding` -- is an integrity alarm, not a sequencing miss, and
+# anything this set does not name keeps its latch.
+FIRMWARE_REFUSALS = frozenset(('state_or_deadline', 'control_state', 'control_verb',
+                               'idle_poll_bound', 'one_scan_only',
+                               'application_live_readiness',
+                               'discovery_binding', 'short_binding',
+                               'timeout_binding', 'rejoin_state',
+                               'announce_state', 'timeout_state'))
+
+
+def firmware_refusal(reason):
+    """The firmware complaint behind this reason, if it transmitted nothing."""
+    detail = str(reason).removeprefix('radio_firmware_error:')
+    if detail == str(reason) or detail not in FIRMWARE_REFUSALS:
+        return None
+    return detail
+
+
+def recoverable(reason):
+    """May the service close the port and run another cycle for this reason?"""
+    return reason in RECOVERABLE or firmware_refusal(reason) is not None
 
 # `radio_result_timeout` is in that set, and the reason it is belongs here.
 # It means the dongle did not answer a host command within three seconds.
@@ -56,9 +90,19 @@ RECOVERABLE = frozenset(('serial_io_error', 'serial_disconnected', 'serial_open_
 # watchdog, end, usb, loss -- and a closed port, a new boot and a fresh
 # recovery cycle are the answer to every one of them. The service also now
 # prints the result itself, so there is something to look at before deciding.
+#
+# `late_join_wrong_result` is named here for the same reason
+# `radio_result_timeout` is: an earlier version wrote it for a firmware
+# refusal of a late-join command -- a record that carries neither `ctx` nor
+# `session`, so the binding check read every refusal as a contradiction --
+# and an add-on holding that latch has no other way out. This version
+# raises it only when a result arrives for a recovery id with no request
+# behind it at all. Clearing it starts a cycle, and a cycle reviews the
+# durable record first, so naming it cannot reach a counter.
 OPERATOR_CLEARABLE = frozenset(('late_join_discovery_tx_failed',
                                 'radio_result_timeout',
-                                'radio_poll_failed_or_unknown'))
+                                'radio_poll_failed_or_unknown',
+                                'late_join_wrong_result'))
 
 # Faults whose name cannot decide, but whose retained trace can. A recovery
 # chain is latched under one reason whether or not anything secured went out,
@@ -105,6 +149,12 @@ TRANSIENT_REASONS = frozenset(('clean_recovery_RF_loss_new_cycle_required',
                                'target_beacon_unavailable'))
 PROMPT_RETRIES = 6
 
+REFUSAL_REMEDY = ('the dongle refused this command and transmitted nothing:'
+                  ' it was built against a state the dongle had already'
+                  ' left. The port is reopened and a new cycle run, which'
+                  ' reviews the durable record before it starts. The'
+                  ' FIRMWARE line above names the command.')
+
 REMEDIES = {
     'dongle_in_bootloader':
         'the dongle is in its DFU bootloader: the runtime firmware is not'
@@ -124,6 +174,17 @@ REMEDIES = {
         'a frame arrived on the air before the dongle answered the opening'
         ' query. Nothing was commanded but that query; the next cycle starts'
         ' the handshake again.',
+    'late_join_refused_after_secured_intent':
+        'the dongle refused a secured late-join command after a counter'
+        ' block was already reserved for it. Nothing went on air -- a'
+        ' refusal transmits nothing -- but only the durable record can say'
+        ' what may be retried, so the next cycle reviews it before it'
+        ' starts. The FIRMWARE line above names the command and the'
+        ' refusal.',
+    'late_join_wrong_result':
+        'a result arrived for a late-join command with no request behind'
+        ' it. Clearing this by acknowledging it starts a cycle, and a'
+        ' cycle reviews the durable record first.',
     'radio_result_timeout':
         'the dongle stopped answering the host within three seconds. The'
         ' port is reopened and the recovery chain run again. If a command'
@@ -787,6 +848,12 @@ class PersistentRadioService:
             return
         self.announced = reason
         remedy = REMEDIES.get(reason)
+        if remedy is None and firmware_refusal(reason) is not None:
+            # A refusal carries its own detail in the reason string, so it
+            # cannot be a key in that table. The remedy is the same for
+            # all of them, and an operator reading one needs it most: the
+            # words `firmware error` invite a hunt for broken hardware.
+            remedy = REFUSAL_REMEDY
         self.announce('WAITING: ' + reason + ('' if remedy is None else ' -- ' + remedy))
 
     def pump(self):
@@ -1014,7 +1081,7 @@ class ServiceState:
                    late_join=None, consumed_acknowledgement=None, trace=None)
 
     def disconnected(self, reason):
-        if reason not in RECOVERABLE:
+        if not recoverable(reason):
             # A fault raised while the service was already running wrote no
             # trace of its own. Leaving the previous failure's name in place
             # made the next start print that failure's summary under this

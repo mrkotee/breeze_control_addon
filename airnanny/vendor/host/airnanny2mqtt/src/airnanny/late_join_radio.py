@@ -159,7 +159,22 @@ class LateJoinRadioTransport(RealRadioTransport):
                 self.readiness_polls[request.slot]=min(40,self.readiness_polls[request.slot]+1)
             return result
         request=self._pending.get(identifier)
-        if request is None or f.get('ctx')!=str(request.slot) or f.get('session')!='1':
+        if request is None:
+            raise SerialFault('late_join_wrong_result')
+        if kind=='ERROR':
+            # A refusal, not a result. The firmware answers a command it
+            # will not run with an id and a reason and nothing else -- no
+            # `ctx`, no `session` -- so the binding check below, written
+            # for a TXDONE or a STATUS, read every refusal as a
+            # contradiction and stopped the whole service over one,
+            # including the context that was already serving. Nothing went
+            # on air: hand it to the attempt that asked, which has
+            # somewhere to put it.
+            self.recovery_ids.pop(identifier)
+            self._finish(identifier,kind,f)
+            callback(kind,f)
+            return
+        if f.get('ctx')!=str(request.slot) or f.get('session')!='1':
             raise SerialFault('late_join_wrong_result')
         if kind=='STATUS' and request.raw is None:
             generation=number(f,'config_generation')

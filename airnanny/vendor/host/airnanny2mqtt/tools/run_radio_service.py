@@ -314,7 +314,14 @@ def establish(args, mqtt_options, state):
         notable=NotableRecords(announce)
         def observe(kind,fields):
             records.append(dict(kind=kind,fields=fields))
-            notable(kind,fields)
+            # The verb is read here because here is where it still exists:
+            # the observer runs before the record is dispatched, while the
+            # request is pending. Afterwards only the id survives.
+            verb=None
+            if kind=='ERROR' and 'id' in fields:
+                try:verb=radio.verb_for(int(fields['id']))
+                except Exception:verb=None
+            notable(kind,fields,verb)
         radio.record_observer=observe
         # `internal` is what the frozen device reports when the durable
         # authority refuses to reserve a counter block, and it names nothing.

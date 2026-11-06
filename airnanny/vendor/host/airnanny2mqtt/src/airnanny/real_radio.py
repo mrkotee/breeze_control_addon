@@ -251,6 +251,16 @@ class RealRadioTransport:
                 except Exception:
                     pass
 
+    def verb_for(self, identifier):
+        """Which host command an id belongs to, while it is still outstanding.
+
+        An ERROR record names an id and a reason, and an id is not a fact
+        anyone can act on. Read before `_record` runs, which is while the
+        request is still pending.
+        """
+        request = self._pending.get(identifier)
+        return None if request is None else request.verb
+
     def _finish(self, identifier, kind, fields):
         p = self._pending.pop(identifier)
         if self._wire_waiting == identifier:

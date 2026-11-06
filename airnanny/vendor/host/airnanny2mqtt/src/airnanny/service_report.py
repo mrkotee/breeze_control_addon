@@ -90,8 +90,8 @@ class NotableRecords:
         self.observer, self.limit = observer, limit
         self.seen = set()
 
-    def __call__(self, kind, fields):
-        token = self.token(kind, fields)
+    def __call__(self, kind, fields, verb=None):
+        token = self.token(kind, fields, verb)
         if token is None or token in self.seen or len(self.seen) >= self.limit:
             return
         self.seen.add(token)
@@ -100,11 +100,17 @@ class NotableRecords:
         except Exception:
             pass  # An instrument must not be the thing that stops the service.
 
-    def token(self, kind, fields):
+    def token(self, kind, fields, verb=None):
         if kind == 'ERROR':
+            # Which command was refused is the whole fact. Without it a
+            # production refusal read `error state_or_deadline (command id
+            # 1735)`, and an id says nothing about what the dongle would
+            # not do.
             identifier = fields.get('id')
+            named = ' '.join(part for part in (verb, None if identifier is None
+                                               else 'id=%s' % identifier) if part)
             return 'error %s%s' % (fields.get('reason') or 'unstated',
-                                   '' if identifier is None else ' (command id %s)' % identifier)
+                                   '' if not named else ' (%s)' % named)
         if kind in ('TXDONE', 'AUTO_DONE') and fields.get('result') not in ORDINARY_TX_RESULTS:
             return 'ctx%s %s ended %s cleanup=%s' % (
                 fields.get('ctx'), kind.lower(), fields.get('result'),
