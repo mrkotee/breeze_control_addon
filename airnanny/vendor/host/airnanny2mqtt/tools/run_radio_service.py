@@ -348,8 +348,25 @@ def establish(args, mqtt_options, state):
                     announce('COMMAND BLOCKED on '+context+': '+reason)
                 raise
         counters.reserve=reporting_reserve
+        # `COMMAND <device> <command> failed: tx_error` is the reviewed
+        # retry layer reporting that the transport would not carry the
+        # frame, and it names which of six conditions refused it nowhere.
+        from airnanny.service_report import submission_block_reason
+        device_context={d.core.name:d.core.context.identity for d in config.devices}
+        said_submission={}
+        def command_announce(line):
+            if line.endswith(': tx_error'):
+                device=line.split(' ')[1] if line.startswith('COMMAND ') else None
+                context=device_context.get(device)
+                reason=None if context is None else submission_block_reason(radio,context)
+                # Once per distinct reason per device: Home Assistant
+                # retries, and a line per retry buries the one that changed.
+                if reason and said_submission.get(device)!=reason:
+                    said_submission[device]=reason
+                    line+=' -- '+reason
+            announce(line)
         daemon=ServiceDaemon(config,radio.clock,radio,mqtt,counters,command_retries=firmware_version>=32,
-                             rollover_successor=rollover_successor,log=AnnouncingEventLog(announce))
+                             rollover_successor=rollover_successor,log=AnnouncingEventLog(command_announce))
         by_context={f'dual-ctx{slot}':ledger for slot,ledger in ledgers.items()}
         loop=RadioServiceSession(daemon,radio,DurableApplicationIngress(daemon,by_context,remotes),
                                  verdict_hook=counters.application_result,announce=announce)

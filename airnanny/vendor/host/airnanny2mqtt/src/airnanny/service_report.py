@@ -118,6 +118,47 @@ class NotableRecords:
         return None
 
 
+def submission_block_reason(radio, context_id):
+    """Why this transport would not carry a setter for this context, in words.
+
+    `tx_error` is what the reviewed retry layer reports when `send_frame`
+    returns False, and it returns False for six unrelated reasons -- a
+    context that is not available yet, a capability already spent, a full
+    queue, a setter still outstanding, an overdue parent poll, or a frame
+    the submission check would not accept. In a production log `tx_error`
+    on its own was the most opaque line in the file.
+
+    This decides nothing and is not the gate: it reads what the gate reads
+    and reports what it finds, in the order the gate asks.
+    """
+    try:
+        binding = radio.by_context.get(context_id)
+        if binding is None:
+            return 'this context has no live binding on the transport'
+        if not radio.connected:
+            return 'the transport is not connected'
+        if not radio.context_available(context_id):
+            return ('the context is not available to the transport: no fresh report from the unit, or its readiness polls are still short')
+        if not (radio.repeat_commands or binding.slot not in radio._used):
+            return ('this firmware allows one setter per context per session, and this context has already used it')
+        if len(radio._pending) >= radio.command_limit:
+            return 'the command queue to the dongle is full'
+        if any(request.slot == binding.slot and request.raw is not None
+               for request in radio._pending.values()):
+            return 'a setter for this context is already outstanding'
+        if not radio.application_ready(context_id):
+            # Everything the base asks has passed, so what refused it is a
+            # condition the late-join transport adds: the firmware wants a
+            # recent idle poll before it will take a setter.
+            due = getattr(radio, '_poll_due', {}).get(binding.slot)
+            if due is not None and radio.clock.now_ms() >= due:
+                return ('the parent poll for this context is overdue, and the firmware requires a recent one before it accepts a setter. The poll is serviced first; send the command again.')
+            return 'the transport is not ready to carry a setter for this context'
+        return ('the transport was ready, so the frame itself was refused: its shape or its counter did not satisfy the submission check')
+    except Exception as error:
+        return 'the transport could not say why (%r)' % (error,)
+
+
 def command_block_reason(ledger):
     """Why this context can build no further setter, in words, or None.
 

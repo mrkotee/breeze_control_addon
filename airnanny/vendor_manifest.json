@@ -1383,7 +1383,7 @@
     "host/airnanny2mqtt/src/airnanny/serial_trace.py": "14184769d8e7736e6888766212459d9fa430bf7815dd31c6384a3137b505f026",
     "host/airnanny2mqtt/src/airnanny/service_diagnostics.py": "dbc4e825464a113fdc6ea161b917e3d86e961ebeaff63646a0a1a17acc1d9ad5",
     "host/airnanny2mqtt/src/airnanny/service_profile.py": "18b3b98eb8d1af597102b1baa10b198f6ec46442603e10f96cf9375223191c4f",
-    "host/airnanny2mqtt/src/airnanny/service_report.py": "e8b42f35a0fec8eeed5abe9d4823b2e2579bb38ebbf0a76247904202ec5b2666",
+    "host/airnanny2mqtt/src/airnanny/service_report.py": "db79bac8d8e9ad59b9f2aff4766d54d7cb3a311d39b95404592979a95fe9108f",
     "host/airnanny2mqtt/src/airnanny/state.py": "1ada38f673285c815e917fca391417d6751093e1a0ca073f7cd79fd2583522a0",
     "host/airnanny2mqtt/src/airnanny/transport.py": "149f1ddff676dec75e5ada99cd4aafdce0b64723448743c1817cf10b862fdb28",
     "host/airnanny2mqtt/src/airnanny/zcl.py": "bbe6951a00b10b80f7831dcd6b699dcb6c08e5ba0bce6295d3117ed211a696e9",
@@ -1410,12 +1410,12 @@
     "host/airnanny2mqtt/tools/report_real_mqtt.py": "48be203bd93c0ebf96dccbfa166f43668351a4b95c25e906ab885ea9eb0b9fd3",
     "host/airnanny2mqtt/tools/run_late_join_hardware_proof.py": "76016d1fdfb4059c317885398e0e2e5c3c0131c16039c9bc2b28dc0d52e344b5",
     "host/airnanny2mqtt/tools/run_radio_daemon.py": "b1aee20e04817406080d68d8f35056ee3b90af1d619085ff9ce028d3a8cbd65c",
-    "host/airnanny2mqtt/tools/run_radio_service.py": "d458134ed2dd8353c46dfb0cd75601579a467c11c4de74073e2743906ccb24b7",
+    "host/airnanny2mqtt/tools/run_radio_service.py": "ec6e5394e6ea5ef5ee87075a5aea0da7062262734097f25ee65b1e03b00dbcc1",
     "host/airnanny2mqtt/tools/run_radio_service_proof.py": "3869be65d3c6c965b2c10dad068a722fb660463bc8f7441184ac9b322613b32a",
     "host/airnanny2mqtt/tools/service_proof_commands.py": "f896f451d9a977d8d3bcd60b64d061cff6364675ad7be33d248c36bc6dc47e47",
     "host/airnanny2mqtt/tools/survey_radio.py": "43b6c3fd03c6c4df6a1fdf8456bd75ba6f6a8efc717bce219fa7e47afa8b7c3e",
     "host/airnanny2mqtt/tools/test_late_join_offline.py": "67744b4d0c3c0231ac67db8de1e91afd23a437b01a70cf6c0b8fceb8d2879f14"
   },
-  "source_revision": "39d2344203f58713f0699c0526f49b5aba71f2a1",
+  "source_revision": "870d867154bd0a536da7e2a1eb35becd28bfef63",
   "source_tree_dirty": false
 }
