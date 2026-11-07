@@ -84,10 +84,11 @@ class LateJoinRecovery:
         ledger=self.ledgers[self.slot]
         if kind=='ERROR':
             # The firmware refused this command: it answered with a reason
-            # and transmitted nothing. Until now the transport judged that
-            # a wrong result and stopped the service, which also stops the
-            # context that is already serving -- far the worse outcome, and
-            # the same reasoning the scan-loss branch below was written on.
+            # and transmitted nothing. Until 0.21.19 the transport judged
+            # that a wrong result and stopped the service, which also stops
+            # the context that is already serving -- far the worse outcome,
+            # and the same reasoning the scan-loss branch below was written
+            # on.
             #
             # A refusal after a secured reserve is a different question. A
             # counter block is spent, and what may be retried is a fact
@@ -97,7 +98,32 @@ class LateJoinRecovery:
             # is set before the reserve, and the intent outlives the flag.
             if self.secured or ledger.read()['recovery'].get('intents'):
                 raise ServiceBlocked('late_join_refused_after_secured_intent')
-            self._backoff();return
+            # What this must NOT do is back off. `management_resume` binds a
+            # context only from IDLE, or from STOPPED while the firmware
+            # itself marked it restartable; a context sitting in RECOVERY
+            # cannot be bound again at all. And a refused beacon leaves one
+            # in BOUND with no scan started, which is a state nothing in
+            # the firmware moves along: the scan deadline it would expire
+            # on was never armed. Abandoning the attempt there strands the
+            # context until the dongle boots again -- 0.21.19 did back off,
+            # and the next attempt latched `initial_restart_not_proven`,
+            # which is how an add-on died two steps after the refusal.
+            #
+            # BOUND with no scan started is exactly what the beacon gate
+            # wants, so the beacon is sent again, on the tolerance a lost
+            # scan already has. A refusal that repeats runs that tolerance
+            # out and stops under the reason a persistent discovery failure
+            # already has, which an operator can clear.
+            if verb=='ACTIVE_DISCOVERY_BEACON_REQUEST':
+                if self.scan_losses>=SCAN_LOSS_BUDGET:
+                    raise ServiceBlocked('late_join_discovery_tx_failed')
+                self.scan_losses+=1;self.scans-=1
+                self.phase='SCAN';return
+            # Any other command: the chain cannot go on from here and the
+            # context cannot be bound again, so say that rather than
+            # pretending a later attempt will work. Nothing secured moved,
+            # and a restart gives the dongle a new boot.
+            raise ServiceBlocked('late_join_refused_cannot_rebind')
         if kind=='STATUS':
             self._status_binding(f)
             if self.phase=='VERIFY':

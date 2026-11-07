@@ -99,10 +99,22 @@ def recoverable(reason):
 # raises it only when a result arrives for a recovery id with no request
 # behind it at all. Clearing it starts a cycle, and a cycle reviews the
 # durable record first, so naming it cannot reach a counter.
+#
+# The last two are about a context the firmware will not bind again.
+# `management_resume` accepts a context from IDLE, or from STOPPED while
+# the firmware marked it restartable, and from nowhere else; a context
+# left in RECOVERY cannot be rebound, and no host verb releases one. Both
+# reasons are raised before a cycle reserves anything -- the first on the
+# opening STATUS of an attempt, the second on a command the dongle
+# refused, which transmits nothing -- so neither can be holding a counter.
+# The remedy is a restart, which gives the dongle a new boot, and a latch
+# nobody can clear is not a way to ask for one.
 OPERATOR_CLEARABLE = frozenset(('late_join_discovery_tx_failed',
                                 'radio_result_timeout',
                                 'radio_poll_failed_or_unknown',
-                                'late_join_wrong_result'))
+                                'late_join_wrong_result',
+                                'late_join_initial_restart_not_proven',
+                                'late_join_refused_cannot_rebind'))
 
 # Faults whose name cannot decide, but whose retained trace can. A recovery
 # chain is latched under one reason whether or not anything secured went out,
@@ -181,6 +193,10 @@ REMEDIES = {
         ' what may be retried, so the next cycle reviews it before it'
         ' starts. The FIRMWARE line above names the command and the'
         ' refusal.',
+    'late_join_initial_restart_not_proven':
+        'a late-join attempt asked the dongle whether that context could be started again, and it said no: the context is still in RECOVERY from an earlier attempt, and the firmware binds one only from IDLE or from a STOPPED state it marked restartable. Nothing was reserved. Acknowledge this and restart, which gives the dongle a new boot.',
+    'late_join_refused_cannot_rebind':
+        'the dongle refused a late-join command and transmitted nothing, and the context it refused for cannot be bound again while it sits in RECOVERY. Nothing secured moved. Acknowledge this and restart; the FIRMWARE line above names the command that was refused.',
     'late_join_wrong_result':
         'a result arrived for a late-join command with no request behind'
         ' it. Clearing this by acknowledging it starts a cycle, and a'
