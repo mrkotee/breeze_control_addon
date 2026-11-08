@@ -198,6 +198,50 @@ class RetryingCommandDevice(AirNannyDevice):
                                    self.baseline.generation, self.clock.now_ms())
         self.tick()
 
+    def _settle_concluded_attempt(self):
+        """Mark a concluded command's dead attempt failed as well as unanswered.
+
+        Only ever asked past the attempt deadline, where no callback is
+        coming. A command cancelled while its frame is still outstanding --
+        a new remote generation arriving mid-flight -- stays busy until the
+        terminal callback settles it, and that is deliberate: the frame is
+        physically in the dongle's hands and the device says so.
+
+        The frozen core reads `local_status is None` as "a secured write is
+        still outstanding" and answers every later command `busy` on the
+        strength of it -- and the confirmation it reads is replaced only by a
+        dispatch, which that same `busy` refuses. So one attempt that was
+        never answered took away a device's controllability for the life of
+        the process -- the callback it was waiting for was never going to
+        arrive. In production an appliance answered `failed: busy` to
+        four fan commands over an hour while its own reports kept arriving
+        and Home Assistant kept it available and controllable; the only
+        thing that could have cleared it was the very radio callback that
+        never came. A device wedged that way also blocks a late join of its
+        context, under `late_join_inactive_command_not_empty`.
+
+        Both ways a command can conclude without a callback reach this:
+        the attempt deadline giving up under `tx_error`, and the whole
+        confirmation window expiring under `confirmation_timeout`. So it is
+        asked after every verdict rather than written into one branch of one
+        of them.
+
+        Nothing is conceded by saying so. The outcome stays unknown -- that
+        is what -1 means here -- and it is the durable ledger that carries
+        the fact, recorded CONCLUDED / FAILED_OR_UNKNOWN before any later
+        command can be queued, because the service records verdicts at the
+        top of every pump. The next setter reserves its own counter block
+        and carries its own application sequence, and the transport refuses
+        a second setter while one is still pending for that context, so the
+        fate of this frame cannot make the next one unsafe. Every gate that
+        could confirm or retry on this confirmation stays shut: the recorded
+        failure closes them, and a completion arriving late is discarded by
+        `complete`'s own idempotence.
+        """
+        c = self.confirmation
+        if c is not None and self.result is not None and c.local_status is None:
+            c.local_status = -1
+
     def tick(self):
         if (self._sequence_wait and self.intent is not None
                 and self.clock.now_ms() - self.intent_ms >= 45000):
@@ -212,11 +256,14 @@ class RetryingCommandDevice(AirNannyDevice):
                 and not self._reuses_confirmed_sequence()):
             self.dispatch()
         c = self.confirmation
-        if (self._inside_send or c is None
-                or self.result is not None or self._due is None):
+        if self._inside_send or c is None or self._due is None:
             return
         now = self.clock.now_ms()
         if now < self._due:
+            return
+        # Past the attempt deadline, so nothing is coming for that attempt.
+        self._settle_concluded_attempt()
+        if self.result is not None:
             return
         if c.local_status is None:
             # An unknown write/completion never authorizes another attempt.
@@ -246,4 +293,5 @@ class RetryingCommandDevice(AirNannyDevice):
             except Exception:
                 c.failure = 'tx_error'
         super().tick()
+        self._settle_concluded_attempt()
         self._remember_confirmation()

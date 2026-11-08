@@ -16,7 +16,8 @@ from .radio_daemon import RadioDaemonLoop
 
 RECOVERABLE = frozenset(('serial_io_error', 'serial_disconnected', 'serial_open_failed',
                          'radio_parent_link_lost', 'radio_result_timeout',
-                         'late_join_refused_after_secured_intent'))
+                         'late_join_refused_after_secured_intent',
+                         'radio_poll_submission_refused'))
 
 # Reasons the firmware returns INSTEAD of transmitting. `management_tx` and
 # `management_control` answer with one of these before they touch the radio:
@@ -91,6 +92,17 @@ def recoverable(reason):
 # recovery cycle are the answer to every one of them. The service also now
 # prints the result itself, so there is something to look at before deciding.
 #
+# `radio_poll_submission_refused` is recoverable rather than latched,
+# and it is the one result of that family the host now models. The radio
+# driver refused to accept a parent poll: the firmware reports `error` with
+# the RF start time still at zero, and nothing was transmitted. A poll is a
+# plaintext MAC data request that reserves no counter, so there is nothing
+# to decide about and nothing for a person to look at. The host lets the
+# next poll ask again and only reports this after three in a row, which is
+# the driver saying it will not take frames at all. A closed port and a new
+# boot are the answer, and the recovery cycle reviews the durable record
+# before it starts.
+
 # `late_join_wrong_result` is named here for the same reason
 # `radio_result_timeout` is: an earlier version wrote it for a firmware
 # refusal of a late-join command -- a record that carries neither `ctx` nor
@@ -186,6 +198,11 @@ REMEDIES = {
         'a frame arrived on the air before the dongle answered the opening'
         ' query. Nothing was commanded but that query; the next cycle starts'
         ' the handshake again.',
+    'radio_poll_submission_refused':
+        'the radio driver would not accept three parent polls in a row:'
+        ' nothing was transmitted and nothing was spent, but a driver that'
+        ' takes no frames is not serving anyone. The port is reopened and a'
+        ' new cycle run, which reviews the durable record before it starts.',
     'late_join_refused_after_secured_intent':
         'the dongle refused a secured late-join command after a counter'
         ' block was already reserved for it. Nothing went on air -- a'

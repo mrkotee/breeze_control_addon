@@ -112,9 +112,19 @@ class NotableRecords:
             return 'error %s%s' % (fields.get('reason') or 'unstated',
                                    '' if not named else ' (%s)' % named)
         if kind in ('TXDONE', 'AUTO_DONE') and fields.get('result') not in ORDINARY_TX_RESULTS:
-            return 'ctx%s %s ended %s cleanup=%s' % (
+            # `error` covers two different things, and which one it was
+            # decides whether the service survives it. The radio driver
+            # refusing the frame leaves the RF start time at zero: nothing
+            # was transmitted. An unexpected driver error after the air was
+            # already in use is the other, and it keeps its latch. The line
+            # that killed a production bridge said only `ended error
+            # cleanup=safe`, which does not separate them.
+            air = ''
+            if fields.get('result') == 'error' and 'rf_start_us' in fields:
+                air = ' air=%s' % ('no' if fields['rf_start_us'] == '0' else 'yes')
+            return 'ctx%s %s ended %s cleanup=%s%s' % (
                 fields.get('ctx'), kind.lower(), fields.get('result'),
-                fields.get('cleanup'))
+                fields.get('cleanup'), air)
         return None
 
 

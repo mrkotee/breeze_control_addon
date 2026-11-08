@@ -14,6 +14,12 @@ from .mac import MAC
 from .nwk import NWK
 from .security import SecurityHeader
 
+# Consecutive polls the radio driver may refuse to accept before the service
+# closes the port. Three costs under four seconds of not polling, which the
+# firmware's own readiness window absorbs; a fourth means the driver is not
+# taking frames at all.
+POLL_SUBMISSION_BUDGET = 3
+
 FIRMWARE_PROFILES = {
     28: ('airnanny_dual_pan_runtime_v28', 'typed_fan_once', False),
     29: ('airnanny_dual_pan_runtime_v29', 'typed_type07_repeat', True),
@@ -121,6 +127,7 @@ class RealRadioTransport:
                     for v in initial_poll_misses.values())):
             raise ValueError('owned per-context poll-miss handoff required')
         self._poll_misses = dict(initial_poll_misses)
+        self._poll_refusals = {0: 0, 1: 0}
         self._used = set()
         self._held_rx = {0: deque(), 1: deque()}
         self._confirmation_after = {}
@@ -415,10 +422,39 @@ class RealRadioTransport:
         if self.firmware_version >= 30 and p.verb == 'MANAGEMENT_POLL':
             if f['result'] == 'local_tx_ok':
                 self._poll_misses[p.slot] = 0
+                self._poll_refusals[p.slot] = 0
             elif f['result'] in ('no_ack', 'invalid_ack', 'cca_fail'):
+                self._poll_refusals[p.slot] = 0
                 self._poll_misses[p.slot] = min(0xffffffff, self._poll_misses[p.slot] + 1)
                 if self.firmware_version < 32 and self._poll_misses[p.slot] >= 3:
                     raise SerialFault('radio_parent_link_lost')
+            elif f['result'] == 'error' and number(f, 'rf_start_us') == 0:
+                # The radio driver would not take the frame. The firmware
+                # reports that as `error` with the RF start time still at
+                # zero, and the comment on that path in the firmware says
+                # what it means: the false exits of its raw transmit call
+                # all precede the buffer assignment, so no TX DMA was
+                # acquired and nothing was transmitted. Cleanup was proven
+                # safe before this point, and a management poll is a
+                # plaintext MAC data request that reserves no counter, so
+                # this one costs nothing at all.
+                #
+                # It is not a poll miss: a miss means the air was tried and
+                # the parent did not answer, and counting a frame that never
+                # left as evidence about the parent would eventually report
+                # a link lost that was never tested. The next poll is already
+                # anchored 1250 ms out, so the cheap and honest answer is to
+                # let it ask again.
+                #
+                # Bounded, because a driver that refuses every frame is a
+                # real fault and silence is not an answer to it. A fresh port
+                # and a new boot are the remedy, so the reason this raises is
+                # recoverable -- a single refused poll used to kill the whole
+                # bridge under `radio_poll_failed_or_unknown`, latched, with
+                # both appliances serving at the time.
+                self._poll_refusals[p.slot] += 1
+                if self._poll_refusals[p.slot] >= POLL_SUBMISSION_BUDGET:
+                    raise SerialFault('radio_poll_submission_refused')
             else:
                 raise SerialFault('radio_poll_failed_or_unknown')
         if p.callback:
