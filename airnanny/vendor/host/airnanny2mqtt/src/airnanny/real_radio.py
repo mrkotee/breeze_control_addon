@@ -429,15 +429,18 @@ class RealRadioTransport:
                 if self.firmware_version < 32 and self._poll_misses[p.slot] >= 3:
                     raise SerialFault('radio_parent_link_lost')
             elif f['result'] == 'error' and number(f, 'rf_start_us') == 0:
-                # The radio driver would not take the frame. The firmware
-                # reports that as `error` with the RF start time still at
-                # zero, and the comment on that path in the firmware says
-                # what it means: the false exits of its raw transmit call
+                # The frame never reached the air. `error` is what the
+                # firmware reports when its radio driver refused to take
+                # the frame, and the comment on that path says what the
+                # refusal means: the false exits of its raw transmit call
                 # all precede the buffer assignment, so no TX DMA was
-                # acquired and nothing was transmitted. Cleanup was proven
-                # safe before this point, and a management poll is a
-                # plaintext MAC data request that reserves no counter, so
-                # this one costs nothing at all.
+                # acquired and nothing was transmitted. The same name also
+                # covers a driver error the firmware does not classify, so
+                # what is read here is not the name but the RF start time:
+                # zero means transmission never began, whichever of the two
+                # it was. Cleanup was proven safe before this point, and a
+                # management poll is a plaintext MAC data request that
+                # reserves no counter, so this one costs nothing at all.
                 #
                 # It is not a poll miss: a miss means the air was tried and
                 # the parent did not answer, and counting a frame that never

@@ -30,6 +30,7 @@ from airnanny.serial_trace import WatchedPort
 from airnanny.recovery_guard import guard_recovery_reads
 from airnanny.recovery_application import handoff_recovery_stock
 from airnanny.service_profile import service_profile, CONTINUOUS_VERSIONS
+from airnanny.service_faults import runtime_fault_lines
 from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, ServiceBlocked,
                                    OPERATOR_CLEARABLE, EVIDENCE_CLEARABLE,
                                    PersistentRadioService, StartupUnavailable, ReadinessPolls,
@@ -500,21 +501,27 @@ def main():
                                LOCAL,expected_trace=latched.get('trace'))))
             print('  '+('clear it by acknowledging exactly this reason' if permitted
                         else 'this one needs review; acknowledging it will not clear it'),flush=True)
-            if latched.get('trace') is None:
-                # A latch raised while the service was running records no
-                # trace, so the summary below belongs to something else and
-                # the fact that explains this one was printed live, in the
-                # log of the run that latched. Say where it is: on an
-                # appliance that log is the only place it exists.
-                print('  this fault recorded no trace; what explains it was printed',flush=True)
-                print('  live by the run that latched -- look there for a FIRMWARE line',flush=True)
-            # The review this fault asks for needs the trace, and on an
-            # appliance the trace is unreachable. Summarise it here.
-            try:
-                for line in explain_fault.lines(LOCAL,expected_trace=latched.get('trace')):
-                    print(line,flush=True)
-            except Exception as exc:
-                print('  the retained trace could not be summarised: %r'%(exc,),flush=True)
+            if reason == 'service_runtime_fault':
+                # The newest recovery trace belongs to an earlier run and
+                # cannot diagnose an unhandled exception during service.
+                for line in runtime_fault_lines(latched):
+                    print(line, flush=True)
+            else:
+                if latched.get('trace') is None:
+                    # A latch raised while the service was running records no
+                    # trace, so the summary below belongs to something else and
+                    # the fact that explains this one was printed live, in the
+                    # log of the run that latched. Say where it is: on an
+                    # appliance that log is the only place it exists.
+                    print('  this fault recorded no trace; what explains it was printed',flush=True)
+                    print('  live by the run that latched -- look there for a FIRMWARE line',flush=True)
+                # The review this fault asks for needs the trace, and on an
+                # appliance the trace is unreachable. Summarise it here.
+                try:
+                    for line in explain_fault.lines(LOCAL,expected_trace=latched.get('trace')):
+                        print(line,flush=True)
+                except Exception as exc:
+                    print('  the retained trace could not be summarised: %r'%(exc,),flush=True)
         acknowledged=(os.environ.get('AIRNANNY_ACKNOWLEDGE_FAULT') or '').strip()
         if acknowledged and state.acknowledgement_spent(acknowledged):
             print('acknowledgement for '+acknowledged+' was already used on this run;',flush=True)

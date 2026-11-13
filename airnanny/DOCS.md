@@ -218,6 +218,23 @@ deliberate. A latched fault means something happened that needs a person to
 look at it, and restarting into the same radio state could spend counters on a
 run that cannot finish.
 
+## Diagnostics without starting the bridge
+
+Enable **Diagnostics only (bridge stopped)** and restart the add-on. It prints
+an `airnanny_service_snapshot_v1` report in the log: the latched reason, store
+identity checks, counter positions, recovery states and intent phases. Only
+known fields and enum values are included; no key options, secret references,
+exception messages or raw store documents are printed. It does not open the
+radio, connect to MQTT, change counters or clear a fault.
+
+The add-on stays running with the bridge stopped so Watchdog does not loop.
+Turn `diagnostics_only` off and restart when the review is complete. A
+diagnostic report is not itself permission to clear an unknown failure.
+
+From this version, an unexpected `service_runtime_fault` also retains the
+exception class and call locations for the next startup. Older versions lost
+that information; upgrading cannot reconstruct it or clear an existing latch.
+
 ## Troubleshooting
 
 **`dongle_absent`** — the dongle is not plugged in, or its USB serial does not

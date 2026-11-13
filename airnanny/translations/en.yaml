@@ -1,4 +1,10 @@
 configuration:
+  diagnostics_only:
+    name: Diagnostics only (bridge stopped)
+    description: >-
+      Print a read-only summary of service state, counter positions and intent
+      phases in the log, without keys or radio traffic. Leaves the bridge
+      stopped. Turn this off and restart when the review is complete.
   firmware_version:
     name: Firmware version
     description: >-

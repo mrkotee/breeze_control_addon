@@ -5,6 +5,15 @@ set -euo pipefail
 FIRMWARE="${AIRNANNY_HOME}/firmware/airnanny_dual_pan"
 HOST="${AIRNANNY_HOME}/host/airnanny2mqtt"
 
+# Read the existing state even when normal startup is latched. No key
+# options are loaded and neither the broker nor the radio is opened. Keep
+# the container alive afterwards so Watchdog cannot make a diagnostic loop.
+if bashio::config.true 'diagnostics_only'; then
+    python3 "${HOST}/tools/report_service_state.py" --state-dir /data/state --stores-dir /data/stores
+    bashio::log.info "Diagnostics complete. Turn diagnostics_only off and restart to run the bridge."
+    while :; do sleep 3600; done
+fi
+
 # ---------------------------------------------------------------------------
 # Durable stores
 #

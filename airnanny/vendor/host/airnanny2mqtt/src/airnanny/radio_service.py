@@ -13,6 +13,7 @@ from .commands import FRESH_MS
 from .daemon import AirNannyDaemon
 from .lifecycle import EventLog
 from .radio_daemon import RadioDaemonLoop
+from .service_faults import exception_details, runtime_fault_lines
 
 RECOVERABLE = frozenset(('serial_io_error', 'serial_disconnected', 'serial_open_failed',
                          'radio_parent_link_lost', 'radio_result_timeout',
@@ -957,11 +958,25 @@ class PersistentRadioService:
                 session, self.session = self.session, None
                 session.close()
             raise
-        except Exception:
-            self.state.write('BLOCKED', reason='service_runtime_fault', trace=None)
+        except Exception as exc:
+            # An appliance may lose its process log on restart. Persist the
+            # original exception's locations before cleanup, which can fail
+            # too. Messages, locals, source lines and full paths are excluded:
+            # any of them can contain a network key or broker credential.
+            self.state.write('BLOCKED', reason='service_runtime_fault', trace=None,
+                             runtime_fault=exception_details(exc), runtime_cleanup_fault=None)
             if self.session:
                 session, self.session = self.session, None
-                session.close()
+                try:
+                    session.close()
+                except Exception as cleanup:
+                    self.state.write('BLOCKED', runtime_cleanup_fault=exception_details(cleanup))
+            if self.announce is not None:
+                for line in runtime_fault_lines(self.state.read()):
+                    try:
+                        self.announce(line)
+                    except Exception:
+                        pass  # Reporting must not replace the recorded fault.
             raise ServiceBlocked('service_runtime_fault') from None
 
     def close(self):
@@ -1111,7 +1126,8 @@ class ServiceState:
         # cycle that was killed outright -- writing no trace at all -- be
         # cleared on evidence belonging to something else.
         self.write('RECOVERING', cycles=r['cycles'] + 1, boot=boot, guard=guard, reason=None,
-                   late_join=None, consumed_acknowledgement=None, trace=None)
+                   late_join=None, consumed_acknowledgement=None, trace=None,
+                   runtime_fault=None, runtime_cleanup_fault=None)
 
     def disconnected(self, reason):
         if not recoverable(reason):
