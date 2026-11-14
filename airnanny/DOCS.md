@@ -256,6 +256,19 @@ application commands. Other errors, missing/uncertain results, capture loss
 and authenticated Leave keep their existing protection. Repeated refusals
 use bounded retries and backoff.
 
+### A clean scan loss during late join
+
+0.21.26 checks the inactive context's STATUS after a clean beacon loss or
+`state_or_deadline` refusal. The firmware stops that context on a failed
+scan. A fresh attempt therefore waits for its explicit restart permission
+and empty secured intents, with backoff, while the other context continues
+serving. Bindings, unknown cleanup and secured work keep their checks.
+
+For an existing `late_join_discovery_tx_failed` latch, inspect diagnostics
+for the current late-join guard and empty intents with no secured work,
+Leave or rollback before acknowledging that exact reason. Clear the
+acknowledgement option after use.
+
 ## Troubleshooting
 
 **`dongle_absent`** — the dongle is not plugged in, or its USB serial does not

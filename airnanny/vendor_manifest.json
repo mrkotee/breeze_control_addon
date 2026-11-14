@@ -1357,7 +1357,7 @@
     "host/airnanny2mqtt/src/airnanny/events.py": "01c9115668c585095e76e86ae214d9f49019907f14ab2e0ba432fa5eb2ba6762",
     "host/airnanny2mqtt/src/airnanny/frames.py": "ebf495f2020a950088788de143e76295f51a23ac826acb881e169352c3521bb4",
     "host/airnanny2mqtt/src/airnanny/ha_discovery.py": "3b3554a8cba5c96e54406a04b624e2b166c23f988eb6600c1032524a593074ff",
-    "host/airnanny2mqtt/src/airnanny/late_join.py": "fd8896a7376c63e62bd94315477d4cec0453e5a43f0f65aa55a92a94060bef89",
+    "host/airnanny2mqtt/src/airnanny/late_join.py": "8fbc79493002d2fac5626ab5933920f2076a922a50fceb44b39542bb9e752e39",
     "host/airnanny2mqtt/src/airnanny/late_join_radio.py": "0534ac136815ce7fddcace66d1642a5a087d82365b64b4d7e3756f98502b2138",
     "host/airnanny2mqtt/src/airnanny/legacy_runtime_review.py": "c7689c684c3134abc1031b85b97060046f50f582c292338f2b818cef7ab839b2",
     "host/airnanny2mqtt/src/airnanny/lifecycle.py": "a92bcd7ff3c9566e0e754d62dd8503e4be2180689652564c603376ecd2743f85",
@@ -1387,7 +1387,7 @@
     "host/airnanny2mqtt/src/airnanny/service_faults.py": "9f961539acee6a8d91bc36162dd68fb9abae53a8ba725c9ad93a1bd3d839223e",
     "host/airnanny2mqtt/src/airnanny/service_profile.py": "18b3b98eb8d1af597102b1baa10b198f6ec46442603e10f96cf9375223191c4f",
     "host/airnanny2mqtt/src/airnanny/service_report.py": "ddb9dced7c8ba787a588e196aacd517fa726bc90f2083246a555fc20283a615e",
-    "host/airnanny2mqtt/src/airnanny/service_snapshot.py": "9959d73a72a7390ddc771dbcbb31ac4daade56fa9d0d654d4d6a3f6c09f493e5",
+    "host/airnanny2mqtt/src/airnanny/service_snapshot.py": "1a57aff8b55163ad1cfd2d144bb21961da97e22fe3450728c3c67a9d9fdbceec",
     "host/airnanny2mqtt/src/airnanny/state.py": "1ada38f673285c815e917fca391417d6751093e1a0ca073f7cd79fd2583522a0",
     "host/airnanny2mqtt/src/airnanny/transport.py": "149f1ddff676dec75e5ada99cd4aafdce0b64723448743c1817cf10b862fdb28",
     "host/airnanny2mqtt/src/airnanny/zcl.py": "bbe6951a00b10b80f7831dcd6b699dcb6c08e5ba0bce6295d3117ed211a696e9",
@@ -1419,8 +1419,8 @@
     "host/airnanny2mqtt/tools/run_radio_service_proof.py": "3869be65d3c6c965b2c10dad068a722fb660463bc8f7441184ac9b322613b32a",
     "host/airnanny2mqtt/tools/service_proof_commands.py": "f896f451d9a977d8d3bcd60b64d061cff6364675ad7be33d248c36bc6dc47e47",
     "host/airnanny2mqtt/tools/survey_radio.py": "43b6c3fd03c6c4df6a1fdf8456bd75ba6f6a8efc717bce219fa7e47afa8b7c3e",
-    "host/airnanny2mqtt/tools/test_late_join_offline.py": "67744b4d0c3c0231ac67db8de1e91afd23a437b01a70cf6c0b8fceb8d2879f14"
+    "host/airnanny2mqtt/tools/test_late_join_offline.py": "4ae1efe2f4f73eb445243ee0d3e595ed8fe08286507288f53863b71bff810587"
   },
-  "source_revision": "12a2243d3d79c8f725e394ab4dd0f87817c11d12",
+  "source_revision": "6d4e84e36dfc83e8ac79ecd019204358d2bc87e4",
   "source_tree_dirty": false
 }

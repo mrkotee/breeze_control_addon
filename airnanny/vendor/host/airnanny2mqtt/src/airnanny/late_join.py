@@ -12,9 +12,9 @@ from .radio_retry import RetryingCommandDevice
 from .radio_service import ServiceBlocked, clean_recovery_loss_safe, response_timeout_retry_safe
 from .serial_support import SerialFault
 
-# Terminal results of a plaintext scan that put nothing on air and left no
-# durable trace behind, and how many of them in one late-join attempt are
-# answered by sending the scan again rather than by stopping the service.
+# Plaintext scan losses spend no secured counter. Firmware STATUS decides
+# whether the inactive context can restart. Repeated refusals while still
+# BOUND remain limited rather than generating an unbounded command loop.
 SAFE_SCAN_LOSSES = frozenset(('cca_fail', 'no_ack', 'invalid_ack'))
 SCAN_LOSS_BUDGET = 3
 
@@ -98,27 +98,12 @@ class LateJoinRecovery:
             # is set before the reserve, and the intent outlives the flag.
             if self.secured or ledger.read()['recovery'].get('intents'):
                 raise ServiceBlocked('late_join_refused_after_secured_intent')
-            # What this must NOT do is back off. `management_resume` binds a
-            # context only from IDLE, or from STOPPED while the firmware
-            # itself marked it restartable; a context sitting in RECOVERY
-            # cannot be bound again at all. And a refused beacon leaves one
-            # in BOUND with no scan started, which is a state nothing in
-            # the firmware moves along: the scan deadline it would expire
-            # on was never armed. Abandoning the attempt there strands the
-            # context until the dongle boots again -- 0.21.19 did back off,
-            # and the next attempt latched `initial_restart_not_proven`,
-            # which is how an add-on died two steps after the refusal.
-            #
-            # BOUND with no scan started is exactly what the beacon gate
-            # wants, so the beacon is sent again, on the tolerance a lost
-            # scan already has. A refusal that repeats runs that tolerance
-            # out and stops under the reason a persistent discovery failure
-            # already has, which an operator can clear.
-            if verb=='ACTIVE_DISCOVERY_BEACON_REQUEST':
-                if self.scan_losses>=SCAN_LOSS_BUDGET:
-                    raise ServiceBlocked('late_join_discovery_tx_failed')
+            # ERROR proves only that this request was refused. In particular,
+            # state_or_deadline also means the preceding failed scan stopped
+            # the context; it does not prove that it is still BOUND.
+            if verb=='ACTIVE_DISCOVERY_BEACON_REQUEST' and f.get('reason')=='state_or_deadline':
                 self.scan_losses+=1;self.scans-=1
-                self.phase='SCAN';return
+                self.phase='CHECK_SCAN';return
             # Any other command: the chain cannot go on from here and the
             # context cannot be bound again, so say that rather than
             # pretending a later attempt will work. Nothing secured moved,
@@ -134,6 +119,19 @@ class LateJoinRecovery:
                 if f['recovery']!='BOUND' or f['state']!='RECOVERY':
                     raise ServiceBlocked('late_join_bind_not_bound')
                 self.bound_at=self.now();self.scans=0;self.scan_losses=0
+            elif self.phase=='CHECK_SCAN':
+                # A clean failed beacon consumes a firmware scan and moves
+                # it to STOPPED. Rebind only with the firmware's explicit
+                # restart permission and no secured work in this cycle.
+                if self.secured or ledger.read()['recovery'].get('intents'):
+                    raise ServiceBlocked('late_join_empty_scan_has_secured_intent')
+                if (f['state']=='STOPPED' and f['recovery']=='STOPPED'
+                        and f.get('late_join_restartable')=='1'):
+                    self._backoff();return
+                if (f['state']=='RECOVERY' and f['recovery']=='BOUND'
+                        and self.scan_losses<=SCAN_LOSS_BUDGET):
+                    self.phase='SCAN';return
+                raise ServiceBlocked('late_join_discovery_tx_failed')
             elif self.phase=='SCAN_STATUS':
                 if f['recovery']=='BOUND' and self.scans<3:
                     self.phase='SCAN';return
@@ -174,19 +172,14 @@ class LateJoinRecovery:
         else:
             if verb=='ACTIVE_DISCOVERY_BEACON_REQUEST':
                 if f['result']!='local_tx_ok':
-                    # A beacon request carries no security: nothing was
-                    # reserved, nothing went on air, and the firmware is
-                    # still BOUND. A scan that never happened is no evidence
-                    # about the parent -- and stopping the service over it
-                    # also stops whichever context is already serving, which
-                    # is far the worse outcome. Give the scan back and send
-                    # it again; a run of losses still stops for a person.
+                    # No secured frame was reserved. The frozen firmware
+                    # stops even for clean scan loss: ask STATUS before
+                    # deciding whether to rebind or retry in place.
                     if (f.get('cleanup')!='safe'
-                            or f['result'] not in SAFE_SCAN_LOSSES
-                            or self.scan_losses>=SCAN_LOSS_BUDGET):
+                            or f['result'] not in SAFE_SCAN_LOSSES):
                         raise ServiceBlocked('late_join_discovery_tx_failed')
-                    self.scan_losses+=1;self.scans-=1
-                    self.phase='SCAN';return
+                    self.scan_losses+=1
+                    self.phase='CHECK_SCAN';return
                 self.tx_end=int(f['time_us']);self.due=self.now()+280
             else:
                 kind={'REJOIN_REQUEST':'REJOIN','DEVICE_ANNOUNCE':'ANNOUNCE','END_DEVICE_TIMEOUT':'TIMEOUT'}[verb]
@@ -301,4 +294,5 @@ class LateJoinRecovery:
         elif self.phase=='AWAIT_TIMEOUT':self._responses('TIMEOUT')
         elif self.phase=='ACTIVE' and self.now()>=self.due:
             self._send('PARENT_LINK_ACTIVE','DONE',generation=ledger.read()['generation'],revision=self.response_revision)
+        elif self.phase=='CHECK_SCAN':self._send('STATUS','BACKOFF')
         elif self.phase=='CHECK_STOP':self._send('STATUS','BACKOFF')

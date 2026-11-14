@@ -17,7 +17,7 @@ RESULTS = {'local_tx_ok', 'no_ack', 'invalid_ack', 'cca_fail', 'error', 'aborted
            'watchdog', 'end', 'usb', 'loss', 'FAILED_OR_UNKNOWN'}
 LATE_PHASES = {'BACKOFF', 'VERIFY', 'BIND', 'SCAN', 'SCAN_WAIT', 'SCAN_STATUS', 'DISCOVERY',
                'REJOIN', 'AWAIT_REJOIN', 'SHORT', 'ANNOUNCE', 'TIMEOUT', 'AWAIT_TIMEOUT',
-               'ACTIVE', 'DONE', 'CHECK_STOP'}
+               'ACTIVE', 'DONE', 'CHECK_STOP', 'CHECK_SCAN'}
 
 
 def _object(value):

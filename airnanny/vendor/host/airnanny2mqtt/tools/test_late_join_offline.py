@@ -260,6 +260,23 @@ class LateJoinTests(unittest.TestCase):
 
     def test_missing_ctx1_returns_without_restarting_ctx0(self):self.exercise(0)
     def test_missing_ctx0_returns_without_restarting_ctx1(self):self.exercise(1)
+    def test_clean_beacon_miss_rebinds_without_restarting_ctx0(self):self.exercise(0,failure='ACTIVE_DISCOVERY_BEACON_REQUEST')
+    def test_clean_beacon_miss_rebinds_without_restarting_ctx1(self):self.exercise(1,failure='ACTIVE_DISCOVERY_BEACON_REQUEST')
+    def test_repeated_clean_beacon_losses_keep_the_active_peer_running(self):
+        rig=self.rig(0);radio=rig.loop.radio;boot=radio.boot
+        before=rig.ledgers[1].read()['next_fc'];generation=rig.ledgers[0].read()['generation']
+        for _ in range(4):
+            rig.port.fail='ACTIVE_DISCOVERY_BEACON_REQUEST'
+            rig.wait(lambda:rig.port.fail is None,ms=350000)
+            rig.wait(lambda:rig.loop.late_join.phase=='BACKOFF')
+            self.assertEqual(radio.active_slots,{0})
+            self.assertTrue(radio.connected)
+            self.assertEqual(rig.ledgers[1].read()['next_fc'],before)
+        rig.parents[1]=True
+        rig.wait(lambda:radio.active_slots=={0,1},ms=350000)
+        self.assertEqual(radio.boot,boot)
+        self.assertEqual(rig.ledgers[0].read()['generation'],generation)
+
     def test_clean_rejoin_miss_uses_new_guard_and_fc(self):self.exercise(0,failure='REJOIN_REQUEST')
     def test_clean_announce_miss_uses_new_guard_and_fc(self):self.exercise(1,failure='DEVICE_ANNOUNCE')
     def test_clean_timeout_miss_uses_new_guard_and_fc(self):self.exercise(0,failure='END_DEVICE_TIMEOUT')
