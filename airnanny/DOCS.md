@@ -247,6 +247,15 @@ acknowledgement changes service state only; it never resets counters or
 replays commands. Clear the acknowledgement field after use. A failed review
 keeps the latch and prints a bounded reason code.
 
+### A startup commit refused by the dongle
+
+0.21.25 retries a fresh recovery cycle when `PARENT_LINK_ACTIVE` is refused
+with `control_state` and the complete live transcript and durable intents
+prove every transmission settled safely. It does not replay the commit or
+application commands. Other errors, missing/uncertain results, capture loss
+and authenticated Leave keep their existing protection. Repeated refusals
+use bounded retries and backoff.
+
 ## Troubleshooting
 
 **`dongle_absent`** — the dongle is not plugged in, or its USB serial does not

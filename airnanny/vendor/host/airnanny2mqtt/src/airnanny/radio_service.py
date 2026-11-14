@@ -171,6 +171,7 @@ TRANSIENT_REASONS = frozenset(('clean_recovery_RF_loss_new_cycle_required',
                                'recovery_response_timeout_new_cycle_required',
                                'recovery_answer_unacknowledged_new_cycle_required',
                                'recovery_handshake_interrupted_new_cycle_required',
+                               'recovery_control_refused_new_cycle_required',
                                'target_beacon_unavailable'))
 PROMPT_RETRIES = 6
 
@@ -181,6 +182,11 @@ REFUSAL_REMEDY = ('the dongle refused this command and transmitted nothing:'
                   ' FIRMWARE line above names the command.')
 
 REMEDIES = {
+    'recovery_control_refused_new_cycle_required':
+        'the dongle refused PARENT_LINK_ACTIVE with control_state. Every'
+        ' transmission completed safely and every secured frame matches its'
+        ' spent durable intent. A new boot and recovery cycle are started;'
+        ' the refused commit and application commands are not replayed.',
     'dongle_in_bootloader':
         'the dongle is in its DFU bootloader: the runtime firmware is not'
         ' running. Flash it and replug.',

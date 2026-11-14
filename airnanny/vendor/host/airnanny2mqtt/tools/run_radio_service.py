@@ -29,6 +29,7 @@ from airnanny.real_radio import RealRadioTransport, bootstrap_port_factory, seri
 from airnanny.serial_trace import WatchedPort
 from airnanny.recovery_guard import guard_recovery_reads
 from airnanny.recovery_application import handoff_recovery_stock
+from airnanny.recovery_refusal import control_refusal_retry_safe
 from airnanny.service_profile import service_profile, CONTINUOUS_VERSIONS
 from airnanny.service_faults import runtime_fault_lines
 from airnanny.legacy_runtime_review import review_legacy_runtime_fault, acknowledge_legacy_runtime_fault
@@ -441,6 +442,8 @@ def establish(args, mqtt_options, state):
             raise RecoveryCleanTxLoss('recovery_response_timeout_new_cycle_required') from None
         if guard and runner and unacknowledged_answer_safe(exc,ledgers,guard,runner.records):
             raise RecoveryCleanTxLoss('recovery_answer_unacknowledged_new_cycle_required') from None
+        if guard and runner and control_refusal_retry_safe(exc,ledgers,guard,runner.records):
+            raise RecoveryCleanTxLoss('recovery_control_refused_new_cycle_required') from None
         if guard and runner and handshake_retry_safe(exc,ledgers,guard,runner.records):
             raise RecoveryCleanTxLoss('recovery_handshake_interrupted_new_cycle_required') from None
         raise
