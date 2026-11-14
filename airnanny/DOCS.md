@@ -235,6 +235,18 @@ From this version, an unexpected `service_runtime_fault` also retains the
 exception class and call locations for the next startup. Older versions lost
 that information; upgrading cannot reconstruct it or clear an existing latch.
 
+### Recovering a legacy runtime latch
+
+0.21.24 can review a `service_runtime_fault` left by a version that discarded
+its exception. The log must say `durable store review:
+legacy_runtime_stores_settled` before you acknowledge exactly
+`service_runtime_fault`. The review rechecks both live stores, matching
+guards, monotonic counters and fully settled recovery requests, and refuses
+any application intent, late join, Leave or newer recorded exception. The
+acknowledgement changes service state only; it never resets counters or
+replays commands. Clear the acknowledgement field after use. A failed review
+keeps the latch and prints a bounded reason code.
+
 ## Troubleshooting
 
 **`dongle_absent`** — the dongle is not plugged in, or its USB serial does not

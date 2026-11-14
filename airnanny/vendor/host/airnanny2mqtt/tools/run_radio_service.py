@@ -31,6 +31,7 @@ from airnanny.recovery_guard import guard_recovery_reads
 from airnanny.recovery_application import handoff_recovery_stock
 from airnanny.service_profile import service_profile, CONTINUOUS_VERSIONS
 from airnanny.service_faults import runtime_fault_lines
+from airnanny.legacy_runtime_review import review_legacy_runtime_fault, acknowledge_legacy_runtime_fault
 from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, ServiceBlocked,
                                    OPERATOR_CLEARABLE, EVIDENCE_CLEARABLE,
                                    PersistentRadioService, StartupUnavailable, ReadinessPolls,
@@ -445,6 +446,19 @@ def establish(args, mqtt_options, state):
         raise
 
 
+def runtime_store_review(state, *, acknowledge=None):
+    # Called under ServiceLock, before serial opens. The frozen reader checks
+    # identities/epochs without resolving secrets or constructing a ledger.
+    try:
+        store=firmware_modules().dual_store
+        validate=lambda slot,path:store.read(slot,path=path)
+        if acknowledge is not None:
+            return acknowledge_legacy_runtime_fault(state,acknowledge,store.STORE_PATHS,validate_store=validate)
+        return review_legacy_runtime_fault(state,store.STORE_PATHS,validate_store=validate)
+    except Exception:
+        return 'not_clearable' if acknowledge is not None else dict(permitted=False,code='store_or_state_validation_failed')
+
+
 def argument_parser():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--preflight',action='store_true')
@@ -499,6 +513,10 @@ def main():
                        or (reason in EVIDENCE_CLEARABLE
                            and explain_fault.evidence_permits_clearing(
                                LOCAL,expected_trace=latched.get('trace'))))
+            if reason == 'service_runtime_fault':
+                reviewed=runtime_store_review(state)
+                permitted=reviewed['permitted']
+                print('  durable store review: '+reviewed['code'],flush=True)
             print('  '+('clear it by acknowledging exactly this reason' if permitted
                         else 'this one needs review; acknowledging it will not clear it'),flush=True)
             if reason == 'service_runtime_fault':
@@ -527,9 +545,12 @@ def main():
             print('acknowledgement for '+acknowledged+' was already used on this run;',flush=True)
             print('  clear the field so a returning fault still stops for a person',flush=True)
         elif acknowledged:
-            outcome=state.acknowledge(acknowledged,
-                evidence_permits=explain_fault.evidence_permits_clearing(
-                    LOCAL,expected_trace=latched.get('trace')))
+            if acknowledged == 'service_runtime_fault':
+                outcome=runtime_store_review(state,acknowledge=acknowledged)
+            else:
+                outcome=state.acknowledge(acknowledged,
+                    evidence_permits=explain_fault.evidence_permits_clearing(
+                        LOCAL,expected_trace=latched.get('trace')))
             print({'cleared':'fault cleared by operator: '+acknowledged,
                    'mismatch':'not cleared: the latched fault is '+(latched.get('reason') or 'unknown')+', not '+acknowledged,
                    'not_clearable':'not cleared: '+acknowledged+' needs review, not acknowledgement',
