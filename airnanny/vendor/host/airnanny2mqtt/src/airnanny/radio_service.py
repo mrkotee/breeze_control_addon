@@ -202,8 +202,8 @@ REMEDIES = {
         ' FIRMWARE line above names it. The poll carries no security and'
         ' spends no counter; read it, then clear this by acknowledging it.',
     'recovery_handshake_interrupted_new_cycle_required':
-        'a frame arrived on the air before the dongle answered the opening'
-        ' query. Nothing was commanded but that query; the next cycle starts'
+        'the opening query was interrupted before the handshake completed.'
+        ' Nothing was commanded but that query; the next cycle starts'
         ' the handshake again.',
     'radio_poll_submission_refused':
         'the radio driver would not accept three parent polls in a row:'
@@ -652,7 +652,7 @@ def unacknowledged_answer_safe(error, ledgers, guard, records):
 
 
 # Faults the opening handshake raises before anything is commissioned.
-HANDSHAKE_FAULTS = frozenset(('INFO_FIRST',))
+HANDSHAKE_FAULTS = frozenset(('INFO_FIRST', 'UNEXPECTED_SERIAL_PROTOCOL'))
 # A record whose presence means the radio was engaged on our behalf.
 SPENDING_RECORDS = frozenset(('TXACCEPT', 'TXDONE', 'AUTO_ACCEPT', 'AUTO_DONE', 'ERROR'))
 # Host commands that ask the dongle something and change nothing. Named
@@ -676,6 +676,17 @@ def handshake_retry_safe(error, ledgers, guard, records):
     """
     if str(error) not in HANDSHAKE_FAULTS or not records:
         return False
+    if str(error)=='UNEXPECTED_SERIAL_PROTOCOL':
+        # The frozen reader raises before recording a malformed first line.
+        # Retry only the complete opening transcript: exactly INFO id=1,
+        # with no parsed reply or later command. A protocol fault after any
+        # other activity remains latched. The guard must still be absent
+        # from both stores, as checked below; this never bypasses the parser.
+        if (set(ledgers)!={0,1} or not isinstance(guard,str) or len(guard)!=32
+                or any(c not in '0123456789abcdef' for c in guard)
+                or len(records)!=1 or records[0].get('kind')!='HOST_COMMAND'
+                or (records[0].get('raw') or '').split()!=['RADIOV10','INFO','id=1']):
+            return False
     if any(r.get('kind') in SPENDING_RECORDS for r in records):
         return False
     for record in records:

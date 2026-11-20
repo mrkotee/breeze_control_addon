@@ -207,6 +207,26 @@ class LateJoinTests(unittest.TestCase):
     def rig(self,healthy):
         rig=Rig(self.root,healthy);self.addCleanup(rig.close);return rig
 
+    def test_malformed_opening_info_retries_without_radio_or_store_mutation(self):
+        from unittest.mock import patch
+        from airnanny.radio_service import RecoveryCleanTxLoss
+        original=ParentPort.write
+        def malformed_info(port,data):
+            if data.decode().split()[1]=='INFO':
+                port.buffer.extend(b'fragment_without_protocol_prefix\n')
+            return original(port,data)
+        with patch.object(ParentPort,'write',malformed_info):
+            with self.assertRaisesRegex(RecoveryCleanTxLoss,'recovery_handshake_interrupted_new_cycle_required'):
+                self.rig(0)
+        trace=json.loads(next((self.root/'runtime').glob('recovery_failure_*.private.json')).read_text())
+        self.assertEqual([(r['kind'],r.get('raw')) for r in trace['records']],
+                         [('HOST_COMMAND','RADIOV10 INFO id=1')])
+        for slot in (0,1):
+            record=json.loads((self.root/f'ctx{slot}/epoch.json').read_text())
+            self.assertEqual(record['next_fc'],2000)
+            self.assertEqual(record['generation'],40)
+            self.assertFalse(record['recovery'].get('intents'))
+
     def exercise(self,healthy,*,failure=None,drop_reply=None,wrap=False):
         rig=self.rig(healthy);missing=1-healthy;radio=rig.loop.radio
         original_boot=radio.boot;original_device=rig.loop.daemon.adapters[

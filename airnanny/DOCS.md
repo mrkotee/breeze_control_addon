@@ -269,6 +269,17 @@ for the current late-join guard and empty intents with no secured work,
 Leave or rollback before acknowledging that exact reason. Clear the
 acknowledgement option after use.
 
+### An interrupted opening INFO reply
+
+0.21.27 retries `UNEXPECTED_SERIAL_PROTOCOL` before the opening INFO reply
+only when the complete transcript is exactly `RADIOV10 INFO id=1`, no reply
+was parsed, and the new recovery guard appears in neither durable store.
+The parser still rejects the line. The host closes the port and attempts a
+new handshake within its bounded retry/backoff policy. Later protocol faults
+keep their protection. For an older latch, its own trace must first prove
+the failed attempt transmitted nothing before acknowledging
+`retained_recovery_failed_or_unknown` once and clearing the option.
+
 ## Troubleshooting
 
 **`dongle_absent`** — the dongle is not plugged in, or its USB serial does not
