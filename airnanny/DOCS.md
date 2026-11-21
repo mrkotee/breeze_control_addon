@@ -280,6 +280,14 @@ keep their protection. For an older latch, its own trace must first prove
 the failed attempt transmitted nothing before acknowledging
 `retained_recovery_failed_or_unknown` once and clearing the option.
 
+### Passive status observations
+
+0.21.28 adds `STATUS_OBSERVATION` lines when `log_level` is `debug`. These
+show fresh authenticated application statuses for comparing a physical
+condition, such as FILL WATER, with the received bytes. No additional device
+command is sent. Other log levels disable this output. This diagnostic
+release does not assign water-tank meaning to an unverified flag.
+
 ## Troubleshooting
 
 **`dongle_absent`** — the dongle is not plugged in, or its USB serial does not

@@ -312,7 +312,7 @@ class ServiceDiagnostics:
     def __init__(self, daemon, radio, ledgers, state, *, firmware_identity=None,
                  firmware_version=None, store_interval_ms=STORE_INTERVAL_MS,
                  check_interval_ms=CHECK_INTERVAL_MS,
-                 context_identity=CONTEXT_IDENTITY, health_observer=None):
+                 context_identity=CONTEXT_IDENTITY, health_observer=None, status_observer=None):
         if type(store_interval_ms) is not int or store_interval_ms < 1000:
             raise ValueError('bounded store read interval required')
         # Demanded here rather than read defensively on the hot path: a
@@ -350,6 +350,7 @@ class ServiceDiagnostics:
         # teach an operator to stop reading these lines.
         self._last_visible = UNDERIVED
         self.health_observer = health_observer
+        self.status_observer = status_observer
 
     # -- readings ---------------------------------------------------------
 
@@ -483,6 +484,11 @@ class ServiceDiagnostics:
         if now < self._check_due:
             return
         self._check_due = now + self.check_interval_ms
+        if self.status_observer is not None:
+            try:
+                self.status_observer(now,self.adapters)
+            except Exception:
+                pass  # Diagnostic output must never stop the bridge.
         if self._last_reason is not UNDERIVED and self.cheap_reason() != self._last_reason:
             self._refresh_stores(now)
             self.publish()
