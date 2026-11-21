@@ -25,6 +25,11 @@ def discovery(config: DaemonConfig) -> dict[str, dict]:
                 value_template="{{ 'off' if value_json.humidifier == 0 else value_json.humidifier | string }}",
                 options=['off','1','2'])),
         ]
+        entities.append(('binary_sensor','water_empty',dict(
+            name='Пустой бак',device_class='problem',icon='mdi:water-alert',
+            default_entity_id=f'binary_sensor.airnanny_{device_id}_water_empty',
+            state_topic=topics.diagnostics,payload_on='ON',payload_off='OFF',
+            value_template="{{ 'ON' if value_json.water_empty is sameas true else 'OFF' if value_json.water_empty is sameas false else 'None' }}")))
         for field in ('status_fresh','rx_revision','baseline_generation','baseline_source'):
             entities.append(('sensor',field,dict(value_template='{{ value_json.'+field+' }}',
                 entity_category='diagnostic',state_topic=topics.diagnostics)))

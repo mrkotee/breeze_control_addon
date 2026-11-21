@@ -7,6 +7,19 @@ dual-PAN firmware.
 The add-on publishes state only from confirmed device state. A command sent
 from Home Assistant is never reflected as state until the device confirms it.
 
+## Empty humidifier tank (0.21.29)
+
+Each A7 device includes a **Пустой бак** binary sensor. It turns on when the
+unit reports **FILL WATER**, and clears when that warning disappears after
+refilling. It indicates the device warning, not the amount of water left.
+Before the first valid status it is unknown; if the unit or bridge is offline
+it is unavailable. No extra configuration is needed.
+
+Default entity IDs:
+
+- `binary_sensor.airnanny_bedroom_water_empty`
+- `binary_sensor.airnanny_second_bedroom_water_empty`
+
 ## Before you install
 
 You need all of the following:

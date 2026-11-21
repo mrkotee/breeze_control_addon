@@ -9,6 +9,7 @@ from .events import CommandAccepted, CommandCompleted, CommandFailed, StateEvent
 from .ha_discovery import discovery
 from .lifecycle import EventLog, RadioSession
 from .mqtt_schema import COMMANDS, Topics, encode, parse_command, state_payload, state_fingerprint
+from .water_tank import water_empty
 
 
 @dataclass
@@ -75,6 +76,7 @@ class DeviceMqttAdapter:
             if self.daemon.publish(self.topics.availability,binary.encode(),True):
                 self.last_availability=binary
         diagnostic=dict(availability=current,status_valid=snapshot.status_valid,status_fresh=snapshot.status_fresh,
+            water_empty=water_empty(snapshot.raw_type06),
             status_age_ms=snapshot.status_age_ms,rx_revision=snapshot.rx_revision,
             baseline_generation=snapshot.baseline_generation,baseline_source=snapshot.baseline_source,
             baseline_valid=snapshot.baseline_valid,baseline_pending=snapshot.baseline_pending,
