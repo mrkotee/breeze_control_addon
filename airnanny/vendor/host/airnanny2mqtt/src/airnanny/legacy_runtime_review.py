@@ -44,12 +44,25 @@ def review_legacy_runtime_fault(state, paths, *, validate_store):
     join, newer recorded exception or any unmodelled condition refuses this
     migration. A different failure's recovery trace is never read.
     """
+    return _review_settled_runtime_fault(state, paths, validate_store=validate_store,
+        fault_check=_legacy_fault_check, success_code='legacy_runtime_stores_settled')
+
+
+def _legacy_fault_check(record):
+    if record.get('runtime_fault') is not None or record.get('runtime_cleanup_fault') is not None:
+        return 'recorded_exception_needs_diagnosis'
+    return None
+
+
+def _review_settled_runtime_fault(state, paths, *, validate_store, fault_check, success_code):
+    """Shared durable proof; callers must separately identify an eligible fault."""
     try:
         state_raw, record = _read(state.path)
         if (record.get('state'), record.get('reason')) != ('BLOCKED', REASON):
             return _denied('not_legacy_runtime_latch')
-        if record.get('runtime_fault') is not None or record.get('runtime_cleanup_fault') is not None:
-            return _denied('recorded_exception_needs_diagnosis')
+        refusal = fault_check(record)
+        if refusal is not None:
+            return _denied(refusal)
         if record.get('trace') is not None or record.get('late_join') is not None:
             return _denied('other_work_requires_review')
         guard = record.get('guard')
@@ -110,7 +123,7 @@ def review_legacy_runtime_fault(state, paths, *, validate_store):
         # cooperating processes are already excluded by the owner's lock.
         if state.path.read_bytes() != state_raw or any(Path(paths[s]).read_bytes() != raw_stores[s] for s in (0, 1)):
             return _denied('records_changed_during_review')
-        return dict(permitted=True, code='legacy_runtime_stores_settled',
+        return dict(permitted=True, code=success_code,
                     state_sha256=hashlib.sha256(state_raw).hexdigest(), stores=evidence)
     except Exception:
         # Store validators may include raw values in their error messages.
@@ -119,6 +132,11 @@ def review_legacy_runtime_fault(state, paths, *, validate_store):
 
 def acknowledge_legacy_runtime_fault(state, reason, paths, *, validate_store):
     """Recheck current files at the point of the explicit acknowledgement."""
+    return _acknowledge_runtime_fault(state, reason, paths, validate_store=validate_store,
+        reviewer=review_legacy_runtime_fault, basis='legacy_runtime_store_review')
+
+
+def _acknowledge_runtime_fault(state, reason, paths, *, validate_store, reviewer, basis):
     record = state.read()
     if record['state'] != 'BLOCKED':
         return 'not_blocked'
@@ -126,7 +144,7 @@ def acknowledge_legacy_runtime_fault(state, reason, paths, *, validate_store):
         return 'mismatch'
     if state.acknowledgement_spent(reason):
         return 'not_clearable'
-    review = review_legacy_runtime_fault(state, paths, validate_store=validate_store)
+    review = reviewer(state, paths, validate_store=validate_store)
     if not review['permitted']:
         return 'not_clearable'
     cleared = dict(record.get('cleared') or {})
@@ -136,5 +154,5 @@ def acknowledge_legacy_runtime_fault(state, reason, paths, *, validate_store):
     cleared[reason] = previous_count + 1
     state.write('WAITING', reason=None, cleared=cleared,
                 consumed_acknowledgement={'reason': reason, 'cycles': record['cycles']},
-                last_cleared={'reason': reason, 'basis': 'legacy_runtime_store_review', 'review': review})
+                last_cleared={'reason': reason, 'basis': basis, 'review': review})
     return 'cleared'

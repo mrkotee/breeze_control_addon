@@ -9,6 +9,10 @@ from .mqtt import Message
 from .mqtt_runtime import MqttRuntimeConfig
 
 
+class MqttSubscriptionError(ConnectionError):
+    """Connection setup failed at the MQTT subscription boundary."""
+
+
 @dataclass(frozen=True)
 class WireMessage(Message):
     qos: int = 0
@@ -166,7 +170,16 @@ class PahoMqttTransport:
                 self._count('mqtt_connects')
                 if self.metrics['mqtt_connects']>1:self._count('mqtt_reconnects')
                 self._log('connect',data)
-                self.connection_handler(True)
+                try:
+                    self.connection_handler(True)
+                except MqttSubscriptionError:
+                    # The socket can disappear after CONNACK was queued and
+                    # before the owner subscribes. Discard this connection's
+                    # commands/ACKs; the service retries MQTT on its own timer.
+                    self._count('connect_failures')
+                    self._log('connect_failure','subscription_setup')
+                    self._close(graceful=False)
+                    return processed
             elif kind=='disconnected':
                 was_connected=self.connected;self.connected=False
                 self._fail_pending('connection_lost_delivery_unknown')
@@ -178,6 +191,8 @@ class PahoMqttTransport:
                 if failed:
                     self._sub_failed=True
                     self._count('subscription_failures');self._log('subscribe_failure','suback')
+                    self._close(graceful=False)
+                    return processed
             elif kind=='message' and self.connected:
                 self._count('inbound_messages')
                 if data.topic.endswith('/set'):
@@ -199,13 +214,14 @@ class PahoMqttTransport:
 
     def subscribe(self,topic):
         self._assert_owner()
-        if not self.connected:raise ConnectionError('MQTT disconnected')
+        if not self.connected:raise MqttSubscriptionError('MQTT disconnected')
         if topic in self._subscriptions:return
         if not topic or any(c in topic for c in ('#','+','\x00')):raise ValueError('exact subscription required')
         rc,mid=self._client.subscribe(topic,qos=1)
         if rc:
             self._sub_failed=True
-            self._count('subscription_failures');raise ConnectionError('MQTT subscribe rejected')
+            self._count('subscription_failures');self._log('subscribe_failure',int(rc))
+            raise MqttSubscriptionError('MQTT subscribe rejected')
         self._subscriptions.add(topic);self._sub_pending.add(mid)
 
     def publish(self,topic,payload,retain=False):

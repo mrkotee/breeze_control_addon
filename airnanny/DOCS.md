@@ -20,6 +20,14 @@ Default entity IDs:
 - `binary_sensor.airnanny_bedroom_water_empty`
 - `binary_sensor.airnanny_second_bedroom_water_empty`
 
+## MQTT recovery (0.21.30)
+
+A lost connection during MQTT subscription setup now reconnects MQTT while
+the radio bridge keeps running. Commands queued on an incomplete connection
+are discarded; radio commands are not repeated by reconnecting. A previously
+recorded 0.21.29 subscription crash can be acknowledged only after the add-on
+recognizes its exact call chain and verifies both current security stores.
+
 ## Before you install
 
 You need all of the following:

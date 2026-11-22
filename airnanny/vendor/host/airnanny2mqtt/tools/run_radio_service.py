@@ -33,6 +33,7 @@ from airnanny.recovery_refusal import control_refusal_retry_safe
 from airnanny.service_profile import service_profile, CONTINUOUS_VERSIONS
 from airnanny.service_faults import runtime_fault_lines
 from airnanny.legacy_runtime_review import review_legacy_runtime_fault, acknowledge_legacy_runtime_fault
+from airnanny.mqtt_runtime_review import review_mqtt_runtime_fault, acknowledge_mqtt_runtime_fault
 from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, ServiceBlocked,
                                    OPERATOR_CLEARABLE, EVIDENCE_CLEARABLE,
                                    PersistentRadioService, StartupUnavailable, ReadinessPolls,
@@ -457,9 +458,12 @@ def runtime_store_review(state, *, acknowledge=None):
     try:
         store=firmware_modules().dual_store
         validate=lambda slot,path:store.read(slot,path=path)
+        diagnosed = state.read().get('runtime_fault') is not None
         if acknowledge is not None:
-            return acknowledge_legacy_runtime_fault(state,acknowledge,store.STORE_PATHS,validate_store=validate)
-        return review_legacy_runtime_fault(state,store.STORE_PATHS,validate_store=validate)
+            acknowledge_fault = acknowledge_mqtt_runtime_fault if diagnosed else acknowledge_legacy_runtime_fault
+            return acknowledge_fault(state,acknowledge,store.STORE_PATHS,validate_store=validate)
+        reviewer = review_mqtt_runtime_fault if diagnosed else review_legacy_runtime_fault
+        return reviewer(state,store.STORE_PATHS,validate_store=validate)
     except Exception:
         return 'not_clearable' if acknowledge is not None else dict(permitted=False,code='store_or_state_validation_failed')
 
