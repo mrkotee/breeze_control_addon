@@ -22,7 +22,8 @@ class CommandRequest:
     def __post_init__(self):
         valid = type(self.value) is int and (
             self.kind == "fan" and 1 <= self.value <= 7 or
-            self.kind in ("mode", "humidifier") and 0 <= self.value <= 2 or
+            self.kind == "mode" and 0 <= self.value <= 2 or
+            self.kind == "humidifier" and 0 <= self.value <= 3 or
             self.kind in ("night", "power") and 0 <= self.value <= 1 or
             self.kind == "temp" and target_valid(self.value))
         if not valid:
@@ -38,8 +39,8 @@ class CommandRequest:
             value = int(value == "on")
         elif kind == "humidifier":
             if value == "off": value = 0
-            elif value in ("1", "2"): value = int(value)
-            elif type(value) is not int or value not in (1, 2): raise CommandError("bad_argument")
+            elif value in ("1", "2", "3"): value = int(value)
+            elif type(value) is not int or value not in (1, 2, 3): raise CommandError("bad_argument")
         elif kind == "temp":
             if value == "off": value = OFF
             else:
@@ -71,7 +72,7 @@ def build(request: CommandRequest, baseline: Baseline, status: Type06 | None,
             raise CommandError("unsupported_state")
     if kind == "humidifier":
         if b.humidifier_raw != s.humidifier_raw: raise CommandError("state_mismatch")
-        if not s.power or s.mode_raw != 0 or s.night or b.humidifier_raw > 2:
+        if not s.power or s.mode_raw != 0 or s.night or b.humidifier_raw > 3:
             raise CommandError("unsupported_state")
     if kind == "night" and (not s.power or b.humidifier_raw != 0):
         raise CommandError("unsupported_state")

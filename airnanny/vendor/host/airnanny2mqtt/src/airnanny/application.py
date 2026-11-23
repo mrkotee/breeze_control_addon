@@ -44,7 +44,7 @@ class Type06:
     @property
     def humidifier_raw(self): return self.raw[18]
     @property
-    def humidifier(self): return self.humidifier_raw if self.humidifier_raw <= 2 else None
+    def humidifier(self): return self.humidifier_raw if self.humidifier_raw <= 3 else None
     @property
     def flags(self): return self.raw[21]
     @property

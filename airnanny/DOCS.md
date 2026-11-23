@@ -7,6 +7,17 @@ dual-PAN firmware.
 The add-on publishes state only from confirmed device state. A command sent
 from Home Assistant is never reflected as state until the device confirms it.
 
+## Three humidifier levels (0.21.31)
+
+The Humidifier selector offers `off`, `1`, `2`, and `3` for both A7 units.
+Level 3 is accepted in MQTT commands and device status, including switching
+from level 3 back to another level or off. Updating and restarting the add-on
+refreshes the existing Home Assistant selectors automatically through MQTT
+discovery. No dongle firmware update is required.
+
+The level-3 command and confirmation flow is covered by offline tests; it
+has not been verified on physical hardware in this change.
+
 ## Empty humidifier tank (0.21.29)
 
 Each A7 device includes a **Пустой бак** binary sensor. It turns on when the

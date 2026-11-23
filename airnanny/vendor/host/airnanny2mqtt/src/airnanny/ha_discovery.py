@@ -23,7 +23,7 @@ def discovery(config: DaemonConfig) -> dict[str, dict]:
                 payload_on='ON',payload_off='OFF',state_on='on',state_off='off')),
             ('select','humidifier',dict(command='humidifier',
                 value_template="{{ 'off' if value_json.humidifier == 0 else value_json.humidifier | string }}",
-                options=['off','1','2'])),
+                options=['off','1','2','3'])),
         ]
         entities.append(('binary_sensor','water_empty',dict(
             name='Пустой бак',device_class='problem',icon='mdi:water-alert',
