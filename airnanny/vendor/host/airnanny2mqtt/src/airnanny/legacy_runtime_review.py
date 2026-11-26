@@ -54,11 +54,12 @@ def _legacy_fault_check(record):
     return None
 
 
-def _review_settled_runtime_fault(state, paths, *, validate_store, fault_check, success_code):
+def _review_settled_runtime_fault(state, paths, *, validate_store, fault_check, success_code,
+                                 expected_reason=REASON, application_check=None):
     """Shared durable proof; callers must separately identify an eligible fault."""
     try:
         state_raw, record = _read(state.path)
-        if (record.get('state'), record.get('reason')) != ('BLOCKED', REASON):
+        if (record.get('state'), record.get('reason')) != ('BLOCKED', expected_reason):
             return _denied('not_legacy_runtime_latch')
         refusal = fault_check(record)
         if refusal is not None:
@@ -99,7 +100,10 @@ def _review_settled_runtime_fault(state, paths, *, validate_store, fault_check, 
                     return _denied('discovery_spent_or_changed_state')
                 boundary = 'discovery_spent_nothing'
             elif recovery.get('state') == 'PARENT_LINK_ACTIVE':
-                if set(intents) != {'REJOIN', 'ANNOUNCE', 'TIMEOUT'}:
+                expected_intents = {'REJOIN', 'ANNOUNCE', 'TIMEOUT'}
+                if application_check is not None and 'TYPE07' in intents:
+                    expected_intents.add('TYPE07')
+                if set(intents) != expected_intents:
                     return _denied('application_or_unknown_intent')
                 next_fc = previous['next_fc']
                 for name in ('REJOIN', 'ANNOUNCE', 'TIMEOUT'):
@@ -112,6 +116,8 @@ def _review_settled_runtime_fault(state, paths, *, validate_store, fault_check, 
                             or intent['block_end'] != next_fc + 31):
                         return _denied('recovery_chain_not_settled')
                     next_fc += 32
+                if application_check is not None:
+                    next_fc = application_check(slot, store, next_fc)
                 if next_fc != store['next_fc']:
                     return _denied('unaccounted_counter_reservation')
                 boundary = 'successful_recovery_no_application_intent'
@@ -136,11 +142,12 @@ def acknowledge_legacy_runtime_fault(state, reason, paths, *, validate_store):
         reviewer=review_legacy_runtime_fault, basis='legacy_runtime_store_review')
 
 
-def _acknowledge_runtime_fault(state, reason, paths, *, validate_store, reviewer, basis):
+def _acknowledge_runtime_fault(state, reason, paths, *, validate_store, reviewer, basis,
+                               expected_reason=REASON):
     record = state.read()
     if record['state'] != 'BLOCKED':
         return 'not_blocked'
-    if reason != REASON or record.get('reason') != reason:
+    if reason != expected_reason or record.get('reason') != reason:
         return 'mismatch'
     if state.acknowledgement_spent(reason):
         return 'not_clearable'

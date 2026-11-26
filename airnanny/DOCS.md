@@ -7,6 +7,15 @@ dual-PAN firmware.
 The add-on publishes state only from confirmed device state. A command sent
 from Home Assistant is never reflected as state until the device confirms it.
 
+## Radio driver recovery (0.21.32)
+
+On V33–V35 a safe management-poll refusal before RF transmission now starts
+fresh radio recovery immediately. The firmware has already stopped that
+context, so retrying the old session could lead to a permanent
+`radio_context_not_active` block. Existing blocks can be acknowledged only
+after a live review accounts for both stores and all consumed counter blocks;
+commands and counters are never replayed or reset.
+
 ## Three humidifier levels (0.21.31)
 
 The Humidifier selector offers `off`, `1`, `2`, and `3` for both A7 units.

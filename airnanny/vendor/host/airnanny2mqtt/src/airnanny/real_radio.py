@@ -455,6 +455,11 @@ class RealRadioTransport:
                 # recoverable -- a single refused poll used to kill the whole
                 # bridge under `radio_poll_failed_or_unknown`, latched, with
                 # both appliances serving at the time.
+                # V33+ management_done stops the firmware context on this
+                # non-clean terminal result even when no RF was acquired.
+                # Another poll/STATUS cannot revive it; use a fresh cycle.
+                if self.firmware_version >= 33:
+                    raise SerialFault('radio_poll_submission_refused')
                 self._poll_refusals[p.slot] += 1
                 if self._poll_refusals[p.slot] >= POLL_SUBMISSION_BUDGET:
                     raise SerialFault('radio_poll_submission_refused')

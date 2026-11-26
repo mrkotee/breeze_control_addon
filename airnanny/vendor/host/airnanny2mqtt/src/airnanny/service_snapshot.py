@@ -8,7 +8,8 @@ from .service_faults import runtime_fault_lines
 MAX_JSON_BYTES = 2 * 1024 * 1024
 SERVICE_STATES = {'NEW', 'RECOVERING', 'ACTIVE', 'WAITING', 'STOPPED', 'BLOCKED'}
 KNOWN_REASONS = set(RECOVERABLE) | set(OPERATOR_CLEARABLE) | set(EVIDENCE_CLEARABLE) | set(REMEDIES) | {
-    'service_runtime_fault', 'service_state_invalid', 'store_rollback_detected', 'radio_authenticated_leave'}
+    'service_runtime_fault', 'service_state_invalid', 'store_rollback_detected', 'radio_authenticated_leave',
+    'radio_context_not_active'}
 RECOVERY_STATES = {'IDLE', 'DISCOVERING', 'DISCOVERED', 'REJOIN_SENT', 'REJOINED', 'ANNOUNCE_SENT',
                    'TIMEOUT_SENT', 'PARENT_LINK_ACTIVE', 'DEGRADED_LEAVE', 'REJECTED', 'FAILED', 'STOPPED'}
 PHASES = {'BURNED_BEFORE_CRYPTO', 'BUILT_NEVER_RETRY', 'SENT', 'HANDED_UNKNOWN_NO_RETRY',

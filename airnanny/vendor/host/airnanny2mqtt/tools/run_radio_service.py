@@ -34,6 +34,7 @@ from airnanny.service_profile import service_profile, CONTINUOUS_VERSIONS
 from airnanny.service_faults import runtime_fault_lines
 from airnanny.legacy_runtime_review import review_legacy_runtime_fault, acknowledge_legacy_runtime_fault
 from airnanny.mqtt_runtime_review import review_mqtt_runtime_fault, acknowledge_mqtt_runtime_fault
+from airnanny.context_stop_review import review_context_stop, acknowledge_context_stop
 from airnanny.radio_service import (ServiceState, ServiceLock, BoundedLedger, ServiceBlocked,
                                    OPERATOR_CLEARABLE, EVIDENCE_CLEARABLE,
                                    PersistentRadioService, StartupUnavailable, ReadinessPolls,
@@ -458,7 +459,12 @@ def runtime_store_review(state, *, acknowledge=None):
     try:
         store=firmware_modules().dual_store
         validate=lambda slot,path:store.read(slot,path=path)
-        diagnosed = state.read().get('runtime_fault') is not None
+        record = state.read()
+        if record.get('reason') == 'radio_context_not_active':
+            if acknowledge is not None:
+                return acknowledge_context_stop(state,acknowledge,store.STORE_PATHS,validate_store=validate)
+            return review_context_stop(state,store.STORE_PATHS,validate_store=validate)
+        diagnosed = record.get('runtime_fault') is not None
         if acknowledge is not None:
             acknowledge_fault = acknowledge_mqtt_runtime_fault if diagnosed else acknowledge_legacy_runtime_fault
             return acknowledge_fault(state,acknowledge,store.STORE_PATHS,validate_store=validate)
@@ -522,7 +528,7 @@ def main():
                        or (reason in EVIDENCE_CLEARABLE
                            and explain_fault.evidence_permits_clearing(
                                LOCAL,expected_trace=latched.get('trace'))))
-            if reason == 'service_runtime_fault':
+            if reason in ('service_runtime_fault','radio_context_not_active'):
                 reviewed=runtime_store_review(state)
                 permitted=reviewed['permitted']
                 print('  durable store review: '+reviewed['code'],flush=True)
@@ -533,6 +539,8 @@ def main():
                 # cannot diagnose an unhandled exception during service.
                 for line in runtime_fault_lines(latched):
                     print(line, flush=True)
+            elif reason == 'radio_context_not_active':
+                print('  original STATUS fields were not retained; current durable boundary reviewed above',flush=True)
             else:
                 if latched.get('trace') is None:
                     # A latch raised while the service was running records no
@@ -554,7 +562,7 @@ def main():
             print('acknowledgement for '+acknowledged+' was already used on this run;',flush=True)
             print('  clear the field so a returning fault still stops for a person',flush=True)
         elif acknowledged:
-            if acknowledged == 'service_runtime_fault':
+            if acknowledged in ('service_runtime_fault','radio_context_not_active'):
                 outcome=runtime_store_review(state,acknowledge=acknowledged)
             else:
                 outcome=state.acknowledge(acknowledged,
